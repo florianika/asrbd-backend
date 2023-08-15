@@ -16,7 +16,8 @@ namespace Domain.User
         public Domain.RefreshToken.RefreshToken RefreshToken { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
-
+        public AccountStatus AccountStatus { get; set; }
+        public AccountRole AccountRole { get; set; }
         public User()
         {
             Claims = new List<Domain.Claim.Claim>();

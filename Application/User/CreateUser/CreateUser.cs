@@ -3,6 +3,7 @@ using Application.Ports;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Domain.RefreshToken;
+using Domain.User;
 using Microsoft.Extensions.Logging;
 using d=Domain;
 
@@ -47,16 +48,12 @@ namespace Application.User.CreateUser
                     Claims = ToClaims(userId, request.Claims),
                     CreationDate = currentDate,
                     UpdateDate = currentDate,
-                    RefreshToken = refreshToken
+                    RefreshToken = refreshToken,
+                    AccountStatus = AccountStatus.ACTIVE, //Creating user with Active Status
+                    AccountRole = AccountRole.USER //Creating user with the role User
                 };
 
                  await _authRepository.CreateUser(user);
-
-                //foreach (var claim in user.Claims)
-                //{
-                //    await _authRepository.AddClaim(user.Id, claim);
-                //}
-                //await _authRepository.AddRefreshToken(user.Id, refreshToken);
 
                 return new CreateUserSuccessResponse
                 {

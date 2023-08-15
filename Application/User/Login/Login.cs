@@ -37,6 +37,15 @@ namespace Application.User.Login
                     };
                     return response;
                 }
+                if (user.AccountStatus != Domain.User.AccountStatus.ACTIVE)
+                {
+                    var response = new LoginErrorResponse
+                    {
+                        Message = Enum.GetName(ErrorCodes.AccountStatusNotActive),
+                        Code = ErrorCodes.AccountStatusNotActive.ToString("D")
+                    };
+                    return response;
+                }
 
                 if (AreCredentialsValid(request.Password, user))
                 {

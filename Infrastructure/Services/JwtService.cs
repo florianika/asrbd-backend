@@ -69,12 +69,17 @@ namespace Infrastructure.Services
             claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Email, user.Email));
             claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.GivenName, user.Name));
             claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Surname, user.LastName));
-
+            
             // Add custom claims if any
             foreach (var c in user.Claims ?? System.Linq.Enumerable.Empty<Domain.Claim.Claim>())
             {
                 claimsIdentity.AddClaim(new System.Security.Claims.Claim(c.Type, c.Value));
             }
+            // Add AccountRole claim
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.AccountRole.ToString()));
+            // Add AccountStatus claim
+            claimsIdentity.AddClaim(new Claim("AccountStatus", user.AccountStatus.ToString()));
+
 
             var jwtHandler = new JwtSecurityTokenHandler();
 

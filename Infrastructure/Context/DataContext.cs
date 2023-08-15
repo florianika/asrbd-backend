@@ -36,8 +36,6 @@ namespace Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            //modelBuilder.Ignore<Domain.Claim.Claim>();
-            //modelBuilder.Ignore<RefreshToken>();
         }
     }
 }
