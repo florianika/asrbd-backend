@@ -36,6 +36,13 @@ namespace Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+
+            modelBuilder.Entity<User>()
+            .Property(u => u.AccountRole)
+            .HasConversion<string>();
+
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }
