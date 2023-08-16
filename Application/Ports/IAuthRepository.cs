@@ -12,5 +12,7 @@ namespace Application.Ports
         Task AddClaim(Guid userId, Claim claim);
         Task AddRefreshToken (Guid userId, RefreshToken refreshToken);
         Task UpdateRefreshToken (Guid userId, RefreshToken refreshToken);
+        Task LockAccount(Domain.User.User user);
+        Task UnLockAccount(Domain.User.User user);
     }
 }

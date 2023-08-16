@@ -1,4 +1,6 @@
-﻿using Application.Ports;
+﻿using Application.Common.Interfaces;
+using Application.Ports;
+using Application.User.Login;
 using Domain.Claim;
 using Domain.RefreshToken;
 using Domain.User;
@@ -12,9 +14,12 @@ namespace Infrastructure.Repositories
     public class AuthRepository : IAuthRepository
     {
         private readonly DataContext _context;
-        public AuthRepository(DataContext context)
+        private readonly IUserLockSettings _userLockSettings;
+
+        public AuthRepository(DataContext context, IUserLockSettings userLockSettings)
         {
             _context = context;
+            _userLockSettings = userLockSettings;
         }
 
         public async Task CreateUser(User user)
@@ -83,6 +88,27 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task LockAccount(User user)
+        {
+            user.SigninFails++;
+            if(user.SigninFails == _userLockSettings.UserLockSettings.MaxSigninFails)//TODO from configuration
+            {
+                user.AccountStatus = AccountStatus.LOCKED;
+                user.LockExpiration = DateTime.Now.AddHours(_userLockSettings.UserLockSettings.LockExpirationTime);//from configuration
+                
+            }
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+        }
+        public async Task UnLockAccount(User user)
+        { 
+            user.AccountStatus = AccountStatus.ACTIVE;
+            user.SigninFails = 0;
+            user.LockExpiration = null;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
-//IEnumerable<Domain.AccountRole.AccountRole>

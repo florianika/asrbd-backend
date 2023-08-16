@@ -50,7 +50,9 @@ namespace Application.User.CreateUser
                     UpdateDate = currentDate,
                     RefreshToken = refreshToken,
                     AccountStatus = AccountStatus.ACTIVE, //Creating user with Active Status
-                    AccountRole = AccountRole.USER //Creating user with the role User
+                    AccountRole = AccountRole.USER, //Creating user with the role User
+                    SigninFails = 0, //while creating a new user, settings the value to 0
+                    LockExpiration = null //setting lockexpiration to null
                 };
 
                  await _authRepository.CreateUser(user);

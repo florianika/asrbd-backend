@@ -20,4 +20,10 @@ namespace Infrastructure.Services
         public int Length { get; set; }
         public int LifeTimeInMinutes { get; set; }
     }
+
+    public class UserLockSettings
+    { 
+        public int MaxSigninFails { get; set; }
+        public int LockExpirationTime { get; set; }
+    }
 }

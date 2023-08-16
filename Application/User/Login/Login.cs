@@ -39,12 +39,16 @@ namespace Application.User.Login
                 }
                 if (user.AccountStatus != Domain.User.AccountStatus.ACTIVE)
                 {
-                    var response = new LoginErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccountStatusNotActive),
-                        Code = ErrorCodes.AccountStatusNotActive.ToString("D")
-                    };
-                    return response;
+                    if (user.AccountStatus == Domain.User.AccountStatus.LOCKED && user.LockExpiration > DateTime.Now)
+                    { 
+                    
+                        var response = new LoginErrorResponse
+                        {
+                            Message = Enum.GetName(ErrorCodes.AccountStatusNotActive),
+                            Code = ErrorCodes.AccountStatusNotActive.ToString("D")
+                        };
+                        return response;
+                    }
                 }
 
                 if (AreCredentialsValid(request.Password, user))
@@ -57,6 +61,7 @@ namespace Application.User.Login
                         ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes())
                     };
                     await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
+                    await _authRepository.UnLockAccount(user);
 
                     var idToken = await _authTokenService.GenerateIdToken(user);
                     var accessToken = await _authTokenService.GenerateAccessToken(user);
@@ -72,6 +77,7 @@ namespace Application.User.Login
                 }
                 else
                 {
+                    _authRepository.LockAccount(user);
                     var response = new LoginErrorResponse
                     {
                         Message = Enum.GetName(ErrorCodes.CredentialsAreNotValid),

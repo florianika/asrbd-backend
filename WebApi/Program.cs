@@ -1,9 +1,11 @@
 
+using Application.Common.Interfaces;
 using Application.Ports;
 using Application.User.CreateUser;
 using Application.User.Login;
 using Application.User.RefreshToken;
 using Application.User.SignOut;
+using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -24,6 +26,13 @@ builder.Services.AddSingleton<ICryptographyService, CryptographyService>();
 var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
+
+//var userLockSettingsConfiguration = builder.Configuration.GetSection("userLockSettings");
+//builder.Services.Configure<UserLockSettings>(userLockSettingsConfiguration);
+//var userLockSettings = userLockSettingsConfiguration.Get<UserLockSettings>();
+
+builder.Services.AddSingleton<IUserLockSettings, UserLockSettingsService>();
+
 
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
 
