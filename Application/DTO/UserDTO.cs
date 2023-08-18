@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.User.GetAllUsers
+namespace Application.DTO
 {
     public class UserDTO
     {

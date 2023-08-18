@@ -111,13 +111,13 @@ namespace Infrastructure.Repositories
         }
         public async Task UpdateUserRole(Guid userId, AccountRole accountRole)
         {
-            var userToUpdate = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             userToUpdate.AccountRole = accountRole;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         public async Task<bool> CheckIfUserExists(Guid userId)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if(user != null)
                 return true;            
             else
@@ -126,9 +126,14 @@ namespace Infrastructure.Repositories
 
         public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus)
         {
-            var userToUpdate = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
             userToUpdate.AccountStatus = accountStatus;
             _context.SaveChanges();
+        }
+
+        public async Task<User> FindUserById(Guid userId)
+        { 
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
         }
     }
 }

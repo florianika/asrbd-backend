@@ -20,5 +20,6 @@ namespace Application.Ports
         Task<bool> CheckIfUserExists(Guid userId);
         Task UpdateUserRole(Guid userId, AccountRole accountRole);
         Task UpdateAccountUser(Guid userId, AccountStatus accountStatus);
+        Task<Domain.User.User> FindUserById(Guid userId);
     }
 }

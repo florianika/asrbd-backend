@@ -4,6 +4,7 @@ using Application.Ports;
 using Application.User.ActivateUser;
 using Application.User.CreateUser;
 using Application.User.GetAllUsers;
+using Application.User.GetUser;
 using Application.User.Login;
 using Application.User.RefreshToken;
 using Application.User.SignOut;
@@ -59,6 +60,7 @@ builder.Services.AddScoped<GetAllUsers>();
 builder.Services.AddScoped<UpdateUserRole>();
 builder.Services.AddScoped<TerminateUser>();
 builder.Services.AddScoped<ActivateUser>();
+builder.Services.AddScoped<GetUser>();
 
 builder.Services.AddSwaggerGen(c =>
 {

@@ -23,6 +23,9 @@ using Application.User.TerminateUser.Response;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
 using Application.User.ActivateUser;
+using Application.User.GetUser;
+using Application.User.GetUser.Response;
+using Application.User.GetUser.Request;
 
 namespace WebApi.Controllers
 {
@@ -39,6 +42,7 @@ namespace WebApi.Controllers
         private readonly UpdateUserRole _updateUserRoleService;
         private readonly TerminateUser _terminateUserService;
         private readonly ActivateUser _activateUserService;
+        private readonly GetUser _getUserService;
         public AuthController(CreateUser createUserService, 
             Login loginService,
             RefreshToken refreshTokenService,
@@ -46,7 +50,8 @@ namespace WebApi.Controllers
             GetAllUsers getAllUsersService,
             UpdateUserRole updateUserRoleService,
             TerminateUser terminateUserService,
-            ActivateUser activateUserService)
+            ActivateUser activateUserService,
+            GetUser getUserService)
         {
             _createUserService = createUserService;
             _loginservice = loginService;
@@ -56,6 +61,7 @@ namespace WebApi.Controllers
             _updateUserRoleService = updateUserRoleService;
             _terminateUserService = terminateUserService;
             _activateUserService = activateUserService;
+            _getUserService = getUserService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -110,12 +116,21 @@ namespace WebApi.Controllers
         {
             return await _terminateUserService.Execute(request);
         }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("ActivateUser")]
         public async Task<ActivateUserResponse> ActivateUser(ActivateUserRequest request)
         {
             return await _activateUserService.Execute(request);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("GetUser")]
+        public async Task<GetUserResponse> GetUser(GetUserRequest request)
+        {
+            return await _getUserService.Execute(request);
         }
     }
 }
