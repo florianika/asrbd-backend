@@ -20,6 +20,9 @@ using Application.User.UpdateUserRole;
 using Application.User.TerminateUser;
 using Application.User.TerminateUser.Request;
 using Application.User.TerminateUser.Response;
+using Application.User.ActivateUser.Request;
+using Application.User.ActivateUser.Response;
+using Application.User.ActivateUser;
 
 namespace WebApi.Controllers
 {
@@ -35,13 +38,15 @@ namespace WebApi.Controllers
         private readonly GetAllUsers _getAllUsersService;
         private readonly UpdateUserRole _updateUserRoleService;
         private readonly TerminateUser _terminateUserService;
+        private readonly ActivateUser _activateUserService;
         public AuthController(CreateUser createUserService, 
             Login loginService,
             RefreshToken refreshTokenService,
             SignOut signOutService,
             GetAllUsers getAllUsersService,
             UpdateUserRole updateUserRoleService,
-            TerminateUser terminateUserService)
+            TerminateUser terminateUserService,
+            ActivateUser activateUserService)
         {
             _createUserService = createUserService;
             _loginservice = loginService;
@@ -50,6 +55,7 @@ namespace WebApi.Controllers
             _getAllUsersService = getAllUsersService;
             _updateUserRoleService = updateUserRoleService;
             _terminateUserService = terminateUserService;
+            _activateUserService = activateUserService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -103,6 +109,13 @@ namespace WebApi.Controllers
         public async Task<TerminateUserResponse> TerminateUser(TerminateUserRequest request)
         {
             return await _terminateUserService.Execute(request);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ActivateUser")]
+        public async Task<ActivateUserResponse> ActivateUser(ActivateUserRequest request)
+        {
+            return await _activateUserService.Execute(request);
         }
     }
 }
