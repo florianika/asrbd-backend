@@ -28,9 +28,8 @@ namespace Application.User.GetAllUsers
                 {
                     var userDTO = new UserDTO();
                     userDTO.Id=user.Id;
-                    userDTO.AccountRole = user.AccountRole;
-                    userDTO.AccountStatus = user.AccountStatus;
-                    userDTO.AccountRole = user.AccountRole;
+                    userDTO.AccountRole = user.AccountRole.ToString();
+                    userDTO.AccountStatus = user.AccountStatus.ToString();
                     userDTO.Email = user.Email;
                     userDTO.Name = user.Name;
                     userDTO.LastName= user.LastName;
