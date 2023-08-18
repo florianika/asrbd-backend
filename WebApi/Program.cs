@@ -6,6 +6,7 @@ using Application.User.GetAllUsers;
 using Application.User.Login;
 using Application.User.RefreshToken;
 using Application.User.SignOut;
+using Application.User.UpdateUserRole.Response;
 using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
@@ -53,6 +54,7 @@ builder.Services.AddScoped<Login>();
 builder.Services.AddScoped<RefreshToken>();
 builder.Services.AddScoped<SignOut>();
 builder.Services.AddScoped<GetAllUsers>();
+builder.Services.AddScoped<UpdateUserRole>();
 
 builder.Services.AddSwaggerGen(c =>
 {

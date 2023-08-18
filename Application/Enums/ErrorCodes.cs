@@ -10,6 +10,7 @@ namespace Application.Enums
         RefreshTokenHasExpired = 104,
         RefreshTokenIsNotCorrect = 105,
         UserDoesNotExist = 106,
-        AccountStatusNotActive = 107
+        AccountStatusNotActive = 107,
+        AccountRoleIsNotCorrect = 108
     }
 }

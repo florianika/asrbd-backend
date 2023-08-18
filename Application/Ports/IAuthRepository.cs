@@ -1,6 +1,7 @@
 ﻿using Application.User.GetAllUsers;
 using Domain.Claim;
 using Domain.RefreshToken;
+using Domain.User;
 
 namespace Application.Ports
 {
@@ -16,5 +17,7 @@ namespace Application.Ports
         Task LockAccount(Domain.User.User user);
         Task UnLockAccount(Domain.User.User user);
         Task<List<Domain.User.User>> GetAllUsers();
+        Task<bool> CheckIfUserExists(Guid userId);
+        Task UpdateUserRole(Guid userId, AccountRole accountRole);
     }
 }

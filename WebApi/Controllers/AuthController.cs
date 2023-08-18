@@ -14,6 +14,8 @@ using Application.User.SignOut.Response;
 using Application.User.GetAllUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Application.User.UpdateUserRole.Request;
+using Application.User.UpdateUserRole.Response;
 
 namespace WebApi.Controllers
 {
@@ -27,17 +29,20 @@ namespace WebApi.Controllers
         private readonly RefreshToken _refreshTokenService;
         private readonly SignOut _signOutService;
         private readonly GetAllUsers _getAllUsersService;
+        private readonly UpdateUserRole _updateUserRoleService;
         public AuthController(CreateUser createUserService, 
-            Login loginService, 
-            RefreshToken refreshTokenService, 
+            Login loginService,
+            RefreshToken refreshTokenService,
             SignOut signOutService,
-            GetAllUsers getAllUsersService)
+            GetAllUsers getAllUsersService,
+            UpdateUserRole updateUserRoleService)
         {
             _createUserService = createUserService;
             _loginservice = loginService;
             _refreshTokenService = refreshTokenService;
             _signOutService = signOutService;
             _getAllUsersService = getAllUsersService;
+            _updateUserRoleService = updateUserRoleService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -78,15 +83,12 @@ namespace WebApi.Controllers
             return await _getAllUsersService.Execute();
         }
 
-
-
-
-        //[AllowAnonymous]
-        //[HttpGet]
-        //[Route("ActivateAccount")]
-        //public async Task<GetRolesResponse> Get()
-        //{
-        //    return await _getRolesService.Execute();
-        //}
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("UpdateUserRole")]
+        public async Task<UpdateUserRoleResponse> UpdateUserRole(UpdateUserRoleRequest request)
+        {
+            return await _updateUserRoleService.Execute(request);
+        }
     }
 }

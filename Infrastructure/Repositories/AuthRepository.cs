@@ -22,7 +22,6 @@ namespace Infrastructure.Repositories
             _context = context;
             _userLockSettings = userLockSettings;
         }
-
         public async Task CreateUser(User user)
         {
             var validator = new UserValidator();
@@ -34,7 +33,6 @@ namespace Infrastructure.Repositories
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
-
         public async Task<User> GetUserByEmail(string email)
         {
             var resut = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);            
@@ -42,7 +40,6 @@ namespace Infrastructure.Repositories
             resut.Claims = await _context.Claim.Where(c=>c.UserId==resut.Id).ToListAsync();
             return resut;
         }
-
         public async Task<User> GetUserByUserId(Guid userId)
         {
             var resut = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
@@ -50,12 +47,10 @@ namespace Infrastructure.Repositories
             resut.Claims = await _context.Claim.Where(c => c.UserId == resut.Id).ToListAsync();
             return resut;
         }
-
         public async Task UpdateUser(User user)
         {
             throw new NotImplementedException();
         }
-
         public async Task UpdateRefreshToken(Guid userId, RefreshToken refreshToken) 
         {
             var user = await _context.Users.Include(u=>u.RefreshToken).SingleOrDefaultAsync(u => u.Id == userId);
@@ -88,7 +83,6 @@ namespace Infrastructure.Repositories
             user.RefreshToken=refreshToken;
             await _context.SaveChangesAsync();
         }
-
         public async Task LockAccount(User user)
         {
             user.SigninFails++;
@@ -110,10 +104,24 @@ namespace Infrastructure.Repositories
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
-
         public async Task<List<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+        public async Task UpdateUserRole(Guid userId, AccountRole accountRole)
+        {
+            var userToUpdate = _context.Users.FirstOrDefault(u => u.Id == userId);
+            userToUpdate.AccountRole = accountRole;
+            _context.SaveChanges();
+        }
+
+        public async Task<bool> CheckIfUserExists(Guid userId)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            if(user != null)
+                return true;            
+            else
+                return false;
         }
     }
 }
