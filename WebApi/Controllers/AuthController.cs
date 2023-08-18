@@ -1,6 +1,7 @@
 ﻿using Application.User.CreateUser;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
+using Application.User.GetAllUsers.Response;
 using Application.User.Login;
 using Application.User.Login.Request;
 using Application.User.Login.Response;
@@ -10,6 +11,7 @@ using Application.User.RefreshToken.Response;
 using Application.User.SignOut;
 using Application.User.SignOut.Request;
 using Application.User.SignOut.Response;
+using Application.User.GetAllUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,12 +26,18 @@ namespace WebApi.Controllers
         private readonly Login _loginservice;
         private readonly RefreshToken _refreshTokenService;
         private readonly SignOut _signOutService;
-        public AuthController(CreateUser createUserService, Login loginService, RefreshToken refreshTokenService, SignOut signOutService)
+        private readonly GetAllUsers _getAllUsersService;
+        public AuthController(CreateUser createUserService, 
+            Login loginService, 
+            RefreshToken refreshTokenService, 
+            SignOut signOutService,
+            GetAllUsers getAllUsersService)
         {
             _createUserService = createUserService;
             _loginservice = loginService;
             _refreshTokenService = refreshTokenService;
             _signOutService = signOutService;
+            _getAllUsersService = getAllUsersService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -60,6 +68,14 @@ namespace WebApi.Controllers
         public async Task<SignOutResponse> SignOut(SignOutRequest request)
         {
             return await _signOutService.Execute(request);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetAllUsers")]
+        public async Task<GetAllUsersResponse> GetAllUsers()
+        {
+            return await _getAllUsersService.Execute();
         }
 
 

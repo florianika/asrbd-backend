@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.Ports;
+using Application.User.GetAllUsers;
 using Application.User.Login;
 using Domain.Claim;
 using Domain.RefreshToken;
@@ -110,5 +111,9 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 }

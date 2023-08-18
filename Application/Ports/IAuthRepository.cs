@@ -1,4 +1,5 @@
-﻿using Domain.Claim;
+﻿using Application.User.GetAllUsers;
+using Domain.Claim;
 using Domain.RefreshToken;
 
 namespace Application.Ports
@@ -14,5 +15,6 @@ namespace Application.Ports
         Task UpdateRefreshToken (Guid userId, RefreshToken refreshToken);
         Task LockAccount(Domain.User.User user);
         Task UnLockAccount(Domain.User.User user);
+        Task<List<Domain.User.User>> GetAllUsers();
     }
 }
