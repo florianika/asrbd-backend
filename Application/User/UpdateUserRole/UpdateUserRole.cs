@@ -2,10 +2,11 @@
 using Application.Ports;
 using Application.User.SignOut.Response;
 using Application.User.UpdateUserRole.Request;
+using Application.User.UpdateUserRole.Response;
 using Domain.User;
 using Microsoft.Extensions.Logging;
 
-namespace Application.User.UpdateUserRole.Response
+namespace Application.User.UpdateUserRole
 {
     public class UpdateUserRole : IUpdateUserRole
     {
@@ -24,13 +25,13 @@ namespace Application.User.UpdateUserRole.Response
                 var userExists = await _authRepository.CheckIfUserExists(request.UserId);
                 if (userExists == false)
                 {
-                    return new UpdateUserRoleErrorRespose
+                    return new UpdateUserRoleErrorResponse
                     {
                         Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
                         Code = ErrorCodes.UserDoesNotExist.ToString("D")
                     };
                 }
-                if (Enum.TryParse<AccountRole>(request.AccountRole, out AccountRole parsedRole))
+                if (Enum.TryParse(request.AccountRole, out AccountRole parsedRole))
                 {
                     await _authRepository.UpdateUserRole(request.UserId, parsedRole);
                     return new UpdateUserRoleSuccessResponse
@@ -40,7 +41,7 @@ namespace Application.User.UpdateUserRole.Response
                 }
                 else
                 {
-                    return new UpdateUserRoleErrorRespose
+                    return new UpdateUserRoleErrorResponse
                     {
                         Message = Enum.GetName(ErrorCodes.AccountRoleIsNotCorrect),
                         Code = ErrorCodes.AccountRoleIsNotCorrect.ToString("D")
@@ -50,7 +51,7 @@ namespace Application.User.UpdateUserRole.Response
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return new UpdateUserRoleErrorRespose
+                return new UpdateUserRoleErrorResponse
                 {
                     Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D"),
                     Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred)

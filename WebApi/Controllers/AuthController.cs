@@ -16,6 +16,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.User.UpdateUserRole.Request;
 using Application.User.UpdateUserRole.Response;
+using Application.User.UpdateUserRole;
+using Application.User.TerminateUser;
+using Application.User.TerminateUser.Request;
+using Application.User.TerminateUser.Response;
 
 namespace WebApi.Controllers
 {
@@ -30,12 +34,14 @@ namespace WebApi.Controllers
         private readonly SignOut _signOutService;
         private readonly GetAllUsers _getAllUsersService;
         private readonly UpdateUserRole _updateUserRoleService;
+        private readonly TerminateUser _terminateUserService;
         public AuthController(CreateUser createUserService, 
             Login loginService,
             RefreshToken refreshTokenService,
             SignOut signOutService,
             GetAllUsers getAllUsersService,
-            UpdateUserRole updateUserRoleService)
+            UpdateUserRole updateUserRoleService,
+            TerminateUser terminateUserService)
         {
             _createUserService = createUserService;
             _loginservice = loginService;
@@ -43,6 +49,7 @@ namespace WebApi.Controllers
             _signOutService = signOutService;
             _getAllUsersService = getAllUsersService;
             _updateUserRoleService = updateUserRoleService;
+            _terminateUserService = terminateUserService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -89,6 +96,13 @@ namespace WebApi.Controllers
         public async Task<UpdateUserRoleResponse> UpdateUserRole(UpdateUserRoleRequest request)
         {
             return await _updateUserRoleService.Execute(request);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("TeminateUser")]
+        public async Task<TerminateUserResponse> TerminateUser(TerminateUserRequest request)
+        {
+            return await _terminateUserService.Execute(request);
         }
     }
 }

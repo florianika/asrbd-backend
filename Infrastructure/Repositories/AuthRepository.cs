@@ -9,6 +9,7 @@ using FluentValidation;
 using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Update;
 
 namespace Infrastructure.Repositories
 {
@@ -114,7 +115,6 @@ namespace Infrastructure.Repositories
             userToUpdate.AccountRole = accountRole;
             _context.SaveChanges();
         }
-
         public async Task<bool> CheckIfUserExists(Guid userId)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
@@ -122,6 +122,13 @@ namespace Infrastructure.Repositories
                 return true;            
             else
                 return false;
+        }
+
+        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus)
+        {
+            var userToUpdate = _context.Users.FirstOrDefault(u => u.Id == userId);
+            userToUpdate.AccountStatus = accountStatus;
+            _context.SaveChanges();
         }
     }
 }
