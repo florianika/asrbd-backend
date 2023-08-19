@@ -2,10 +2,10 @@
 using Application.Ports;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
+using Domain.Enum;
 using Domain.RefreshToken;
-using Domain.User;
 using Microsoft.Extensions.Logging;
-using d=Domain;
+using d = Domain;
 
 namespace Application.User.CreateUser
 {

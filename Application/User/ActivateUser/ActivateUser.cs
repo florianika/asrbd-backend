@@ -3,7 +3,7 @@ using Application.Ports;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
 using Application.User.TerminateUser.Response;
-using Domain.User;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using Application.Ports;
 using Application.User.SignOut.Response;
 using Application.User.UpdateUserRole.Request;
 using Application.User.UpdateUserRole.Response;
-using Domain.User;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 
 namespace Application.User.UpdateUserRole

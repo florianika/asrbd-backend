@@ -1,4 +1,5 @@
 ﻿
+using Domain.Enum;
 using Domain.RefreshToken;
 
 namespace Domain.User

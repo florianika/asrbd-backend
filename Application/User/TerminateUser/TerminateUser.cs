@@ -3,7 +3,7 @@ using Application.Enums;
 using Application.Ports;
 using Application.User.TerminateUser.Request;
 using Application.User.TerminateUser.Response;
-using Domain.User;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 
 namespace Application.User.TerminateUser

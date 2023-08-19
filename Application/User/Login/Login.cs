@@ -3,6 +3,7 @@ using Application.Enums;
 using Application.Ports;
 using Application.User.Login.Request;
 using Application.User.Login.Response;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 
 namespace Application.User.Login
@@ -37,9 +38,9 @@ namespace Application.User.Login
                     };
                     return response;
                 }
-                if (user.AccountStatus != Domain.User.AccountStatus.ACTIVE)
+                if (user.AccountStatus != AccountStatus.ACTIVE)
                 {
-                    if (user.AccountStatus == Domain.User.AccountStatus.LOCKED && user.LockExpiration > DateTime.Now)
+                    if (user.AccountStatus == AccountStatus.LOCKED && user.LockExpiration > DateTime.Now)
                     { 
                     
                         var response = new LoginErrorResponse

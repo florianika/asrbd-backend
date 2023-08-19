@@ -1,6 +1,13 @@
 
 using Application.Common.Interfaces;
 using Application.Ports;
+using Application.RolePermission.CreateRolePermission;
+using Application.RolePermission.DeleteRolePermission;
+using Application.RolePermission.GetAllPermssions;
+using Application.RolePermission.GetPermissionsByRole;
+using Application.RolePermission.GetPermissionsByRoleAndEntity;
+using Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable;
+using Application.RolePermission.UpdateRolePermission;
 using Application.User.ActivateUser;
 using Application.User.CreateUser;
 using Application.User.GetAllUsers;
@@ -32,9 +39,6 @@ var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
-//var userLockSettingsConfiguration = builder.Configuration.GetSection("userLockSettings");
-//builder.Services.Configure<UserLockSettings>(userLockSettingsConfiguration);
-//var userLockSettings = userLockSettingsConfiguration.Get<UserLockSettings>();
 
 builder.Services.AddSingleton<IUserLockSettings, UserLockSettingsService>();
 
@@ -49,6 +53,7 @@ builder.Services.AddSingleton(provider =>
 });
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 
 builder.Services.AddControllers();
 
@@ -61,6 +66,13 @@ builder.Services.AddScoped<UpdateUserRole>();
 builder.Services.AddScoped<TerminateUser>();
 builder.Services.AddScoped<ActivateUser>();
 builder.Services.AddScoped<GetUser>();
+builder.Services.AddScoped<CreateRolePermission>();
+builder.Services.AddScoped<GetAllPermissions>();
+builder.Services.AddScoped<GetPermissionsByRole>();
+builder.Services.AddScoped<GetPermissionsByRoleAndEntity>();
+builder.Services.AddScoped<GetPermissionsByRoleAndEntityAndVariable>();
+builder.Services.AddScoped<DeleteRolePermission>();
+builder.Services.AddScoped<UpdateRolePermission>();
 
 builder.Services.AddSwaggerGen(c =>
 {

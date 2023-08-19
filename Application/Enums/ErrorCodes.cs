@@ -11,6 +11,10 @@ namespace Application.Enums
         RefreshTokenIsNotCorrect = 105,
         UserDoesNotExist = 106,
         AccountStatusNotActive = 107,
-        AccountRoleIsNotCorrect = 108
+        AccountRoleIsNotCorrect = 108,
+        EntityTypeIsNotCorrect = 109,
+        PermissionIsNotCorrect = 110,
+        PermissionRoleNotExist = 111,
+        BadRequest = 112
     }
 }

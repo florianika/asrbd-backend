@@ -3,6 +3,7 @@ using Application.Ports;
 using Application.User.GetAllUsers;
 using Application.User.Login;
 using Domain.Claim;
+using Domain.Enum;
 using Domain.RefreshToken;
 using Domain.User;
 using FluentValidation;

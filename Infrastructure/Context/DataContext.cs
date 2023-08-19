@@ -3,6 +3,7 @@ using Application.User.CreateUser.Request;
 using Application.User.GetAllUsers;
 using Domain.Claim;
 using Domain.RefreshToken;
+using Domain.RolePermission;
 using Domain.User;
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace Infrastructure.Context
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
         public DbSet<Domain.Claim.Claim> Claim { get; set; }
-
+        public DbSet<RolePermission> RolePermissions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -42,6 +43,8 @@ namespace Infrastructure.Context
             modelBuilder.Entity<User>()
             .Property(u => u.AccountRole)
             .HasConversion<string>();
+
+            modelBuilder.ApplyConfiguration(new RolePermisionConfiguration());
 
             base.OnModelCreating(modelBuilder);
 

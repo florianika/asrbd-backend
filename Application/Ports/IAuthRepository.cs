@@ -1,7 +1,7 @@
 ﻿using Application.User.GetAllUsers;
 using Domain.Claim;
+using Domain.Enum;
 using Domain.RefreshToken;
-using Domain.User;
 
 namespace Application.Ports
 {
