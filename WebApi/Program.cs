@@ -21,11 +21,14 @@ using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Security.Cryptography;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
@@ -44,19 +47,8 @@ builder.Services.AddSingleton<IUserLockSettings, UserLockSettingsService>();
 
 
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
-
-builder.Services.AddSingleton(provider =>
-{
-    var rsa = RSA.Create();
-    rsa.ImportRSAPrivateKey(source: Convert.FromBase64String(jwtSettings.AccessTokenSettings.PrivateKey), bytesRead: out int _);
-    return new RsaSecurityKey(rsa);
-});
-
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
-
-builder.Services.AddControllers();
-
 builder.Services.AddScoped<CreateUser>();
 builder.Services.AddScoped<Login>();
 builder.Services.AddScoped<RefreshToken>();
@@ -74,11 +66,33 @@ builder.Services.AddScoped<GetPermissionsByRoleAndEntityAndVariable>();
 builder.Services.AddScoped<DeleteRolePermission>();
 builder.Services.AddScoped<UpdateRolePermission>();
 
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Auth.API", Version = "v1" });
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using the Bearer scheme (\"bearer {accessToken}\")",
+        In = ParameterLocation.Header,
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
+builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                .GetBytes(jwtSettings.AccessTokenSettings.SecretKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 builder.Services.AddHealthChecks();
 var app = builder.Build();
 app.MapHealthChecks("/health");

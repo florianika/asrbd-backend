@@ -1,7 +1,7 @@
 ﻿
 namespace Application.Enums
 {
-    enum ErrorCodes
+    public enum ErrorCodes
     {
         AnUnexpectedErrorOcurred = 100,
         CredentialsAreNotValid = 101,

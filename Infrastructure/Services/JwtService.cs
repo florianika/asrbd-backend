@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Ports;
 using Domain.User;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -18,24 +19,22 @@ namespace Infrastructure.Services
     {
         private readonly IOptions<JwtSettings> _settings;
         public JwtService(IOptions<JwtSettings> settings)
-        public JwtService(IOptions<JwtSettings> settings, RsaSecurityKey rsaSecurityKey)
         {
             _settings = settings;
-            _rsaSecurityKey = rsaSecurityKey;
         }
 
         public Task<string> GenerateAccessToken(User user)
         {
-            var signingCredentials = new SigningCredentials(
-                    key: _rsaSecurityKey,
-                    algorithm: SecurityAlgorithms.RsaSha256
-                );
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                _settings.Value.AccessTokenSettings.SecretKey));
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
 
             var claimsIdentity = new ClaimsIdentity();
 
             // Access Token must only carry the user Id
             claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.AccountRole.ToString()));
             // Add scope claim, which contains an array of scopes
             var scope = user.Claims.SingleOrDefault(c => c.Type == "scope");
             if (scope != null) claimsIdentity.AddClaim(new System.Security.Claims.Claim("scope", string.Join(" ", scope.Value)));
@@ -57,10 +56,10 @@ namespace Infrastructure.Services
         }
         public Task<string> GenerateIdToken(User user)
         {
-            var signingCredentials = new SigningCredentials(
-                key: _rsaSecurityKey,
-                algorithm: SecurityAlgorithms.RsaSha256
-            );
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
+                _settings.Value.AccessTokenSettings.SecretKey));
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var claimsIdentity = new ClaimsIdentity();
 
@@ -112,6 +111,7 @@ namespace Infrastructure.Services
         {
             try
             {
+
                 var tokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -120,7 +120,7 @@ namespace Infrastructure.Services
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = _settings.Value.AccessTokenSettings.Issuer,
                     ValidAudience = _settings.Value.AccessTokenSettings.Audience,
-                    IssuerSigningKey = _rsaSecurityKey,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_settings.Value.AccessTokenSettings.SecretKey)),
                     ClockSkew = TimeSpan.FromMinutes(0)
                 };
 
@@ -137,6 +137,10 @@ namespace Infrastructure.Services
         }
         public Task<bool> IsTokenValid(string token, bool validateLifeTime)
         {
+            if (string.IsNullOrEmpty(token))
+            {
+                return Task.FromResult(false);
+            }
             var tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
@@ -145,7 +149,7 @@ namespace Infrastructure.Services
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = _settings.Value.AccessTokenSettings.Issuer,
                 ValidAudience = _settings.Value.AccessTokenSettings.Audience,
-                IssuerSigningKey = _rsaSecurityKey,
+                IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_settings.Value.AccessTokenSettings.SecretKey)),
                 ClockSkew = TimeSpan.FromMinutes(0)
             };
 
