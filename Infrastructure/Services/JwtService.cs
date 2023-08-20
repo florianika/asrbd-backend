@@ -17,7 +17,7 @@ namespace Infrastructure.Services
     public class JwtService : IAuthTokenService
     {
         private readonly IOptions<JwtSettings> _settings;
-        private readonly RsaSecurityKey _rsaSecurityKey;
+        public JwtService(IOptions<JwtSettings> settings)
         public JwtService(IOptions<JwtSettings> settings, RsaSecurityKey rsaSecurityKey)
         {
             _settings = settings;
