@@ -24,6 +24,11 @@ namespace Application.User.Login
             _authTokenService = authTokenService;
         }
 
+        //FIXME It took me a while to understand this method, this is too long and needs refactoring
+        //I think you should not cerate the error response here but throw different exceptions then deal with exceptions that creates
+        //error messages according to the exceptions rised. This will shorten the method a lot 
+        //Then you should add some private methods to call, like refreshToken(user), succesfulLogin(user)
+        //Try to do what you think makes this method more clean, then we can discuss it together no problem.
         public async Task<LoginResponse> Execute(LoginRequest request)
         {
             try
