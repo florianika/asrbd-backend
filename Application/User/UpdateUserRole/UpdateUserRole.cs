@@ -18,6 +18,7 @@ namespace Application.User.UpdateUserRole
             _logger = logger;
             _authRepository = authRepository;
         }
+        //FIXME refactor method and sparate error handling
         public async Task<UpdateUserRoleResponse> Execute(UpdateUserRoleRequest request)
         {
             try
