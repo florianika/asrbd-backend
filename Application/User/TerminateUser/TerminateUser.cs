@@ -18,6 +18,7 @@ namespace Application.User.TerminateUser
             _logger = logger;
             _authRepository = authRepository;
         }
+        //FIXME refactor and separate error handling
         public async Task<TerminateUserResponse> Execute(TerminateUserRequest request)
         {
             try
