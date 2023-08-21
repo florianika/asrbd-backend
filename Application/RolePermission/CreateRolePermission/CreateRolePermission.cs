@@ -23,6 +23,9 @@ namespace Application.RolePermission.CreateRolePermission
         }
         public async Task<CreateRolePermissionResponse> Execute(CreateRolePermissionRequest request)
         {
+            //FIXME converting string to enum should be a configuration in the WebAPI
+            //https://github.com/parstat/structural-metadata/blob/dev/Parstat.StructuralMetadata/Presentation/Presentation.WebApi/Startup.cs
+            //https://jasonwatmore.com/post/2021/10/12/net-return-enum-as-string-from-api#:~:text=The%20solution%20is%20to%20add%20a%20JsonStringEnumConverter%20%28%29,responses%20%28e.g.%20Role%29%20x.JsonSerializerOptions.Converters.Add%20%28new%20JsonStringEnumConverter%20%28%29%29%3B%20%7D%29%3B
             try
             {
                 var rolePermission = new Domain.RolePermission.RolePermission();
