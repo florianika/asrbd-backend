@@ -27,7 +27,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceTest", "ServiceTest"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test-App", "Test-App\Test-App.csproj", "{6A17EFF7-1EBB-41B0-8EA4-D14D7FBA163A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuliTest", "SuliTest\SuliTest.csproj", "{8FD0DA9B-66A8-43AB-B7B0-85C48735CEFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuliTest", "SuliTest\SuliTest.csproj", "{8FD0DA9B-66A8-43AB-B7B0-85C48735CEFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{01F9E10D-775F-4750-8CEE-66B33EF31653}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +83,7 @@ Global
 		{7F5D6C6D-0AF3-43D9-B51A-FF1F16A085A2} = {1CDB24F3-A667-400A-B1CD-20CAA368CE78}
 		{6A17EFF7-1EBB-41B0-8EA4-D14D7FBA163A} = {81310325-5E9C-45A9-9D61-4502303B90DA}
 		{8FD0DA9B-66A8-43AB-B7B0-85C48735CEFA} = {81310325-5E9C-45A9-9D61-4502303B90DA}
+		{01F9E10D-775F-4750-8CEE-66B33EF31653} = {F4068B94-1E1F-4218-90EF-EF243D04AD39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2011F877-892A-40F0-BDE4-26FF30FA762B}

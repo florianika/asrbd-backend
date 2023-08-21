@@ -1,0 +1,29 @@
+version: '3.8'
+networks:
+    asrdb-network:
+
+services:
+    asrdb-gateway:
+        networks:
+            - asrdb-network
+        image: ghrc.io/sgi-urs/asrdb-gateway:latest
+        ports:
+            - "8080:8080"
+        hostname: asrdb-gateway
+    asrdb-auth:
+        networks:
+            - asrdb-network
+        image: ghrc.io/sgi_urs/asrdb-auth:latest
+        hostname: asrdb-auth
+    asrdb-mssql:
+        networks:
+            - asrdb-network
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        ports:
+            - "1433:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - MSSQL_SA_PASSWORD=123456
+            - MSSQL_PID=Developer
+        hostname: asrdb-mssql
+
