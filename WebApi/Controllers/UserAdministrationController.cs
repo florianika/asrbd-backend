@@ -1,5 +1,4 @@
 ﻿using Application.Enums;
-using Application.User;
 using Application.User.ActivateUser;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
@@ -14,15 +13,13 @@ using Application.User.TerminateUser.Response;
 using Application.User.UpdateUserRole;
 using Application.User.UpdateUserRole.Request;
 using Application.User.UpdateUserRole.Response;
-using Domain.Enum;
-using Domain.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    [Authorize(Roles ="ADMIN")]
-    [Route("api/admin/")]
+    [Authorize(Roles ="ADMIN")] //@suli did you test this?
+    [Route("api/admin/users")]
     [ApiController]
     public class UserAdministrationController : ControllerBase
     {
@@ -45,20 +42,19 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("users")]
         public async Task<GetAllUsersResponse> GetAllUsers()
         {
             return await _getAllUsersService.Execute();
         }
         [HttpGet]
-        [Route("user/{guid}")]
+        [Route("/{guid}")]
         public async Task<GetUserResponse> GetUser(Guid guid)
         {
             GetUserRequest request = new GetUserRequest { UserId = guid };          
             return await _getUserService.Execute(request);
         }
         [HttpPatch]
-        [Route("user/{guid}")]
+        [Route("/{guid}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, UpdateUserRoleRequest request)
         {
             if (guid != request.UserId)
@@ -72,7 +68,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch]
-        [Route("admin/terminate/user/{guid}")]
+        [Route("/terminate/{guid}")]
         public async Task<TerminateUserResponse> TerminateUser(Guid guid, TerminateUserRequest request)
         {
             if (guid != request.UserId)
@@ -86,7 +82,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch]
-        [Route("admin/activate/user/{guid}")]
+        [Route("/activate/{guid}")]
         public async Task<ActivateUserResponse> ActivateUser(Guid guid, ActivateUserRequest request)
         {
             if (guid != request.UserId)
