@@ -19,6 +19,8 @@ namespace Application.User.GetAllUsers
             _authRepository = authRepository;
             _logger = logger;
         }
+        //FIXME refactor this, suggestion add a translator statisc class that has methods to translate from enum to DTO
+        //Separate exception handler
         public async Task<GetAllUsersResponse> Execute()
         {
             try

@@ -13,7 +13,9 @@ namespace Application.DTO
         public string Email { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
+        //FIXME this should be enum
         public string AccountStatus { get; set; }
+        //FIXME this should be enum
         public string AccountRole { get; set; }
     }
 }
