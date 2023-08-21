@@ -23,6 +23,7 @@ namespace Application.User.ActivateUser
             _logger = logger;
             _authRepository = authRepository;
         }
+        //FIXME sparate error handling here and refactor the method.
         public async Task<ActivateUserResponse> Execute(ActivateUserRequest request)
         {
 
