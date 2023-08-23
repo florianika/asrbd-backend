@@ -26,22 +26,14 @@ namespace Application.User.GetUser
             try
             {
                 var user = await _authRepository.FindUserById(request.UserId);
+
                 if (user == null)
                 {
-                    return new GetUserErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
-                        Code = ErrorCodes.UserDoesNotExist.ToString("D")
-                    };
+                    return HandleUserNotFoundError();
                 }
-                    var userDTO = new UserDTO();
-                    userDTO.Id = user.Id;
-                    userDTO.AccountRole = user.AccountRole.ToString();
-                    userDTO.AccountStatus = user.AccountStatus.ToString();
-                    userDTO.Email = user.Email;
-                    userDTO.Name = user.Name;
-                    userDTO.LastName = user.LastName;
-                
+
+                var userDTO = MapUserToDTO(user);
+
                 return new GetUserSuccessResponse
                 {
                     UserDTO = userDTO
@@ -50,14 +42,36 @@ namespace Application.User.GetUser
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var response = new GetUserErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                return HandleUnexpectedError();
             }
+        }
+        private GetUserErrorResponse HandleUserNotFoundError()
+        {
+            return new GetUserErrorResponse
+            {
+                Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
+                Code = ErrorCodes.UserDoesNotExist.ToString("D")
+            };
+        }
+        private GetUserErrorResponse HandleUnexpectedError()
+        {
+            return new GetUserErrorResponse
+            {
+                Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
+                Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
+            };
+        }
+        private UserDTO MapUserToDTO(Domain.User.User user)
+        {
+            var userDTO = new UserDTO();
+            userDTO.Id = user.Id;
+            userDTO.AccountRole = user.AccountRole.ToString();
+            userDTO.AccountStatus = user.AccountStatus.ToString();
+            userDTO.Email = user.Email;
+            userDTO.Name = user.Name;
+            userDTO.LastName = user.LastName;
+
+            return userDTO;
         }
     }
 }
