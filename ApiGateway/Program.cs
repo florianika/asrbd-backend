@@ -7,7 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+        });
+
 builder.Services.AddOcelot(builder.Configuration);
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -42,6 +52,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/api/WeatherForecast/v1/swagger.json", "ServiceB API");
 });
 
+app.UseWebSockets();
 app.UseOcelot().Wait();
 
 app.UseHttpsRedirection();
