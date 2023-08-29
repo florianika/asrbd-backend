@@ -13,8 +13,8 @@ namespace Infrastructure.Configurations
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn();
             builder.Property(x => x.Value).IsRequired(false);
-            builder.Property(x => x.Active).IsRequired(false);
-            builder.Property(x => x.ExpirationDate).IsRequired(false);
+            //builder.Property(x => x.Active).IsRequired(false);
+            //builder.Property(x => x.ExpirationDate).IsRequired(false);
         }
     }
 }
