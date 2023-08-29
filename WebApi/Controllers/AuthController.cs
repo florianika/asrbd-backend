@@ -104,7 +104,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPatch]
-        [Route("/users/{id}/set/{role}")]
+        [Route("users/{id}/set/{role}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, string role)
         {
             return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = role });
@@ -112,7 +112,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPatch]
-        [Route("/users/{id}/terminate")]
+        [Route("users/{id}/terminate")]
         public async Task<TerminateUserResponse> TerminateUser(Guid id)
         {
             return await _terminateUserService.Execute(new TerminateUserRequest() { UserId = id });
@@ -120,7 +120,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPatch]
-        [Route("/users/{id}/activate")]
+        [Route("users/{id}/activate")]
         public async Task<ActivateUserResponse> ActivateUser(Guid id)
         {
             return await _activateUserService.Execute(new ActivateUserRequest() { UserId = id });
@@ -128,7 +128,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("/users/{id}")]
+        [Route("users/{id}")]
         public async Task<GetUserResponse> GetUser(Guid id)
         {
             return await _getUserService.Execute(new GetUserRequest() { UserId = id });
