@@ -1,4 +1,5 @@
 ﻿using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
@@ -26,34 +27,28 @@ namespace Application.User.ActivateUser
         //FIXME sparate error handling here and refactor the method.
         public async Task<ActivateUserResponse> Execute(ActivateUserRequest request)
         {
-
             try
             {
-                var userExists = await _authRepository.CheckIfUserExists(request.UserId);
-                if (userExists == false)
-                {
-                    return new ActivateUserErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
-                        Code = ErrorCodes.UserDoesNotExist.ToString("D")
-                    };
-                }
-                await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE);
+                await ActivateUserAsync(request.UserId.ToString());
                 return new ActivateUserSuccessResponse
                 {
                     Message = "User activated."
                 };
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return new ActivateUserErrorResponse
-                {
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D"),
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred)
-                };
+                throw;
             }
+        }
+        private async Task ActivateUserAsync(string userId)
+        {
+            var userExists = await _authRepository.CheckIfUserExists(new Guid(userId));
+            if (!userExists)
+            {
+                throw new NotFoundException("User not found");
+            }
+            await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.ACTIVE);
         }
     }
 }
