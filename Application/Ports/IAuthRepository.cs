@@ -22,5 +22,6 @@ namespace Application.Ports
         Task UpdateAccountUser(Guid userId, AccountStatus accountStatus);
         Task<Domain.User.User> FindUserById(Guid userId);
         Task UnlockAccount(Domain.User.User user);
+        Task<Domain.User.User> FindUserByEmail(string email);
     }
 }

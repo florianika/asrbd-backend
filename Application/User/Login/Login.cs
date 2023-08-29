@@ -85,7 +85,7 @@ namespace Application.User.Login
 
         private async Task<Domain.User.User> GetUserByEmailOrThrow(string email)
         {
-            var user = await _authRepository.GetUserByEmail(email);
+            var user = await _authRepository.FindUserByEmail(email);
             if (user == null)
             {
                 throw new NotFoundException("User not found");

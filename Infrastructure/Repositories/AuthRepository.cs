@@ -136,5 +136,10 @@ namespace Infrastructure.Repositories
         { 
             return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
         }
+
+        public async Task<User> FindUserByEmail(string email)
+        {
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+        }
     }
 }
