@@ -1,6 +1,4 @@
-﻿using Application.DTO;
-
-namespace Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable.Response
+﻿namespace Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable.Response
 {
     public class GetPermissionsByRoleAndEntityAndVariableSuccessResponse : GetPermissionsByRoleAndEntityAndVariableResponse
     {

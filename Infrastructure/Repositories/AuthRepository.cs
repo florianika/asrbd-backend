@@ -98,7 +98,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
         }
-        public async Task UnLockAccount(User user)
+        public async Task UnlockAccount(User user)
         { 
             user.AccountStatus = AccountStatus.ACTIVE;
             user.SigninFails = 0;

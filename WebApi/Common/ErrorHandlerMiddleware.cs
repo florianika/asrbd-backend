@@ -39,6 +39,12 @@ namespace WebApi.Common
                         // not found error
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
+                    case EnumExeption e:
+                        response.StatusCode=(int)(HttpStatusCode)HttpStatusCode.BadRequest;
+                        break;
+                    case ForbidenException e:
+                        response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        break;
                     default:
                         // unhandled error
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;

@@ -1,9 +1,9 @@
-﻿
-using Domain.Enum;
+﻿using Domain.Enum;
+using System.Runtime.CompilerServices;
 
-namespace Application.RolePermission.UpdateRolePermission.Request
+namespace Application.RolePermission
 {
-    public class UpdateRolePermissionRequest : RolePermission.RequestRolePermission
+    public class RolePermissionDTO
     {
         public long Id { get; set; }
         //FIXME this should be enum

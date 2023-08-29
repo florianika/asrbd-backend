@@ -1,7 +1,5 @@
-﻿
-
-using Application.DTO;
-using Application.Enums;
+﻿using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.RolePermission.GetPermissionsByRole.Response;
 using Application.RolePermission.GetPermissionsByRoleAndEntity.Request;
@@ -24,44 +22,36 @@ namespace Application.RolePermission.GetPermissionsByRoleAndEntity
         {
             try
             {
-                if (Enum.TryParse(request.Role, out AccountRole parsedRole))
+                var validationErrors = new List<string>();
+                if (!Enum.IsDefined(typeof(AccountRole), request.Role))
                 {
-                    if (Enum.TryParse(request.EntityType, out EntityType parsedEntity))
-                    {
-                        var rolePermissions = await _permissionRepository.GetPermissionsByRoleAndEntity(parsedRole, parsedEntity);
-                        var rolePermissionsDTO = new List<RolePermissionDTO>();
-                        foreach (var rolePermission in rolePermissions)
-                        {
-                            var rolePermissionDTO = new RolePermissionDTO();
-                            rolePermissionDTO.Id = rolePermission.Id;
-                            rolePermissionDTO.VariableName = rolePermission.VariableName;
-                            rolePermissionDTO.Role = rolePermission.Role.ToString();
-                            rolePermissionDTO.EntityType = rolePermission.EntityType.ToString();
-                            rolePermissionDTO.Permission = rolePermission.Permission.ToString();
-                            rolePermissionsDTO.Add(rolePermissionDTO);
-                        }
-                        return new GetPermissionsByRoleAndEntitySuccessResponse
-                        {
-                            RolePermissionsDTO = rolePermissionsDTO
-                        };
-                    }
-                    else                         
-                    {
-                        return new GetPermissionsByRoleAndEntityErrorResponse
-                        {
-                            Message = Enum.GetName(ErrorCodes.EntityTypeIsNotCorrect),
-                            Code = ErrorCodes.EntityTypeIsNotCorrect.ToString("D")
-                        };
-                    }
+                    validationErrors.Add("Invalid role value.");
                 }
-                else
+                if (!Enum.IsDefined(typeof(EntityType), request.EntityType))
                 {
-                    return new GetPermissionsByRoleAndEntityErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccountRoleIsNotCorrect),
-                        Code = ErrorCodes.AccountRoleIsNotCorrect.ToString("D")
-                    };
+                    validationErrors.Add("Invalid entity type value.");
                 }
+
+                if (validationErrors.Count > 0)
+                {
+                    throw new EnumExeption(validationErrors);
+                }
+                var rolePermissions = await _permissionRepository.GetPermissionsByRoleAndEntity(request.Role, request.EntityType);
+                var rolePermissionsDTO = new List<RolePermissionDTO>();
+                foreach (var rolePermission in rolePermissions)
+                {
+                    var rolePermissionDTO = new RolePermissionDTO();
+                    rolePermissionDTO.Id = rolePermission.Id;
+                    rolePermissionDTO.VariableName = rolePermission.VariableName;
+                    rolePermissionDTO.Role = rolePermission.Role;
+                    rolePermissionDTO.EntityType = rolePermission.EntityType;
+                    rolePermissionDTO.Permission = rolePermission.Permission;
+                    rolePermissionsDTO.Add(rolePermissionDTO);
+                }
+                return new GetPermissionsByRoleAndEntitySuccessResponse
+                {
+                    RolePermissionsDTO = rolePermissionsDTO
+                };
 
             }
             catch (Exception ex)

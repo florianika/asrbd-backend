@@ -1,6 +1,5 @@
-﻿
-using Application.DTO;
-using Application.Enums;
+﻿using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.RolePermission.GetAllPermssions.Response;
 using Application.RolePermission.GetPermissionsByRole.Request;
@@ -24,45 +23,38 @@ namespace Application.RolePermission.GetPermissionsByRole
         {
             try
             {
-                if (Enum.TryParse(request.Role, out AccountRole parsedRole))
+                var validationErrors = new List<string>();
+                if (!Enum.IsDefined(typeof(AccountRole), request.Role))
                 {
-                    var rolePermissions = await _permissionRepository.GetPermissionsByRole(parsedRole);
-                    var rolePermissionsDTO = new List<RolePermissionDTO>();
-                    foreach (var rolePermission in rolePermissions)
-                    {
-                        var rolePermissionDTO = new RolePermissionDTO();
-                        rolePermissionDTO.Id = rolePermission.Id;
-                        rolePermissionDTO.VariableName = rolePermission.VariableName;
-                        rolePermissionDTO.Role = rolePermission.Role.ToString();
-                        rolePermissionDTO.EntityType = rolePermission.EntityType.ToString();
-                        rolePermissionDTO.Permission = rolePermission.Permission.ToString();
-                        rolePermissionsDTO.Add(rolePermissionDTO);
-                    }
-                    return new GetPermissionsByRoleSuccessResponse
-                    {
-                        RolePermissionsDTO = rolePermissionsDTO
-                    };
+                    validationErrors.Add("Invalid role value.");
                 }
-                else
+                if (validationErrors.Count > 0)
                 {
-                    return new GetPermissionsByRoleErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccountRoleIsNotCorrect),
-                        Code = ErrorCodes.AccountRoleIsNotCorrect.ToString("D")
-                    };
+                    throw new EnumExeption(validationErrors);
                 }
+                var rolePermissions = await _permissionRepository.GetPermissionsByRole(request.Role);
+                var rolePermissionsDTO = new List<RolePermissionDTO>();
+                foreach (var rolePermission in rolePermissions)
+                {
+                    var rolePermissionDTO = new RolePermissionDTO();
+                    rolePermissionDTO.Id = rolePermission.Id;
+                    rolePermissionDTO.VariableName = rolePermission.VariableName;
+                    rolePermissionDTO.Role = rolePermission.Role;
+                    rolePermissionDTO.EntityType = rolePermission.EntityType;
+                    rolePermissionDTO.Permission = rolePermission.Permission;
+                    rolePermissionsDTO.Add(rolePermissionDTO);
+                }
+                return new GetPermissionsByRoleSuccessResponse
+                {
+                    RolePermissionsDTO = rolePermissionsDTO
+                };
+                
                 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var response = new GetPermissionsByRoleErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                throw;
             }
         }
     }

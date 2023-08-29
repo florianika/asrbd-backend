@@ -1,6 +1,7 @@
 ﻿
 
 using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.RolePermission.DeleteRolePermission.Response;
 using Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable.Response;
@@ -32,76 +33,53 @@ namespace Application.RolePermission.UpdateRolePermission
                         Code = ErrorCodes.BadRequest.ToString("D")
                     };
                 }
+                var validationErrors = new List<string>();
+                if (!Enum.IsDefined(typeof(AccountRole), request.Role))
+                {
+                    validationErrors.Add("Invalid role value.");
+                }
+                if (!Enum.IsDefined(typeof(EntityType), request.EntityType))
+                {
+                    validationErrors.Add("Invalid entity type value.");
+                }
+
+                if (!Enum.IsDefined(typeof(Permission), request.Permission))
+                {
+                    validationErrors.Add("Invalid permission value.");
+                }
+
+                if (validationErrors.Count > 0)
+                {
+                    throw new EnumExeption(validationErrors);
+                }
+
                 var rolePermission = await _permissionRepository.GetPermissionRoleById(request.Id);
                 if (rolePermission == null)
                 {
-                    return new UpdateRolePermissionErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.PermissionRoleNotExist),
-                        Code = ErrorCodes.PermissionRoleNotExist.ToString("D")
-                    };
+                    throw new NotFoundException("Permission not found");
                 }
-                if (Enum.TryParse(request.Role, out AccountRole parsedRole))
-                {
-                    if (Enum.TryParse(request.EntityType, out EntityType parsedEntity))
-                    {
-                        if (Enum.TryParse(request.Permission, out Permission parsedPermission))
-                        {
-                            var newRolePermission = new Domain.RolePermission.RolePermission
-                            {
-                                Id = request.Id,
-                                Role = parsedRole,
-                                EntityType = parsedEntity,
-                                Permission = parsedPermission,
-                                VariableName = request.VariableName
-                            };
-                            
-                            await _permissionRepository.UpdateRolePermission(Id, newRolePermission);
-                            return new UpdateRolePermissionSuccessResponse
-                            {
-                                Message = "Permission role updated"
-                            };
 
-                        }
-                        else
-                        {
-                            return new UpdateRolePermissionErrorResponse
-                            {
-                                Message = Enum.GetName(ErrorCodes.PermissionIsNotCorrect),
-                                Code = ErrorCodes.PermissionIsNotCorrect.ToString("D")
-                            };
-                        }
-
-                    }
-                    else
-                    {
-                        return new UpdateRolePermissionErrorResponse
-                        {
-                            Message = Enum.GetName(ErrorCodes.EntityTypeIsNotCorrect),
-                            Code = ErrorCodes.EntityTypeIsNotCorrect.ToString("D")
-                        };
-                    }
-                }
-                else
+                var newRolePermission = new Domain.RolePermission.RolePermission
                 {
-                    return new UpdateRolePermissionErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccountRoleIsNotCorrect),
-                        Code = ErrorCodes.AccountRoleIsNotCorrect.ToString("D")
-                    };
-                }
+                    Id = request.Id,
+                    Role = request.Role,
+                    EntityType = request.EntityType,
+                    Permission = request.Permission,
+                    VariableName = request.VariableName
+                };
+
+                await _permissionRepository.UpdateRolePermission(Id, newRolePermission);
+                return new UpdateRolePermissionSuccessResponse
+                {
+                    Message = "Permission role updated"
+                };
 
 
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-
-                return new UpdateRolePermissionErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
+                throw;
             }
         }
     }

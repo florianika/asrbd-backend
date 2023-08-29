@@ -1,5 +1,4 @@
-﻿using Application.DTO;
-using Application.Enums;
+﻿using Application.Enums;
 using Application.Ports;
 using Application.RolePermission.GetAllPermssions.Response;
 using Application.User.GetAllUsers;
@@ -33,9 +32,9 @@ namespace Application.RolePermission.GetAllPermssions
                     var rolePermissionDTO = new RolePermissionDTO();
                     rolePermissionDTO.Id = rolePermission.Id;
                     rolePermissionDTO.VariableName = rolePermission.VariableName;
-                    rolePermissionDTO.Role = rolePermission.Role.ToString();
-                    rolePermissionDTO.EntityType = rolePermission.EntityType.ToString(); 
-                    rolePermissionDTO.Permission = rolePermission.Permission.ToString();
+                    rolePermissionDTO.Role = rolePermission.Role;
+                    rolePermissionDTO.EntityType = rolePermission.EntityType; 
+                    rolePermissionDTO.Permission = rolePermission.Permission;
                     rolePermissionsDTO.Add(rolePermissionDTO);
                 }
                 return new GetAllPermssionsSuccessResponse

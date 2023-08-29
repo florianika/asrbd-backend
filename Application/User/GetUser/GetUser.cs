@@ -1,5 +1,4 @@
-﻿
-using Application.DTO;
+﻿using Application.Common.Translators;
 using Application.Exceptions;
 using Application.Ports;
 using Application.User.GetUser.Request;
@@ -30,7 +29,7 @@ namespace Application.User.GetUser
                     throw new NotFoundException("User not found");
                 }
 
-                var userDTO = MapUserToDTO(user);
+                var userDTO = UserTranslator.TranslateToDTO(user);
 
                 return new GetUserSuccessResponse
                 {
@@ -44,17 +43,5 @@ namespace Application.User.GetUser
             }
         }
         
-        private UserDTO MapUserToDTO(Domain.User.User user)
-        {
-            var userDTO = new UserDTO();
-            userDTO.Id = user.Id;
-            userDTO.AccountRole = user.AccountRole.ToString();
-            userDTO.AccountStatus = user.AccountStatus.ToString();
-            userDTO.Email = user.Email;
-            userDTO.Name = user.Name;
-            userDTO.LastName = user.LastName;
-
-            return userDTO;
-        }
     }
 }

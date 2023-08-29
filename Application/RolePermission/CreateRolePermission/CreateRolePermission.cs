@@ -1,6 +1,7 @@
 ﻿
 
 using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.RolePermission.CreateRolePermission.Response;
 using Application.RolePermission.Request;
@@ -9,6 +10,7 @@ using Application.User.GetUser;
 using Application.User.UpdateUserRole.Response;
 using Domain.Enum;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.RolePermission.CreateRolePermission
 {
@@ -28,56 +30,37 @@ namespace Application.RolePermission.CreateRolePermission
             //https://jasonwatmore.com/post/2021/10/12/net-return-enum-as-string-from-api#:~:text=The%20solution%20is%20to%20add%20a%20JsonStringEnumConverter%20%28%29,responses%20%28e.g.%20Role%29%20x.JsonSerializerOptions.Converters.Add%20%28new%20JsonStringEnumConverter%20%28%29%29%3B%20%7D%29%3B
             try
             {
-                var rolePermission = new Domain.RolePermission.RolePermission();
 
-                if (Enum.TryParse(request.Role, out AccountRole parsedRole))
+                var validationErrors = new List<string>();
+                if (!Enum.IsDefined(typeof(AccountRole),request.Role))
                 {
-                    rolePermission.Role = parsedRole;
+                    validationErrors.Add("Invalid role value.");
                 }
-                else
+                if (!Enum.IsDefined(typeof(EntityType), request.EntityType))
                 {
-                    return new CreateRolePermissionErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccountRoleIsNotCorrect),
-                        Code = ErrorCodes.AccountRoleIsNotCorrect.ToString("D")
-                    };
+                    validationErrors.Add("Invalid entity type value.");
                 }
 
-                if (Enum.TryParse(request.EntityType, out EntityType parsedEntity))
+                if (!Enum.IsDefined(typeof(Permission), request.Permission))
                 {
-                    rolePermission.EntityType = parsedEntity;
-                }
-                else
-                {
-                    return new CreateRolePermissionErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.EntityTypeIsNotCorrect),
-                        Code = ErrorCodes.EntityTypeIsNotCorrect.ToString("D")
-                    };
+                    validationErrors.Add("Invalid permission value.");
                 }
 
-                if (Enum.TryParse(request.Permission, out Permission parsedPermission))
+                if (validationErrors.Count > 0)
                 {
-                    rolePermission.Permission = parsedPermission;
+                    throw new EnumExeption(validationErrors);
                 }
-                else
+                var rolePermission = new Domain.RolePermission.RolePermission
                 {
-                    return new CreateRolePermissionErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.PermissionIsNotCorrect),
-                        Code = ErrorCodes.PermissionIsNotCorrect.ToString("D")
-                    };
-                }
-                rolePermission.VariableName = request.VariableName;
-
+                    Role = request.Role,
+                    EntityType = request.EntityType,
+                    VariableName = request.VariableName,
+                    Permission = request.Permission
+                };
                 var result = await _permissionRepository.CreateRolePermission(rolePermission);
                 if (result == null)
                 {
-                    return new CreateRolePermissionErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                        Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                    };
+                    throw new AppException("Something went wrong");
                 }
                 else
                 {
@@ -91,11 +74,7 @@ namespace Application.RolePermission.CreateRolePermission
             {
                 _logger.LogError(ex, ex.Message);
 
-                return new CreateRolePermissionErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
+                throw;
             }
         }
 

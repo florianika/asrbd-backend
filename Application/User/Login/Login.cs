@@ -1,5 +1,6 @@
 ﻿
 using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.User.Login.Request;
 using Application.User.Login.Response;
@@ -33,44 +34,16 @@ namespace Application.User.Login
         {
             try
             {
-                var user = await _authRepository.GetUserByEmail(request.Email);
-                if (user == null)
+                var user = await GetUserByEmailOrThrow(request.Email);
+                if (!IsUserActive(user))
                 {
-                    var response = new LoginErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
-                        Code = ErrorCodes.UserDoesNotExist.ToString("D")
-                    };
-                    return response;
+                    HandleInactiveUser(user);
                 }
-                if (user.AccountStatus != AccountStatus.ACTIVE)
-                {
-                    if (user.AccountStatus == AccountStatus.LOCKED && user.LockExpiration > DateTime.Now)
-                    { 
-                    
-                        var response = new LoginErrorResponse
-                        {
-                            Message = Enum.GetName(ErrorCodes.AccountStatusNotActive),
-                            Code = ErrorCodes.AccountStatusNotActive.ToString("D")
-                        };
-                        return response;
-                    }
-                }
-
                 if (AreCredentialsValid(request.Password, user))
                 {
-                    user.RefreshToken = new Domain.RefreshToken.RefreshToken
-                    {
-                        UserId = user.Id,
-                        Value = await _authTokenService.GenerateRefreshToken(),
-                        Active = true,
-                        ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes())
-                    };
-                    await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
-                    await _authRepository.UnLockAccount(user);
+                    await UpdateUserAfterSuccessfulLogin(user);
 
-                    var idToken = await _authTokenService.GenerateIdToken(user);
-                    var accessToken = await _authTokenService.GenerateAccessToken(user);
+                    var (idToken, accessToken) = await GenerateTokens(user);
 
                     var response = new LoginSuccessResponse
                     {
@@ -83,30 +56,64 @@ namespace Application.User.Login
                 }
                 else
                 {
-                    _authRepository.LockAccount(user);
-                    var response = new LoginErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.CredentialsAreNotValid),
-                        Code = ErrorCodes.CredentialsAreNotValid.ToString("D")
-                    };
-
-                    return response;
+                    HandleInvalidCredentials(user);
+                    return null;
                 }
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-
-                var response = new LoginErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                throw;
             }
         }
 
+        private void HandleInactiveUser(Domain.User.User user)
+        {
+            if (user.AccountStatus == AccountStatus.LOCKED && user.LockExpiration > DateTime.Now)
+            {
+                throw new Application.Exceptions.ForbidenException("Account locked");
+            }
+        }
+
+        private void HandleInvalidCredentials(Domain.User.User user)
+        {
+            if (user.AccountStatus == AccountStatus.LOCKED && user.LockExpiration > DateTime.Now)
+            {
+                throw new Application.Exceptions.ForbidenException("Account locked");
+            }
+        }
+
+        private async Task<Domain.User.User> GetUserByEmailOrThrow(string email)
+        {
+            var user = await _authRepository.GetUserByEmail(email);
+            if (user == null)
+            {
+                throw new NotFoundException("User not found");
+            }
+            return user;
+        }
+        private bool IsUserActive(Domain.User.User user)
+        {
+            return user.AccountStatus == AccountStatus.ACTIVE;
+        }       
+        private async Task UpdateUserAfterSuccessfulLogin(Domain.User.User user)
+        {
+            user.RefreshToken = new Domain.RefreshToken.RefreshToken
+            {
+                UserId = user.Id,
+                Value = await _authTokenService.GenerateRefreshToken(),
+                Active = true,
+                ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes())
+            };
+            await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
+            await _authRepository.UnlockAccount(user);
+        }
+        private async Task<(string idToken, string accessToken)> GenerateTokens(Domain.User.User user)
+        {
+            var idToken = await _authTokenService.GenerateIdToken(user);
+            var accessToken = await _authTokenService.GenerateAccessToken(user);
+            return (idToken, accessToken);
+        }
         private bool AreCredentialsValid(string testPassword, Domain.User.User user)
         {
             var hash = _cryptographyService.HashPassword(testPassword, user.Salt);

@@ -1,6 +1,5 @@
-﻿
-using Application.DTO;
-using Application.Enums;
+﻿using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.RolePermission.GetPermissionsByRoleAndEntity.Response;
 using Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable.Request;
@@ -23,56 +22,42 @@ namespace Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable
         {
             try
             {
-                if (Enum.TryParse(request.Role, out AccountRole parsedRole))
+                var validationErrors = new List<string>();
+                if (!Enum.IsDefined(typeof(AccountRole), request.Role))
                 {
-                    if (Enum.TryParse(request.EntityType, out EntityType parsedEntity))
-                    {
-                        var rolePermissions = await _permissionRepository.GetPermissionsByRoleAndEntityAndVariable(parsedRole, parsedEntity, request.VariableName);
-                        var rolePermissionsDTO = new List<RolePermissionDTO>();
-                        foreach (var rolePermission in rolePermissions)
-                        {
-                            var rolePermissionDTO = new RolePermissionDTO();
-                            rolePermissionDTO.Id = rolePermission.Id;
-                            rolePermissionDTO.VariableName = rolePermission.VariableName;
-                            rolePermissionDTO.Role = rolePermission.Role.ToString();
-                            rolePermissionDTO.EntityType = rolePermission.EntityType.ToString();
-                            rolePermissionDTO.Permission = rolePermission.Permission.ToString();
-                            rolePermissionsDTO.Add(rolePermissionDTO);
-                        }
-                        return new GetPermissionsByRoleAndEntityAndVariableSuccessResponse
-                        {
-                            RolePermissionsDTO = rolePermissionsDTO
-                        };
-                    }
-                    else
-                    {
-                        return new GetPermissionsByRoleAndEntityAndVariableErrorResponse
-                        {
-                            Message = Enum.GetName(ErrorCodes.EntityTypeIsNotCorrect),
-                            Code = ErrorCodes.EntityTypeIsNotCorrect.ToString("D")
-                        };
-                    }
+                    validationErrors.Add("Invalid role value.");
                 }
-                else
+                if (!Enum.IsDefined(typeof(EntityType), request.EntityType))
                 {
-                    return new GetPermissionsByRoleAndEntityAndVariableErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccountRoleIsNotCorrect),
-                        Code = ErrorCodes.AccountRoleIsNotCorrect.ToString("D")
-                    };
+                    validationErrors.Add("Invalid entity type value.");
                 }
 
+                if (validationErrors.Count > 0)
+                {
+                    throw new EnumExeption(validationErrors);
+                }
+
+                var rolePermissions = await _permissionRepository.GetPermissionsByRoleAndEntityAndVariable(request.Role, request.EntityType, request.VariableName);
+                var rolePermissionsDTO = new List<RolePermissionDTO>();
+                foreach (var rolePermission in rolePermissions)
+                {
+                    var rolePermissionDTO = new RolePermissionDTO();
+                    rolePermissionDTO.Id = rolePermission.Id;
+                    rolePermissionDTO.VariableName = rolePermission.VariableName;
+                    rolePermissionDTO.Role = rolePermission.Role;
+                    rolePermissionDTO.EntityType = rolePermission.EntityType;
+                    rolePermissionDTO.Permission = rolePermission.Permission;
+                    rolePermissionsDTO.Add(rolePermissionDTO);
+                }
+                return new GetPermissionsByRoleAndEntityAndVariableSuccessResponse
+                {
+                    RolePermissionsDTO = rolePermissionsDTO
+                };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var response = new GetPermissionsByRoleAndEntityAndVariableErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                throw;
             }
         }
     }

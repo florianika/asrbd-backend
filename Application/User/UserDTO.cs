@@ -1,11 +1,12 @@
-﻿using Domain.User;
+﻿using Domain.Enum;
+using Domain.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTO
+namespace Application.User
 {
     public class UserDTO
     {
@@ -14,8 +15,8 @@ namespace Application.DTO
         public string Name { get; set; }
         public string LastName { get; set; }
         //FIXME this should be enum
-        public string AccountStatus { get; set; }
+        public AccountStatus AccountStatus { get; set; }
         //FIXME this should be enum
-        public string AccountRole { get; set; }
+        public AccountRole AccountRole { get; set; }
     }
 }
