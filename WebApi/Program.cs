@@ -29,6 +29,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Cryptography;
 using System.Text;
+using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
@@ -104,6 +105,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Auth.API v1"));
 }
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseRouting();
 
 app.UseAuthentication();
