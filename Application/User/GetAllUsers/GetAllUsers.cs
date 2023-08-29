@@ -1,7 +1,6 @@
 ﻿
 
 using Application.Common.Translators;
-using Application.DTO;
 using Application.Enums;
 using Application.Ports;
 using Application.User.CreateUser.Request;

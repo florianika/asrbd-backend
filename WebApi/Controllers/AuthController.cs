@@ -26,6 +26,9 @@ using Application.User.ActivateUser;
 using Application.User.GetUser;
 using Application.User.GetUser.Response;
 using Application.User.GetUser.Request;
+using System.Drawing;
+using Domain.Enum;
+using Application.Exceptions;
 
 namespace WebApi.Controllers
 {
@@ -107,7 +110,13 @@ namespace WebApi.Controllers
         [Route("/users/{id}/set/{role}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, string role)
         {
-            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = role });
+            if (Enum.TryParse(role, out AccountRole _role))
+            {
+                return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = _role });
+            }
+            else
+                throw new EnumExeption("Invalid Role");
+            
         }
 
         [AllowAnonymous]
