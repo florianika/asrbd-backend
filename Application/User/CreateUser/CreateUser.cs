@@ -3,7 +3,6 @@ using Application.Ports;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Domain.Enum;
-using Domain.RefreshToken;
 using Microsoft.Extensions.Logging;
 using d = Domain;
 

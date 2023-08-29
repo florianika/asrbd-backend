@@ -1,16 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Application.Ports;
-using Application.User.GetAllUsers;
-using Application.User.Login;
 using Domain.Claim;
 using Domain.Enum;
 using Domain.RefreshToken;
 using Domain.User;
-using FluentValidation;
-using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Update;
 
 namespace Infrastructure.Repositories
 {
@@ -26,12 +21,6 @@ namespace Infrastructure.Repositories
         }
         public async Task CreateUser(User user)
         {
-            var validator = new UserValidator();
-            var validationResult = validator.Validate(user);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }

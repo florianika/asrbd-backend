@@ -10,6 +10,7 @@ using Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable;
 using Application.RolePermission.UpdateRolePermission;
 using Application.User.ActivateUser;
 using Application.User.CreateUser;
+using Application.User.CreateUser.Request;
 using Application.User.GetAllUsers;
 using Application.User.GetUser;
 using Application.User.Login;
@@ -17,6 +18,7 @@ using Application.User.RefreshToken;
 using Application.User.SignOut;
 using Application.User.TerminateUser;
 using Application.User.UpdateUserRole;
+using FluentValidation;
 using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
@@ -26,6 +28,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Enums;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Cryptography;
 using System.Text;
@@ -66,6 +70,14 @@ builder.Services.AddScoped<GetPermissionsByRoleAndEntity>();
 builder.Services.AddScoped<GetPermissionsByRoleAndEntityAndVariable>();
 builder.Services.AddScoped<DeleteRolePermission>();
 builder.Services.AddScoped<UpdateRolePermission>();
+//builder.Services.AddScoped<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
+builder.Services.AddFluentValidationAutoValidation(configuration =>
+{
+    configuration.DisableBuiltInModelValidation = false;
+    configuration.ValidationStrategy = ValidationStrategy.All;
+});
+
 
 builder.Services.AddSwaggerGen(options =>
 {
