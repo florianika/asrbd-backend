@@ -1,9 +1,7 @@
 ﻿
 using Application.DTO;
-using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
-using Application.User.ActivateUser.Response;
-using Application.User.GetAllUsers.Response;
 using Application.User.GetUser.Request;
 using Application.User.GetUser.Response;
 using Microsoft.Extensions.Logging;
@@ -29,7 +27,7 @@ namespace Application.User.GetUser
 
                 if (user == null)
                 {
-                    return HandleUserNotFoundError();
+                    throw new NotFoundException("User not found");
                 }
 
                 var userDTO = MapUserToDTO(user);
@@ -42,25 +40,10 @@ namespace Application.User.GetUser
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                return HandleUnexpectedError();
+                throw;
             }
         }
-        private GetUserErrorResponse HandleUserNotFoundError()
-        {
-            return new GetUserErrorResponse
-            {
-                Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
-                Code = ErrorCodes.UserDoesNotExist.ToString("D")
-            };
-        }
-        private GetUserErrorResponse HandleUnexpectedError()
-        {
-            return new GetUserErrorResponse
-            {
-                Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-            };
-        }
+        
         private UserDTO MapUserToDTO(Domain.User.User user)
         {
             var userDTO = new UserDTO();
