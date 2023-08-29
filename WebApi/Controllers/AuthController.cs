@@ -65,7 +65,7 @@ namespace WebApi.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        [Route("CreateUser")]
+        [Route("signup")]
         public async Task<CreateUserResponse> CreateUser(CreateUserRequest request)
         {
             return await _createUserService.Execute(request);
@@ -73,7 +73,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
+        [Route("login")]
         public async Task<LoginResponse> Login(LoginRequest request)
         {
             return await _loginservice.Execute(request);
@@ -88,7 +88,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        [Route("SignOut")]
+        [Route("signout")]
         public async Task<SignOutResponse> SignOut(SignOutRequest request)
         {
             return await _signOutService.Execute(request);
@@ -96,41 +96,42 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetAllUsers")]
+        [Route("users")]
         public async Task<GetAllUsersResponse> GetAllUsers()
         {
             return await _getAllUsersService.Execute();
         }
 
         [AllowAnonymous]
-        [HttpPost]
-        [Route("UpdateUserRole")]
-        public async Task<UpdateUserRoleResponse> UpdateUserRole(UpdateUserRoleRequest request)
+        [HttpPatch]
+        [Route("/users/{id}/set/{role}")]
+        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, string role)
         {
-            return await _updateUserRoleService.Execute(request);
-        }
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("TeminateUser")]
-        public async Task<TerminateUserResponse> TerminateUser(TerminateUserRequest request)
-        {
-            return await _terminateUserService.Execute(request);
+            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = role });
         }
 
         [AllowAnonymous]
-        [HttpPost]
-        [Route("ActivateUser")]
-        public async Task<ActivateUserResponse> ActivateUser(ActivateUserRequest request)
+        [HttpPatch]
+        [Route("/users/{id}/terminate")]
+        public async Task<TerminateUserResponse> TerminateUser(Guid id)
         {
-            return await _activateUserService.Execute(request);
+            return await _terminateUserService.Execute(new TerminateUserRequest() { UserId = id });
         }
 
         [AllowAnonymous]
-        [HttpPost]
-        [Route("GetUser")]
-        public async Task<GetUserResponse> GetUser(GetUserRequest request)
+        [HttpPatch]
+        [Route("/users/{id}/activate")]
+        public async Task<ActivateUserResponse> ActivateUser(Guid id)
         {
-            return await _getUserService.Execute(request);
+            return await _activateUserService.Execute(new ActivateUserRequest() { UserId = id });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("/users/{id}")]
+        public async Task<GetUserResponse> GetUser(Guid id)
+        {
+            return await _getUserService.Execute(new GetUserRequest() { UserId = id });
         }
     }
 }
