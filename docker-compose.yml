@@ -6,14 +6,16 @@ services:
     asrdb-gateway:
         networks:
             - asrdb-network
-        image: ghrc.io/sgi-urs/asrdb-gateway:latest
+        image: ghrc.io/florianika/asrdb-gateway:latest
         ports:
-            - "8080:8080"
+            - "80:80"
         hostname: asrdb-gateway
     asrdb-auth:
         networks:
             - asrdb-network
-        image: ghrc.io/sgi_urs/asrdb-auth:latest
+        image: ghrc.io/florianika/asrdb-auth:latest
+        ports:
+            - "8080:80"
         hostname: asrdb-auth
     asrdb-mssql:
         networks:
@@ -23,7 +25,19 @@ services:
             - "1433:1433"
         environment:
             - ACCEPT_EULA=Y
-            - MSSQL_SA_PASSWORD=123456
+            - MSSQL_SA_PASSWORD=RjttMBnnbgjptw4G
             - MSSQL_PID=Developer
+        volumes:
+            -  sqlservervolume:/var/opt/mssql
         hostname: asrdb-mssql
+    ardb-arcgis-python:
+        networks:
+            - asrdb-network
+        image: ghrc.io/florianika/asrdb-arcgis-python:latest
+        ports:
+            - "8888:8888"
+        hostname: asrdb-arcgis-python
+    
+volumes:
+    sqlservervolume:
 

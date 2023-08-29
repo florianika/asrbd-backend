@@ -1,28 +1,45 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/api/Auth/{everything}",
+      "DownstreamPathTemplate": "/{catchAll}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 53385
+          "Host": "asrdb-arcgis-python",
+          "Port": 8888
+        }
+      ],
+      "UpstreamPathTemplate": "/{catchAll}",
+      "Priority": 0,
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/kernels/{kernel_id}/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-arcgis-python",
+          "Port": 8888
+        }
+      ],
+      "UpstreamPathTemplate": "/api/kernels/{kernel_id}/{everything}",
+      "Priority": 1,
+      "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-auth",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api2/WeatherForecast/weather2",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 32034
-        }
-      ],
-      "UpstreamPathTemplate": "/suliweather",
-      "UpstreamHttpMethod": [ "POST", "PUT", "GET" ]
+      "Priority": 1,
+      "UpstreamHttpMethod": []
     }
+
+
   ]
 }

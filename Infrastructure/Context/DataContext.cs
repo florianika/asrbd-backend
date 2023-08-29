@@ -1,14 +1,8 @@
-﻿
-using Application.User.CreateUser.Request;
-using Application.User.GetAllUsers;
-using Domain.Claim;
-using Domain.RefreshToken;
+﻿using Domain.RefreshToken;
 using Domain.RolePermission;
 using Domain.User;
-using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Context
 {
@@ -35,18 +29,37 @@ namespace Infrastructure.Context
                 var connectionString = configuration.GetConnectionString("ASRBDConnectionString");
                 optionsBuilder.UseSqlServer(connectionString);
             }
-        }
+        } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {            
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-
-            modelBuilder.Entity<User>()
-            .Property(u => u.AccountRole)
-            .HasConversion<string>();
-
-            modelBuilder.ApplyConfiguration(new RolePermisionConfiguration());
-
-            base.OnModelCreating(modelBuilder);
+            
+            modelBuilder
+                .Entity<User>()
+                .Property(u => u.AccountRole)
+                .HasConversion<string>()
+                .HasColumnType("varchar(10)");
+            modelBuilder
+                .Entity<User>()
+                .Property(u => u.AccountStatus)
+                .HasConversion<string>()
+                .HasColumnType("varchar(10)");
+            modelBuilder
+                .Entity<RolePermission>()
+                .Property(r => r.EntityType)
+                .HasConversion<string>()
+                .HasColumnType("varchar(10)");
+            modelBuilder
+                .Entity<RolePermission>()
+                .Property(r => r.Permission)
+                .HasConversion<string>()
+                .HasColumnType("varchar(10)");
+            modelBuilder
+                .Entity<RolePermission>()
+                .Property(r => r.Role)
+                .HasConversion<string>()
+                .HasColumnType("varchar(10)");
+            modelBuilder
+                .ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
 
         }
     }
