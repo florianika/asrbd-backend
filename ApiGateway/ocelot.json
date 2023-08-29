@@ -38,6 +38,19 @@
       "UpstreamPathTemplate": "/auth/{everything}",
       "Priority": 1,
       "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/admin/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-auth",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/admin/{everything}",
+      "Priority": 1,
+      "UpstreamHttpMethod": []
     }
 
 

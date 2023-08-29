@@ -1,5 +1,4 @@
-﻿using Application.Enums;
-using Application.User.ActivateUser;
+﻿using Application.User.ActivateUser;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
 using Application.User.GetAllUsers;
@@ -49,50 +48,28 @@ namespace WebApi.Controllers
         [HttpGet]
         [Route("/{guid}")]
         public async Task<GetUserResponse> GetUser(Guid guid)
-        {
-            GetUserRequest request = new GetUserRequest { UserId = guid };          
-            return await _getUserService.Execute(request);
+        {    
+            return await _getUserService.Execute(new GetUserRequest { UserId = guid });
         }
         [HttpPatch]
-        [Route("/{guid}")]
-        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, UpdateUserRoleRequest request)
+        [Route("/{guid}/set/role/{role}")]
+        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, string role)
         {
-            if (guid != request.UserId)
-                return new UpdateUserRoleErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.BadRequest),
-                    Code = ErrorCodes.BadRequest.ToString("D")
-                };
-            else
-                return await _updateUserRoleService.Execute(request);
+            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = guid, AccountRole = role});
         }
 
         [HttpPatch]
-        [Route("/terminate/{guid}")]
-        public async Task<TerminateUserResponse> TerminateUser(Guid guid, TerminateUserRequest request)
+        [Route("/{guid}/terminate")]
+        public async Task<TerminateUserResponse> TerminateUser(Guid guid)
         {
-            if (guid != request.UserId)
-                return new TerminateUserErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.BadRequest),
-                    Code = ErrorCodes.BadRequest.ToString("D")
-                };
-            else
-                return await _terminateUserService.Execute(request);
+            return await _terminateUserService.Execute(new TerminateUserRequest() {UserId = guid });
         }
 
         [HttpPatch]
-        [Route("/activate/{guid}")]
-        public async Task<ActivateUserResponse> ActivateUser(Guid guid, ActivateUserRequest request)
+        [Route("/{guid}/activate")]
+        public async Task<ActivateUserResponse> ActivateUser(Guid guid)
         {
-            if (guid != request.UserId)
-                return new ActivateUserErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.BadRequest),
-                    Code = ErrorCodes.BadRequest.ToString("D")
-                };
-            else
-                return await _activateUserService.Execute(request);
+            return await _activateUserService.Execute(new ActivateUserRequest() { UserId = guid });
         }
     }
 }
