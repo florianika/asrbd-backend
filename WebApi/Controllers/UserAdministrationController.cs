@@ -12,6 +12,7 @@ using Application.User.TerminateUser.Response;
 using Application.User.UpdateUserRole;
 using Application.User.UpdateUserRole.Request;
 using Application.User.UpdateUserRole.Response;
+using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -53,7 +54,7 @@ namespace WebApi.Controllers
         }
         [HttpPatch]
         [Route("/{guid}/set/role/{role}")]
-        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, string role)
+        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, AccountRole role)
         {
             return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = guid, AccountRole = role});
         }
