@@ -29,11 +29,7 @@ namespace Application.User.RefreshToken
             {
                 if (!await _authTokenService.IsTokenValid(request.AccessToken, false))
                 {
-                    return new RefreshTokenErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.AccessTokenIsNotValid),
-                        Code = ErrorCodes.AccessTokenIsNotValid.ToString("D")
-                    };
+                    throw new InvalidTokenException("Invalid token");
                 }
 
                 var userId = await _authTokenService.GetUserIdFromToken(request.AccessToken);
@@ -41,29 +37,17 @@ namespace Application.User.RefreshToken
 
                 if (!user.RefreshToken.Active)
                 {
-                    return new RefreshTokenErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.RefreshTokenIsNotActive),
-                        Code = ErrorCodes.RefreshTokenIsNotActive.ToString("D")
-                    };
+                    throw new InvalidTokenException("Iactive token");
                 }
 
                 if (user.RefreshToken.ExpirationDate < DateTime.Now)
                 {
-                    return new RefreshTokenErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.RefreshTokenHasExpired),
-                        Code = ErrorCodes.RefreshTokenHasExpired.ToString("D")
-                    };
+                    throw new InvalidTokenException("Expired token");
                 }
 
                 if (user.RefreshToken.Value != request.RefreshToken)
                 {
-                    return new RefreshTokenErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.RefreshTokenIsNotCorrect),
-                        Code = ErrorCodes.RefreshTokenIsNotCorrect.ToString("D")
-                    };
+                    throw new InvalidTokenException("Invalid token");
                 }
 
                 var newToken = await _authTokenService.GenerateAccessToken(user);
@@ -82,29 +66,11 @@ namespace Application.User.RefreshToken
 
                 return response;
             }
-            catch (InvalidTokenException ex)
-            {
-                _logger.LogError(ex, ex.Message);
-
-                var response = new RefreshTokenErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AccessTokenIsNotValid),
-                    Code = ErrorCodes.AccessTokenIsNotValid.ToString("D")
-                };
-
-                return response;
-            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
 
-                var response = new RefreshTokenErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                throw;
             }
         }
     }

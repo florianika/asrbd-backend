@@ -20,22 +20,13 @@ namespace Infrastructure.Configurations
             // Create a unique constraint for the combination of Role, EntityType, and VariableName
             builder.HasIndex(rp => new { rp.Role, rp.EntityType, rp.VariableName })
                 .IsUnique();
-            //// Seed initial data with all combinations and an empty VariableName
-            //var combinations = Enum.GetValues(typeof(AccountRole))
-            //    .Cast<AccountRole>()
-            //    .SelectMany(role => Enum.GetValues(typeof(EntityType))
-            //        .Cast<EntityType>()
-            //        .Select(entityType => new RolePermission
-            //        {
-            //            Id = (long)role * 100 + (long)entityType,
-            //            Role = role,
-            //            EntityType = entityType,
-            //            VariableName = "",
-            //            Permission = Permission.NONE
-            //        }));
-
-            //builder.HasData(combinations);
-
+            builder.Property(b => b.Role).HasConversion(c => c.ToString(), c => Enum.Parse<AccountRole>(c));
+            builder.Property(b => b.EntityType).HasConversion(c => c.ToString(), c => Enum.Parse<EntityType>(c));
+            builder.Property(b => b.Permission).HasConversion(c => c.ToString(), c => Enum.Parse<Permission>(c));
+            builder.Property(x => x.Role).HasMaxLength(25);
+            builder.Property(x => x.EntityType).HasMaxLength(25);
+            builder.Property(x=>x.Permission).HasMaxLength(25);
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿
 
-using Application.DTO;
+using Application.Common.Translators;
 using Application.Enums;
 using Application.Ports;
 using Application.User.CreateUser.Request;
@@ -26,18 +26,8 @@ namespace Application.User.GetAllUsers
             try
             {
                 var users = await _authRepository.GetAllUsers();
-                var usersDTO = new List<UserDTO>();
-                foreach (var user in users)
-                {
-                    var userDTO = new UserDTO();
-                    userDTO.Id=user.Id;
-                    userDTO.AccountRole = user.AccountRole.ToString();
-                    userDTO.AccountStatus = user.AccountStatus.ToString();
-                    userDTO.Email = user.Email;
-                    userDTO.Name = user.Name;
-                    userDTO.LastName= user.LastName;
-                    usersDTO.Add(userDTO);
-                }
+                var usersDTO = UserTranslator.TranslateToDTOList(users);
+
                 return new GetAllUsersSuccessResponse
                 {
                     UsersDTO = usersDTO
@@ -46,13 +36,7 @@ namespace Application.User.GetAllUsers
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var response = new GetAllUsersErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                throw;
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿
-using Application.DTO;
+﻿using Application.Common.Translators;
 using Application.Exceptions;
 using Application.Ports;
 using Application.User.GetUser.Request;
@@ -23,9 +22,14 @@ namespace Application.User.GetUser
         {
             try
             {
-                var user = await _authRepository.FindUserById(request.UserId) ?? throw new NotFoundException("User not found");
-                
-                var userDTO = MapUserToDTO(user);
+                var user = await _authRepository.FindUserById(request.UserId);
+
+                if (user == null)
+                {
+                    throw new NotFoundException("User not found");
+                }
+
+                var userDTO = UserTranslator.TranslateToDTO(user);
 
                 return new GetUserSuccessResponse
                 {
@@ -39,19 +43,5 @@ namespace Application.User.GetUser
             }
         }
         
-        private UserDTO MapUserToDTO(Domain.User.User user)
-        {
-            var userDTO = new UserDTO
-            {
-                Id = user.Id,
-                AccountRole = user.AccountRole.ToString(),
-                AccountStatus = user.AccountStatus.ToString(),
-                Email = user.Email,
-                Name = user.Name,
-                LastName = user.LastName
-            };
-
-            return userDTO;
-        }
     }
 }

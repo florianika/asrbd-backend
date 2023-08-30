@@ -1,4 +1,5 @@
-﻿using Domain.RefreshToken;
+﻿using Domain.Enum;
+using Domain.RefreshToken;
 using Domain.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -24,6 +25,12 @@ namespace Infrastructure.Configurations
             builder.HasOne(u=>u.RefreshToken)
                 .WithOne(rt=>rt.User)
                 .HasForeignKey<RefreshToken>(rt=>rt.UserId);
+
+            builder.Property(b => b.AccountRole).HasConversion(c => c.ToString(), c => Enum.Parse<AccountRole>(c));
+            builder.Property(b => b.AccountStatus).HasConversion(c => c.ToString(), c => Enum.Parse<AccountStatus>(c));
+
+            builder.Property(x => x.AccountStatus).HasMaxLength(25);
+            builder.Property(x => x.AccountRole).HasMaxLength(25);
         }
     }
 }

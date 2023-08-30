@@ -87,7 +87,7 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
         }
-        public async Task UnLockAccount(User user)
+        public async Task UnlockAccount(User user)
         { 
             user.AccountStatus = AccountStatus.ACTIVE;
             user.SigninFails = 0;
@@ -124,6 +124,11 @@ namespace Infrastructure.Repositories
         public async Task<User> FindUserById(Guid userId)
         { 
             return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
+        }
+
+        public async Task<User> FindUserByEmail(string email)
+        {
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
         }
     }
 }

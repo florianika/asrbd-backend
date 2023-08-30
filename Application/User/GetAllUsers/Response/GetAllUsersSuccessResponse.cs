@@ -1,8 +1,4 @@
-﻿
-
-using Application.DTO;
-
-namespace Application.User.GetAllUsers.Response
+﻿namespace Application.User.GetAllUsers.Response
 {
     public class GetAllUsersSuccessResponse : GetAllUsersResponse
     {

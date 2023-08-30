@@ -1,5 +1,6 @@
 ﻿
 using Application.Enums;
+using Application.Exceptions;
 using Application.Ports;
 using Application.User.TerminateUser.Request;
 using Application.User.TerminateUser.Response;
@@ -23,31 +24,26 @@ namespace Application.User.TerminateUser
         {
             try
             {
-                var userExists = await _authRepository.CheckIfUserExists(request.UserId);
-                if (userExists == false)
-                {
-                    return new TerminateUserErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
-                        Code = ErrorCodes.UserDoesNotExist.ToString("D")
-                    };
-                }
-                await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.TERMINATED);
+                await TerminateUserAsync(request.UserId.ToString());
                 return new TerminateUserSuccessResponse
                 {
                     Message = "User terminated."
                 };
-               
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
-                return new TerminateUserErrorResponse
-                {
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D"),
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred)
-                };
+                // Logging can be added here if needed
+                throw;
             }
+        }
+        private async Task TerminateUserAsync(string userId)
+        {
+            var userExists = await _authRepository.CheckIfUserExists(new Guid(userId));
+            if (!userExists)
+            {
+                throw new NotFoundException("User not found");
+            }
+            await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED);
         }
     }
 }

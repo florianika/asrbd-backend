@@ -1,7 +1,4 @@
-﻿
-using Application.DTO;
-
-namespace Application.User.GetUser.Response
+﻿namespace Application.User.GetUser.Response
 {
     public class GetUserSuccessResponse : GetUserResponse
     {

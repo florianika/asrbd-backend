@@ -65,13 +65,8 @@ namespace Application.User.CreateUser
             {
                 _logger.LogError(ex, ex.Message);
 
-                var response = new CreateUserErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
+                throw;
 
-                return response;
             }
         }
 

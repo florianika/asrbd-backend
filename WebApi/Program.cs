@@ -33,6 +33,7 @@ using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
 using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,9 @@ var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddSingleton<IUserLockSettings, UserLockSettingsService>();
 
