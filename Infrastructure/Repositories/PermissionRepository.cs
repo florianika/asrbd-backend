@@ -1,11 +1,9 @@
-﻿
-
-using Application.Ports;
+﻿using Application.Ports;
 using Domain.Enum;
 using Domain.RolePermission;
-using Domain.User;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Application.Exceptions;
 
 namespace Infrastructure.Repositories
 {
@@ -37,7 +35,7 @@ namespace Infrastructure.Repositories
         public async Task<List<RolePermission>> GetPermissionsByRoleAndEntity(AccountRole accountRole, EntityType entityType)
         {
             return await _context.RolePermissions.Where(x => x.Role == accountRole 
-            && x.EntityType==entityType).ToListAsync();
+                                         && x.EntityType==entityType).ToListAsync();
         }
 
         public async Task<List<RolePermission>> GetPermissionsByRoleAndEntityAndVariable(AccountRole accountRole, EntityType entityType, string variableName)
@@ -48,7 +46,8 @@ namespace Infrastructure.Repositories
         }
         public async Task<RolePermission> GetPermissionRoleById(long id)
         {
-            return await _context.RolePermissions.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.RolePermissions.FirstOrDefaultAsync(x => x.Id == id)
+                                ?? throw new NotFoundException("Permission not found");;
         }
 
         public async Task DeleteRolePermission(Domain.RolePermission.RolePermission rolePermission)
@@ -59,7 +58,8 @@ namespace Infrastructure.Repositories
 
         public async Task UpdateRolePermission(long Id, Domain.RolePermission.RolePermission newRolePermission)
         {
-            var existingRolePermission = await _context.RolePermissions.FindAsync(Id);
+            var existingRolePermission = await _context.RolePermissions.FindAsync(Id)
+                ?? throw new NotFoundException("Permission not found");;
 
             existingRolePermission.Role = newRolePermission.Role;
             existingRolePermission.Permission = newRolePermission.Permission;

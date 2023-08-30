@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Application.Exceptions;
 using Application.Ports;
 using Domain.Claim;
 using Domain.Enum;
@@ -26,17 +27,22 @@ namespace Infrastructure.Repositories
         }
         public async Task<User> GetUserByEmail(string email)
         {
-            var resut = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);            
-            resut.RefreshToken = await _context.RefreshToken.SingleOrDefaultAsync(rt => rt.UserId == resut.Id);
-            resut.Claims = await _context.Claim.Where(c=>c.UserId==resut.Id).ToListAsync();
-            return resut;
+            return await _context.Users
+                                .Where(u => u.Email == email)
+                                .Include(u => u.RefreshToken)
+                                .Include(u => u.Claims)
+                                .SingleOrDefaultAsync()
+                                ?? throw new NotFoundException("User not found");         
         }
+
         public async Task<User> GetUserByUserId(Guid userId)
         {
-            var resut = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
-            resut.RefreshToken = await _context.RefreshToken.SingleOrDefaultAsync(rt => rt.UserId == resut.Id);
-            resut.Claims = await _context.Claim.Where(c => c.UserId == resut.Id).ToListAsync();
-            return resut;
+            return await _context.Users
+                                    .Where(u => u.Id == userId)
+                                    .Include(u => u.Claims)
+                                    .Include(u => u.RefreshToken)
+                                    .SingleOrDefaultAsync(u => u.Id == userId)
+                                    ?? throw new NotFoundException("User not found");;
         }
         public async Task UpdateUser(User user)
         {
@@ -44,36 +50,27 @@ namespace Infrastructure.Repositories
         }
         public async Task UpdateRefreshToken(Guid userId, RefreshToken refreshToken) 
         {
-            var user = await _context.Users.Include(u=>u.RefreshToken).SingleOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                //handle the user not found error
-                return;
-            }
+            var user = await _context.Users.Include(u=>u.RefreshToken).SingleOrDefaultAsync(u => u.Id == userId)
+                        ?? throw new NotFoundException("User not found");
             user.RefreshToken = refreshToken;
             await _context.SaveChangesAsync();
         }
         public async Task AddClaim(Guid userId, Claim claim)
         { 
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
-            if (user == null) {
-                //Error
-                return;
-            }
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
+                            ?? throw new NotFoundException("User not found");
             user.Claims.Add(claim);
             await _context.SaveChangesAsync();
         }
+
         public async Task AddRefreshToken(Guid userId, RefreshToken refreshToken)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                //Error
-                return;
-            }
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
+                            ?? throw new NotFoundException("User not found");
             user.RefreshToken=refreshToken;
             await _context.SaveChangesAsync();
         }
+
         public async Task LockAccount(User user)
         {
             user.SigninFails++;
@@ -101,34 +98,35 @@ namespace Infrastructure.Repositories
         }
         public async Task UpdateUserRole(Guid userId, AccountRole accountRole)
         {
-            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId) 
+                                                    ?? throw new NotFoundException("User not found");
             userToUpdate.AccountRole = accountRole;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();  
         }
         public async Task<bool> CheckIfUserExists(Guid userId)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if(user != null)
-                return true;            
-            else
-                return false;
+            return await _context.Users.AnyAsync(u => u.Id == userId);
         }
 
         public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus)
         {
-            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId)
+                            ?? throw new NotFoundException("User not found");
             userToUpdate.AccountStatus = accountStatus;
             _context.SaveChanges();
+           
         }
 
         public async Task<User> FindUserById(Guid userId)
         { 
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId));
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId))
+                    ?? throw new NotFoundException("User not found");;
         }
 
         public async Task<User> FindUserByEmail(string email)
         {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email)
+                    ?? throw new NotFoundException("User not found");
         }
     }
 }
