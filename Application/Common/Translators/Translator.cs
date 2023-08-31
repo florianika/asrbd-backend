@@ -6,7 +6,7 @@ namespace Application.Common.Translators
 {
     public static class Translator
     {
-        public static List<UserDTO> ToDTOList(List<Domain.User.User> users)
+        public static List<UserDTO> ToDTOList(List<Domain.User> users)
         {
             var usersDTO = new List<UserDTO>();
             users.ForEach(user => {
@@ -15,7 +15,7 @@ namespace Application.Common.Translators
             return usersDTO;
         }
         
-        public static UserDTO ToDTO(Domain.User.User user)
+        public static UserDTO ToDTO(Domain.User user)
         {
             return new UserDTO
             {
@@ -28,7 +28,7 @@ namespace Application.Common.Translators
             };
         }
 
-        public static List<RolePermissionDTO> ToDTOList(List<Domain.RolePermission.RolePermission> rolePermissions) {
+        public static List<RolePermissionDTO> ToDTOList(List<Domain.RolePermission> rolePermissions) {
             List<RolePermissionDTO> permissions = new();
             rolePermissions.ForEach((rolePermission) => {
                 permissions.Add(ToDTO(rolePermission));
@@ -36,7 +36,7 @@ namespace Application.Common.Translators
             return permissions;
         }
         
-        public static RolePermissionDTO ToDTO(Domain.RolePermission.RolePermission rolePermission) {
+        public static RolePermissionDTO ToDTO(Domain.RolePermission rolePermission) {
             return new RolePermissionDTO() {
                 Id = rolePermission.Id,
                 EntityType = rolePermission.EntityType,

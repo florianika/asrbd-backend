@@ -1,6 +1,4 @@
-﻿
-
-using Application.Enums;
+﻿using Application.Exceptions;
 using Application.Ports;
 using Application.User.SignOut.Request;
 using Application.User.SignOut.Response;
@@ -22,15 +20,7 @@ namespace Application.User.SignOut
         {
             try
             {
-                var user = await _authRepository.GetUserByUserId(request.UserId);
-                if (user == null)
-                {
-                    return new SignOutErrorResponse
-                    {
-                        Message = Enum.GetName(ErrorCodes.UserDoesNotExist),
-                        Code = ErrorCodes.UserDoesNotExist.ToString("D")
-                    };
-                }
+                var user = await _authRepository.GetUserByUserId(request.UserId) ?? throw new NotFoundException("User not found");
                 user.RefreshToken.Active = false;
                 await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
 

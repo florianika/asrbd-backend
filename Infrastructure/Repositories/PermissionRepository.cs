@@ -1,9 +1,10 @@
 ﻿using Application.Ports;
 using Domain.Enum;
-using Domain.RolePermission;
+using Domain;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Application.Exceptions;
+using Application.RolePermission.UpdateRolePermission.Request;
 
 namespace Infrastructure.Repositories
 {
@@ -50,22 +51,26 @@ namespace Infrastructure.Repositories
                                 ?? throw new NotFoundException("Permission not found");;
         }
 
-        public async Task DeleteRolePermission(Domain.RolePermission.RolePermission rolePermission)
+        public async Task DeleteRolePermission(long id)
         {
-             _context.RolePermissions.Remove(rolePermission);
-            await _context.SaveChangesAsync();
+            var rolePermission = await _context.RolePermissions.SingleOrDefaultAsync(rp => rp.Id == id);
+            if(rolePermission != null)  {
+                _context.RolePermissions.Remove(rolePermission);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public async Task UpdateRolePermission(long Id, Domain.RolePermission.RolePermission newRolePermission)
+        public async Task UpdateRolePermission(UpdateRolePermissionRequest updateRolePermissionRequest)
         {
-            var existingRolePermission = await _context.RolePermissions.FindAsync(Id)
+            var existingRolePermission = await _context.RolePermissions.FindAsync(updateRolePermissionRequest.Id)
                 ?? throw new NotFoundException("Permission not found");;
 
-            existingRolePermission.Role = newRolePermission.Role;
-            existingRolePermission.Permission = newRolePermission.Permission;
-            existingRolePermission.VariableName = newRolePermission.VariableName;
-            existingRolePermission.EntityType = newRolePermission.EntityType;
+            existingRolePermission.Role = updateRolePermissionRequest.Role;
+            existingRolePermission.Permission = updateRolePermissionRequest.Permission;
+            existingRolePermission.VariableName = updateRolePermissionRequest.VariableName;
+            existingRolePermission.EntityType = updateRolePermissionRequest.EntityType;
             await _context.SaveChangesAsync();
         }
+
     }
 }

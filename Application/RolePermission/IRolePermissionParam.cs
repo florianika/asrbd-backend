@@ -5,6 +5,6 @@ namespace Application.RolePermission
         where Req : RequestRolePermission
         where Res : ResponseRolePermission
     {
-        public Task<Res> Execute(long Id, Req request);
+        public Task<Res> Execute(Req request);
     }
 }

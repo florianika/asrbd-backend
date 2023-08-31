@@ -1,5 +1,6 @@
-﻿namespace Domain.Claim
+﻿namespace Domain
 {
+    #nullable disable
     public class Claim
     {
         public int ClaimId { get; set; }
@@ -7,6 +8,6 @@
         public string Value { get; set; }
 
         public Guid UserId { get; set; }//foreign key to user
-        public Domain.User.User User { get; set; } //navigation property to User
+        public User User { get; set; } //navigation property to User
     }
 }

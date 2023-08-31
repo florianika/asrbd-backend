@@ -1,10 +1,8 @@
 ﻿using Application.Common.Interfaces;
 using Application.Exceptions;
 using Application.Ports;
-using Domain.Claim;
+using Domain;
 using Domain.Enum;
-using Domain.RefreshToken;
-using Domain.User;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -125,7 +123,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User> FindUserByEmail(string email)
         {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email)
+            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email && u.AccountStatus != AccountStatus.TERMINATED)
                     ?? throw new NotFoundException("User not found");
         }
     }

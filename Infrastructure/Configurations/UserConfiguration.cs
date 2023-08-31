@@ -1,6 +1,5 @@
 ﻿using Domain.Enum;
-using Domain.RefreshToken;
-using Domain.User;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

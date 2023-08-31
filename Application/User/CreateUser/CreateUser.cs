@@ -1,10 +1,8 @@
-﻿using Application.Enums;
-using Application.Ports;
+﻿using Application.Ports;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Domain.Enum;
 using Microsoft.Extensions.Logging;
-using d = Domain;
 
 namespace Application.User.CreateUser
 {
@@ -26,7 +24,7 @@ namespace Application.User.CreateUser
             {
                 var salt = _cryptographyService.GenerateSalt();
                 var currentDate = DateTime.Now;
-                var refreshToken = new Domain.RefreshToken.RefreshToken
+                var refreshToken = new Domain.RefreshToken
                 {
                     Value = "Empty",
                     Active = false,
@@ -35,7 +33,7 @@ namespace Application.User.CreateUser
 
                 Guid userId = Guid.NewGuid();
 
-                var user = new d.User.User
+                var user = new Domain.User
                 {
                     Id = userId,
                     Active = true,
@@ -70,11 +68,11 @@ namespace Application.User.CreateUser
             }
         }
 
-        private static IList<d.Claim.Claim> ToClaims(Guid userId, IList<Request.Claim> requestClaims)
+        private static IList<Domain.Claim>? ToClaims(Guid userId, IList<Claim> requestClaims)
         {
             if (requestClaims == null) return null;
-            var claims = new List<d.Claim.Claim>();
-            claims.AddRange(requestClaims.Select(r => new d.Claim.Claim { UserId=userId, Type = r.Type, Value = r.Value }).ToList());
+            var claims = new List<Domain.Claim>();
+            claims.AddRange(requestClaims.Select(r => new Domain.Claim { UserId=userId, Type = r.Type, Value = r.Value }).ToList());
             return claims;
         }
     }

@@ -2,6 +2,6 @@
 {
     public class GetAllPermssionsSuccessResponse : GetAllPermssionsResponse
     {
-        public IEnumerable<RolePermissionDTO> RolePermissionsDTO { get; set; }
+        public IEnumerable<RolePermissionDTO> RolePermissionsDTO { get; set; } = new List<RolePermissionDTO>();
     }
 }

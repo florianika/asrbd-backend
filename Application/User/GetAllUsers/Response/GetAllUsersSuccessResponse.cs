@@ -2,6 +2,6 @@
 {
     public class GetAllUsersSuccessResponse : GetAllUsersResponse
     {
-        public IEnumerable<UserDTO> UsersDTO{ get; set; }
+        public IEnumerable<UserDTO> UsersDTO{ get; set; } = new List<UserDTO>();
     }
 }

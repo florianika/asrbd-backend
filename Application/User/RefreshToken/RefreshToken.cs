@@ -3,7 +3,6 @@ using Application.Exceptions;
 using Application.Ports;
 using Application.User.RefreshToken.Request;
 using Application.User.RefreshToken.Response;
-using Domain.RefreshToken;
 using Microsoft.Extensions.Logging;
 
 

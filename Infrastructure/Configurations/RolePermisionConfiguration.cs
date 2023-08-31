@@ -1,14 +1,12 @@
 ﻿using Domain.Enum;
-using Domain.RolePermission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Configurations
 {
-    public class RolePermisionConfiguration : IEntityTypeConfiguration<RolePermission>
+    public class RolePermisionConfiguration : IEntityTypeConfiguration<Domain.RolePermission>
     {
-        public void Configure(EntityTypeBuilder<RolePermission> builder)
+        public void Configure(EntityTypeBuilder<Domain.RolePermission> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x=>x.Id).IsRequired();

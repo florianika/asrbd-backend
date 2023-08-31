@@ -1,11 +1,10 @@
-﻿using Domain.RefreshToken;
-using Domain.RolePermission;
-using Domain.User;
+﻿using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Context
 {
+    #nullable disable
     public class DataContext : DbContext
     {
         public DataContext() : base()
@@ -16,7 +15,7 @@ namespace Infrastructure.Context
         }
         public DbSet<User> Users { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
-        public DbSet<Domain.Claim.Claim> Claim { get; set; }
+        public DbSet<Claim> Claim { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -44,17 +43,17 @@ namespace Infrastructure.Context
                 .HasConversion<string>()
                 .HasColumnType("varchar(10)");
             modelBuilder
-                .Entity<RolePermission>()
+                .Entity<Domain.RolePermission>()
                 .Property(r => r.EntityType)
                 .HasConversion<string>()
                 .HasColumnType("varchar(10)");
             modelBuilder
-                .Entity<RolePermission>()
+                .Entity<Domain.RolePermission>()
                 .Property(r => r.Permission)
                 .HasConversion<string>()
                 .HasColumnType("varchar(10)");
             modelBuilder
-                .Entity<RolePermission>()
+                .Entity<Domain.RolePermission>()
                 .Property(r => r.Role)
                 .HasConversion<string>()
                 .HasColumnType("varchar(10)");

@@ -1,6 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Ports;
-using Domain.User;
+using Domain;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -18,19 +18,15 @@ namespace Infrastructure.Services
         }
         private ClaimsIdentity AddAccessTokenClaims(User user) {
             var claimsIdentity = new ClaimsIdentity();
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.AccountRole.ToString()));
+            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Role, user.AccountRole.ToString()));
             return claimsIdentity;
         }
         private ClaimsIdentity AddIdTokenClaims(User user) {
             var claimsIdentity = AddAccessTokenClaims(user);
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
-            // Add AccountRole claim
-            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.AccountRole.ToString()));
-            // Add AccountStatus claim
-            claimsIdentity.AddClaim(new Claim("AccountStatus", user.AccountStatus.ToString()));
+            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Name, user.Name));
+            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Email, user.Email));
+            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Surname, user.LastName));
             return claimsIdentity;
         }
 

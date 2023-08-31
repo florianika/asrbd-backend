@@ -1,8 +1,7 @@
-﻿
+﻿#nullable disable
 using Domain.Enum;
-using Domain.RefreshToken;
 
-namespace Domain.User
+namespace Domain
 {
     public class User
     {
@@ -13,8 +12,8 @@ namespace Domain.User
         public string Salt { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public IList<Domain.Claim.Claim> Claims { get; set; }
-        public Domain.RefreshToken.RefreshToken RefreshToken { get; set; }
+        public IList<Claim> Claims { get; set; }
+        public RefreshToken RefreshToken { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime UpdateDate { get; set; }
         public AccountStatus AccountStatus { get; set; }
@@ -23,8 +22,8 @@ namespace Domain.User
         public DateTime? LockExpiration { get; set; }
         public User()
         {
-            Claims = new List<Domain.Claim.Claim>();
-            RefreshToken = new Domain.RefreshToken.RefreshToken();
+            Claims = new List<Claim>();
+            RefreshToken = new RefreshToken();
         }
     }
 }

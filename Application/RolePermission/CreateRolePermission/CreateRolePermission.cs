@@ -21,7 +21,7 @@ namespace Application.RolePermission.CreateRolePermission
         {
             try
             {
-                var rolePermission = new Domain.RolePermission.RolePermission
+                var rolePermission = new Domain.RolePermission
                 {
                     Role = request.Role,
                     EntityType = request.EntityType,

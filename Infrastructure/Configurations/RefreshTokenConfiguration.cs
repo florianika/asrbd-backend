@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Domain.RefreshToken;
+using Domain;
 
 namespace Infrastructure.Configurations
 {

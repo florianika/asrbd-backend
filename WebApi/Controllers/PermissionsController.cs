@@ -104,7 +104,8 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<UpdateRolePermissionResponse> UpdateRolePermission(long id, UpdateRolePermissionRequest request)
         {
-            return await _updateRolePermissionService.Execute(id, request);
+            request.Id = id;
+            return await _updateRolePermissionService.Execute(request);
         }
 
 

@@ -3,7 +3,8 @@ using Domain.Enum;
 
 namespace Application.RolePermission.UpdateRolePermission.Request
 {
-    public class UpdateRolePermissionRequest : RolePermission.RequestRolePermission
+    #nullable disable
+    public class UpdateRolePermissionRequest : RequestRolePermission
     {
         public long Id { get; set; }
         //FIXME this should be enum

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.RolePermission.UpdateRolePermission.Response
+﻿namespace Application.RolePermission.UpdateRolePermission.Response
 {
+    #nullable disable
     public class UpdateRolePermissionErrorResponse: UpdateRolePermissionResponse
     {
         public string Message { get; internal set; }

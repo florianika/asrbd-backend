@@ -19,23 +19,16 @@ namespace Application.User.TerminateUser
             _logger = logger;
             _authRepository = authRepository;
         }
-        //FIXME refactor and separate error handling
+        
         public async Task<TerminateUserResponse> Execute(TerminateUserRequest request)
         {
-            try
+            await TerminateUserAsync(request.UserId.ToString());
+            return new TerminateUserSuccessResponse
             {
-                await TerminateUserAsync(request.UserId.ToString());
-                return new TerminateUserSuccessResponse
-                {
-                    Message = "User terminated."
-                };
-            }
-            catch (Exception ex)
-            {
-                // Logging can be added here if needed
-                throw;
-            }
+                Message = "User terminated."
+            };
         }
+
         private async Task TerminateUserAsync(string userId)
         {
             var userExists = await _authRepository.CheckIfUserExists(new Guid(userId));

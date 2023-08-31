@@ -2,6 +2,7 @@
 
 namespace Application.Exceptions
 {
+    #nullable disable
     public class EnumExeption : Exception
     {
         public List<string> Errors { get; }
