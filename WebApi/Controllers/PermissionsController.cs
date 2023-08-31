@@ -71,7 +71,7 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [HttpGet]
         //FIXME ther route here should be /api/PermissionConroller/role/{role}
-        [Route("/role/{role}")]
+        [Route("role/{role}")]
         public async Task<GetPermissionsByRoleResponse> GetPermissionsByRole(AccountRole role)
         {
             return await _getPermissionsByRoleService.Execute(new GetPermissionsByRoleRequest() { Role = role });
@@ -79,7 +79,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("/role/{role}/type/{entityType}")]
+        [Route("role/{role}/type/{entityType}")]
         public async Task<GetPermissionsByRoleAndEntityResponse> GetPermissionsByRoleAndEntityType(AccountRole role, EntityType entityType)
         {
             return await _getPermissionsByRoleAndEntityService.Execute(new GetPermissionsByRoleAndEntityRequest() { Role = role, EntityType = entityType });
@@ -87,7 +87,7 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("/role/{role}/type/{enityType}/variable/{variableName}")]
+        [Route("role/{role}/type/{enityType}/variable/{variableName}")]
         public async Task<GetPermissionsByRoleAndEntityAndVariableResponse> GetPermissionByRoleAndEntityTypeAndVariableName(AccountRole role, EntityType entityType, string variableName)
         {
             return await _getPermissionsByRoleAndEntityAndVariableService.Execute(new GetPermissionsByRoleAndEntityAndVariableRequest() {Role = role, EntityType = entityType, VariableName = variableName});
@@ -95,13 +95,13 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpDelete]
-        [Route("/{id}")]
+        [Route("{id}")]
         public async Task<DeleteRolePermissionResponse> DeleteRolePermission(long id)
         {
             return await _deleteRolePermissionService.Execute(new DeleteRolePermissionRequest() { Id = id });
         }
         [AllowAnonymous]
-        [HttpPut("/{id}")]
+        [HttpPut("{id}")]
         public async Task<UpdateRolePermissionResponse> UpdateRolePermission(long id, UpdateRolePermissionRequest request)
         {
             return await _updateRolePermissionService.Execute(id, request);
