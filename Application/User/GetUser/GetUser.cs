@@ -29,7 +29,7 @@ namespace Application.User.GetUser
                     throw new NotFoundException("User not found");
                 }
 
-                var userDTO = UserTranslator.TranslateToDTO(user);
+                var userDTO = Translator.ToDTO(user);
 
                 return new GetUserSuccessResponse
                 {

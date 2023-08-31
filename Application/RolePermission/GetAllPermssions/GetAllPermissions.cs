@@ -1,14 +1,8 @@
-﻿using Application.Enums;
+﻿using Application.Common.Translators;
 using Application.Ports;
 using Application.RolePermission.GetAllPermssions.Response;
 using Application.User.GetAllUsers;
-using Application.User.GetAllUsers.Response;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.RolePermission.GetAllPermssions
 {
@@ -26,32 +20,15 @@ namespace Application.RolePermission.GetAllPermssions
             try
             {
                 var rolePermissions = await _permissionRepository.GetAllPermissions();
-                var rolePermissionsDTO = new List<RolePermissionDTO>();
-                foreach (var rolePermission in rolePermissions)
-                {
-                    var rolePermissionDTO = new RolePermissionDTO();
-                    rolePermissionDTO.Id = rolePermission.Id;
-                    rolePermissionDTO.VariableName = rolePermission.VariableName;
-                    rolePermissionDTO.Role = rolePermission.Role;
-                    rolePermissionDTO.EntityType = rolePermission.EntityType; 
-                    rolePermissionDTO.Permission = rolePermission.Permission;
-                    rolePermissionsDTO.Add(rolePermissionDTO);
-                }
                 return new GetAllPermssionsSuccessResponse
                 {
-                    RolePermissionsDTO = rolePermissionsDTO
+                    RolePermissionsDTO = Translator.ToDTOList(rolePermissions)
                 };
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                var response = new GetAllPermissionsErrorResponse
-                {
-                    Message = Enum.GetName(ErrorCodes.AnUnexpectedErrorOcurred),
-                    Code = ErrorCodes.AnUnexpectedErrorOcurred.ToString("D")
-                };
-
-                return response;
+                throw ex;
             }
         }
     }

@@ -1,5 +1,5 @@
-﻿using Application.Common.Validations;
-using Domain.Enum;
+﻿using Domain.Enum;
+using FluentValidation;
 
 namespace Application.RolePermission.Request
 {
@@ -9,9 +9,17 @@ namespace Application.RolePermission.Request
         public AccountRole Role { get; set; }
         //[ValidEnumValue(typeof(EntityType))]
         public EntityType EntityType { get; set; }
-        public string VariableName { get; set; }
+        public string? VariableName { get; set; }
         //[ValidEnumValue(typeof(Permission))]
         public Permission Permission{ get; set; }
 
+    }
+
+    public class CreateRolePermissionRequestValidation : AbstractValidator<CreateRolePermissionRequest> 
+    {
+        public CreateRolePermissionRequestValidation() 
+        {
+            RuleFor(rp => rp.VariableName).NotEmpty().NotNull();
+        }
     }
 }

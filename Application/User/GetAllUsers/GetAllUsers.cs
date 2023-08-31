@@ -1,10 +1,5 @@
-﻿
-
-using Application.Common.Translators;
-using Application.Enums;
+﻿using Application.Common.Translators;
 using Application.Ports;
-using Application.User.CreateUser.Request;
-using Application.User.CreateUser.Response;
 using Application.User.GetAllUsers.Response;
 using Microsoft.Extensions.Logging;
 
@@ -26,7 +21,7 @@ namespace Application.User.GetAllUsers
             try
             {
                 var users = await _authRepository.GetAllUsers();
-                var usersDTO = UserTranslator.TranslateToDTOList(users);
+                var usersDTO = Translator.ToDTOList(users);
 
                 return new GetAllUsersSuccessResponse
                 {

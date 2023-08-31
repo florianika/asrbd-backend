@@ -18,15 +18,16 @@ using Application.RolePermission.Request;
 using Application.RolePermission.UpdateRolePermission;
 using Application.RolePermission.UpdateRolePermission.Request;
 using Application.RolePermission.UpdateRolePermission.Response;
+using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
-    public class PermissionController : ControllerBase
+    public class PermissionsController : ControllerBase
     {
         private readonly CreateRolePermission _createRolePermissionService;
         private readonly GetAllPermissions _getAllPermissionsService;
@@ -35,7 +36,7 @@ namespace WebApi.Controllers
         private readonly GetPermissionsByRoleAndEntityAndVariable _getPermissionsByRoleAndEntityAndVariableService;
         private readonly DeleteRolePermission _deleteRolePermissionService;
         private readonly UpdateRolePermission _updateRolePermissionService;
-        public PermissionController(CreateRolePermission createRolePermissionService,
+        public PermissionsController(CreateRolePermission createRolePermissionService,
             GetAllPermissions getAllPermissionsService,
             GetPermissionsByRole getPermissionsByRoleService,
             GetPermissionsByRoleAndEntity getPermissionsByRoleAndEntityService,
@@ -53,8 +54,7 @@ namespace WebApi.Controllers
         }
         [AllowAnonymous]
         [HttpPost]
-        //FIXME there is no need for route here, post to /api/PermissionController should only create a permission
-        [Route("CreateRolePermission")]
+        [Route("")]
         public async Task<CreateRolePermissionResponse> CreateRolePermission(CreateRolePermissionRequest request)
         {
             return await _createRolePermissionService.Execute(request);
@@ -62,55 +62,46 @@ namespace WebApi.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        //FIXME no need for route here get in /api/PermissionController should return all permissions
-        [Route("GetAllPermssions")]
+        [Route("")]
         public async Task<GetAllPermssionsResponse> GetAllPermssions()
         {
             return await _getAllPermissionsService.Execute();
         }
 
         [AllowAnonymous]
-        //FIXME This should be get
-        [HttpPost]
+        [HttpGet]
         //FIXME ther route here should be /api/PermissionConroller/role/{role}
-        [Route("GetPermissionsByRole")]
-        public async Task<GetPermissionsByRoleResponse> GetPermissionsByRole(GetPermissionsByRoleRequest request)
+        [Route("/role/{role}")]
+        public async Task<GetPermissionsByRoleResponse> GetPermissionsByRole(AccountRole role)
         {
-            return await _getPermissionsByRoleService.Execute(request);
+            return await _getPermissionsByRoleService.Execute(new GetPermissionsByRoleRequest() { Role = role });
         }
 
         [AllowAnonymous]
-        //FIXME this should be get
-        [HttpPost]
-        //FIXME ther route here should be /api/PermissionController/role/{role}/type/{entityType} 
-        [Route("GetPermissionsByRoleAndEntityType")]
-        public async Task<GetPermissionsByRoleAndEntityResponse> GetPermissionsByRoleAndEntityType(GetPermissionsByRoleAndEntityRequest request)
+        [HttpGet]
+        [Route("/role/{role}/type/{entityType}")]
+        public async Task<GetPermissionsByRoleAndEntityResponse> GetPermissionsByRoleAndEntityType(AccountRole role, EntityType entityType)
         {
-            return await _getPermissionsByRoleAndEntityService.Execute(request);
+            return await _getPermissionsByRoleAndEntityService.Execute(new GetPermissionsByRoleAndEntityRequest() { Role = role, EntityType = entityType });
         }
 
         [AllowAnonymous]
-        //FIXME this should be get
-        [HttpPost]
-        //FIXME the route here should be /api/.../role/{role}/type/{entityType}/variable/{variableName}
-        [Route("GetPermissionByRoleAndEntityTypeAndVariableName")]
-        public async Task<GetPermissionsByRoleAndEntityAndVariableResponse> GetPermissionByRoleAndEntityTypeAndVariableName(GetPermissionsByRoleAndEntityAndVariableRequest request)
+        [HttpGet]
+        [Route("/role/{role}/type/{enityType}/variable/{variableName}")]
+        public async Task<GetPermissionsByRoleAndEntityAndVariableResponse> GetPermissionByRoleAndEntityTypeAndVariableName(AccountRole role, EntityType entityType, string variableName)
         {
-            return await _getPermissionsByRoleAndEntityAndVariableService.Execute(request);
+            return await _getPermissionsByRoleAndEntityAndVariableService.Execute(new GetPermissionsByRoleAndEntityAndVariableRequest() {Role = role, EntityType = entityType, VariableName = variableName});
         }
 
         [AllowAnonymous]
-        //FIXME this should be [HttpDelete("{id}")]
-        [HttpPost]
-        //FIXME no need for route here
-        [Route("DeleteRolePermission")]
-        public async Task<DeleteRolePermissionResponse> DeleteRolePermission(DeleteRolePermissionRequest request)
+        [HttpDelete]
+        [Route("/{id}")]
+        public async Task<DeleteRolePermissionResponse> DeleteRolePermission(long id)
         {
-            return await _deleteRolePermissionService.Execute(request);
+            return await _deleteRolePermissionService.Execute(new DeleteRolePermissionRequest() { Id = id });
         }
         [AllowAnonymous]
-        //FIXME Just the id in the route is enough /api/.../{id}
-        [HttpPut("UpdateRolePermission/{id}")]
+        [HttpPut("/{id}")]
         public async Task<UpdateRolePermissionResponse> UpdateRolePermission(long id, UpdateRolePermissionRequest request)
         {
             return await _updateRolePermissionService.Execute(id, request);

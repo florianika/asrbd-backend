@@ -6,12 +6,9 @@ namespace Application.RolePermission
     public class RolePermissionDTO
     {
         public long Id { get; set; }
-        //FIXME this should be enum
         public AccountRole Role { get; set; }
-        //FIXME this should be enum
         public EntityType EntityType { get; set; }
-        public string VariableName { get; set; }
-        //FIXME this should be enum
+        public string? VariableName { get; set; }
         public Permission Permission { get; set; }
     }
 }

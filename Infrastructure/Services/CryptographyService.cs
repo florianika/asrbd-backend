@@ -11,7 +11,7 @@ namespace Infrastructure.Services
         public string GenerateSalt()
         {
             var buffer = new byte[_hashSize];
-            using var rng = new RNGCryptoServiceProvider();
+            using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(buffer);
             return Convert.ToBase64String(buffer);
         }
