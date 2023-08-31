@@ -1,7 +1,6 @@
-﻿
-namespace Application.RolePermission.DeleteRolePermission.Request
+﻿namespace Application.RolePermission.DeleteRolePermission.Request
 {
-    public class DeleteRolePermissionRequest : RolePermission.RequestRolePermission
+    public class DeleteRolePermissionRequest : RequestRolePermission
     {
         public long Id { get; set; }
     }

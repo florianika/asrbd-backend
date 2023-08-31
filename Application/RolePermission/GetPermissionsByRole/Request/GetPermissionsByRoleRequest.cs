@@ -1,11 +1,9 @@
-﻿
-using Domain.Enum;
+﻿using Domain.Enum;
 
 namespace Application.RolePermission.GetPermissionsByRole.Request
 {
-    public class GetPermissionsByRoleRequest : RolePermission.RequestRolePermission
+    public class GetPermissionsByRoleRequest : RequestRolePermission
     {
-        //FIXME this should be enum
         public AccountRole Role { get; set; }
     }
 }

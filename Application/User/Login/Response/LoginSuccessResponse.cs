@@ -1,6 +1,7 @@
 ﻿
 namespace Application.User.Login.Response
 {
+    #nullable disable
     public class LoginSuccessResponse : LoginResponse
     {
         public string IdToken { get; set; }

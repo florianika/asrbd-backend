@@ -1,6 +1,7 @@
 ﻿
 namespace Application.User.RefreshToken.Response
 {
+    #nullable disable
     public class RefreshTokenSuccessResponse : RefreshTokenResponse
     {
         public string AccessToken { get; set; }
