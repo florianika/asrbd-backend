@@ -72,5 +72,14 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task ChangeRolePermission(long id, Permission permission) 
+        {
+            var existingRolePermission = await _context.RolePermissions.FirstOrDefaultAsync(rp => rp.Id == id) 
+                ?? throw new NotFoundException("Permission not found");
+
+            existingRolePermission.Permission = permission;
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

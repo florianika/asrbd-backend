@@ -16,7 +16,6 @@ namespace Application.Ports
         Task<Domain.RolePermission> GetPermissionRoleById(long id);
         Task DeleteRolePermission(long id);
         Task UpdateRolePermission(UpdateRolePermissionRequest updateRolePermissionRequest);
-
-
+        Task ChangeRolePermission(long id, Permission permission);
     }
 }
