@@ -116,10 +116,11 @@ namespace WebApi.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPatch("{id}/permission/{permission}")]
+        [HttpPatch("{id}/rights/{permission}")]
         public async Task<ChangeRolePermissionResponse> ChangeRolePermission(long id, Permission permission) {
-            var req = new ChangeRolePermissionRequest() {Id = id, NewPermission = permission};
-            return await _changeRolePermissionService.Execute(req);
+
+            return await _changeRolePermissionService.Execute(new ChangeRolePermissionRequest() {Id = id, NewPermission = permission});
+            
         }
 
 

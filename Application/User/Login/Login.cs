@@ -1,6 +1,4 @@
-﻿
-using Application.Enums;
-using Application.Exceptions;
+﻿using Application.Exceptions;
 using Application.Ports;
 using Application.User.Login.Request;
 using Application.User.Login.Response;
@@ -45,8 +43,6 @@ namespace Application.User.Login
             };
             return response;
         }
-
-             
         private async Task UpdateUserAfterSuccessfulLogin(Domain.User user)
         {
             user.RefreshToken = new Domain.RefreshToken

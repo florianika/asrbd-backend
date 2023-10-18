@@ -15,7 +15,7 @@ namespace Application.Ports
         Task<List<Domain.RolePermission>> GetPermissionsByRoleAndEntityAndVariable(AccountRole accountRole, EntityType entityType, string variableName);
         Task<Domain.RolePermission> GetPermissionRoleById(long id);
         Task DeleteRolePermission(long id);
-        Task UpdateRolePermission(UpdateRolePermissionRequest updateRolePermissionRequest);
+        Task UpdateRolePermission(Domain.RolePermission rolePermission);
         Task ChangeRolePermission(long id, Permission permission);
     }
 }

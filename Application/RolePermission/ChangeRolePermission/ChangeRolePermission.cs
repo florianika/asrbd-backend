@@ -20,12 +20,21 @@ namespace Application.RolePermission.ChangeRolePermission
 
         public async Task<ChangeRolePermissionResponse> Execute(ChangeRolePermissionRequest request) 
         {
-           await _permissionRepository.ChangeRolePermission(request.Id, request.NewPermission);
-
-           return new ChangeRolePermissionSuccessResponse
+            try
             {
-                Message = "Permission role updated"
-            };
+                await _permissionRepository.ChangeRolePermission(request.Id, request.NewPermission);
+
+                return new ChangeRolePermissionSuccessResponse
+                {
+                    Message = "Permission role updated"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            
         }
     }
 }
