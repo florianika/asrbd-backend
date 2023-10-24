@@ -48,9 +48,7 @@ namespace Infrastructure.Repositories
         }
         public async Task UpdateRefreshToken(Guid userId, RefreshToken refreshToken) 
         {
-            var user = await _context.Users.Include(u=>u.RefreshToken).SingleOrDefaultAsync(u => u.Id == userId)
-                        ?? throw new NotFoundException("User not found");
-            user.RefreshToken = refreshToken;
+            _context.RefreshToken.Update(refreshToken);
             await _context.SaveChangesAsync();
         }
         public async Task AddClaim(Guid userId, Claim claim)
@@ -65,7 +63,8 @@ namespace Infrastructure.Repositories
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == userId)
                             ?? throw new NotFoundException("User not found");
-            user.RefreshToken=refreshToken;
+            user.RefreshToken = refreshToken;
+            _context.RefreshToken.Add(refreshToken);
             await _context.SaveChangesAsync();
         }
 
@@ -123,7 +122,8 @@ namespace Infrastructure.Repositories
 
         public async Task<User> FindUserByEmail(string email)
         {
-            return await _context.Users.SingleOrDefaultAsync(u => u.Email == email && u.AccountStatus != AccountStatus.TERMINATED)
+            return await _context.Users.Include(u => u.RefreshToken)
+                    .SingleOrDefaultAsync(u => u.Email == email && u.AccountStatus != AccountStatus.TERMINATED)
                     ?? throw new NotFoundException("User not found");
         }
     }

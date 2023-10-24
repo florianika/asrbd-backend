@@ -34,7 +34,9 @@ namespace Application.User.Login
             ValidatePassword(request.Password, user);
                 
             await UpdateUserAfterSuccessfulLogin(user);
+
             var (idToken, accessToken) = await GenerateTokens(user);
+
             var response = new LoginSuccessResponse
             {
                 IdToken = idToken,
@@ -45,13 +47,11 @@ namespace Application.User.Login
         }
         private async Task UpdateUserAfterSuccessfulLogin(Domain.User user)
         {
-            user.RefreshToken = new Domain.RefreshToken
-            {
-                UserId = user.Id,
-                Value = await _authTokenService.GenerateRefreshToken(),
-                Active = true,
-                ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes())
-            };
+            user.RefreshToken ??= new Domain.RefreshToken();
+            user.RefreshToken.Active = true;
+            user.RefreshToken.ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes());
+            user.RefreshToken.Value = await _authTokenService.GenerateRefreshToken();
+            
             await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
             await _authRepository.UnlockAccount(user);
         }

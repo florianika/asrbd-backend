@@ -92,8 +92,9 @@ namespace Infrastructure.Services
             try
             {
                 var jwtHandler = new JwtSecurityTokenHandler();
-                var userIdClaim = jwtHandler.ReadJwtToken(token).Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
-                    ?? throw new InvalidTokenException("Invalid jwt token");
+                var userIdClaim = jwtHandler.ReadJwtToken(token).Claims
+                    .FirstOrDefault(c => c.Type.Equals(JwtRegisteredClaimNames.NameId, StringComparison.InvariantCultureIgnoreCase))
+                        ?? throw new InvalidTokenException("Invalid jwt token");
                 return Task.FromResult(Guid.Parse(userIdClaim.Value));
             }
             catch (Exception ex)
