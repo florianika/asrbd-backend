@@ -29,7 +29,7 @@ namespace Application.User.ActivateUser
         {
             try
             {
-                await ActivateUserAsync(request.UserId.ToString());
+                await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE);
                 return new ActivateUserSuccessResponse
                 {
                     Message = "User activated."
@@ -40,15 +40,6 @@ namespace Application.User.ActivateUser
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
-        }
-        private async Task ActivateUserAsync(string userId)
-        {
-            var userExists = await _authRepository.CheckIfUserExists(new Guid(userId));
-            if (!userExists)
-            {
-                throw new NotFoundException("User not found");
-            }
-            await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.ACTIVE);
         }
     }
 }

@@ -1,6 +1,7 @@
 
 using Application.Common.Interfaces;
 using Application.Ports;
+using Application.RolePermission.ChangeRolePermission;
 using Application.RolePermission.CreateRolePermission;
 using Application.RolePermission.DeleteRolePermission;
 using Application.RolePermission.GetAllPermssions;
@@ -74,6 +75,7 @@ builder.Services.AddScoped<GetPermissionsByRoleAndEntity>();
 builder.Services.AddScoped<GetPermissionsByRoleAndEntityAndVariable>();
 builder.Services.AddScoped<DeleteRolePermission>();
 builder.Services.AddScoped<UpdateRolePermission>();
+builder.Services.AddScoped<ChangeRolePermission>();
 //builder.Services.AddScoped<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation(configuration =>

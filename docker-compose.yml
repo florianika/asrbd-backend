@@ -6,14 +6,14 @@ services:
     asrdb-gateway:
         networks:
             - asrdb-network
-        image: ghrc.io/florianika/asrdb-gateway:latest
+        image: ghcr.io/florianika/asrdb-gateway:latest
         ports:
             - "80:80"
         hostname: asrdb-gateway
     asrdb-auth:
         networks:
             - asrdb-network
-        image: ghrc.io/florianika/asrdb-auth:latest
+        image: ghcr.io/florianika/asrdb-auth:latest
         ports:
             - "8080:80"
         hostname: asrdb-auth
@@ -30,14 +30,13 @@ services:
         volumes:
             -  sqlservervolume:/var/opt/mssql
         hostname: asrdb-mssql
-    ardb-arcgis-python:
+    asrdb-arcgis-python:
         networks:
             - asrdb-network
-        image: ghrc.io/florianika/asrdb-arcgis-python:latest
+        image: ghcr.io/florianika/asrdb-arcgis-python:latest
         ports:
             - "8888:8888"
         hostname: asrdb-arcgis-python
     
 volumes:
     sqlservervolume:
-

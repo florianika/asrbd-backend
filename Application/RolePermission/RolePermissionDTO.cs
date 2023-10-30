@@ -1,5 +1,4 @@
 ﻿using Domain.Enum;
-using System.Runtime.CompilerServices;
 
 namespace Application.RolePermission
 {

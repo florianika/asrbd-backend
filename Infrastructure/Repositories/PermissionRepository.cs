@@ -60,15 +60,18 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public async Task UpdateRolePermission(UpdateRolePermissionRequest updateRolePermissionRequest)
+        public async Task UpdateRolePermission(RolePermission rolePermission)
         {
-            var existingRolePermission = await _context.RolePermissions.FindAsync(updateRolePermissionRequest.Id)
-                ?? throw new NotFoundException("Permission not found");;
+            _context.RolePermissions.Update(rolePermission);
+            await _context.SaveChangesAsync();
+        }
 
-            existingRolePermission.Role = updateRolePermissionRequest.Role;
-            existingRolePermission.Permission = updateRolePermissionRequest.Permission;
-            existingRolePermission.VariableName = updateRolePermissionRequest.VariableName;
-            existingRolePermission.EntityType = updateRolePermissionRequest.EntityType;
+        public async Task ChangeRolePermission(long id, Permission permission) 
+        {
+            var existingRolePermission = await _context.RolePermissions.FirstOrDefaultAsync(rp => rp.Id == id) 
+                ?? throw new NotFoundException("Permission not found");
+
+            existingRolePermission.Permission = permission;
             await _context.SaveChangesAsync();
         }
 

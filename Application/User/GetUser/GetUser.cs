@@ -23,12 +23,6 @@ namespace Application.User.GetUser
             try
             {
                 var user = await _authRepository.FindUserById(request.UserId);
-
-                if (user == null)
-                {
-                    throw new NotFoundException("User not found");
-                }
-
                 var userDTO = Translator.ToDTO(user);
 
                 return new GetUserSuccessResponse

@@ -31,12 +31,16 @@ namespace Application.User.TerminateUser
 
         private async Task TerminateUserAsync(string userId)
         {
-            var userExists = await _authRepository.CheckIfUserExists(new Guid(userId));
-            if (!userExists)
+            try
             {
-                throw new NotFoundException("User not found");
+                await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED);
             }
-            await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED);
+            catch (Exception ex) 
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+            
         }
     }
 }

@@ -1,13 +1,6 @@
-﻿
-
-using Application.Enums;
-using Application.Exceptions;
-using Application.Ports;
-using Application.RolePermission.DeleteRolePermission.Response;
-using Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable.Response;
+﻿using Application.Ports;
 using Application.RolePermission.UpdateRolePermission.Request;
 using Application.RolePermission.UpdateRolePermission.Response;
-using Domain.Enum;
 using Microsoft.Extensions.Logging;
 
 namespace Application.RolePermission.UpdateRolePermission
@@ -24,7 +17,14 @@ namespace Application.RolePermission.UpdateRolePermission
         public async Task<UpdateRolePermissionResponse> Execute(UpdateRolePermissionRequest request)
         {
 
-            await _permissionRepository.UpdateRolePermission(request);
+            var rolePermission = await _permissionRepository.GetPermissionRoleById(request.Id);
+            rolePermission.EntityType = request.EntityType;
+            rolePermission.Permission = request.Permission;
+            rolePermission.Role = request.Role;
+            rolePermission.VariableName = request.VariableName;
+
+            await _permissionRepository.UpdateRolePermission(rolePermission);
+
             return new UpdateRolePermissionSuccessResponse
             {
                 Message = "Permission role updated"

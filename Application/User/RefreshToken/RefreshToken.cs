@@ -1,5 +1,4 @@
-﻿using Application.Enums;
-using Application.Exceptions;
+﻿using Application.Exceptions;
 using Application.Ports;
 using Application.User.RefreshToken.Request;
 using Application.User.RefreshToken.Response;
@@ -68,7 +67,6 @@ namespace Application.User.RefreshToken
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-
                 throw;
             }
         }

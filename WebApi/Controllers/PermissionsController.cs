@@ -1,4 +1,7 @@
-﻿using Application.RolePermission.CreateRolePermission;
+﻿using Application.RolePermission.ChangeRolePermission;
+using Application.RolePermission.ChangeRolePermission.Request;
+using Application.RolePermission.ChangeRolePermission.Response;
+using Application.RolePermission.CreateRolePermission;
 using Application.RolePermission.CreateRolePermission.Response;
 using Application.RolePermission.DeleteRolePermission;
 using Application.RolePermission.DeleteRolePermission.Request;
@@ -36,13 +39,15 @@ namespace WebApi.Controllers
         private readonly GetPermissionsByRoleAndEntityAndVariable _getPermissionsByRoleAndEntityAndVariableService;
         private readonly DeleteRolePermission _deleteRolePermissionService;
         private readonly UpdateRolePermission _updateRolePermissionService;
+        private readonly ChangeRolePermission _changeRolePermissionService;
         public PermissionsController(CreateRolePermission createRolePermissionService,
             GetAllPermissions getAllPermissionsService,
             GetPermissionsByRole getPermissionsByRoleService,
             GetPermissionsByRoleAndEntity getPermissionsByRoleAndEntityService,
             GetPermissionsByRoleAndEntityAndVariable getPermissionsByRoleAndEntityAndVariable,
             DeleteRolePermission deleteRolePermissionService,
-            UpdateRolePermission updateRolePermissionService)
+            UpdateRolePermission updateRolePermissionService,
+            ChangeRolePermission changeRolePermissionService)
         {
             _createRolePermissionService = createRolePermissionService;
             _getAllPermissionsService = getAllPermissionsService;
@@ -51,6 +56,8 @@ namespace WebApi.Controllers
             _getPermissionsByRoleAndEntityAndVariableService = getPermissionsByRoleAndEntityAndVariable;
             _deleteRolePermissionService = deleteRolePermissionService;
             _updateRolePermissionService = updateRolePermissionService;
+            _changeRolePermissionService = changeRolePermissionService;
+
         }
         [AllowAnonymous]
         [HttpPost]
@@ -106,6 +113,14 @@ namespace WebApi.Controllers
         {
             request.Id = id;
             return await _updateRolePermissionService.Execute(request);
+        }
+
+        [AllowAnonymous]
+        [HttpPatch("{id}/rights/{permission}")]
+        public async Task<ChangeRolePermissionResponse> ChangeRolePermission(long id, Permission permission) {
+
+            return await _changeRolePermissionService.Execute(new ChangeRolePermissionRequest() {Id = id, NewPermission = permission});
+            
         }
 
 
