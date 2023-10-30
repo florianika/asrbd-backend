@@ -34,8 +34,8 @@ namespace Application.User.SignOut
                 _logger.LogError(ex, ex.Message);
                 return new SignOutErrorResponse
                 {
-                    Code = "Some Error Code",
-                    Message = "Some Error Message"
+                    Code = "404",
+                    Message = "User not found"
                 };
             }
         }

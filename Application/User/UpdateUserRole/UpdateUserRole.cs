@@ -22,37 +22,6 @@ namespace Application.User.UpdateUserRole
         //FIXME refactor method and sparate error handling
         public async Task<UpdateUserRoleResponse> Execute(UpdateUserRoleRequest request)
         {
-            /*
-            try
-            {
-                var userExists = await _authRepository.CheckIfUserExists(request.UserId);
-                if (userExists == false)
-                {
-                    throw new DirectoryNotFoundException("User not found");
-                }
-                var validationErrors = new List<string>();
-                if (!Enum.IsDefined(typeof(AccountRole), request.AccountRole))
-                {
-                    validationErrors.Add("Invalid role value.");
-                }
-                if (validationErrors.Count > 0)
-                {
-                    throw new EnumExeption(validationErrors);
-                }
-                await _authRepository.UpdateUserRole(request.UserId, request.AccountRole);
-                return new UpdateUserRoleSuccessResponse
-                {
-                    Message = "User role updated."
-                };
-
-                
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw;
-            }
-        */
             try
             {
                 await ValidateAndUpdateUserRoleAsync(request);

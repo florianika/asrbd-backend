@@ -36,7 +36,7 @@ namespace Application.User.RefreshToken
 
                 if (!user.RefreshToken.Active)
                 {
-                    throw new InvalidTokenException("Iactive token");
+                    throw new InvalidTokenException("Inactive token");
                 }
 
                 if (user.RefreshToken.ExpirationDate < DateTime.Now)

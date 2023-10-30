@@ -23,7 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASRBD-gateway", "ASRBD-gate
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceTest", "ServiceTest", "{81310325-5E9C-45A9-9D61-4502303B90DA}"
 EndProject
-
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuliTest", "SuliTest\SuliTest.csproj", "{8FD0DA9B-66A8-43AB-B7B0-85C48735CEFA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{01F9E10D-775F-4750-8CEE-66B33EF31653}"
@@ -31,7 +30,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cloud", "Cloud", "{01F9E10D
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{CD058589-27D0-4A10-B6B8-72B97CBE9777}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "ApiGateway\ApiGateway.csproj", "{CD058589-27D0-4A10-B6B8-72B97CBE9777}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ASRBD-authentication.Test", "ASRBD-authentication.Test", "{8454BD54-65A4-4C04-A6A5-228FDF885833}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASRBD-authentication.Test", "ASRBD-authentication.Test\ASRBD-authentication.Test\ASRBD-authentication.Test.csproj", "{F8166BBA-A0F2-4EA9-9345-BE0E66D9B59C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +66,10 @@ Global
 		{CD058589-27D0-4A10-B6B8-72B97CBE9777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD058589-27D0-4A10-B6B8-72B97CBE9777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD058589-27D0-4A10-B6B8-72B97CBE9777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8166BBA-A0F2-4EA9-9345-BE0E66D9B59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8166BBA-A0F2-4EA9-9345-BE0E66D9B59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8166BBA-A0F2-4EA9-9345-BE0E66D9B59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8166BBA-A0F2-4EA9-9345-BE0E66D9B59C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +85,7 @@ Global
 		{8FD0DA9B-66A8-43AB-B7B0-85C48735CEFA} = {81310325-5E9C-45A9-9D61-4502303B90DA}
 		{01F9E10D-775F-4750-8CEE-66B33EF31653} = {F4068B94-1E1F-4218-90EF-EF243D04AD39}
 		{CD058589-27D0-4A10-B6B8-72B97CBE9777} = {1CDB24F3-A667-400A-B1CD-20CAA368CE78}
+		{F8166BBA-A0F2-4EA9-9345-BE0E66D9B59C} = {8454BD54-65A4-4C04-A6A5-228FDF885833}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2011F877-892A-40F0-BDE4-26FF30FA762B}

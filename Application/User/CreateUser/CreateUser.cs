@@ -18,7 +18,7 @@ namespace Application.User.CreateUser
             _authRepository = authRepository;
         }
 
-        public async Task<CreateUserResponse> Execute(CreateUserRequest request)
+        public virtual async Task<CreateUserResponse> Execute(CreateUserRequest request)
         {
             try
             {
