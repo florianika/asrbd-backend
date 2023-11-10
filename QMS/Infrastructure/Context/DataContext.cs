@@ -15,6 +15,7 @@ namespace Infrastructure.Context
         {
         }
         public DbSet<Rule> Rules { get; set; }
+        public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -30,6 +31,8 @@ namespace Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
+            modelBuilder.ApplyConfiguration(new ProcessOutputLogConfiguration());
+
         }
     }
 }
