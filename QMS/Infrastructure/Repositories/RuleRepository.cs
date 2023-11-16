@@ -1,6 +1,7 @@
 ﻿using Application.Ports;
 using Domain;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -17,5 +18,10 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return rule.Id;
         }
+        public async Task<List<Rule>> GetAllRules()
+        {
+            return await _context.Rules.ToListAsync();
+        }
+
     }
 }

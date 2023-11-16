@@ -9,5 +9,6 @@ namespace Application.Ports
     public interface IRuleRepository
     {
         Task<long> CreateRule(Domain.Rule rule);
+        Task<List<Domain.Rule>> GetAllRules();
     }
 }

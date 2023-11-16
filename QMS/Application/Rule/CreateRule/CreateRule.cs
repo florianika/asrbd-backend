@@ -18,6 +18,7 @@ namespace Application.Rule.CreateRule
         }
         public async Task<CreateRuleResponse> Execute(CreateRuleRequest request)
         {
+            
             try
             {
                 var rule = new Domain.Rule
