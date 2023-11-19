@@ -3,6 +3,9 @@ using Application.Rule.CreateRule.Request;
 using Application.Rule.CreateRule.Response;
 using Application.Rule.GetAllRules;
 using Application.Rule.GetAllRules.Response;
+using Application.Rule.GetRulesByEntity;
+using Application.Rule.GetRulesByEntity.Request;
+using Application.Rule.GetRulesByEntity.Response;
 using Application.Rule.GetRulesByVarableAndEntity;
 using Application.Rule.GetRulesByVarableAndEntity.Request;
 using Application.Rule.GetRulesByVarableAndEntity.Response;
@@ -20,12 +23,15 @@ namespace WebApi.Controllers
         private readonly CreateRule _createRuleService;
         private readonly GetAllRules _getAllRulesService;
         private readonly GetRulesByVarableAndEntity _getRulesByVariableAndEntityService;
+        private readonly GetRulesByEntity _getRulesByEntityService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
-             GetRulesByVarableAndEntity getRulesByVariableAndEntityService)
+             GetRulesByVarableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
             _getRulesByVariableAndEntityService = getRulesByVariableAndEntityService;
+            _getRulesByEntityService = getRulesByEntity;
+
         }
         [HttpPost]
         [Route("")]
@@ -46,6 +52,11 @@ namespace WebApi.Controllers
             return await _getRulesByVariableAndEntityService.Execute(new GetRulesByVarableAndEntityRequest() { Variable = variable, EntityType = entityType });
         }
 
-
+        [HttpGet]
+        [Route("entity/{entityType}")]
+        public async Task<GetRulesByEntityResponse> GetRulessByEntity(EntityType entityType)
+        {
+            return await _getRulesByEntityService.Execute(new GetRulesByEntityRequest() { EntityType = entityType });
+        }
     }
 }

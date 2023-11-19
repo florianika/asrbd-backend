@@ -24,6 +24,11 @@ namespace Infrastructure.Repositories
             return await _context.Rules.ToListAsync();
         }
 
+        public async Task<List<Rule>> GetRulesByEntity(EntityType entityType)
+        {
+            return await _context.Rules.Where(x => x.EntityType == entityType).ToListAsync();
+        }
+
         public async Task<List<Rule>> GetRulesByVarableAndEntity(string variable, EntityType entityType)
         {
             return await _context.Rules.Where(x => x.Variable== variable

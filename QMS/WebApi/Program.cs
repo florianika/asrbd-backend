@@ -1,6 +1,7 @@
 using Application.Ports;
 using Application.Rule.CreateRule;
 using Application.Rule.GetAllRules;
+using Application.Rule.GetRulesByEntity;
 using Application.Rule.GetRulesByVarableAndEntity;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
@@ -30,6 +31,7 @@ builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
 builder.Services.AddScoped<GetRulesByVarableAndEntity>();
+builder.Services.AddScoped<GetRulesByEntity>();
 
 builder.Services.AddSwaggerGen(options =>
 {
