@@ -15,6 +15,15 @@ namespace Infrastructure.Repositories
         {
             _context = dataContext;
         }
+
+        public async Task ChangeRuleStatus(long id, RuleStatus status)
+        {
+            var rule = await _context.Rules.FirstOrDefaultAsync(u => u.Id == id)
+                           ?? throw new NotFoundException("Rule not found");
+            rule.RuleStatus = status;
+            _context.SaveChanges();
+        }
+
         public async Task<long> CreateRule(Rule rule)
         {
             await _context.Rules.AddAsync(rule);

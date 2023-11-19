@@ -17,6 +17,9 @@ using Application.Rule.GetRulesByVariableAndEntity.Response;
 using Application.Rule.GetRulesByVariableAndEntity.Request;
 using Application.Rule.GetRulesByQualityAction;
 using Application.Rule.GetRulesByQualityAction.Response;
+using Application.Rule.ChangeRuleStatus;
+using Application.Rule.ChangeRuleStatus.Response;
+using Application.Rule.ChangeRuleStatus.Request;
 
 namespace WebApi.Controllers
 {
@@ -30,9 +33,11 @@ namespace WebApi.Controllers
         private readonly GetRulesByEntity _getRulesByEntityService;
         private readonly GetRule _getRuleService;
         private readonly GetRulesByQualityAction _getRulesByQualityActionService;
+        private readonly ChangeRuleStatus _changeRuleStatusService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
              GetRulesByVariableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
-             GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService)
+             GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService,
+             ChangeRuleStatus changeRuleStatusService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
@@ -40,12 +45,12 @@ namespace WebApi.Controllers
             _getRulesByEntityService = getRulesByEntity;
             _getRuleService = getRuleService;
             _getRulesByQualityActionService = getRulesByQualityActionService;
-
+            _changeRuleStatusService = changeRuleStatusService;
         }
         [HttpPost]
         [Route("")]
         public async Task<CreateRuleResponse> CreateRule(CreateRuleRequest request)
-        {   
+        {   //todo - store who created the rule
             return await _createRuleService.Execute(request);
         }
         [HttpGet]
@@ -78,6 +83,14 @@ namespace WebApi.Controllers
         public async Task<GetRulesByQualityActionResponse> GetRulesByQualityAction(QualityAction qualityAction)
         {
             return await _getRulesByQualityActionService.Execute(new GetRulesByQualityActionRequest() { QualityAction = qualityAction });
+        }
+
+        [HttpPatch]
+        [Route("/{id}")]
+        public async Task<ChangeRuleStatusResponse> ChangeRuleStatus(long id)
+        {
+            //todo - store who changed the status
+            return await _changeRuleStatusService.Execute(new ChangeRuleStatusRequest() { Id = id});
         }
     }
 }

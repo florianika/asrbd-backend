@@ -1,4 +1,5 @@
 using Application.Ports;
+using Application.Rule.ChangeRuleStatus;
 using Application.Rule.CreateRule;
 using Application.Rule.GetAllRules;
 using Application.Rule.GetRule;
@@ -36,6 +37,8 @@ builder.Services.AddScoped<GetRulesByVariableAndEntity>();
 builder.Services.AddScoped<GetRulesByEntity>();
 builder.Services.AddScoped<GetRule>();
 builder.Services.AddScoped<GetRulesByQualityAction>();
+builder.Services.AddScoped<ChangeRuleStatus>();
+
 
 builder.Services.AddSwaggerGen(options =>
 {
