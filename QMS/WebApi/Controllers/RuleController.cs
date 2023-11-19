@@ -3,6 +3,9 @@ using Application.Rule.CreateRule.Request;
 using Application.Rule.CreateRule.Response;
 using Application.Rule.GetAllRules;
 using Application.Rule.GetAllRules.Response;
+using Application.Rule.GetRule;
+using Application.Rule.GetRule.Request;
+using Application.Rule.GetRule.Response;
 using Application.Rule.GetRulesByEntity;
 using Application.Rule.GetRulesByEntity.Request;
 using Application.Rule.GetRulesByEntity.Response;
@@ -24,14 +27,16 @@ namespace WebApi.Controllers
         private readonly GetAllRules _getAllRulesService;
         private readonly GetRulesByVarableAndEntity _getRulesByVariableAndEntityService;
         private readonly GetRulesByEntity _getRulesByEntityService;
+        private readonly GetRule _getRuleService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
-             GetRulesByVarableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity)
+             GetRulesByVarableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
+             GetRule getRuleService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
             _getRulesByVariableAndEntityService = getRulesByVariableAndEntityService;
             _getRulesByEntityService = getRulesByEntity;
-
+            _getRuleService = getRuleService;
         }
         [HttpPost]
         [Route("")]
@@ -54,9 +59,15 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("entity/{entityType}")]
-        public async Task<GetRulesByEntityResponse> GetRulessByEntity(EntityType entityType)
+        public async Task<GetRulesByEntityResponse> GetRulesByEntity(EntityType entityType)
         {
             return await _getRulesByEntityService.Execute(new GetRulesByEntityRequest() { EntityType = entityType });
+        }
+        [HttpGet]
+        [Route("/{id}")]
+        public async Task<GetRuleResponse> GetRule(long id)
+        {
+            return await _getRuleService.Execute(new GetRuleRequest() { Id = id });
         }
     }
 }

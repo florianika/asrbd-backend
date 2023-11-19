@@ -1,4 +1,6 @@
-﻿using Application.Ports;
+﻿using Application.Exceptions;
+using Application.Ports;
+using Application.Rule;
 using Domain;
 using Domain.Enum;
 using Infrastructure.Context;
@@ -22,6 +24,12 @@ namespace Infrastructure.Repositories
         public async Task<List<Rule>> GetAllRules()
         {
             return await _context.Rules.ToListAsync();
+        }
+
+        public async Task<Rule> GetRule(long id)
+        {
+            return await _context.Rules.FirstOrDefaultAsync(x => x.Id.Equals(id))
+                ?? throw new NotFoundException("Rule not found"); ;
         }
 
         public async Task<List<Rule>> GetRulesByEntity(EntityType entityType)

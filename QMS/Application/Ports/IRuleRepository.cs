@@ -1,4 +1,5 @@
-﻿using Domain.Enum;
+﻿using Application.Rule;
+using Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Application.Ports
     {
         Task<long> CreateRule(Domain.Rule rule);
         Task<List<Domain.Rule>> GetAllRules();
+        Task<Domain.Rule> GetRule(long id);
         Task<List<Domain.Rule>> GetRulesByEntity(EntityType entityType);
         Task<List<Domain.Rule>> GetRulesByVarableAndEntity(string variable, EntityType entityType);
 
