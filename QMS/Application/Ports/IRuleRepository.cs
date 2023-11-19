@@ -14,7 +14,8 @@ namespace Application.Ports
         Task<List<Domain.Rule>> GetAllRules();
         Task<Domain.Rule> GetRule(long id);
         Task<List<Domain.Rule>> GetRulesByEntity(EntityType entityType);
-        Task<List<Domain.Rule>> GetRulesByVarableAndEntity(string variable, EntityType entityType);
+        Task<List<Domain.Rule>> GetRulesByQualityAction(QualityAction qualityAction);
+        Task<List<Domain.Rule>> GetRulesByVariableAndEntity(string variable, EntityType entityType);
 
     }
 }

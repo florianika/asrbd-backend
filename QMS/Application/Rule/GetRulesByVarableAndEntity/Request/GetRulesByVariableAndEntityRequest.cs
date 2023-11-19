@@ -2,9 +2,9 @@
 
 using Domain.Enum;
 
-namespace Application.Rule.GetRulesByVarableAndEntity.Request
+namespace Application.Rule.GetRulesByVariableAndEntity.Request
 {
-    public class GetRulesByVarableAndEntityRequest : Rule.Request
+    public class GetRulesByVariableAndEntityRequest : Rule.Request
     {
         public string Variable { get; set; }
         public EntityType EntityType { get; set; }

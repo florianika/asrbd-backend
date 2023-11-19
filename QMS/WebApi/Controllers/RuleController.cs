@@ -9,13 +9,14 @@ using Application.Rule.GetRule.Response;
 using Application.Rule.GetRulesByEntity;
 using Application.Rule.GetRulesByEntity.Request;
 using Application.Rule.GetRulesByEntity.Response;
-using Application.Rule.GetRulesByVarableAndEntity;
-using Application.Rule.GetRulesByVarableAndEntity.Request;
-using Application.Rule.GetRulesByVarableAndEntity.Response;
+using Application.Rule.GetRulesByQualityAction.Request;
+using Application.Rule.GetRulesByVariableAndEntity;
 using Domain.Enum;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Application.Rule.GetRulesByVariableAndEntity.Response;
+using Application.Rule.GetRulesByVariableAndEntity.Request;
+using Application.Rule.GetRulesByQualityAction;
+using Application.Rule.GetRulesByQualityAction.Response;
 
 namespace WebApi.Controllers
 {
@@ -25,18 +26,21 @@ namespace WebApi.Controllers
     {
         private readonly CreateRule _createRuleService;
         private readonly GetAllRules _getAllRulesService;
-        private readonly GetRulesByVarableAndEntity _getRulesByVariableAndEntityService;
+        private readonly GetRulesByVariableAndEntity _getRulesByVariableAndEntityService;
         private readonly GetRulesByEntity _getRulesByEntityService;
         private readonly GetRule _getRuleService;
+        private readonly GetRulesByQualityAction _getRulesByQualityActionService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
-             GetRulesByVarableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
-             GetRule getRuleService)
+             GetRulesByVariableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
+             GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
             _getRulesByVariableAndEntityService = getRulesByVariableAndEntityService;
             _getRulesByEntityService = getRulesByEntity;
             _getRuleService = getRuleService;
+            _getRulesByQualityActionService = getRulesByQualityActionService;
+
         }
         [HttpPost]
         [Route("")]
@@ -52,9 +56,9 @@ namespace WebApi.Controllers
         }
         [HttpGet]
         [Route("variable/{variable}/type/{entityType}")]
-        public async Task<GetRulesByVarableAndEntityResponse> GetRulesByVarialeAndEntityType(string variable, EntityType entityType)
+        public async Task<GetRulesByVariableAndEntityResponse> GetRulesByVarialeAndEntityType(string variable, EntityType entityType)
         {
-            return await _getRulesByVariableAndEntityService.Execute(new GetRulesByVarableAndEntityRequest() { Variable = variable, EntityType = entityType });
+            return await _getRulesByVariableAndEntityService.Execute(new GetRulesByVariableAndEntityRequest() { Variable = variable, EntityType = entityType });
         }
 
         [HttpGet]
@@ -68,6 +72,12 @@ namespace WebApi.Controllers
         public async Task<GetRuleResponse> GetRule(long id)
         {
             return await _getRuleService.Execute(new GetRuleRequest() { Id = id });
+        }
+        [HttpGet]
+        [Route("qualityAction/{qualityAction}")]
+        public async Task<GetRulesByQualityActionResponse> GetRulesByQualityAction(QualityAction qualityAction)
+        {
+            return await _getRulesByQualityActionService.Execute(new GetRulesByQualityActionRequest() { QualityAction = qualityAction });
         }
     }
 }

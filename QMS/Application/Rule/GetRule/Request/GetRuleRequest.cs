@@ -1,7 +1,7 @@
 ﻿
 namespace Application.Rule.GetRule.Request
 {
-    public class GetRuleRequest
+    public class GetRuleRequest : Rule.Request
     {
         public long Id { get; set; }
     }

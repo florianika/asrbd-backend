@@ -3,7 +3,8 @@ using Application.Rule.CreateRule;
 using Application.Rule.GetAllRules;
 using Application.Rule.GetRule;
 using Application.Rule.GetRulesByEntity;
-using Application.Rule.GetRulesByVarableAndEntity;
+using Application.Rule.GetRulesByQualityAction;
+using Application.Rule.GetRulesByVariableAndEntity;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,9 +32,10 @@ builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
-builder.Services.AddScoped<GetRulesByVarableAndEntity>();
+builder.Services.AddScoped<GetRulesByVariableAndEntity>();
 builder.Services.AddScoped<GetRulesByEntity>();
 builder.Services.AddScoped<GetRule>();
+builder.Services.AddScoped<GetRulesByQualityAction>();
 
 builder.Services.AddSwaggerGen(options =>
 {
