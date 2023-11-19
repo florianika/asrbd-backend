@@ -56,5 +56,11 @@ namespace Infrastructure.Repositories
             return await _context.Rules.Where(x => x.Variable== variable
                                         && x.EntityType == entityType).ToListAsync();
         }
+        public async Task UpdateRule(Rule rule)
+        {
+            _context.Rules.Update(rule);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

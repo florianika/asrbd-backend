@@ -6,6 +6,7 @@ using Application.Rule.GetRule;
 using Application.Rule.GetRulesByEntity;
 using Application.Rule.GetRulesByQualityAction;
 using Application.Rule.GetRulesByVariableAndEntity;
+using Application.Rule.UpdateRule;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -38,6 +39,7 @@ builder.Services.AddScoped<GetRulesByEntity>();
 builder.Services.AddScoped<GetRule>();
 builder.Services.AddScoped<GetRulesByQualityAction>();
 builder.Services.AddScoped<ChangeRuleStatus>();
+builder.Services.AddScoped<UpdateRule>();
 
 
 builder.Services.AddSwaggerGen(options =>

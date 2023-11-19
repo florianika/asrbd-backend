@@ -20,6 +20,11 @@ using Application.Rule.GetRulesByQualityAction.Response;
 using Application.Rule.ChangeRuleStatus;
 using Application.Rule.ChangeRuleStatus.Response;
 using Application.Rule.ChangeRuleStatus.Request;
+using Microsoft.AspNetCore.Authorization;
+using Application.Rule.UpdateRule.Response;
+using Application.Rule.UpdateRule.Request;
+using System.Runtime.CompilerServices;
+using Application.Rule.UpdateRule;
 
 namespace WebApi.Controllers
 {
@@ -34,10 +39,11 @@ namespace WebApi.Controllers
         private readonly GetRule _getRuleService;
         private readonly GetRulesByQualityAction _getRulesByQualityActionService;
         private readonly ChangeRuleStatus _changeRuleStatusService;
+        private readonly UpdateRule _updateRuleService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
              GetRulesByVariableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
              GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService,
-             ChangeRuleStatus changeRuleStatusService)
+             ChangeRuleStatus changeRuleStatusService, UpdateRule updateRuleService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
@@ -46,6 +52,7 @@ namespace WebApi.Controllers
             _getRuleService = getRuleService;
             _getRulesByQualityActionService = getRulesByQualityActionService;
             _changeRuleStatusService = changeRuleStatusService;
+            _updateRuleService = updateRuleService;
         }
         [HttpPost]
         [Route("")]
@@ -91,6 +98,14 @@ namespace WebApi.Controllers
         {
             //todo - store who changed the status
             return await _changeRuleStatusService.Execute(new ChangeRuleStatusRequest() { Id = id});
+        }
+
+        [HttpPut("{id}")]
+        public async Task<UpdateRuleResponse> UpdateRule(long id, UpdateRuleRequest request)
+        {
+            //todo - store who changed the rule
+            request.Id = id;
+            return await _updateRuleService.Execute(request);
         }
     }
 }
