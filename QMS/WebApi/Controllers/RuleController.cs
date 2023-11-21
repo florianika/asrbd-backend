@@ -25,6 +25,8 @@ using Application.Rule.UpdateRule.Response;
 using Application.Rule.UpdateRule.Request;
 using System.Runtime.CompilerServices;
 using Application.Rule.UpdateRule;
+using Application.Ports;
+using Domain;
 
 namespace WebApi.Controllers
 {
@@ -41,10 +43,11 @@ namespace WebApi.Controllers
         private readonly GetRulesByQualityAction _getRulesByQualityActionService;
         private readonly ChangeRuleStatus _changeRuleStatusService;
         private readonly UpdateRule _updateRuleService;
+        private readonly IAuthTokenService _authTokenService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
              GetRulesByVariableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
              GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService,
-             ChangeRuleStatus changeRuleStatusService, UpdateRule updateRuleService)
+             ChangeRuleStatus changeRuleStatusService, UpdateRule updateRuleService, IAuthTokenService authTokenService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
@@ -54,12 +57,37 @@ namespace WebApi.Controllers
             _getRulesByQualityActionService = getRulesByQualityActionService;
             _changeRuleStatusService = changeRuleStatusService;
             _updateRuleService = updateRuleService;
+            _authTokenService = authTokenService;   
+
         }
         [HttpPost]
         [Route("")]
         public async Task<CreateRuleResponse> CreateRule(CreateRuleRequest request)
-        {   //todo - store who created the rule
-            return await _createRuleService.Execute(request);
+        {   
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            Rule rule = new Rule();
+            rule.LocalId = request.LocalId;
+            rule.EntityType = request.EntityType;
+            rule.Variable = request.Variable;
+            rule.NameAl = request.NameAl;
+            rule.NameEn = request.NameEn;
+            rule.DescriptionAl = request.DescriptionAl;
+            rule.DescriptionEn = request.DescriptionEn;
+            rule.Version = request.Version;
+            rule.VersionRationale = request.VersionRationale;
+            rule.Expression = request.Expression;
+            rule.QualityAction = request.QualityAction;
+            rule.RuleStatus = request.RuleStatus;
+            rule.RuleRequirement = request.RuleRequirement;
+            rule.Remark = request.Remark;
+            rule.QualityMessageAl = request.QualityMessageAl;
+            rule.QualityMessageEn = request.QualityMessageEn;
+            rule.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
+            rule.CreatedTimestamp = DateTime.Now;
+            rule.UpdatedUser = rule.CreatedUser;
+            rule.UpdatedTimestamp = rule.CreatedTimestamp;
+            return await _createRuleService.Execute(rule);
         }
         [HttpGet]
         [Route("")]
