@@ -10,7 +10,7 @@ namespace Application.Ports
 {
     public interface IRuleRepository
     {
-        Task ChangeRuleStatus(long id, RuleStatus dISABLED);
+        Task ChangeRuleStatus(long id, RuleStatus Disabled, Guid UpdatedUser);
         Task<long> CreateRule(Domain.Rule rule);
         Task<List<Domain.Rule>> GetAllRules();
         Task<Domain.Rule> GetRule(long id);

@@ -24,7 +24,7 @@ namespace Application.Rule.ChangeRuleStatus
                 var rule = await _ruleRepository.GetRule(request.Id);
                 var newStatus = rule.RuleStatus == RuleStatus.ACTIVE ? RuleStatus.DISABLED : RuleStatus.ACTIVE;
 
-                await _ruleRepository.ChangeRuleStatus(request.Id, newStatus);
+                await _ruleRepository.ChangeRuleStatus(request.Id, newStatus, request.UpdatedUser);
 
                 var responseMessage = rule.RuleStatus == RuleStatus.ACTIVE ? "Rule activated" : "Rule disabled";
 

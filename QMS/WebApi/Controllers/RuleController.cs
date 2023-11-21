@@ -126,7 +126,10 @@ namespace WebApi.Controllers
         public async Task<ChangeRuleStatusResponse> ChangeRuleStatus(long id)
         {
             //todo - store who changed the status
-            return await _changeRuleStatusService.Execute(new ChangeRuleStatusRequest() { Id = id});
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            var updatedUser = await _authTokenService.GetUserIdFromToken(token);
+            return await _changeRuleStatusService.Execute(new ChangeRuleStatusRequest() { Id = id, UpdatedUser = updatedUser});
         }
 
         [HttpPut("{id}")]
