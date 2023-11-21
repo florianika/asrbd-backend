@@ -26,7 +26,7 @@ namespace WebApi.Common
                 response.StatusCode = error switch
                 {
                     AppException e => (int)HttpStatusCode.BadRequest,// custom application error
-                    //InvalidTokenException e => (int)HttpStatusCode.Unauthorized,
+                    InvalidTokenException e => (int)HttpStatusCode.Unauthorized,
                     //UpdateUserException e => (int)HttpStatusCode.BadRequest,
                     //NotFoundException e => (int)HttpStatusCode.NotFound,// not found error
                     EnumExeption e => (int)(HttpStatusCode)HttpStatusCode.BadRequest,

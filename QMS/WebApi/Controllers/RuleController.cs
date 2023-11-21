@@ -28,6 +28,7 @@ using Application.Rule.UpdateRule;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/qms/rules")]
     public class RuleController : ControllerBase

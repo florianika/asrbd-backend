@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Services
+﻿namespace ApiGateway
 {
     public class JwtSettings
     {
@@ -11,7 +10,7 @@ namespace Infrastructure.Services
         public string Issuer { get; set; } = "issuer";
         public string Audience { get; set; } = "audience";
         public long LifeTimeInSeconds { get; set; } = 300;
-        public string SecretKey { get; set; } = "IdentityApiKey";
+        public string SecretKey { get; set; } = "secret key";
     }
 
     public class RefreshTokenSettings
@@ -21,7 +20,7 @@ namespace Infrastructure.Services
     }
 
     public class UserLockSettings
-    { 
+    {
         public int MaxSigninFails { get; set; } = 3;
         public int LockExpirationTime { get; set; } = 3; //min
     }
