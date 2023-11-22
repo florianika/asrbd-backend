@@ -125,7 +125,6 @@ namespace WebApi.Controllers
         [Route("/{id}")]
         public async Task<ChangeRuleStatusResponse> ChangeRuleStatus(long id)
         {
-            //todo - store who changed the status
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
@@ -135,9 +134,11 @@ namespace WebApi.Controllers
         [HttpPut("{id}")]
         public async Task<UpdateRuleResponse> UpdateRule(long id, UpdateRuleRequest request)
         {
-            //todo - store who changed the rule
             request.Id = id;
-            return await _updateRuleService.Execute(request);
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            var updatedUser = await _authTokenService.GetUserIdFromToken(token);
+            return await _updateRuleService.Execute(request, updatedUser);
         }
     }
 }

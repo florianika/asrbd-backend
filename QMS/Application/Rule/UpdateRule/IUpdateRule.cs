@@ -4,7 +4,8 @@ using Application.Rule.UpdateRule.Response;
 
 namespace Application.Rule.UpdateRule
 {
-    public interface IUpdateRule : IRule<UpdateRuleRequest, UpdateRuleResponse>
+    public interface IUpdateRule //: IRule<UpdateRuleRequest, UpdateRuleResponse>
     {
+        public Task<UpdateRuleResponse> Execute(UpdateRuleRequest request, Guid updatedUser);
     }
 }
