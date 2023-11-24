@@ -28,29 +28,48 @@
     },
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrdb-auth",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7243
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
       "Priority": 1,
-      "UpstreamHttpMethod": []
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AllowAnonymous": true
+      }
     },
     {
       "DownstreamPathTemplate": "/api/admin/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrdb-auth",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7243
         }
       ],
       "UpstreamPathTemplate": "/admin/{everything}",
       "Priority": 1,
       "UpstreamHttpMethod": []
+    },
+    {
+      "DownstreamPathTemplate": "/api/qms/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7179
+        }
+      ],
+      "UpstreamPathTemplate": "/qms/{everything}",
+      "Priority": 1,
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
     }
   ]
 }

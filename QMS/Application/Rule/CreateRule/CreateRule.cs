@@ -10,40 +10,41 @@ namespace Application.Rule.CreateRule
     {
         private readonly ILogger _logger;
         private readonly IRuleRepository _ruleRepository;
+
         public CreateRule(ILogger<CreateRule> logger, IRuleRepository ruleRepository)
         {
             _logger = logger;
             _ruleRepository = ruleRepository;
 
         }
-        public async Task<CreateRuleResponse> Execute(CreateRuleRequest request)
+        public async Task<CreateRuleResponse> Execute(Domain.Rule rule)
         {
             
             try
             {
-                var rule = new Domain.Rule
-                {
-                   LocalId = request.LocalId,
-                   EntityType = request.EntityType,
-                   Variable = request.Variable,
-                   NameAl = request.NameAl,
-                   NameEn = request.NameEn,
-                   DescriptionAl = request.DescriptionAl,
-                   DescriptionEn = request.DescriptionEn,
-                   Version = request.Version,
-                   VersionRationale = request.VersionRationale,
-                   Expression = request.Expression,
-                   QualityAction = request.QualityAction,
-                   RuleStatus = request.RuleStatus,
-                    RuleRequirement = request.RuleRequirement,
-                   Remark  = request.Remark,
-                   QualityMessageAl = request.QualityMessageAl,
-                   QualityMessageEn = request.QualityMessageEn,
-                   CreatedUser = request.CreatedUser,
-                   CreatedTimestamp = request.CreatedTimestamp,
-                   UpdatedUser = request.UpdatedUser,
-                   UpdatedTimestamp = request.UpdatedTimestamp                   
-                };
+            //    var rule = new Domain.Rule
+            //    {
+            //       LocalId = request.LocalId,
+            //       EntityType = request.EntityType,
+            //       Variable = request.Variable,
+            //       NameAl = request.NameAl,
+            //       NameEn = request.NameEn,
+            //       DescriptionAl = request.DescriptionAl,
+            //       DescriptionEn = request.DescriptionEn,
+            //       Version = request.Version,
+            //       VersionRationale = request.VersionRationale,
+            //       Expression = request.Expression,
+            //       QualityAction = request.QualityAction,
+            //       RuleStatus = request.RuleStatus,
+            //        RuleRequirement = request.RuleRequirement,
+            //       Remark  = request.Remark,
+            //       QualityMessageAl = request.QualityMessageAl,
+            //       QualityMessageEn = request.QualityMessageEn,
+            //       CreatedUser = request.CreatedUser,
+            //       CreatedTimestamp = request.CreatedTimestamp,
+            //       UpdatedUser = request.UpdatedUser,
+            //       UpdatedTimestamp = request.UpdatedTimestamp                   
+            //    };
                 var result = await _ruleRepository.CreateRule(rule);
                 return new CreateRuleSuccessResponse
                 {

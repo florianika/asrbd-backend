@@ -11,7 +11,7 @@ namespace Infrastructure.Services
         public string Issuer { get; set; } = "issuer";
         public string Audience { get; set; } = "audience";
         public long LifeTimeInSeconds { get; set; } = 300;
-        public string SecretKey { get; set; } = "secret";
+        public string SecretKey { get; set; } = "IdentityApiKey";
     }
 
     public class RefreshTokenSettings

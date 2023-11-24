@@ -21,10 +21,10 @@ namespace Application.Rule.CreateRule.Request
         public string Remark { get; set; }
         public string QualityMessageAl { get; set; }
         public string QualityMessageEn { get; set; }
-        public Guid CreatedUser { get; set; }
-        public DateTime CreatedTimestamp { get; set; }
-        public Guid? UpdatedUser { get; set; }
-        public DateTime? UpdatedTimestamp { get; set; }
+        //public Guid CreatedUser { get; set; }
+        //public DateTime CreatedTimestamp { get; set; }
+        //public Guid? UpdatedUser { get; set; }
+        //public DateTime? UpdatedTimestamp { get; set; }
     }
 
     public class CreateRuleValidator : AbstractValidator<CreateRuleRequest>
@@ -34,6 +34,7 @@ namespace Application.Rule.CreateRule.Request
             RuleFor(rl => rl.Variable).NotEmpty().NotNull().WithMessage("Variable should be not null");
             RuleFor(rl => rl.Version).NotEmpty().NotNull().WithMessage("Version should be not null");
             RuleFor(rl => rl.Expression).NotEmpty().NotNull().WithMessage("Expression should be not null");
+            RuleFor(rl => rl.LocalId).NotEmpty().NotNull().WithMessage("LocalId should be not null");
         }
     }
 }
