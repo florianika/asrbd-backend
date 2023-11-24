@@ -32,31 +32,17 @@ namespace Application.User.RefreshToken
 
                 var userId = await _authTokenService.GetUserIdFromToken(request.AccessToken);
                 var user = await _authRepository.GetUserByUserId(userId);
-
-                if (!user.RefreshToken.Active)
-                {
-                    throw new InvalidTokenException("Inactive token");
-                }
-
-                if (user.RefreshToken.ExpirationDate < DateTime.Now)
-                {
-                    throw new InvalidTokenException("Expired token");
-                }
-
-                if (user.RefreshToken.Value != request.RefreshToken)
-                {
-                    throw new InvalidTokenException("Invalid token");
-                }
-
+                
+                ValidateToken(user.RefreshToken, request);
+                
+                var idToken = await _authTokenService.GenerateIdToken(user);
                 var newToken = await _authTokenService.GenerateAccessToken(user);
 
-                user.RefreshToken.Value = await _authTokenService.GenerateRefreshToken();
-                user.RefreshToken.Active = true;
-                user.RefreshToken.ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes());
-                await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
+                await UpdateRefreshToken(user.Id, user.RefreshToken);
 
                 var response = new RefreshTokenSuccessResponse
                 {
+                    IdToken = idToken,
                     AccessToken = newToken,
                     RefreshToken = user.RefreshToken.Value,
                     RefreshTokenExpirationDate = user.RefreshToken.ExpirationDate
@@ -69,6 +55,32 @@ namespace Application.User.RefreshToken
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+
+        private static void ValidateToken(Domain.RefreshToken refreshToken, RefreshTokenRequest request) 
+        {
+            if (!refreshToken.Active)
+                {
+                    throw new InvalidTokenException("Inactive token");
+                }
+
+                if (refreshToken.ExpirationDate < DateTime.Now)
+                {
+                    throw new InvalidTokenException("Expired token");
+                }
+
+                if (refreshToken.Value != request.RefreshToken)
+                {
+                    throw new InvalidTokenException("Invalid token");
+                }
+
+        }
+        private async Task UpdateRefreshToken(Guid userId, Domain.RefreshToken refreshToken)
+        {
+            refreshToken.Value = await _authTokenService.GenerateRefreshToken();
+            refreshToken.Active = true;
+            refreshToken.ExpirationDate = DateTime.Now.AddMinutes(await _authTokenService.GetRefreshTokenLifetimeInMinutes());
+            await _authRepository.UpdateRefreshToken(userId, refreshToken);
         }
     }
 }
