@@ -3,8 +3,10 @@ namespace Domain.Enum
 {
     public enum ErrorColor
     {
-        GREEN,
+        RED,
+        ORANGE,
         YELLOW,
-        RED
+        GREEN,
+        
     }
 }

@@ -37,6 +37,13 @@ services:
         ports:
             - "8888:8888"
         hostname: asrdb-arcgis-python
-    
+    asrdb-qms:
+        networks:
+            - asrdb-network
+        image: ghcr.io/florianika/asrdb-qms:latest
+        ports:
+            - "8088:80"
+        hostname: asrdb-qms
+
 volumes:
     sqlservervolume:

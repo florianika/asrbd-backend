@@ -20,7 +20,7 @@ namespace Infrastructure.Configurations
             builder.Property(p => p.QualityStatus).IsRequired().HasConversion<string>();
             builder.Property(p => p.QualityMessageAl);
             builder.Property(p => p.QualityMessageEn);
-            builder.Property(p => p.ErrorColor).IsRequired().HasConversion<string>();
+            builder.Property(p => p.ErrorLevel).IsRequired().HasConversion<string>();
             builder.Property(p => p.CreatedUser).IsRequired();
             builder.Property(p => p.CreatedTimestamp).IsRequired();
 

@@ -28,11 +28,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/auth/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7243
+          "Host": "asrdb-auth",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
@@ -44,11 +44,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/admin/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7243
+          "Host": "asrdb-auth",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/admin/{everything}",
@@ -60,8 +60,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7179
+          "Host": "asrdb-qms",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/qms/{everything}",

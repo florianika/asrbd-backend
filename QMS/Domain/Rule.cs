@@ -1,5 +1,6 @@
 ﻿using Domain.Enum;
 
+#nullable disable
 namespace Domain
 {
     public class Rule
