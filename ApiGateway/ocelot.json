@@ -57,7 +57,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/qms/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "asrdb-qms",

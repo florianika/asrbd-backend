@@ -26,7 +26,6 @@ using Application.User.ActivateUser;
 using Application.User.GetUser;
 using Application.User.GetUser.Response;
 using Application.User.GetUser.Request;
-using System.Drawing;
 using Domain.Enum;
 using Application.Exceptions;
 
