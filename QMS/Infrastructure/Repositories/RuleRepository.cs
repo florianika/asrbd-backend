@@ -1,6 +1,5 @@
 ﻿using Application.Exceptions;
 using Application.Ports;
-using Application.Rule;
 using Domain;
 using Domain.Enum;
 using Infrastructure.Context;
@@ -55,7 +54,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Rule>> GetRulesByVariableAndEntity(string variable, EntityType entityType)
         {
-            return await _context.Rules.Where(x => x.Variable== variable
+            return await _context.Rules.Where(x => x.Variable == variable
                                         && x.EntityType == entityType).ToListAsync();
         }
         public async Task UpdateRule(Rule rule)

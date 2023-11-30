@@ -5,8 +5,8 @@ using Domain;
 
 namespace Application.Rule.CreateRule
 {
-    public interface ICreateRule //: IRule<CreateRuleRequest, CreateRuleResponse>
+    public interface ICreateRule: IRule<CreateRuleRequest, CreateRuleResponse>
     {
-        public Task<CreateRuleResponse> Execute(Domain.Rule rule);
+        
     }
 }

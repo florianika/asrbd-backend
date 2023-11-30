@@ -16,9 +16,8 @@ namespace Application.Rule.UpdateRule
             _logger = logger;
             _ruleRepository = ruleRepository;
         }
-        public async Task<UpdateRuleResponse> Execute(UpdateRuleRequest request, Guid updatedUser)
+        public async Task<UpdateRuleResponse> Execute(UpdateRuleRequest request)
         {
-
             var rule = await _ruleRepository.GetRule(request.Id);
             rule.LocalId = request.LocalId;
             rule.EntityType = request.EntityType;
@@ -35,7 +34,7 @@ namespace Application.Rule.UpdateRule
             rule.Remark = request.Remark;
             rule.QualityMessageAl = request.QualityMessageAl;
             rule.QualityMessageEn = request.QualityMessageEn;
-            rule.UpdatedUser = updatedUser;
+            rule.UpdatedUser = request.UpdatedUser;
             rule.UpdatedTimestamp = DateTime.Now;
 
             await _ruleRepository.UpdateRule(rule);

@@ -66,35 +66,17 @@ namespace WebApi.Controllers
         {   
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");
-            Rule rule = new Rule();
-            rule.LocalId = request.LocalId;
-            rule.EntityType = request.EntityType;
-            rule.Variable = request.Variable;
-            rule.NameAl = request.NameAl;
-            rule.NameEn = request.NameEn;
-            rule.DescriptionAl = request.DescriptionAl;
-            rule.DescriptionEn = request.DescriptionEn;
-            rule.Version = request.Version;
-            rule.VersionRationale = request.VersionRationale;
-            rule.Expression = request.Expression;
-            rule.QualityAction = request.QualityAction;
-            rule.RuleStatus = request.RuleStatus;
-            rule.RuleRequirement = request.RuleRequirement;
-            rule.Remark = request.Remark;
-            rule.QualityMessageAl = request.QualityMessageAl;
-            rule.QualityMessageEn = request.QualityMessageEn;
-            rule.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
-            rule.CreatedTimestamp = DateTime.Now;
-            rule.UpdatedUser = rule.CreatedUser;
-            rule.UpdatedTimestamp = rule.CreatedTimestamp;
-            return await _createRuleService.Execute(rule);
+            request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
+            return await _createRuleService.Execute(request);
         }
+
         [HttpGet]
         [Route("")]
         public async Task<GetAllRulesResponse> GetAllRules()
         {
             return await _getAllRulesService.Execute();
         }
+
         [HttpGet]
         [Route("variable/{variable}/type/{entityType}")]
         public async Task<GetRulesByVariableAndEntityResponse> GetRulesByVarialeAndEntityType(string variable, EntityType entityType)
@@ -108,12 +90,14 @@ namespace WebApi.Controllers
         {
             return await _getRulesByEntityService.Execute(new GetRulesByEntityRequest() { EntityType = entityType });
         }
+
         [HttpGet]
         [Route("/{id}")]
         public async Task<GetRuleResponse> GetRule(long id)
         {
             return await _getRuleService.Execute(new GetRuleRequest() { Id = id });
         }
+        
         [HttpGet]
         [Route("qualityAction/{qualityAction}")]
         public async Task<GetRulesByQualityActionResponse> GetRulesByQualityAction(QualityAction qualityAction)
@@ -138,7 +122,8 @@ namespace WebApi.Controllers
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
-            return await _updateRuleService.Execute(request, updatedUser);
+            request.UpdatedUser = updatedUser;
+            return await _updateRuleService.Execute(request);
         }
     }
 }
