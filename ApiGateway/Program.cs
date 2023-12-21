@@ -12,11 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
 builder.Services.AddCors(options =>
         {
-            options.AddPolicy("CorsPolicy",
-                builder => builder.AllowAnyOrigin()
+            options.AddPolicy(name: "CorsPolicy",
+                policy => policy.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    .AllowAnyHeader());
         });
 
 //builder.Services.AddScoped<IAuthTokenService, JwtService>();
@@ -74,7 +73,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/api/Authetication/swagger/v1/swagger.json", "Authentication");
     c.SwaggerEndpoint("/api/WeatherForecast/v1/swagger.json", "ServiceB API");
 });
-
+app.UseCors("CorsPolicy");
 app.UseWebSockets();
 app.UseOcelot().Wait();
 

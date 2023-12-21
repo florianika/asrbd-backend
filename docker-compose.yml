@@ -8,7 +8,7 @@ services:
             - asrdb-network
         image: ghcr.io/florianika/asrdb-gateway:latest
         ports:
-            - "80:80"
+            - "9090:80"
         hostname: asrdb-gateway
     asrdb-auth:
         networks:
@@ -44,6 +44,10 @@ services:
         ports:
             - "8088:80"
         hostname: asrdb-qms
+    asrdb-frontend:
+        image: ghcr.io/florianika/asrdb-frontend:latest
+        ports:
+            - "80:80"
 
 volumes:
     sqlservervolume:

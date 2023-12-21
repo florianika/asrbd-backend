@@ -1,5 +1,6 @@
 ﻿
 using Domain;
+using Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -31,9 +32,9 @@ namespace Infrastructure.Configurations
             builder.HasIndex(r => r.LocalId).IsUnique();
 
             // Enums
-            builder.Property(r => r.EntityType).IsRequired().HasConversion<string>();
-            builder.Property(r => r.QualityAction).IsRequired().HasConversion<string>();
-            builder.Property(r => r.RuleStatus).IsRequired().HasConversion<string>();
+            builder.Property(r => r.EntityType).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<EntityType>(c));
+            builder.Property(r => r.QualityAction).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<QualityAction>(c));;
+            builder.Property(r => r.RuleStatus).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<RuleStatus>(c));;
         }
     }
 }
