@@ -40,6 +40,8 @@ namespace Application.Rule.CreateRule
                   QualityMessageEn = request.QualityMessageEn,
                   CreatedUser = request.CreatedUser,
                   CreatedTimestamp = DateTime.Now,
+                  Version = request.Version,
+                  VersionRationale = request.VersionRationale,
                   UpdatedUser = null,
                   UpdatedTimestamp = null                   
                };
