@@ -11,9 +11,9 @@ namespace Domain
         public long RuleId { get; set; }
         // Navigation Property
         public Rule Rule { get; set; }
-        public long BldId { get; set; }
-        public long? EntId { get; set; }
-        public long? DwlId { get; set; }
+        public Guid BldId { get; set; }
+        public Guid? EntId { get; set; }
+        public Guid? DwlId { get; set; }
         public EntityType EntityType { get; set; }
         public string Variable { get; set; }
         public QualityAction QualityAction { get; set; }

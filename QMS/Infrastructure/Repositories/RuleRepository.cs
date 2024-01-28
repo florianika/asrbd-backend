@@ -39,7 +39,7 @@ namespace Infrastructure.Repositories
         public async Task<Rule> GetRule(long id)
         {
             return await _context.Rules.FirstOrDefaultAsync(x => x.Id.Equals(id))
-                ?? throw new NotFoundException("Rule not found"); ;
+                ?? throw new NotFoundException("Rule not found");
         }
 
         public async Task<List<Rule>> GetRulesByEntity(EntityType entityType)
