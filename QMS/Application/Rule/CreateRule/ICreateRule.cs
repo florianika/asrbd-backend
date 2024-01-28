@@ -1,7 +1,6 @@
 ﻿
 using Application.Rule.CreateRule.Request;
 using Application.Rule.CreateRule.Response;
-using Domain;
 
 namespace Application.Rule.CreateRule
 {

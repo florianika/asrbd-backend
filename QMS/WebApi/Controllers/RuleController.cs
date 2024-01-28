@@ -23,10 +23,8 @@ using Application.Rule.ChangeRuleStatus.Request;
 using Microsoft.AspNetCore.Authorization;
 using Application.Rule.UpdateRule.Response;
 using Application.Rule.UpdateRule.Request;
-using System.Runtime.CompilerServices;
 using Application.Rule.UpdateRule;
 using Application.Ports;
-using Domain;
 
 namespace WebApi.Controllers
 {
@@ -92,7 +90,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("/{id}")]
+        [Route("{id}")]
         public async Task<GetRuleResponse> GetRule(long id)
         {
             return await _getRuleService.Execute(new GetRuleRequest() { Id = id });
@@ -106,7 +104,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch]
-        [Route("/{id}")]
+        [Route("{id}")]
         public async Task<ChangeRuleStatusResponse> ChangeRuleStatus(long id)
         {
             var token = Request.Headers["Authorization"].ToString();
