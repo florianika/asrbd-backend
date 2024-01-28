@@ -26,6 +26,7 @@ namespace Application.Quality
         public HeatingEnergyType DwlHeatingEnergy { get; set; } = HeatingEnergyType.UNKNOWN;
         public Presence DwlAirConditioner { get; set; }  = Presence.UNKNOWN;
         public Presence DwlSolarPanel { get; set;} = Presence.UNKNOWN;
-        
+        public Guid Fk_entrance { get; set; }
+
     }
 }
