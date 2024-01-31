@@ -1,3 +1,4 @@
+using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId;
 using System;
 
 namespace Application.Ports
@@ -8,6 +9,7 @@ namespace Application.Ports
         Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId);
 
         Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId);
+        Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByDwellingId(Guid dwellingId);
         Task<Domain.ProcessOutputLog> GetProcessOutputLog(Guid id);
     }
 }

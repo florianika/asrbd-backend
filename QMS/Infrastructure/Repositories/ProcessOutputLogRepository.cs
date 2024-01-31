@@ -37,5 +37,9 @@ namespace Infrastructure.Repositories
         {
             return await _context.ProcessOutputLogs.Where(p => p.EntId == entranceId).ToListAsync();
         }
+        public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByDwellingId(Guid dwellingId)
+        {
+            return await _context.ProcessOutputLogs.Where(p => p.DwlId == dwellingId).ToListAsync();
+        }
     }
 }
