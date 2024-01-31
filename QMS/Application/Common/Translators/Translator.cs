@@ -1,4 +1,5 @@
 ﻿
+using Application.ProcessOutputLog;
 using Application.Rule;
 using Domain.Enum;
 using System.Linq.Expressions;
@@ -43,5 +44,37 @@ namespace Application.Common.Translators
                 UpdatedTimestamp = rule.UpdatedTimestamp
             };
         }
+
+        public static List<ProcessOutputLogDTO> ToDTOList(List<Domain.ProcessOutputLog> processOutputLog)
+        {
+            List<ProcessOutputLogDTO> processOutputLogs = new();
+            processOutputLog.ForEach((processOutputLog) => {
+                processOutputLogs.Add(ToDTO(processOutputLog));
+            });
+            return processOutputLogs;
+        }
+
+        public static ProcessOutputLogDTO ToDTO(Domain.ProcessOutputLog processOutputLog)
+        {
+            return new ProcessOutputLogDTO()
+            {
+                Id = processOutputLog.Id,
+                RuleId = processOutputLog.RuleId,
+                Rule = processOutputLog.Rule,
+                BldId = processOutputLog.BldId,
+                EntId = processOutputLog.EntId,
+                DwlId = processOutputLog.DwlId,
+                EntityType = processOutputLog.EntityType,
+                Variable = processOutputLog.Variable,
+                QualityAction = processOutputLog.QualityAction,
+                QualityStatus = processOutputLog.QualityStatus,
+                QualityMessageAl = processOutputLog.QualityMessageAl,
+                QualityMessageEn = processOutputLog.QualityMessageEn,
+                ErrorLevel = processOutputLog.ErrorLevel,
+                CreatedUser = processOutputLog.CreatedUser,
+                CreatedTimestamp = processOutputLog.CreatedTimestamp
+            };
+        }
+
     }
 }
