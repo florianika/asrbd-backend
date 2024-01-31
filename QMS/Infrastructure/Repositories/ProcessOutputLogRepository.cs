@@ -29,9 +29,13 @@ namespace Infrastructure.Repositories
               ?? throw new NotFoundException("Process output log not found");
         }
 
-        public async Task<List<ProcessOutputLog>> GetProcessOutputLogs(Guid buildingId)
+        public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId)
         {
             return await _context.ProcessOutputLogs.Where(p => p.BldId == buildingId).ToListAsync();
+        }
+        public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId)
+        {
+            return await _context.ProcessOutputLogs.Where(p => p.EntId == entranceId).ToListAsync();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId
         }
         public async Task<GetProcessOutputLogsByBuildingIdResponse> Execute(GetProcessOutputLogsByBuildingIdRequest request)
         {
-            var processOutputLogs = await _processOutputLogRepository.GetProcessOutputLogs(request.BldId);
+            var processOutputLogs = await _processOutputLogRepository.GetProcessOutputLogsByBuildingId(request.BldId);
 
             return new GetProcessOutputLogsByBuildingIdSuccessResponse
             {
