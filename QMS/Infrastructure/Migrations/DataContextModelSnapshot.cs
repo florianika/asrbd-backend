@@ -76,7 +76,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RuleId");
 
-                    b.ToTable("ProcessOutputLogs", (string)null);
+                    b.ToTable("ProcessOutputLogs");
                 });
 
             modelBuilder.Entity("Domain.Rule", b =>
@@ -172,7 +172,7 @@ namespace Infrastructure.Migrations
                     b.HasIndex("LocalId")
                         .IsUnique();
 
-                    b.ToTable("Rules", (string)null);
+                    b.ToTable("Rules");
                 });
 
             modelBuilder.Entity("Domain.ProcessOutputLog", b =>

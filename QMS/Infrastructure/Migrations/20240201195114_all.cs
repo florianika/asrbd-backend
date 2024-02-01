@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class init : Migration
+    public partial class all : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,19 +18,19 @@ namespace Infrastructure.Migrations
                     LocalId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
                     EntityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Variable = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    NameAl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    NameEn = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    DescriptionAl = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    DescriptionEn = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    NameAl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    NameEn = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DescriptionAl = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    DescriptionEn = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Version = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    VersionRationale = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    VersionRationale = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Expression = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QualityAction = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RuleStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RuleRequirement = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    Remark = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                    QualityMessageAl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    QualityMessageEn = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    RuleRequirement = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Remark = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    QualityMessageAl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    QualityMessageEn = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -47,16 +47,16 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RuleId = table.Column<long>(type: "bigint", nullable: false),
-                    BldId = table.Column<long>(type: "bigint", nullable: false),
-                    EntId = table.Column<long>(type: "bigint", nullable: true),
-                    DwlId = table.Column<long>(type: "bigint", nullable: true),
+                    BldId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EntId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DwlId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EntityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Variable = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QualityAction = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QualityStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QualityMessageAl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QualityMessageEn = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ErrorColor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QualityMessageAl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    QualityMessageEn = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ErrorLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedUser = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

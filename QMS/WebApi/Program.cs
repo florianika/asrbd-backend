@@ -1,4 +1,7 @@
 using Application.Ports;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId;
+using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId;
+using Application.ProcessOutputLog.GetProcessOutputLogsByEntranceId;
 using Application.Rule.ChangeRuleStatus;
 using Application.Rule.CreateRule;
 using Application.Rule.GetAllRules;
@@ -11,7 +14,9 @@ using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -41,6 +46,7 @@ builder.Services.AddControllers()
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
 
 builder.Services.AddScoped<IRuleRepository, RuleRepository>();
+builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
 
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
@@ -50,7 +56,9 @@ builder.Services.AddScoped<GetRule>();
 builder.Services.AddScoped<GetRulesByQualityAction>();
 builder.Services.AddScoped<ChangeRuleStatus>();
 builder.Services.AddScoped<UpdateRule>();
-
+builder.Services.AddScoped<GetProcessOutputLogsByBuildingId>();
+builder.Services.AddScoped<GetProcessOutputLogsByEntranceId>();
+builder.Services.AddScoped<GetProcessOutputLogsByDwellingId>();
 
 builder.Services.AddSwaggerGen(options =>
 {

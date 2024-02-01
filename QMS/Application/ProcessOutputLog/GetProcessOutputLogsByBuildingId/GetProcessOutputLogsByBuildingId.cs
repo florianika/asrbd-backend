@@ -1,5 +1,4 @@
 ﻿
-
 using Application.Common.Translators;
 using Application.Ports;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Request;
