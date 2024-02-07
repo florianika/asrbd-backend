@@ -1,6 +1,6 @@
 using System;
 
-namespace Application.Quality
+namespace Application.Dtos.Quality
 {
     public interface IDto
     {

@@ -1,7 +1,7 @@
 using System;
 using Domain.Enum;
 
-namespace Application.Quality
+namespace Application.Dtos.Quality
 {
     public class BuildingDto : BaseDto
     {  
