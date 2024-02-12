@@ -20,7 +20,7 @@ namespace Application.Dtos.Quality
         public int EntDwellingRecs { get; set; } = 999;
         public int EntDwellingExpec { get; set; } = 999;
         public Guid Fk_building { get; set; }
-
+        public List<DwellingDto> Dwellings { get; set; } = new List<DwellingDto>();
 
     }
 }

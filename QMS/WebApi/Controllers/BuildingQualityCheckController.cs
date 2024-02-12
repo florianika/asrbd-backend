@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         }
         
         [HttpPost("building/{id}")]
-        public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(long id, BuildingQualityCheckRequest request) {
+        public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(Guid id, BuildingQualityCheckRequest request) {
             request.BuildingId = id;
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");

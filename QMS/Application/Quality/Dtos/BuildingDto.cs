@@ -35,6 +35,6 @@ namespace Application.Dtos.Quality
         public GeoPointStatus BldCentroidStatus { get; set; } = GeoPointStatus.UNKNOWN;
         public int BldEntranceRecs { get; set; } = 99;
         public int BldDwellingRecs { get; set; } = 999;
-
+        public List<EntranceDto> Entrances { get; set; } = new List<EntranceDto>();
     }
 }

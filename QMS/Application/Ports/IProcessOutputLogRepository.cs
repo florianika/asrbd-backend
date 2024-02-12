@@ -1,5 +1,3 @@
-using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId;
-using System;
 
 namespace Application.Ports
 {
