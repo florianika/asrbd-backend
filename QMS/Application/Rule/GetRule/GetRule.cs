@@ -16,10 +16,10 @@ namespace Application.Rule.GetRule
         public async Task<GetRuleResponse> Execute(GetRuleRequest request)
         {
             var rule = await _ruleRepository.GetRule(request.Id);
-            var ruleDTO = Translator.ToDTO(rule);
+            var ruleDto = Translator.ToDTO(rule);
             return new GetRuleSuccessResponse
             {
-                RulesDTO = ruleDTO
+                RulesDTO = ruleDto
             };
         }
     }
