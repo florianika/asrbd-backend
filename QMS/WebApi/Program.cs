@@ -14,21 +14,21 @@ using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
-using WebApi;
+using Application.Quality.BuildingQualityCheck;
+using Application.Quality.ProcessOutputLogs;
+using Application.Quality.RulesExecutor;
 using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connectionString = builder.Configuration.GetConnectionString("QMSConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("QMSConnectionString");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -59,6 +59,9 @@ builder.Services.AddScoped<UpdateRule>();
 builder.Services.AddScoped<GetProcessOutputLogsByBuildingId>();
 builder.Services.AddScoped<GetProcessOutputLogsByEntranceId>();
 builder.Services.AddScoped<GetProcessOutputLogsByDwellingId>();
+builder.Services.AddScoped<IBuildingQualityCheck, BuidlingQualityCheck>();
+builder.Services.AddScoped<Executor>();
+builder.Services.AddScoped<Logger>();
 
 builder.Services.AddSwaggerGen(options =>
 {
