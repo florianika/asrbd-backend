@@ -29,6 +29,10 @@ namespace Application.Quality.BuildingQualityCheck
         {
             //new api call to the arcgis service 
             //and get the building
+            //var httpClient = new HttpClient
+            //{
+            //    BaseAddress = System.Uri()
+            //};
             var buidling = new BuildingDto //TODO replcace this with api call to geodatabase
             {
                 Entrances = GetEntrances(buildingId)
