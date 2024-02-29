@@ -103,7 +103,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("EntityType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Expression")
                         .IsRequired()
@@ -169,7 +169,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocalId")
+                    b.HasIndex("LocalId", "Version", "EntityType")
                         .IsUnique();
 
                     b.ToTable("Rules");

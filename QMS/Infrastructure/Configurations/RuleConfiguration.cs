@@ -28,9 +28,8 @@ namespace Infrastructure.Configurations
             builder.Property(r => r.CreatedTimestamp).IsRequired();
             builder.Property(r => r.UpdatedUser);
             builder.Property(r => r.UpdatedTimestamp);
-
-            builder.HasIndex(r => r.LocalId).IsUnique();
-
+            builder.HasIndex(r => new { r.LocalId, r.Version, r.EntityType })
+                .IsUnique();
             // Enums
             builder.Property(r => r.EntityType).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<EntityType>(c));
             builder.Property(r => r.QualityAction).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<QualityAction>(c));;
