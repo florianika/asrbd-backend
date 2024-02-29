@@ -30,13 +30,13 @@ services:
         volumes:
             -  sqlservervolume:/var/opt/mssql
         hostname: asrdb-mssql
-    asrdb-arcgis-python:
-        networks:
-            - asrdb-network
-        image: ghcr.io/florianika/asrdb-arcgis-python:latest
-        ports:
-            - "8888:8888"
-        hostname: asrdb-arcgis-python
+    #asrdb-arcgis-python:
+    #   networks:
+    #        - asrdb-network
+    #    image: ghcr.io/florianika/asrdb-arcgis-python:latest
+    #    ports:
+    #        - "8888:8888"
+    #    hostname: asrdb-arcgis-python
     asrdb-qms:
         networks:
             - asrdb-network
