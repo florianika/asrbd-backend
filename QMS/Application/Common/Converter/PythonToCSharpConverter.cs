@@ -8,6 +8,8 @@ namespace Application.Common.Converter
         {
             var linqStringExpression =  queryExpression.Replace("|", "or");
             linqStringExpression = linqStringExpression.Replace("&", "and");
+            linqStringExpression = linqStringExpression.Replace(".isnull()", " == null", StringComparison.OrdinalIgnoreCase);
+            linqStringExpression = linqStringExpression.Replace(".notnull()", " != null", StringComparison.OrdinalIgnoreCase);
             return linqStringExpression;
         }
     }

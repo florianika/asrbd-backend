@@ -60,7 +60,6 @@ namespace Application.Common.Translators
             {
                 Id = processOutputLog.Id,
                 RuleId = processOutputLog.RuleId,
-                Rule = processOutputLog.Rule,
                 BldId = processOutputLog.BldId,
                 EntId = processOutputLog.EntId,
                 DwlId = processOutputLog.DwlId,
