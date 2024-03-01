@@ -14,21 +14,21 @@ namespace WebApi.Controllers
     public class BuildingQualityCheckController : ControllerBase
     {
         private readonly IAuthTokenService _authTokenService;
-        private readonly BuidlingQualityCheck _buildingQualtyCheckService;
+        private readonly BuildingQualityCheck _buildingQualityCheckService;
 
-        public BuildingQualityCheckController(IAuthTokenService authTokenService, BuidlingQualityCheck buildingQualityCheckService) {
+        public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService) {
             _authTokenService = authTokenService;
-            _buildingQualtyCheckService = buildingQualityCheckService;
+            _buildingQualityCheckService = buildingQualityCheckService;
         }
         
-        [HttpPost("building/{id}")]
+        [HttpPost("building/{id:guid}")]
         public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(Guid id, BuildingQualityCheckRequest request) {
             request.BuildingId = id;
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
-            return await _buildingQualtyCheckService.Execute(request);
+            return await _buildingQualityCheckService.Execute(request);
         }
 
     }

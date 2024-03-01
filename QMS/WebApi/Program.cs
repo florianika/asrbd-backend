@@ -59,7 +59,7 @@ builder.Services.AddScoped<UpdateRule>();
 builder.Services.AddScoped<GetProcessOutputLogsByBuildingId>();
 builder.Services.AddScoped<GetProcessOutputLogsByEntranceId>();
 builder.Services.AddScoped<GetProcessOutputLogsByDwellingId>();
-builder.Services.AddScoped<IBuildingQualityCheck, BuidlingQualityCheck>();
+builder.Services.AddScoped<IBuildingQualityCheck, BuildingQualityCheck>();
 builder.Services.AddScoped<Executor>();
 builder.Services.AddScoped<Logger>();
 

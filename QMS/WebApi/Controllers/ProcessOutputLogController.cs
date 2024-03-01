@@ -31,7 +31,7 @@ namespace WebApi.Controllers
 
 
         [HttpGet]
-        [Route("buildings/{id}")]
+        [Route("buildings/{id:guid}")]
         public async Task<GetProcessOutputLogsByBuildingIdResponse> GetProcessOutputLogsByBuildingId(Guid id)
         {
             return await _getProcessOutputLogsByBuildingId.Execute(new GetProcessOutputLogsByBuildingIdRequest() { BldId = id });
@@ -39,14 +39,14 @@ namespace WebApi.Controllers
 
 
         [HttpGet]
-        [Route("entrances/{id}")]
+        [Route("entrances/{id:guid}")]
         public async Task<GetProcessOutputLogsByEntranceIdResponse> GetProcessOutputLogsByEntranceId(Guid id)
         {
             return await _getProcessOutputLogsByEntranceId.Execute(new GetProcessOutputLogsByEntranceIdRequest() { EntId = id });
         }
 
         [HttpGet]
-        [Route("dwellings/{id}")]
+        [Route("dwellings/{id:guid}")]
         public async Task<GetProcessOutputLogsByDwellingIdResponse> GetProcessOutputLogsByDwellingId(Guid id)
         {
             return await _getProcessOutputLogsByDwellingId.Execute(new GetProcessOutputLogsByDwellingIdRequest() { DwlId = id });

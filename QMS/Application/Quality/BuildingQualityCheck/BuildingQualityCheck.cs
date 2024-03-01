@@ -6,19 +6,19 @@ using Microsoft.Extensions.Logging;
 
 namespace Application.Quality.BuildingQualityCheck
 {
-    public class BuidlingQualityCheck : IBuildingQualityCheck
+    public class BuildingQualityCheck : IBuildingQualityCheck
     {
         private readonly ILogger _logger;
         private readonly Executor _executor;
 
-        public BuidlingQualityCheck(ILogger<BuidlingQualityCheck> logger, 
+        public BuildingQualityCheck(ILogger<BuildingQualityCheck> logger, 
                                     Executor executor) {
             _logger = logger;
             _executor = executor;
         }
         public async Task<BuildingQualityCheckResponse> Execute(BuildingQualityCheckRequest request)
         {
-            //TODO 1. get buidling from geodatabase where id = request.BuildingId, using API 
+            //TODO 1. get building from geo database where id = request.BuildingId, using API 
             var building = GetBuilding(request.BuildingId);
             await _executor.ExecuteBuildingRules(building, request.ExecutionUser);
             
@@ -33,7 +33,7 @@ namespace Application.Quality.BuildingQualityCheck
             //{
             //    BaseAddress = System.Uri()
             //};
-            var buidling = new BuildingDto //TODO replcace this with api call to geodatabase
+            var building = new BuildingDto //TODO replace this with api call to geo database
             {
                 Entrances = GetEntrances(buildingId)
             };
@@ -45,8 +45,8 @@ namespace Application.Quality.BuildingQualityCheck
         {
             //new api call to the arcgis service
             //and get all entrance of the building
-            var entrnces = new List<EntranceDto>(); //Todo replace this with api call to the geodatase
-            foreach (var entrance in entrnces)
+            var entrances = new List<EntranceDto>(); //Todo replace this with api call to the geo database
+            foreach (var entrance in entrances)
             {
                 entrance.Dwellings = GetDwellings(entrance.GlobalId);
             }
@@ -59,12 +59,5 @@ namespace Application.Quality.BuildingQualityCheck
             //and get all dwelling of a building, all dwelling for each entrance
             throw new NotImplementedException();
         }
-
-        
-
-       
-
-        
-
     }
 }
