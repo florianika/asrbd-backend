@@ -11,8 +11,8 @@ namespace Application.Quality.BuildingQualityCheck
         private readonly ILogger _logger;
         private readonly Executor _executor;
 
-        public BuildingQualityCheck(ILogger<BuildingQualityCheck> logger, 
-                                    Executor executor) {
+        public BuildingQualityCheck(ILogger<BuildingQualityCheck> logger, Executor executor) 
+        {
             _logger = logger;
             _executor = executor;
         }
