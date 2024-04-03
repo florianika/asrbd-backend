@@ -13,5 +13,9 @@ namespace Application.Ports
         Task<List<Domain.Rule>> GetRulesByQualityAction(QualityAction qualityAction);
         Task<List<Domain.Rule>> GetRulesByVariableAndEntity(string variable, EntityType entityType);
         Task UpdateRule(Domain.Rule rule);
+
+        Task<bool> ExecuteRulesStoreProcedure(List<Guid> buildingIds, Guid CreatedUser);
+        Task<bool> UpdateEntitiesStoredProcedure(List<Guid> buildingIds, Guid CreatedUser);
+        
     }
 }

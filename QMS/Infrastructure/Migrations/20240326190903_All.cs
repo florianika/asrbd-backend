@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class all : Migration
+    public partial class All : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     LocalId = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    EntityType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EntityType = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Variable = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     NameAl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     NameEn = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
@@ -77,9 +77,9 @@ namespace Infrastructure.Migrations
                 column: "RuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Rules_LocalId",
+                name: "IX_Rules_LocalId_Version_EntityType",
                 table: "Rules",
-                column: "LocalId",
+                columns: new[] { "LocalId", "Version", "EntityType" },
                 unique: true);
         }
 

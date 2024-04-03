@@ -48,6 +48,7 @@ builder.Services.AddScoped<IAuthTokenService, JwtService>();
 builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
 
+
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
 builder.Services.AddScoped<GetRulesByVariableAndEntity>();
@@ -63,6 +64,7 @@ builder.Services.AddScoped<IBuildingQualityCheck, BuildingQualityCheck>();
 builder.Services.AddScoped<Executor>();
 builder.Services.AddScoped<Logger>();
 
+builder.Services.AddScoped<BuildingQualityCheck>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

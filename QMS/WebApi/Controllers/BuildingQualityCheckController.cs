@@ -21,14 +21,22 @@ namespace WebApi.Controllers
             _buildingQualityCheckService = buildingQualityCheckService;
         }
         
-        [HttpPost("building/{id:guid}")]
-        public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(Guid id, BuildingQualityCheckRequest request) {
-            request.BuildingId = id;
+        [HttpPost("executeRules")]
+        public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(BuildingQualityCheckRequest request) {            
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
-            return await _buildingQualityCheckService.Execute(request);
+            return await _buildingQualityCheckService.Execute(request, "ExecuteRules");
+        }
+        [HttpPost("updateStatus")]
+        public async Task<BuildingQualityCheckResponse> UpdateQualityStatus(BuildingQualityCheckRequest request)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            var executionUser = await _authTokenService.GetUserIdFromToken(token);
+            request.ExecutionUser = executionUser;
+            return await _buildingQualityCheckService.Execute(request, "UpdateStatus");
         }
 
     }

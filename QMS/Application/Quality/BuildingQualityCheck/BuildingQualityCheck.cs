@@ -1,8 +1,15 @@
 using Application.Dtos.Quality;
+using Application.Ports;
 using Application.Quality.BuildingQualityCheck.Request;
 using Application.Quality.BuildingQualityCheck.Response;
 using Application.Quality.RulesExecutor;
+using Domain;
+using Domain.Enum;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Collections;
+using System.Linq.Expressions;
 
 namespace Application.Quality.BuildingQualityCheck
 {
@@ -10,54 +17,60 @@ namespace Application.Quality.BuildingQualityCheck
     {
         private readonly ILogger _logger;
         private readonly Executor _executor;
-
+        private readonly IConfiguration _configuration;
         public BuildingQualityCheck(ILogger<BuildingQualityCheck> logger, 
-                                    Executor executor) {
+                                    Executor executor,
+                                    IConfiguration configuration)
+        {
             _logger = logger;
             _executor = executor;
+            _configuration = configuration;
         }
-        public async Task<BuildingQualityCheckResponse> Execute(BuildingQualityCheckRequest request)
+        public async Task<BuildingQualityCheckResponse> Execute(BuildingQualityCheckRequest request, string action)
         {
-            //TODO 1. get building from geo database where id = request.BuildingId, using API 
-            var building = GetBuilding(request.BuildingId);
-            await _executor.ExecuteBuildingRules(building, request.ExecutionUser);
-            
-            throw new NotImplementedException();
-        }
-
-        private static BuildingDto GetBuilding(Guid buildingId) 
-        {
-            //new api call to the arcgis service 
-            //and get the building
-            //var httpClient = new HttpClient
-            //{
-            //    BaseAddress = System.Uri()
-            //};
-            var building = new BuildingDto //TODO replace this with api call to geo database
+            if (action == "ExecuteRules")
             {
-                Entrances = GetEntrances(buildingId)
-            };
+                try
+                {
+                    var success = await _executor.ExecuteRules(request.BuildingIds, request.ExecutionUser);
 
-            throw new NotImplementedException();
-        }
-
-        private static List<EntranceDto> GetEntrances(Guid buildingId) 
-        {
-            //new api call to the arcgis service
-            //and get all entrance of the building
-            var entrances = new List<EntranceDto>(); //Todo replace this with api call to the geo database
-            foreach (var entrance in entrances)
-            {
-                entrance.Dwellings = GetDwellings(entrance.GlobalId);
+                    if (success)
+                    {
+                        return new BuildingQualityCheckSuccessResponse { Message = "Rules were executed" };
+                    }
+                    else
+                    {
+                        return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return new BuildingQualityCheckErrorResponse { Message = "There was an error", Code = ex.GetType().Name };
+                }
             }
-            throw new NotImplementedException();
-        }
+            else if (action == "UpdateStatus")
+            {
+                try
+                {
+                    var success = await _executor.UpdateStatus(request.BuildingIds, request.ExecutionUser);
 
-        private static List<DwellingDto> GetDwellings(Guid entranceId)
-        {
-            //new api call to the arcgis service
-            //and get all dwelling of a building, all dwelling for each entrance
-            throw new NotImplementedException();
+                    if (success)
+                    {
+                        return new BuildingQualityCheckSuccessResponse { Message = "Quality Status updated" };
+                    }
+                    else
+                    {
+                        return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return new BuildingQualityCheckErrorResponse { Message = "There was an error", Code = ex.GetType().Name };
+                }
+            }
+            else
+            return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
         }
+       
     }
 }

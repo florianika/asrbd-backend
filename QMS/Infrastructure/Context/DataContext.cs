@@ -2,6 +2,7 @@
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infrastructure.Context
 {
@@ -15,7 +16,8 @@ namespace Infrastructure.Context
         {
         }
         public DbSet<Rule> Rules { get; set; }
-        public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }
+        public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -24,7 +26,7 @@ namespace Infrastructure.Context
                    .SetBasePath(Directory.GetCurrentDirectory())
                    .AddJsonFile("appsettings.json")
                    .Build();
-                var connectionString = configuration.GetConnectionString("ASRBDConnectionString");
+                var connectionString = configuration.GetConnectionString("QMSConnectionString");
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
@@ -32,7 +34,6 @@ namespace Infrastructure.Context
         {
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new ProcessOutputLogConfiguration());
-
         }
     }
 }
