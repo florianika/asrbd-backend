@@ -3,7 +3,7 @@ namespace Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable.Re
 {
     public class GetPermissionsByRoleAndEntityAndVariableErrorResponse : GetPermissionsByRoleAndEntityAndVariableResponse
     {
-        public string Message { get; set; }
-        public string Code { get; set; }
+        public string Message { get; set; } = null!;
+        public string Code { get; set; } = null!;
     }
 }

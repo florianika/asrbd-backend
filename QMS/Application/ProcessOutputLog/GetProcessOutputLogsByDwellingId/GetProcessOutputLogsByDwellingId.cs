@@ -21,7 +21,7 @@ namespace Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId
 
             return new GetProcessOutputLogsByDwellingIdSuccessResponse
             {
-                ProcessOutputLogDTO = Translator.ToDTOList(processOutputLogs)
+                ProcessOutputLogDto = Translator.ToDTOList(processOutputLogs)
             };
         }
     }

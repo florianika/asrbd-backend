@@ -1,15 +1,9 @@
-using Application.Dtos.Quality;
-using Application.Ports;
 using Application.Quality.BuildingQualityCheck.Request;
 using Application.Quality.BuildingQualityCheck.Response;
 using Application.Quality.RulesExecutor;
-using Domain;
-using Domain.Enum;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Collections;
-using System.Linq.Expressions;
+
 
 namespace Application.Quality.BuildingQualityCheck
 {
@@ -26,51 +20,22 @@ namespace Application.Quality.BuildingQualityCheck
             _executor = executor;
             _configuration = configuration;
         }
-        public async Task<BuildingQualityCheckResponse> Execute(BuildingQualityCheckRequest request, string action)
+        public async Task<BuildingQualityCheckResponse> Execute(BuildingQualityCheckRequest request)
         {
-            if (action == "ExecuteRules")
+            try
             {
-                try
+                var success = await _executor.ExecuteRules(request.BuildingIds, request.ExecutionUser);
+                if (success)
                 {
-                    var success = await _executor.ExecuteRules(request.BuildingIds, request.ExecutionUser);
-
-                    if (success)
-                    {
-                        return new BuildingQualityCheckSuccessResponse { Message = "Rules were executed" };
-                    }
-                    else
-                    {
-                        return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
-                    }
+                    return new BuildingQualityCheckSuccessResponse { Message = "Rules were executed" };
                 }
-                catch (Exception ex)
-                {
-                    return new BuildingQualityCheckErrorResponse { Message = "There was an error", Code = ex.GetType().Name };
-                }
+                return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
             }
-            else if (action == "UpdateStatus")
+            catch (Exception ex)
             {
-                try
-                {
-                    var success = await _executor.UpdateStatus(request.BuildingIds, request.ExecutionUser);
-
-                    if (success)
-                    {
-                        return new BuildingQualityCheckSuccessResponse { Message = "Quality Status updated" };
-                    }
-                    else
-                    {
-                        return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return new BuildingQualityCheckErrorResponse { Message = "There was an error", Code = ex.GetType().Name };
-                }
+                return new BuildingQualityCheckErrorResponse
+                    { Message = "There was an error", Code = ex.GetType().Name };
             }
-            else
-            return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
         }
-       
     }
 }

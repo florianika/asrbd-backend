@@ -2,6 +2,6 @@
 {
     public class GetPermissionsByRoleAndEntitySuccessResponse : GetPermissionsByRoleAndEntityResponse
     {
-        public IEnumerable<RolePermissionDTO> RolePermissionsDTO { get; set; }
+        public IEnumerable<RolePermissionDTO> RolePermissionsDto { get; set; } = null!;
     }
 }

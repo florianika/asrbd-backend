@@ -90,7 +90,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{id:long}")]
         public async Task<GetRuleResponse> GetRule(long id)
         {
             return await _getRuleService.Execute(new GetRuleRequest() { Id = id });
@@ -104,7 +104,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPatch]
-        [Route("{id}")]
+        [Route("{id:long}")]
         public async Task<ChangeRuleStatusResponse> ChangeRuleStatus(long id)
         {
             var token = Request.Headers["Authorization"].ToString();
@@ -113,7 +113,7 @@ namespace WebApi.Controllers
             return await _changeRuleStatusService.Execute(new ChangeRuleStatusRequest() { Id = id, UpdatedUser = updatedUser});
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:long}")]
         public async Task<UpdateRuleResponse> UpdateRule(long id, UpdateRuleRequest request)
         {
             request.Id = id;

@@ -19,7 +19,7 @@ namespace Application.ProcessOutputLog.GetProcessOutputLogsByEntranceId
 
             return new GetProcessOutputLogsByEntranceIdSuccessResponse
             {
-                ProcessOutputLogDTO = Translator.ToDTOList(processOutputLogs)
+                ProcessOutputLogDto = Translator.ToDTOList(processOutputLogs)
             };
         }
     }

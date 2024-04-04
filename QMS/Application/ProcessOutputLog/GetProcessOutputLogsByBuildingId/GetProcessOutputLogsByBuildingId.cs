@@ -19,7 +19,7 @@ namespace Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId
 
             return new GetProcessOutputLogsByBuildingIdSuccessResponse
             {
-                ProcessOutputLogDTO = Translator.ToDTOList(processOutputLogs)
+                ProcessOutputLogDto = Translator.ToDTOList(processOutputLogs)
             };
         }
     }

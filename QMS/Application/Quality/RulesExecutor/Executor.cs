@@ -16,9 +16,5 @@ namespace Application.Quality.RulesExecutor
         {
             return await _ruleRepository.ExecuteRulesStoreProcedure(buildingIds, user);
         }
-        public async Task<bool> UpdateStatus(List<Guid> buildingIds, Guid user)
-        {
-            return await _ruleRepository.UpdateEntitiesStoredProcedure(buildingIds, user);
-        }
     }
 }

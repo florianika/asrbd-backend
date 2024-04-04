@@ -21,7 +21,7 @@ namespace Application.RolePermission.GetPermissionsByRoleAndEntity
                 
             return new GetPermissionsByRoleAndEntitySuccessResponse
             {
-                RolePermissionsDTO = Translator.ToDTOList(rolePermissions)
+                RolePermissionsDto = Translator.ToDTOList(rolePermissions)
             };
         }
     }

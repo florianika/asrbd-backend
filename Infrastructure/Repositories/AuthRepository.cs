@@ -42,7 +42,7 @@ namespace Infrastructure.Repositories
                                     .SingleOrDefaultAsync(u => u.Id == userId)
                                     ?? throw new NotFoundException("User not found");;
         }
-        public async Task UpdateUser(User user)
+        public Task UpdateUser(User user)
         {
             throw new NotImplementedException();
         }

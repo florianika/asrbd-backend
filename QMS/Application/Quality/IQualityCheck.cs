@@ -6,6 +6,6 @@ namespace Application.Quality
         where Req : IRequest
         where Res : IResponse
     {
-        public Task<Res> Execute(Req request, string action);
+        public Task<Res> Execute(Req request);
     }
 }

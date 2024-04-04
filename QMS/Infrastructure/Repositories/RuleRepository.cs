@@ -28,7 +28,7 @@ namespace Infrastructure.Repositories
             rule.RuleStatus = status;
             rule.UpdatedUser = updatedUser;
             rule.UpdatedTimestamp = DateTime.Now;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<long> CreateRule(Domain.Rule rule)
@@ -75,66 +75,29 @@ namespace Infrastructure.Repositories
             _context.Rules.Update(rule);
             await _context.SaveChangesAsync();
         }
-        public async Task<bool> ExecuteRulesStoreProcedure(List<Guid> buildingIds, Guid CreatedUser)
+        public async Task<bool> ExecuteRulesStoreProcedure(List<Guid> buildingIds, Guid createdUser)
         {
             try
             {
-                string BldIds = "";
+                var bldIds = "";
                 if (buildingIds.Count > 0)
                 {
-                    foreach (Guid guid in buildingIds)
-                    {
-                        BldIds += "'" + guid.ToString() + "',";
-                    }
-                    BldIds = BldIds.Remove(BldIds.Length - 1, 1);
+                    bldIds = buildingIds.Aggregate(bldIds, (current, guid) => current + ("'" + guid.ToString() + "',"));
+                    bldIds = bldIds.Remove(bldIds.Length - 1, 1);
                 }
-                var parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("@buildingIds", BldIds));
-                parameters.Add(new SqlParameter("@CreatedUser", CreatedUser));
-
-                using (var scope = _serviceScopeFactory.CreateScope())
+                var parameters = new List<SqlParameter>
                 {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                    new ("@buildingIds", bldIds),
+                    new ("@CreatedUser", createdUser)
+                };
 
-                    await dbContext.Database.ExecuteSqlRawAsync(
-                        @"exec ExecuteRulesStoredProcedure @buildingIds, @CreatedUser", parameters.ToArray());
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
-                    return true; // Indicate success
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error executing stored procedure.", ex);
-            }
-        }
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec ExecuteRulesStoredProcedure @buildingIds, @CreatedUser", parameters.ToArray());
 
-        public async Task<bool> UpdateEntitiesStoredProcedure(List<Guid> buildingIds, Guid CreatedUser)
-        {
-
-            try
-            {
-                string BldIds = "";
-                if (buildingIds.Count > 0)
-                {
-                    foreach (Guid guid in buildingIds)
-                    {
-                        BldIds += "'" + guid.ToString() + "',";
-                    }
-                    BldIds = BldIds.Remove(BldIds.Length - 1, 1);
-                }
-                var parameters = new List<SqlParameter>();
-                parameters.Add(new SqlParameter("@buildingIds", BldIds));
-                parameters.Add(new SqlParameter("@CreatedUser", CreatedUser));
-
-                using (var scope = _serviceScopeFactory.CreateScope())
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-
-                    await dbContext.Database.ExecuteSqlRawAsync(
-                        @"exec UpdateEntitiesStoredProcedure @buildingIds, @CreatedUser", parameters.ToArray());
-
-                    return true; // Indicate success
-                }
+                return true; // Indicate success
             }
             catch (Exception ex)
             {

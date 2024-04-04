@@ -51,7 +51,7 @@ namespace Application.RolePermission.GetPermissionsByRoleAndEntityAndVariable
                 }
                 return new GetPermissionsByRoleAndEntityAndVariableSuccessResponse
                 {
-                    RolePermissionsDTO = rolePermissionsDTO
+                    RolePermissionsDto = rolePermissionsDTO
                 };
             }
             catch (Exception ex)

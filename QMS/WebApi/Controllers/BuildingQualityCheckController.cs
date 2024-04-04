@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Application.Ports;
 using Application.Quality.BuildingQualityCheck.Response;
 using Application.Quality.BuildingQualityCheck.Request;
-using Application.Quality;
 using Application.Quality.BuildingQualityCheck;
 
 namespace WebApi.Controllers
@@ -21,22 +20,13 @@ namespace WebApi.Controllers
             _buildingQualityCheckService = buildingQualityCheckService;
         }
         
-        [HttpPost("executeRules")]
+        [HttpPost("buildings")]
         public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(BuildingQualityCheckRequest request) {            
             var token = Request.Headers["Authorization"].ToString();
             token = token.Replace("Bearer ", "");
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
-            return await _buildingQualityCheckService.Execute(request, "ExecuteRules");
-        }
-        [HttpPost("updateStatus")]
-        public async Task<BuildingQualityCheckResponse> UpdateQualityStatus(BuildingQualityCheckRequest request)
-        {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
-            var executionUser = await _authTokenService.GetUserIdFromToken(token);
-            request.ExecutionUser = executionUser;
-            return await _buildingQualityCheckService.Execute(request, "UpdateStatus");
+            return await _buildingQualityCheckService.Execute(request);
         }
 
     }
