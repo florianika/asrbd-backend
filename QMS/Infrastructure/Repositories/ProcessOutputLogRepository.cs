@@ -1,7 +1,7 @@
-using System;
 using Application.Exceptions;
 using Application.Ports;
 using Domain;
+using Domain.Enum;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +23,18 @@ namespace Infrastructure.Repositories
             return processOutputLog.Id;
         }
 
+        public async Task ResolveProcessOutputLog(Guid processOutputLogId, Guid updatedUser)
+        {
+            var processOutputLog = await _context.ProcessOutputLogs.FirstOrDefaultAsync(p 
+                                       => p.Id == processOutputLogId)
+                                      ?? throw new NotFoundException("Process output log not found");
+            if (processOutputLog.QualityAction != QualityAction.QUE)
+                throw new InvalidQualityActionException("Operation valid only for QualityAction = 'QUE'");
+            processOutputLog.QualityStatus = QualityStatus.RESOLVED;
+            processOutputLog.CreatedUser = updatedUser;
+            processOutputLog.CreatedTimestamp = DateTime.Now;
+            await _context.SaveChangesAsync();
+        }
         public async Task<ProcessOutputLog> GetProcessOutputLog(Guid id)
         {
             return await _context.ProcessOutputLogs.FirstOrDefaultAsync(p => p.Id == id)

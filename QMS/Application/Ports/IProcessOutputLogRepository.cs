@@ -3,7 +3,8 @@ namespace Application.Ports
 {
     public interface IProcessOutputLogRepository
     {
-        Task<Guid> CreateProcessOutputLog(Domain.ProcessOutputLog processOutputLog); 
+        Task<Guid> CreateProcessOutputLog(Domain.ProcessOutputLog processOutputLog);
+        Task ResolveProcessOutputLog(Guid processOutputLogId, Guid updatedUser);
         Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId);
 
         Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId);
