@@ -21,7 +21,6 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 using System.Text.Json.Serialization;
 using Application.Quality.BuildingQualityCheck;
-using Application.Quality.ProcessOutputLogs;
 using Application.Quality.RulesExecutor;
 using WebApi.Common;
 
@@ -61,9 +60,7 @@ builder.Services.AddScoped<GetProcessOutputLogsByBuildingId>();
 builder.Services.AddScoped<GetProcessOutputLogsByEntranceId>();
 builder.Services.AddScoped<GetProcessOutputLogsByDwellingId>();
 builder.Services.AddScoped<IBuildingQualityCheck, BuildingQualityCheck>();
-builder.Services.AddScoped<Executor>();
-builder.Services.AddScoped<Logger>();
-
+builder.Services.AddScoped<RulesExecutor>();
 builder.Services.AddScoped<BuildingQualityCheck>();
 builder.Services.AddSwaggerGen(options =>
 {

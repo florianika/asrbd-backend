@@ -2,15 +2,13 @@ using Application.Ports;
 
 namespace Application.Quality.RulesExecutor
 {
-    public class Executor
+    public class RulesExecutor
     {
         private readonly IRuleRepository _ruleRepository;
-        private readonly ProcessOutputLogs.Logger _processOutputLogger;
 
-        public Executor(IRuleRepository ruleRepository, ProcessOutputLogs.Logger processOutputLogger) 
+        public RulesExecutor(IRuleRepository ruleRepository) 
         {
             _ruleRepository = ruleRepository;
-            _processOutputLogger = processOutputLogger;
         }
         public async Task<bool> ExecuteRules(List<Guid> buildingIds, Guid user)
         {

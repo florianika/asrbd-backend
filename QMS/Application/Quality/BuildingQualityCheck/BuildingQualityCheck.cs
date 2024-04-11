@@ -10,21 +10,21 @@ namespace Application.Quality.BuildingQualityCheck
     public class BuildingQualityCheck : IBuildingQualityCheck
     {
         private readonly ILogger _logger;
-        private readonly Executor _executor;
+        private readonly RulesExecutor.RulesExecutor _rulesExecutor;
         private readonly IConfiguration _configuration;
         public BuildingQualityCheck(ILogger<BuildingQualityCheck> logger, 
-                                    Executor executor,
+                                    RulesExecutor.RulesExecutor rulesExecutor,
                                     IConfiguration configuration)
         {
             _logger = logger;
-            _executor = executor;
+            _rulesExecutor = rulesExecutor;
             _configuration = configuration;
         }
         public async Task<BuildingQualityCheckResponse> Execute(BuildingQualityCheckRequest request)
         {
             try
             {
-                var success = await _executor.ExecuteRules(request.BuildingIds, request.ExecutionUser);
+                var success = await _rulesExecutor.ExecuteRules(request.BuildingIds, request.ExecutionUser);
                 if (success)
                 {
                     return new BuildingQualityCheckSuccessResponse { Message = "Rules were executed" };
