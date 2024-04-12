@@ -95,7 +95,7 @@ namespace Infrastructure.Repositories
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
                 await dbContext.Database.ExecuteSqlRawAsync(
-                    @"exec ExecuteRulesStoredProcedure @buildingIds, @CreatedUser", parameters.ToArray());
+                    @"exec ExecuteRules @buildingIds, @CreatedUser", parameters.ToArray());
 
                 return true; // Indicate success
             }
