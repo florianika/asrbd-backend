@@ -35,6 +35,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
+using Application.Configuration;
 using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +49,8 @@ builder.Services.AddSingleton<ICryptographyService, CryptographyService>();
 var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
+
+builder.Services.Configure<GisServerCredentials>(builder.Configuration.GetSection("GisServerCredentials"));
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

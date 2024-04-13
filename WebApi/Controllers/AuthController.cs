@@ -1,4 +1,5 @@
-﻿using Application.User.CreateUser;
+﻿using Application.Configuration;
+using Application.User.CreateUser;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Application.User.GetAllUsers.Response;
@@ -28,6 +29,7 @@ using Application.User.GetUser.Response;
 using Application.User.GetUser.Request;
 using Domain.Enum;
 using Application.Exceptions;
+using Microsoft.Extensions.Options;
 
 namespace WebApi.Controllers
 {
@@ -36,8 +38,9 @@ namespace WebApi.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        
         private readonly CreateUser _createUserService;
-        private readonly Login _loginservice;
+        private readonly Login _loginService;
         private readonly RefreshToken _refreshTokenService;
         private readonly SignOut _signOutService;
         private readonly GetAllUsers _getAllUsersService;
@@ -45,6 +48,7 @@ namespace WebApi.Controllers
         private readonly TerminateUser _terminateUserService;
         private readonly ActivateUser _activateUserService;
         private readonly GetUser _getUserService;
+        private readonly IOptions<GisServerCredentials> _gisServerCredentials;
         public AuthController(CreateUser createUserService, 
             Login loginService,
             RefreshToken refreshTokenService,
@@ -53,10 +57,11 @@ namespace WebApi.Controllers
             UpdateUserRole updateUserRoleService,
             TerminateUser terminateUserService,
             ActivateUser activateUserService,
-            GetUser getUserService)
+            GetUser getUserService,
+            IOptions<GisServerCredentials> gisServerCredentials)
         {
             _createUserService = createUserService;
-            _loginservice = loginService;
+            _loginService = loginService;
             _refreshTokenService = refreshTokenService;
             _signOutService = signOutService;
             _getAllUsersService = getAllUsersService;
@@ -64,6 +69,7 @@ namespace WebApi.Controllers
             _terminateUserService = terminateUserService;
             _activateUserService = activateUserService;
             _getUserService = getUserService;
+            _gisServerCredentials = gisServerCredentials;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -78,7 +84,7 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<LoginResponse> Login(LoginRequest request)
         {
-            return await _loginservice.Execute(request);
+            return await _loginService.Execute(request);
         }
         [AllowAnonymous]
         [HttpPost]
@@ -88,7 +94,7 @@ namespace WebApi.Controllers
             return await _refreshTokenService.Execute(request);
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPost]
         [Route("signout")]
         public async Task<SignOutResponse> SignOut(SignOutRequest request)
@@ -96,7 +102,7 @@ namespace WebApi.Controllers
             return await _signOutService.Execute(request);
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet]
         [Route("users")]
         public async Task<GetAllUsersResponse> GetAllUsers()
@@ -104,42 +110,50 @@ namespace WebApi.Controllers
             return await _getAllUsersService.Execute();
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPatch]
-        [Route("users/{id}/set/{role}")]
+        [Route("users/{id:guid}/set/{role}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, string role)
         {
-            if (Enum.TryParse(role, out AccountRole _role))
+            if (Enum.TryParse(role, out AccountRole accountRole))
             {
-                return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = _role });
+                return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = accountRole });
             }
             else
                 throw new EnumExeption("Invalid Role");
             
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPatch]
-        [Route("users/{id}/terminate")]
+        [Route("users/{id:guid}/terminate")]
         public async Task<TerminateUserResponse> TerminateUser(Guid id)
         {
             return await _terminateUserService.Execute(new TerminateUserRequest() { UserId = id });
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpPatch]
-        [Route("users/{id}/activate")]
+        [Route("users/{id:guid}/activate")]
         public async Task<ActivateUserResponse> ActivateUser(Guid id)
         {
             return await _activateUserService.Execute(new ActivateUserRequest() { UserId = id });
         }
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [HttpGet]
-        [Route("users/{id}")]
+        [Route("users/{id:guid}")]
         public async Task<GetUserResponse> GetUser(Guid id)
         {
             return await _getUserService.Execute(new GetUserRequest() { UserId = id });
+        }
+        
+        //[AllowAnonymous]
+        [HttpGet]
+        [Route("gis/credentials")]
+        public GisServerCredentials GetGisServerCredentials()
+        {
+            return _gisServerCredentials.Value;
         }
     }
 }

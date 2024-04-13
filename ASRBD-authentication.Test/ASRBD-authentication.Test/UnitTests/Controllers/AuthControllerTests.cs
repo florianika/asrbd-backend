@@ -1,4 +1,5 @@
-﻿using Application.User.CreateUser.Request;
+﻿using Application.Configuration;
+using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Application.User.CreateUser;
 using Moq;
@@ -19,6 +20,7 @@ using Domain.Enum;
 using Application.Exceptions;
 using Application.User.RefreshToken.Request;
 using Application.User.RefreshToken.Response;
+using Microsoft.Extensions.Options;
 
 namespace ASRBD_authentication.Test.UnitTests.Controllers
 {
@@ -79,6 +81,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginServiceMock.Object,
@@ -88,7 +91,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 updateUserRoleServiceMock.Object,
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
-                getUserServiceMock.Object
+                getUserServiceMock.Object,
+                gisServerCredentials.Object
             );
 
             // Act
@@ -185,6 +189,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
@@ -194,7 +199,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 updateUserRoleServiceMock.Object,
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
-                getUserServiceMock.Object
+                getUserServiceMock.Object,
+                gisServerCredentials.Object
             );
 
             // Act
@@ -284,6 +290,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
@@ -293,7 +300,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 updateUserRoleServiceMock.Object,
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
-                getUserServiceMock.Object
+                getUserServiceMock.Object,
+                gisServerCredentials.Object
             );
             authTokenServiceMock.Setup(service => service.GenerateIdToken(It.IsAny<Domain.User>()))
                     .ReturnsAsync("validIdToken");
@@ -373,6 +381,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
@@ -382,7 +391,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 updateUserRoleServiceMock.Object,
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
-                getUserServiceMock.Object
+                getUserServiceMock.Object,
+                gisServerCredentials.Object
             );
 
             // Act and Assert
