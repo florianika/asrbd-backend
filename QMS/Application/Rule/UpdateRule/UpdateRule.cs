@@ -1,6 +1,4 @@
-﻿
-
-using Application.Ports;
+﻿using Application.Ports;
 using Application.Rule.UpdateRule.Request;
 using Application.Rule.UpdateRule.Response;
 using Microsoft.Extensions.Logging;

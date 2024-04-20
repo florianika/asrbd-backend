@@ -1,6 +1,5 @@
 using Application.Quality.BuildingQualityCheck.Request;
 using Application.Quality.BuildingQualityCheck.Response;
-using Application.Quality.RulesExecutor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

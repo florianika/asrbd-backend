@@ -10,7 +10,7 @@ public class ResolveProcessOutputLog : IResolveProcessOutputLog
     private readonly ILogger _logger;
     private readonly IProcessOutputLogRepository _processOutputLogRepository;
 
-    public ResolveProcessOutputLog(ILogger logger, IProcessOutputLogRepository processOutputLogRepository)
+    public ResolveProcessOutputLog(ILogger<ResolveProcessOutputLog> logger, IProcessOutputLogRepository processOutputLogRepository)
     {
         _logger = logger;
         _processOutputLogRepository = processOutputLogRepository;
