@@ -43,21 +43,19 @@ namespace Application.Rule.CreateRule.Request
                 .WithMessage("Query must contain WHERE 1=1");
             RuleFor(rl => rl.Expression).NotAllowedWordsExpressionValidator(new List<string>
             {
-                "delete ",
-                "username ",
-                "password ",
-                "user ",
-                "update ",
-                "set ",
-                "\nset ",
-                " set "
+                "delete ", " delete", " delete ",
+                "username ", " username", " username ",
+                "password ", " password", " password ",
+                "user ", " user", " user ",
+                "update ", " update", " update ",
+                "set ", " set", " set ", "\nset ", " set "
             }).When(rl => rl.QualityAction != QualityAction.AUT);
             RuleFor(rl => rl.Expression).NotAllowedWordsExpressionValidator(new List<string>
             {
-                "delete ",
-                "username ",
-                "password ",
-                "user ",
+                "delete ", " delete", " delete ",
+                "username ", " username", " username ",
+                "password ", " password", " password ",
+                "user ", " user", " user ",
             }).When(rl => rl.QualityAction == QualityAction.AUT);
             RuleFor(rl => rl.Expression).Must(s => 
                     s.StartsWith("SELECT b.GlobalID AS buildingId", StringComparison.InvariantCultureIgnoreCase))
@@ -65,32 +63,36 @@ namespace Application.Rule.CreateRule.Request
                             && rl.EntityType == EntityType.BUILDING)
                 .WithMessage("Query must start with \'SELECT b.GlobalID AS buildingId\'");
             RuleFor(rl => rl.Expression).Must(s => 
-                    s.StartsWith("SELECT e.GlobalID AS entranceId, e.fk_buildings AS buildingId", 
+                    s.StartsWith("SELECT e.GlobalID AS entranceId, e.EntBuildingId AS buildingId", 
                         StringComparison.InvariantCultureIgnoreCase))
                             .When(rl => rl.QualityAction != QualityAction.AUT 
                                         && rl.EntityType == EntityType.ENTRANCE)
-                            .WithMessage("Query must start with \'SELECT e.GlobalID AS entranceId, e.fk_buildings AS buildingId\'");
+                            .WithMessage("Query must start with \'SELECT e.GlobalID AS entranceId, e.EntBuildingId AS buildingId\'");
             RuleFor(rl => rl.Expression).Must(s => 
-                    s.StartsWith("SELECT d.GlobalId AS dwellingId, e.GlobalID AS entranceId, e.fk_buildings AS buildingId", 
+                    s.StartsWith("SELECT d.GlobalId AS dwellingId, e.GlobalID AS entranceId, e.EntBuildingId AS buildingId", 
                         StringComparison.InvariantCultureIgnoreCase))
                 .When(rl => rl.QualityAction != QualityAction.AUT 
                             && rl.EntityType == EntityType.DWELLING)
-                .WithMessage("Query must start with \'SELECT d.GlobalId AS dwellingId, e.GlobalID AS entranceId, e.fk_buildings AS buildingId\'");
+                .WithMessage("Query must start with \'SELECT d.GlobalId AS dwellingId, e.GlobalID AS entranceId, e.EntBuildingId AS buildingId\'");
             RuleFor(rl => rl.Expression).Must(s => 
                     s.StartsWith("UPDATE [buildingregister].[dataown].[BUILDINGS]", 
-                        StringComparison.InvariantCultureIgnoreCase))
+                        StringComparison.InvariantCultureIgnoreCase) 
+                        || s.StartsWith("WITH", StringComparison.InvariantCultureIgnoreCase))
                 .When(rl => rl.QualityAction == QualityAction.AUT && rl.EntityType == EntityType.BUILDING)
-                .WithMessage("Query must start with \'UPDATE [buildingregister].[dataown].[BUILDINGS_EVW]\'");
+                .WithMessage("Query must start with \'UPDATE [buildingregister].[dataown].[BUILDINGS]\'");
             RuleFor(rl => rl.Expression).Must(s => 
-                    s.StartsWith("UPDATE [buildingregister].[dataown].[ENTRANCE_EVW]", 
-                        StringComparison.InvariantCultureIgnoreCase))
+                    s.StartsWith("UPDATE [buildingregister].[dataown].[ENTRANCE]", 
+                        StringComparison.InvariantCultureIgnoreCase)
+                        || s.StartsWith("WITH", StringComparison.InvariantCultureIgnoreCase))
                 .When(rl => rl.QualityAction == QualityAction.AUT && rl.EntityType == EntityType.ENTRANCE)
-                .WithMessage("Query must start with \'UPDATE [buildingregister].[dataown].[ENTRANCE_EVW]\'");
+                .WithMessage("Query must start with \'UPDATE [buildingregister].[dataown].[ENTRANCE]\'");
             RuleFor(rl => rl.Expression).Must(s => 
                     s.StartsWith("UPDATE [buildingregister].[dataown].[DWELLING]", 
-                        StringComparison.InvariantCultureIgnoreCase))
+                        StringComparison.InvariantCultureIgnoreCase)
+                        || s.StartsWith("WITH", StringComparison.InvariantCultureIgnoreCase))
                 .When(rl => rl.QualityAction == QualityAction.AUT && rl.EntityType == EntityType.ENTRANCE)
-                .WithMessage("Query must start with \'UPDATE [buildingregister].[dataown].[DWELLING_EVW]\'");
+                .WithMessage("Query must start with \'UPDATE [buildingregister].[dataown].[DWELLING]\'")
+                ;
         }
     }
 }
