@@ -5,6 +5,7 @@ namespace Application.ProcessOutputLog
     {
         public Guid Id { get; set; }
         public long RuleId { get; set; }
+        public string? Reference { get; set; }
         public Guid BldId { get; set; }
         public Guid? EntId { get; set; }
         public Guid? DwlId { get; set; }

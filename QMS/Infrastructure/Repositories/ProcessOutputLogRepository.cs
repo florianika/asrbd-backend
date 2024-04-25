@@ -43,7 +43,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId)
         {
-            return await _context.ProcessOutputLogs.Where(p => p.BldId == buildingId).ToListAsync();
+            return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.BldId == buildingId).ToListAsync();
         }
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId)
         {
