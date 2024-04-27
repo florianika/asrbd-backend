@@ -14,6 +14,7 @@ namespace Application.Ports
         Task<List<Domain.Rule>> GetRulesByVariableAndEntity(string variable, EntityType entityType);
         Task UpdateRule(Domain.Rule rule);
         Task<bool> ExecuteRulesStoreProcedure(List<Guid> buildingIds, Guid createdUser);
-        
+        Task<bool> ExecuteAutomaticRulesStoreProcedure(List<Guid> buildingIds, Guid createdUser);
+
     }
 }

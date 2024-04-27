@@ -24,6 +24,7 @@ using Application.ProcessOutputLog.ResolveProcessOutputLog;
 using Application.Quality.BuildingQualityCheck;
 using Application.Quality.RulesExecutor;
 using WebApi.Common;
+using Application.Quality.AutomaticRules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,8 @@ builder.Services.AddScoped<IBuildingQualityCheck, BuildingQualityCheck>();
 builder.Services.AddScoped<IResolveProcessOutputLog, ResolveProcessOutputLog>();
 builder.Services.AddScoped<RulesExecutor>();
 builder.Services.AddScoped<BuildingQualityCheck>();
+builder.Services.AddScoped<AutomaticRules>();
+builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

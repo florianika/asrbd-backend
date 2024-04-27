@@ -104,5 +104,35 @@ namespace Infrastructure.Repositories
                 throw new Exception("Error executing stored procedure.", ex);
             }
         }
+
+        public async Task<bool> ExecuteAutomaticRulesStoreProcedure(List<Guid> buildingIds, Guid createdUser)
+        {
+            try
+            {
+                var bldIds = "";
+                if (buildingIds.Count > 0)
+                {
+                    bldIds = buildingIds.Aggregate(bldIds, (current, guid) => current + ("'" + guid.ToString() + "',"));
+                    bldIds = bldIds.Remove(bldIds.Length - 1, 1);
+                }
+                var parameters = new List<SqlParameter>
+                {
+                    new ("@buildingIds", bldIds),
+                    new ("@CreatedUser", createdUser)
+                };
+
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec ExecuteAutomaticRulesStoredProcedure @buildingIds, @CreatedUser", parameters.ToArray());
+
+                return true; // Indicate success
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error executing stored procedure.", ex);
+            }
+        }
     }
 }

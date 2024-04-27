@@ -4,6 +4,9 @@ using Application.Ports;
 using Application.Quality.BuildingQualityCheck.Response;
 using Application.Quality.BuildingQualityCheck.Request;
 using Application.Quality.BuildingQualityCheck;
+using Application.Quality.AutomaticRules.Response;
+using Application.Quality.AutomaticRules.Request;
+using Application.Quality.AutomaticRules;
 
 namespace WebApi.Controllers
 {
@@ -14,10 +17,12 @@ namespace WebApi.Controllers
     {
         private readonly IAuthTokenService _authTokenService;
         private readonly BuildingQualityCheck _buildingQualityCheckService;
+        private readonly AutomaticRules _automaticRulesService;
 
-        public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService) {
+        public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService, AutomaticRules automaticRules) {
             _authTokenService = authTokenService;
             _buildingQualityCheckService = buildingQualityCheckService;
+            _automaticRulesService = automaticRules;
         }
         
         [HttpPost("buildings")]
@@ -27,6 +32,15 @@ namespace WebApi.Controllers
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
             return await _buildingQualityCheckService.Execute(request);
+        }
+        [HttpPost("automatic")]
+        public async Task<AutomaticRulesResponse> AutomaticRules(AutomaticRulesRequest request)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            var executionUser = await _authTokenService.GetUserIdFromToken(token);
+            request.ExecutionUser = executionUser;
+            return await _automaticRulesService.Execute(request);
         }
 
     }
