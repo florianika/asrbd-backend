@@ -57,15 +57,21 @@ namespace Infrastructure.Repositories
 
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId)
         {
-            return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.BldId == buildingId).ToListAsync();
+            return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.BldId == buildingId)
+            .GroupBy(p => new {p.Variable, p.QualityAction}, (key, g) => g.OrderByDescending(p => p.CreatedTimestamp).First())
+            .OrderByDescending(p => p.CreatedTimestamp).ToListAsync();
         }
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId)
         {
-            return await _context.ProcessOutputLogs.Where(p => p.EntId == entranceId).ToListAsync();
+            return await _context.ProcessOutputLogs.Where(p => p.EntId == entranceId)
+            .GroupBy(p => new {p.Variable, p.QualityAction}, (key, g) => g.OrderByDescending(p => p.CreatedTimestamp).First())
+            .OrderByDescending(p => p.CreatedTimestamp).ToListAsync();
         }
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByDwellingId(Guid dwellingId)
         {
-            return await _context.ProcessOutputLogs.Where(p => p.DwlId == dwellingId).ToListAsync();
+            return await _context.ProcessOutputLogs.Where(p => p.DwlId == dwellingId)
+            .GroupBy(p => new {p.Variable, p.QualityAction}, (key, g) => g.OrderByDescending(p => p.CreatedTimestamp).First())
+            .OrderByDescending(p => p.CreatedTimestamp).ToListAsync();
         }
     }
 }
