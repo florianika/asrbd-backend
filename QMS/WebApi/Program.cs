@@ -25,6 +25,7 @@ using Application.Quality.BuildingQualityCheck;
 using Application.Quality.RulesExecutor;
 using WebApi.Common;
 using Application.Quality.AutomaticRules;
+using Application.ProcessOutputLog.PendOutputLog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +64,7 @@ builder.Services.AddScoped<GetProcessOutputLogsByEntranceId>();
 builder.Services.AddScoped<GetProcessOutputLogsByDwellingId>();
 builder.Services.AddScoped<IBuildingQualityCheck, BuildingQualityCheck>();
 builder.Services.AddScoped<IResolveProcessOutputLog, ResolveProcessOutputLog>();
+builder.Services.AddScoped<IPendProcessOutputLog, PendProcessOutputLog>();
 builder.Services.AddScoped<RulesExecutor>();
 builder.Services.AddScoped<BuildingQualityCheck>();
 builder.Services.AddScoped<AutomaticRules>();

@@ -8,6 +8,9 @@ using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId.Response;
 using Application.ProcessOutputLog.GetProcessOutputLogsByEntranceId;
 using Application.ProcessOutputLog.GetProcessOutputLogsByEntranceId.Request;
 using Application.ProcessOutputLog.GetProcessOutputLogsByEntranceId.Response;
+using Application.ProcessOutputLog.PendOutputLog;
+using Application.ProcessOutputLog.PendOutputLog.Request;
+using Application.ProcessOutputLog.PendOutputLog.Response;
 using Application.ProcessOutputLog.ResolveProcessOutputLog;
 using Application.ProcessOutputLog.ResolveProcessOutputLog.Request;
 using Application.ProcessOutputLog.ResolveProcessOutputLog.Response;
@@ -25,16 +28,18 @@ namespace WebApi.Controllers
         private readonly GetProcessOutputLogsByEntranceId _getProcessOutputLogsByEntranceId;
         private readonly GetProcessOutputLogsByDwellingId _getProcessOutputLogsByDwellingId;
         private readonly IResolveProcessOutputLog _resolveProcessOutputLogService;
+        private readonly IPendProcessOutputLog _pendProcessOutputLogService;
         private readonly IAuthTokenService _authTokenService;
         public ProcessOutputLogController(GetProcessOutputLogsByBuildingId getProcessOutputLogsByBuildingId,
             GetProcessOutputLogsByEntranceId getProcessOutputLogsByEntranceId,
             GetProcessOutputLogsByDwellingId getProcessOutputLogsByDwellingId, 
-            IResolveProcessOutputLog resolveProcessOutputLog, IAuthTokenService authTokenService) 
+            IResolveProcessOutputLog resolveProcessOutputLog, IPendProcessOutputLog pendProcessOutputLogService, IAuthTokenService authTokenService) 
         { 
             _getProcessOutputLogsByBuildingId = getProcessOutputLogsByBuildingId;
             _getProcessOutputLogsByEntranceId = getProcessOutputLogsByEntranceId;
             _getProcessOutputLogsByDwellingId = getProcessOutputLogsByDwellingId;
             _resolveProcessOutputLogService = resolveProcessOutputLog;
+            _pendProcessOutputLogService = pendProcessOutputLogService;
             _authTokenService = authTokenService;
         }
 
@@ -46,6 +51,17 @@ namespace WebApi.Controllers
             token = token.Replace("Bearer ", "");
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _resolveProcessOutputLogService.Execute(new ResolveProcessOutputLogRequest() 
+                { ProcessOutputLogId = id, UpdatedUser = updatedUser});
+        }
+
+        [HttpPatch]
+        [Route("pend/{id:guid}")]
+        public async Task<PendProcessOutputLogResponse> PendProcessOutputLog(Guid id)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            var updatedUser = await _authTokenService.GetUserIdFromToken(token);
+            return await _pendProcessOutputLogService.Execute(new PendProcessOutputLogRequest() 
                 { ProcessOutputLogId = id, UpdatedUser = updatedUser});
         }
 

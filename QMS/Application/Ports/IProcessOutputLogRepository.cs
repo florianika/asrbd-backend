@@ -5,6 +5,7 @@ namespace Application.Ports
     {
         Task<Guid> CreateProcessOutputLog(Domain.ProcessOutputLog processOutputLog);
         Task ResolveProcessOutputLog(Guid processOutputLogId, Guid updatedUser);
+        Task PendProcessOutputLog(Guid processOutputLogId, Guid updatedUser);
         Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId);
 
         Task<List<Domain.ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId);

@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using Application.Exceptions;
 using Application.Ports;
 using Domain;
@@ -34,6 +35,17 @@ namespace Infrastructure.Repositories
             processOutputLog.CreatedUser = updatedUser;
             processOutputLog.CreatedTimestamp = DateTime.Now;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task PendProcessOutputLog(Guid processOutputLogId, Guid updatedUser)
+        {
+            var processOutputLog = await _context.ProcessOutputLogs.FirstOrDefaultAsync(p 
+                                       => p.Id == processOutputLogId)
+                                      ?? throw new NotFoundException("Process output log not found");
+            processOutputLog.QualityStatus = QualityStatus.PENDING;
+            processOutputLog.CreatedUser = updatedUser;
+            processOutputLog.CreatedTimestamp = DateTime.Now;
+            await _context.SaveChangesAsync();                     
         }
         public async Task<ProcessOutputLog> GetProcessOutputLog(Guid id)
         {

@@ -29,7 +29,7 @@ public class ResolveProcessOutputLog : IResolveProcessOutputLog
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error while resolving process output log with id: {id}", 
-                request.ProcessOutputLogId.ToString());
+            request.ProcessOutputLogId.ToString());
             throw;
         }
     }
