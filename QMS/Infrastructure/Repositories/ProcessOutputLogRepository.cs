@@ -42,6 +42,8 @@ namespace Infrastructure.Repositories
             var processOutputLog = await _context.ProcessOutputLogs.FirstOrDefaultAsync(p 
                                        => p.Id == processOutputLogId)
                                       ?? throw new NotFoundException("Process output log not found");
+            if (processOutputLog.QualityAction != QualityAction.QUE)
+                throw new InvalidQualityActionException("Operation valid only for QualityAction = 'QUE'");
             processOutputLog.QualityStatus = QualityStatus.PENDING;
             processOutputLog.CreatedUser = updatedUser;
             processOutputLog.CreatedTimestamp = DateTime.Now;
