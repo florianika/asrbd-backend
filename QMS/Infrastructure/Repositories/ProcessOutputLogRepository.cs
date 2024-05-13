@@ -6,6 +6,7 @@ using Domain;
 using Domain.Enum;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Infrastructure.Repositories
 {
@@ -56,23 +57,23 @@ namespace Infrastructure.Repositories
               ?? throw new NotFoundException("Process output log not found");
         }
 
-        public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId)
+        public  async Task<List<ProcessOutputLog>> GetProcessOutputLogsByBuildingId(Guid buildingId)
         {
-            return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.BldId == buildingId)
-            .GroupBy(p => new {p.Variable, p.QualityAction}, (key, g) => g.OrderByDescending(p => p.CreatedTimestamp)).First()
-            .OrderByDescending(p => p.CreatedTimestamp).AsQueryable().ToListAsync();
+           return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.BldId == buildingId).ToListAsync();
+        }
+
+        public async Task<List<ProcessOutputLog>> GetPendingProcessOutputLogsByBuildingId(Guid buildingId, QualityStatus qualityStatus)
+        {
+            return await _context.ProcessOutputLogs.Include("Rule")
+            .Where(p => p.BldId == buildingId && p.QualityStatus == qualityStatus).ToListAsync();
         }
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByEntranceId(Guid entranceId)
         {
-            return await _context.ProcessOutputLogs.Where(p => p.EntId == entranceId)
-            .GroupBy(p => new {p.Variable, p.QualityAction}, (key, g) => g.OrderByDescending(p => p.CreatedTimestamp)).First()
-            .OrderByDescending(p => p.CreatedTimestamp).AsQueryable().ToListAsync();
+            return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.EntId == entranceId).ToListAsync();
         }
         public async Task<List<ProcessOutputLog>> GetProcessOutputLogsByDwellingId(Guid dwellingId)
         {
-            return await _context.ProcessOutputLogs.Where(p => p.DwlId == dwellingId)
-            .GroupBy(p => new {p.Variable, p.QualityAction}, (key, g) => g.OrderByDescending(p => p.CreatedTimestamp)).First()
-            .OrderByDescending(p => p.CreatedTimestamp).AsQueryable().ToListAsync();
+            return await _context.ProcessOutputLogs.Include("Rule").Where(p => p.DwlId == dwellingId).ToListAsync();    
         }
     }
 }

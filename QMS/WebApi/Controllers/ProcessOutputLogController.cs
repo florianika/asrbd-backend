@@ -2,6 +2,9 @@
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Request;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Response;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus.Request;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus.Response;
 using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId;
 using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId.Request;
 using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId.Response;
@@ -14,6 +17,7 @@ using Application.ProcessOutputLog.PendOutputLog.Response;
 using Application.ProcessOutputLog.ResolveProcessOutputLog;
 using Application.ProcessOutputLog.ResolveProcessOutputLog.Request;
 using Application.ProcessOutputLog.ResolveProcessOutputLog.Response;
+using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,17 +31,20 @@ namespace WebApi.Controllers
         private readonly GetProcessOutputLogsByBuildingId _getProcessOutputLogsByBuildingId;
         private readonly GetProcessOutputLogsByEntranceId _getProcessOutputLogsByEntranceId;
         private readonly GetProcessOutputLogsByDwellingId _getProcessOutputLogsByDwellingId;
+        private readonly GetProcessOutputLogsByBuildingIdAndStatus _getProcessOutputLogsByBuildingIdAndStatus;
         private readonly IResolveProcessOutputLog _resolveProcessOutputLogService;
         private readonly IPendProcessOutputLog _pendProcessOutputLogService;
         private readonly IAuthTokenService _authTokenService;
         public ProcessOutputLogController(GetProcessOutputLogsByBuildingId getProcessOutputLogsByBuildingId,
             GetProcessOutputLogsByEntranceId getProcessOutputLogsByEntranceId,
             GetProcessOutputLogsByDwellingId getProcessOutputLogsByDwellingId, 
+            GetProcessOutputLogsByBuildingIdAndStatus getProcessOutputLogsByBuildingIdAndStatus,
             IResolveProcessOutputLog resolveProcessOutputLog, IPendProcessOutputLog pendProcessOutputLogService, IAuthTokenService authTokenService) 
         { 
             _getProcessOutputLogsByBuildingId = getProcessOutputLogsByBuildingId;
             _getProcessOutputLogsByEntranceId = getProcessOutputLogsByEntranceId;
             _getProcessOutputLogsByDwellingId = getProcessOutputLogsByDwellingId;
+            _getProcessOutputLogsByBuildingIdAndStatus = getProcessOutputLogsByBuildingIdAndStatus;
             _resolveProcessOutputLogService = resolveProcessOutputLog;
             _pendProcessOutputLogService = pendProcessOutputLogService;
             _authTokenService = authTokenService;
@@ -72,6 +79,12 @@ namespace WebApi.Controllers
             return await _getProcessOutputLogsByBuildingId.Execute(new GetProcessOutputLogsByBuildingIdRequest() { BldId = id });
         }
 
+        [HttpGet]
+        [Route("buildings/{id:guid}/status/{status:QualityStatus}")]
+        public async Task<GetProcessOutputLogsByBuildingIdAndStatusResponse> GetProcessOutputLogsByBuildingIdAndStatus(Guid id, QualityStatus status)
+        {
+            return await _getProcessOutputLogsByBuildingIdAndStatus.Execute(new GetProcessOutputLogsByBuildingIdAndStatusRequest() { BldId = id, QualityStatus = status });
+        }
 
         [HttpGet]
         [Route("entrances/{id:guid}")]
