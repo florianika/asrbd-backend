@@ -80,7 +80,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("buildings/{id:guid}/status/{status:QualityStatus}")]
+        [Route("buildings/{id:guid}/status/{status}")]
         public async Task<GetProcessOutputLogsByBuildingIdAndStatusResponse> GetProcessOutputLogsByBuildingIdAndStatus(Guid id, QualityStatus status)
         {
             return await _getProcessOutputLogsByBuildingIdAndStatus.Execute(new GetProcessOutputLogsByBuildingIdAndStatusRequest() { BldId = id, QualityStatus = status });
