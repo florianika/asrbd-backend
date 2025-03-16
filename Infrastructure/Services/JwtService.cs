@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace Infrastructure.Services
 {
@@ -20,6 +21,19 @@ namespace Infrastructure.Services
             var claimsIdentity = new ClaimsIdentity();
             claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
             claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Role, user.AccountRole.ToString()));
+            //nese do jete districtid ne token
+            //var districtId = user.District?.Code ?? 0;
+            //claimsIdentity.AddClaim(new System.Security.Claims.Claim("districtid", districtId.ToString()));
+
+            //nese kerkohet te jete strukture "district":  { "code": 1, "value": "Tirana" }
+            var district = new
+            {
+                code = user.District?.Code ?? 0,
+                value = user.District?.Value ?? "Unknown"
+            };
+            var districtJson = JsonSerializer.Serialize(district);
+            claimsIdentity.AddClaim(new System.Security.Claims.Claim("district", districtJson));
+
             return claimsIdentity;
         }
         private ClaimsIdentity AddIdTokenClaims(User user) {
