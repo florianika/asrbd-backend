@@ -1,12 +1,9 @@
-using System.Diagnostics.Contracts;
-using System.Linq.Dynamic.Core;
 using Application.Exceptions;
 using Application.Ports;
 using Domain;
 using Domain.Enum;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Infrastructure.Repositories
 {
