@@ -3,8 +3,8 @@ namespace Infrastructure.Services
 {
     public class JwtSettings
     {
-        public AccessTokenSettings AccessTokenSettings { get; set; } = new AccessTokenSettings();
-        public RefreshTokenSettings RefreshTokenSettings { get; set; } = new RefreshTokenSettings();
+        public AccessTokenSettings AccessTokenSettings { get; set; } = new();
+        public RefreshTokenSettings RefreshTokenSettings { get; set; } = new();
     }
     public class AccessTokenSettings
     {
