@@ -10,7 +10,6 @@ namespace Application.User.CreateUser.Request
         public string Password { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public District? District { get; set; }
         public IList<Claim> Claims { get; set; }
     }
 
@@ -22,9 +21,6 @@ namespace Application.User.CreateUser.Request
             RuleFor(cur => cur.Name).NotNull().MinimumLength(2).WithMessage("Invalid Name");
             RuleFor(cur => cur.LastName).NotEmpty().NotNull().MinimumLength(2).WithMessage("Invalid last name");
             RuleFor(cur => cur.Password).NotEmpty().NotNull().MinimumLength(6).WithMessage("Invalid Password");
-            RuleFor(cur => cur.District).Cascade(CascadeMode.Stop)
-            .Must(d => d == null || (d.Code > 0 && !string.IsNullOrWhiteSpace(d.Value)))
-            .WithMessage("Invalid district information"); //District mund të mungojë, por nëse jepet, duhet të ketë Code > 0 dhe Value jo bosh.
         }
     }
 }

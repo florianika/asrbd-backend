@@ -14,7 +14,6 @@ namespace Infrastructure.Context
         {
         }
         public DbSet<User> Users { get; set; }
-        public DbSet<District> Districts { get; set; }
         public DbSet<RefreshToken> RefreshToken { get; set; }
         public DbSet<Claim> Claim { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
@@ -32,12 +31,6 @@ namespace Infrastructure.Context
         } 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .OwnsOne(u => u.District, district =>
-                {
-                    district.Property(d => d.Code).HasColumnName("DistrictCode");
-                    district.Property(d => d.Value).HasColumnName("DistrictValue").HasColumnType("varchar(100)");
-                });
             modelBuilder
                 .Entity<User>()
                 .Property(u => u.AccountRole)

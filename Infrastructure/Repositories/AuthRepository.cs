@@ -122,7 +122,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User> FindUserByEmail(string email)
         {
-            return await _context.Users.Include(u => u.RefreshToken)
+            return await _context.Users.Include(u => u.RefreshToken).Include(u=>u.Claims)
                     .SingleOrDefaultAsync(u => u.Email == email && u.AccountStatus != AccountStatus.TERMINATED)
                     ?? throw new NotFoundException("User not found");
         }

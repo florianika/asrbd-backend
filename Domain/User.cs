@@ -20,7 +20,6 @@ namespace Domain
         public AccountRole AccountRole { get; set; }
         public int SigninFails { get; set; }
         public DateTime? LockExpiration { get; set; }
-        public District? District { get; set; }
         public User()
         {
             Claims = new List<Claim>();
