@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    [Authorize(Roles ="ADMIN")] //@suli did you test this?
+    [Authorize(Roles ="ADMIN")]
     [Route("api/admin/users")]
     [ApiController]
     public class UserAdministrationController : ControllerBase
@@ -47,27 +47,27 @@ namespace WebApi.Controllers
             return await _getAllUsersService.Execute();
         }
         [HttpGet]
-        [Route("/{guid}")]
+        [Route("/{guid:guid}")]
         public async Task<GetUserResponse> GetUser(Guid guid)
         {    
             return await _getUserService.Execute(new GetUserRequest { UserId = guid });
         }
         [HttpPatch]
-        [Route("/{guid}/set/role/{role}")]
+        [Route("/{guid:guid}/set/role/{role}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, AccountRole role)
         {
             return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = guid, AccountRole = role});
         }
 
         [HttpPatch]
-        [Route("/{guid}/terminate")]
+        [Route("/{guid:guid}/terminate")]
         public async Task<TerminateUserResponse> TerminateUser(Guid guid)
         {
             return await _terminateUserService.Execute(new TerminateUserRequest() {UserId = guid });
         }
 
         [HttpPatch]
-        [Route("/{guid}/activate")]
+        [Route("/{guid:guid}/activate")]
         public async Task<ActivateUserResponse> ActivateUser(Guid guid)
         {
             return await _activateUserService.Execute(new ActivateUserRequest() { UserId = guid });

@@ -1,37 +1,11 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/{catchAll}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "asrdb-arcgis-python",
-          "Port": 8888
-        }
-      ],
-      "UpstreamPathTemplate": "/{catchAll}",
-      "Priority": 0,
-      "UpstreamHttpMethod": []
-    },
-    {
-      "DownstreamPathTemplate": "/api/kernels/{kernel_id}/{everything}",
-      "DownstreamScheme": "ws",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "asrdb-arcgis-python",
-          "Port": 8888
-        }
-      ],
-      "UpstreamPathTemplate": "/api/kernels/{kernel_id}/{everything}",
-      "Priority": 1,
-      "UpstreamHttpMethod": []
-    },
-    {
       "DownstreamPathTemplate": "/api/auth/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrdb-auth",
+          "Host": "asrbd-auth",
           "Port": 80
         }
       ],
@@ -47,7 +21,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrdb-auth",
+          "Host": "asrbd-auth",
           "Port": 80
         }
       ],
@@ -60,7 +34,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrdb-qms",
+          "Host": "asrbd-qms",
           "Port": 80
         }
       ],
