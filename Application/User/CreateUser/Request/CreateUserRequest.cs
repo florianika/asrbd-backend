@@ -21,6 +21,8 @@ namespace Application.User.CreateUser.Request
             RuleFor(cur => cur.Name).NotNull().MinimumLength(2).WithMessage("Invalid Name");
             RuleFor(cur => cur.LastName).NotEmpty().NotNull().MinimumLength(2).WithMessage("Invalid last name");
             RuleFor(cur => cur.Password).NotEmpty().NotNull().MinimumLength(6).WithMessage("Invalid Password");
+            //Claims should contain at least the municipality
+            RuleFor(cur => cur.Claims).NotNull().NotEmpty().WithMessage("Invalid Claims");
         }
     }
 }

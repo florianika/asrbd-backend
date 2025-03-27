@@ -20,20 +20,19 @@ namespace Infrastructure.Services
         }
         private ClaimsIdentity AddAccessTokenClaims(User user) {
             var claimsIdentity = new ClaimsIdentity();
-            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Role, user.AccountRole.ToString()));
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.AccountRole.ToString()));
             return claimsIdentity;
         }
         private ClaimsIdentity AddIdTokenClaims(User user) {
             var claimsIdentity = AddAccessTokenClaims(user);
-            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Name, user.Name));
-            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Email, user.Email));
-            claimsIdentity.AddClaim(new System.Security.Claims.Claim(ClaimTypes.Surname, user.LastName));
-            // Kontrollojmë nëse ekziston një claim me type "district"
-            var districtClaim = user.Claims?.FirstOrDefault(c => c.Type == "district");
-            if (districtClaim != null && int.TryParse(districtClaim.Value, out int districtId))
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, user.Name));
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+            claimsIdentity.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
+            //Every claim should be included in the AccessToken
+            foreach (var claim in user.Claims)
             {
-                claimsIdentity.AddClaim(new System.Security.Claims.Claim("districtId", districtId.ToString())); // Shtojmë districtId
+                claimsIdentity.AddClaim(new Claim(claim.Type, claim.Value));
             }
             return claimsIdentity;
         }

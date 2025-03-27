@@ -6,7 +6,7 @@ services:
     asrdb-gateway:
         networks:
             - asrdb-network
-        image: ghcr.io/florianika/asrdb-gateway:latest
+        image: ghcr.io/florianika/asrbd-gateway:latest
         ports:
             - "9090:80"
         hostname: asrdb-gateway
@@ -17,19 +17,19 @@ services:
         ports:
             - "8080:80"
         hostname: asrdb-auth
-    asrdb-mssql:
-        networks:
-            - asrdb-network
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        ports:
-            - "1433:1433"
-        environment:
-            - ACCEPT_EULA=Y
-            - MSSQL_SA_PASSWORD=RjttMBnnbgjptw4G
-            - MSSQL_PID=Developer
-        volumes:
-            -  sqlservervolume:/var/opt/mssql
-        hostname: asrdb-mssql
+#    asrdb-mssql:
+#        networks:
+#            - asrdb-network
+#        image: mcr.microsoft.com/mssql/server:2022-latest
+#        ports:
+#            - "1433:1433"
+#        environment:
+#            - ACCEPT_EULA=Y
+#            - MSSQL_SA_PASSWORD=RjttMBnnbgjptw4G
+#            - MSSQL_PID=Developer
+#        volumes:
+#            -  sqlservervolume:/var/opt/mssql
+#        hostname: asrdb-mssql
     #asrdb-arcgis-python:
     #   networks:
     #        - asrdb-network
@@ -40,7 +40,7 @@ services:
     asrdb-qms:
         networks:
             - asrdb-network
-        image: ghcr.io/florianika/asrdb-qms:latest
+        image: ghcr.io/florianika/asrbd-qms:latest
         ports:
             - "8088:80"
         hostname: asrdb-qms
@@ -49,5 +49,5 @@ services:
         ports:
             - "80:80"
 
-volumes:
-    sqlservervolume:
+#volumes:
+#    sqlservervolume:
