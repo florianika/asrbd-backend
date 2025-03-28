@@ -18,6 +18,7 @@ using Application.User.Login.Request;
 using Application.User.Login.Response;
 using Domain.Enum;
 using Application.Exceptions;
+using Application.User.GetUserByEmail;
 using Application.User.RefreshToken.Request;
 using Application.User.RefreshToken.Response;
 using Microsoft.Extensions.Options;
@@ -81,6 +82,12 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+
+            var getUserByEmailServiceMock = new Mock<GetUserByEmail>(
+                Mock.Of<ILogger<GetUserByEmail>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
@@ -92,6 +99,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
+                getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object
             );
 
@@ -189,6 +197,12 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            
+            var getUserByEmailServiceMock = new Mock<GetUserByEmail>(
+                Mock.Of<ILogger<GetUserByEmail>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
@@ -200,6 +214,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
+                getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object
             );
 
@@ -290,7 +305,14 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            
+            var getUserByEmailServiceMock = new Mock<GetUserByEmail>(
+                Mock.Of<ILogger<GetUserByEmail>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
+            
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
@@ -301,6 +323,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
+                getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object
             );
             authTokenServiceMock.Setup(service => service.GenerateIdToken(It.IsAny<Domain.User>()))
@@ -381,7 +404,14 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUser>>(),
                 Mock.Of<IAuthRepository>()
                 );
+            
+            var getUserByEmailServiceMock = new Mock<GetUserByEmail>(
+                Mock.Of<ILogger<GetUserByEmail>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
+            
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
@@ -392,6 +422,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 terminateUserServiceMock.Object,
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
+                getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object
             );
 

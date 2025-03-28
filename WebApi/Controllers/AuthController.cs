@@ -29,6 +29,9 @@ using Application.User.GetUser.Response;
 using Application.User.GetUser.Request;
 using Domain.Enum;
 using Application.Exceptions;
+using Application.User.GetUserByEmail;
+using Application.User.GetUserByEmail.Request;
+using Application.User.GetUserByEmail.Response;
 using Microsoft.Extensions.Options;
 
 namespace WebApi.Controllers
@@ -48,6 +51,7 @@ namespace WebApi.Controllers
         private readonly TerminateUser _terminateUserService;
         private readonly ActivateUser _activateUserService;
         private readonly GetUser _getUserService;
+        private readonly GetUserByEmail _getUserByEmailService;
         private readonly IOptions<GisServerCredentials> _gisServerCredentials;
         public AuthController(CreateUser createUserService, 
             Login loginService,
@@ -58,6 +62,7 @@ namespace WebApi.Controllers
             TerminateUser terminateUserService,
             ActivateUser activateUserService,
             GetUser getUserService,
+            GetUserByEmail getUserByEmailService,
             IOptions<GisServerCredentials> gisServerCredentials)
         {
             _createUserService = createUserService;
@@ -69,6 +74,7 @@ namespace WebApi.Controllers
             _terminateUserService = terminateUserService;
             _activateUserService = activateUserService;
             _getUserService = getUserService;
+            _getUserByEmailService = getUserByEmailService;
             _gisServerCredentials = gisServerCredentials;
         }
         [AllowAnonymous]
@@ -146,6 +152,14 @@ namespace WebApi.Controllers
         public async Task<GetUserResponse> GetUser(Guid id)
         {
             return await _getUserService.Execute(new GetUserRequest() { UserId = id });
+        }
+        
+        //[AllowAnonymous]
+        [HttpGet]
+        [Route("users/email/{email}")]
+        public async Task<GetUserByEmailResponse> GetUserByEmail(string email)
+        {
+            return await _getUserByEmailService.Execute(new GetUserByEmailRequest() { Email = email });
         }
         
         //[AllowAnonymous]

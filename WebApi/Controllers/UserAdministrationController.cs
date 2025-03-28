@@ -53,10 +53,10 @@ namespace WebApi.Controllers
             return await _getAllUsersService.Execute();
         }
         [HttpGet]
-        [Route("{guid:guid}")]
-        public async Task<GetUserResponse> GetUser(Guid guid)
+        [Route("{id:guid}")]
+        public async Task<GetUserResponse> GetUser(Guid id)
         {    
-            return await _getUserService.Execute(new GetUserRequest { UserId = guid });
+            return await _getUserService.Execute(new GetUserRequest { UserId = id });
         }
 
         [HttpGet]
@@ -67,24 +67,24 @@ namespace WebApi.Controllers
         }
         
         [HttpPatch]
-        [Route("{guid:guid}/set/role/{role}")]
-        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, AccountRole role)
+        [Route("{id:guid}/set/role/{role}")]
+        public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, AccountRole role)
         {
-            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = guid, AccountRole = role});
+            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = role});
         }
 
         [HttpPatch]
-        [Route("{guid:guid}/terminate")]
-        public async Task<TerminateUserResponse> TerminateUser(Guid guid)
+        [Route("{id:guid}/terminate")]
+        public async Task<TerminateUserResponse> TerminateUser(Guid id)
         {
-            return await _terminateUserService.Execute(new TerminateUserRequest() {UserId = guid });
+            return await _terminateUserService.Execute(new TerminateUserRequest() {UserId = id });
         }
 
         [HttpPatch]
-        [Route("{guid:guid}/activate")]
-        public async Task<ActivateUserResponse> ActivateUser(Guid guid)
+        [Route("{id:guid}/activate")]
+        public async Task<ActivateUserResponse> ActivateUser(Guid id)
         {
-            return await _activateUserService.Execute(new ActivateUserRequest() { UserId = guid });
+            return await _activateUserService.Execute(new ActivateUserRequest() { UserId = id });
         }
     }
 }
