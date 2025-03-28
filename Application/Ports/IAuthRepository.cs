@@ -6,7 +6,7 @@ namespace Application.Ports
 {
     public interface IAuthRepository
     {
-        Task<Domain.User> GetUserByEmail(string email);
+        Task<Domain.User> GetUserByEmail(string? email);
         Task UpdateUser(Domain.User user);
         Task<Domain.User> GetUserByUserId(Guid userId);
         Task CreateUser(Domain.User user);

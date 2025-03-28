@@ -23,7 +23,7 @@ namespace Infrastructure.Repositories
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string? email)
         {
             return await _context.Users
                                 .Where(u => u.Email == email)

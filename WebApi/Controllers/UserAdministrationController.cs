@@ -6,6 +6,9 @@ using Application.User.GetAllUsers.Response;
 using Application.User.GetUser;
 using Application.User.GetUser.Request;
 using Application.User.GetUser.Response;
+using Application.User.GetUserByEmail;
+using Application.User.GetUserByEmail.Request;
+using Application.User.GetUserByEmail.Response;
 using Application.User.TerminateUser;
 using Application.User.TerminateUser.Request;
 using Application.User.TerminateUser.Response;
@@ -28,17 +31,20 @@ namespace WebApi.Controllers
         private readonly UpdateUserRole _updateUserRoleService;
         private readonly TerminateUser _terminateUserService;
         private readonly ActivateUser _activateUserService;
+        private readonly GetUserByEmail _getUserByEmailService;
         public UserAdministrationController(GetAllUsers getAllUsersService,
             GetUser getUserService,
             UpdateUserRole updateUserRoleService,
             TerminateUser terminateUserService,
-            ActivateUser activateUserService)
+            ActivateUser activateUserService,
+            GetUserByEmail getUserByEmailService)
         {
             _getAllUsersService = getAllUsersService;
             _getUserService = getUserService;
             _updateUserRoleService = updateUserRoleService;
             _terminateUserService = terminateUserService;
             _activateUserService = activateUserService;
+            _getUserByEmailService = getUserByEmailService;
         }
 
         [HttpGet]
@@ -47,27 +53,35 @@ namespace WebApi.Controllers
             return await _getAllUsersService.Execute();
         }
         [HttpGet]
-        [Route("/{guid:guid}")]
+        [Route("{guid:guid}")]
         public async Task<GetUserResponse> GetUser(Guid guid)
         {    
             return await _getUserService.Execute(new GetUserRequest { UserId = guid });
         }
+
+        [HttpGet]
+        [Route("email/{email}")]
+        public async Task<GetUserByEmailResponse> GetUserByEmail(string email)
+        {
+            return await _getUserByEmailService.Execute(new GetUserByEmailRequest() { Email = email });
+        }
+        
         [HttpPatch]
-        [Route("/{guid:guid}/set/role/{role}")]
+        [Route("{guid:guid}/set/role/{role}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid guid, AccountRole role)
         {
             return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = guid, AccountRole = role});
         }
 
         [HttpPatch]
-        [Route("/{guid:guid}/terminate")]
+        [Route("{guid:guid}/terminate")]
         public async Task<TerminateUserResponse> TerminateUser(Guid guid)
         {
             return await _terminateUserService.Execute(new TerminateUserRequest() {UserId = guid });
         }
 
         [HttpPatch]
-        [Route("/{guid:guid}/activate")]
+        [Route("{guid:guid}/activate")]
         public async Task<ActivateUserResponse> ActivateUser(Guid guid)
         {
             return await _activateUserService.Execute(new ActivateUserRequest() { UserId = guid });

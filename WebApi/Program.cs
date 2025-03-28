@@ -36,6 +36,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using Application.Configuration;
+using Application.User.GetUserByEmail;
 using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -79,6 +80,7 @@ builder.Services.AddScoped<GetPermissionsByRoleAndEntityAndVariable>();
 builder.Services.AddScoped<DeleteRolePermission>();
 builder.Services.AddScoped<UpdateRolePermission>();
 builder.Services.AddScoped<ChangeRolePermission>();
+builder.Services.AddScoped<GetUserByEmail>();
 //builder.Services.AddScoped<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation(configuration =>
