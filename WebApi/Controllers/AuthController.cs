@@ -32,6 +32,9 @@ using Application.Exceptions;
 using Application.User.GetUserByEmail;
 using Application.User.GetUserByEmail.Request;
 using Application.User.GetUserByEmail.Response;
+using Application.User.SetUserMunicipality;
+using Application.User.SetUserMunicipality.Request;
+using Application.User.SetUserMunicipality.Response;
 using Microsoft.Extensions.Options;
 
 namespace WebApi.Controllers
@@ -53,6 +56,7 @@ namespace WebApi.Controllers
         private readonly GetUser _getUserService;
         private readonly GetUserByEmail _getUserByEmailService;
         private readonly IOptions<GisServerCredentials> _gisServerCredentials;
+        private readonly SetUserMunicipality _setUserMunicipalityService;
         public AuthController(CreateUser createUserService, 
             Login loginService,
             RefreshToken refreshTokenService,
@@ -63,7 +67,8 @@ namespace WebApi.Controllers
             ActivateUser activateUserService,
             GetUser getUserService,
             GetUserByEmail getUserByEmailService,
-            IOptions<GisServerCredentials> gisServerCredentials)
+            IOptions<GisServerCredentials> gisServerCredentials,
+            SetUserMunicipality setUserMunicipalityService)
         {
             _createUserService = createUserService;
             _loginService = loginService;
@@ -76,6 +81,7 @@ namespace WebApi.Controllers
             _getUserService = getUserService;
             _getUserByEmailService = getUserByEmailService;
             _gisServerCredentials = gisServerCredentials;
+            _setUserMunicipalityService = setUserMunicipalityService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -128,6 +134,13 @@ namespace WebApi.Controllers
             else
                 throw new EnumExeption("Invalid Role");
             
+        }
+        
+        [HttpPatch]
+        [Route("{id:guid}/set/municipality/{municipality}")]
+        public async Task<SetUserMunicipalityResponse> SetUserMunicipality(Guid id, string municipality)
+        {
+            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() { UserId = id, MunicipalityCode = municipality});
         }
 
         //[AllowAnonymous]

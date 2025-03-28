@@ -22,5 +22,6 @@ namespace Application.Ports
         Task<Domain.User> FindUserById(Guid userId);
         Task UnlockAccount(Domain.User user);
         Task<Domain.User> FindUserByEmail(string email);
+        Task SetUserMunicipality(Guid requestUserId, string requestMunicipalityCode);
     }
 }

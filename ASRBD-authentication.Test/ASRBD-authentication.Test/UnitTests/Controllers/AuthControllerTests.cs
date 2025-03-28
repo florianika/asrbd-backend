@@ -21,6 +21,7 @@ using Application.Exceptions;
 using Application.User.GetUserByEmail;
 using Application.User.RefreshToken.Request;
 using Application.User.RefreshToken.Response;
+using Application.User.SetUserMunicipality;
 using Microsoft.Extensions.Options;
 
 namespace ASRBD_authentication.Test.UnitTests.Controllers
@@ -88,6 +89,11 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<IAuthRepository>()
             );
             
+            var setUserMunicipalityServiceMock = new Mock<SetUserMunicipality>(
+                Mock.Of<ILogger<SetUserMunicipality>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
@@ -100,7 +106,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
-                gisServerCredentials.Object
+                gisServerCredentials.Object,
+                setUserMunicipalityServiceMock.Object
+                
             );
 
             // Act
@@ -203,6 +211,11 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<IAuthRepository>()
             );
             
+            var setUserMunicipalityServiceMock = new Mock<SetUserMunicipality>(
+                Mock.Of<ILogger<SetUserMunicipality>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var controller = new AuthController(
                 createUserServiceMock.Object,
@@ -215,7 +228,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
-                gisServerCredentials.Object
+                gisServerCredentials.Object,
+                setUserMunicipalityServiceMock.Object
             );
 
             // Act
@@ -311,6 +325,11 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<IAuthRepository>()
             );
             
+            var setUserMunicipalityServiceMock = new Mock<SetUserMunicipality>(
+                Mock.Of<ILogger<SetUserMunicipality>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             
             var controller = new AuthController(
@@ -324,7 +343,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
-                gisServerCredentials.Object
+                gisServerCredentials.Object,
+                setUserMunicipalityServiceMock.Object
             );
             authTokenServiceMock.Setup(service => service.GenerateIdToken(It.IsAny<Domain.User>()))
                     .ReturnsAsync("validIdToken");
@@ -410,6 +430,11 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<IAuthRepository>()
             );
             
+            var setUserMunicipalityServiceMock = new Mock<SetUserMunicipality>(
+                Mock.Of<ILogger<SetUserMunicipality>>(),
+                Mock.Of<IAuthRepository>()
+            );
+            
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             
             var controller = new AuthController(
@@ -423,7 +448,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 activateUserServiceMock.Object,
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
-                gisServerCredentials.Object
+                gisServerCredentials.Object,
+                setUserMunicipalityServiceMock.Object
             );
 
             // Act and Assert

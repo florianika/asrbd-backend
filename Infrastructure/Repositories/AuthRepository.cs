@@ -100,6 +100,26 @@ namespace Infrastructure.Repositories
             userToUpdate.AccountRole = accountRole;
             await _context.SaveChangesAsync();  
         }
+
+        public async Task SetUserMunicipality(Guid userId, string municipalityCode)
+        {
+            var userToUpdate= await _context.Users.Include(user => user.Claims).SingleOrDefaultAsync(u => u.Id == userId) 
+                              ?? throw new NotFoundException("User not found");
+            
+            
+            var municipalityClaim = userToUpdate.Claims.SingleOrDefault(c => c.Type == "municipality");
+            if (municipalityClaim != null)
+            {
+                municipalityClaim.Value = municipalityCode;
+            }
+            else
+            { 
+                userToUpdate.Claims.Add(new Claim(){Type = "municipality", Value = municipalityCode});
+            }
+            
+            await _context.SaveChangesAsync();
+        }
+        
         public async Task<bool> CheckIfUserExists(Guid userId)
         {
             return await _context.Users.AnyAsync(u => u.Id == userId);

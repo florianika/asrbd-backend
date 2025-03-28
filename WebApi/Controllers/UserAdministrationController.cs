@@ -9,6 +9,9 @@ using Application.User.GetUser.Response;
 using Application.User.GetUserByEmail;
 using Application.User.GetUserByEmail.Request;
 using Application.User.GetUserByEmail.Response;
+using Application.User.SetUserMunicipality;
+using Application.User.SetUserMunicipality.Request;
+using Application.User.SetUserMunicipality.Response;
 using Application.User.TerminateUser;
 using Application.User.TerminateUser.Request;
 using Application.User.TerminateUser.Response;
@@ -32,12 +35,15 @@ namespace WebApi.Controllers
         private readonly TerminateUser _terminateUserService;
         private readonly ActivateUser _activateUserService;
         private readonly GetUserByEmail _getUserByEmailService;
+        private readonly SetUserMunicipality _setUserMunicipalityService;
+
         public UserAdministrationController(GetAllUsers getAllUsersService,
             GetUser getUserService,
             UpdateUserRole updateUserRoleService,
             TerminateUser terminateUserService,
             ActivateUser activateUserService,
-            GetUserByEmail getUserByEmailService)
+            GetUserByEmail getUserByEmailService,
+            SetUserMunicipality setUserMunicipalityService)
         {
             _getAllUsersService = getAllUsersService;
             _getUserService = getUserService;
@@ -45,6 +51,7 @@ namespace WebApi.Controllers
             _terminateUserService = terminateUserService;
             _activateUserService = activateUserService;
             _getUserByEmailService = getUserByEmailService;
+            _setUserMunicipalityService = setUserMunicipalityService;
         }
 
         [HttpGet]
@@ -71,6 +78,13 @@ namespace WebApi.Controllers
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, AccountRole role)
         {
             return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = role});
+        }
+        
+        [HttpPatch]
+        [Route("{id:guid}/set/municipality/{municipality}")]
+        public async Task<SetUserMunicipalityResponse> SetUserMunicipality(Guid id, string municipality)
+        {
+            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() { UserId = id, MunicipalityCode = municipality});
         }
 
         [HttpPatch]
