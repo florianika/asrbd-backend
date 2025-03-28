@@ -137,10 +137,14 @@ namespace WebApi.Controllers
         }
         
         [HttpPatch]
-        [Route("{id:guid}/set/municipality/{municipality}")]
-        public async Task<SetUserMunicipalityResponse> SetUserMunicipality(Guid id, string municipality)
+        [Route("users/{id:guid}/set/municipality/{municipalityCode}")]
+        public async Task<SetUserMunicipalityResponse> SetUserMunicipality(Guid id, string municipalityCode)
         {
-            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() { UserId = id, MunicipalityCode = municipality});
+            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest()
+            {
+                UserId = id, 
+                MunicipalityCode = municipalityCode
+            });
         }
 
         //[AllowAnonymous]
