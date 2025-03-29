@@ -3,6 +3,7 @@ using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Domain.Enum;
 using Microsoft.Extensions.Logging;
+using Claim = Domain.Claim;
 
 namespace Application.User.CreateUser
 {
@@ -42,7 +43,7 @@ namespace Application.User.CreateUser
                     Salt = salt,
                     Name = request.Name,
                     LastName = request.LastName,
-                    Claims = ToClaims(userId, request.Claims),
+                    Claims = ToClaims(userId, request.Municipality),
                     CreationDate = currentDate,
                     UpdateDate = currentDate,
                     RefreshToken = refreshToken,
@@ -66,11 +67,12 @@ namespace Application.User.CreateUser
             }
         }
 
-        private static IList<Domain.Claim>? ToClaims(Guid userId, IList<Claim> requestClaims)
+        private static IList<Claim>? ToClaims(Guid userId, string municipality)
         {
-            if (requestClaims == null) return null;
-            var claims = new List<Domain.Claim>();
-            claims.AddRange(requestClaims.Select(r => new Domain.Claim { UserId=userId, Type = r.Type, Value = r.Value }).ToList());
+            var claims = new List<Claim>
+                {
+                    new() { UserId = userId, Type = nameof(municipality), Value = municipality }
+                };
             return claims;
         }
     }

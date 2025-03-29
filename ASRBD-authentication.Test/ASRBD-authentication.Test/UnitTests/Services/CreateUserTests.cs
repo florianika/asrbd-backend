@@ -28,7 +28,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
                 Password = "password",
                 Name = "John",
                 LastName = "Doe",
-                Claims = new List<Application.User.CreateUser.Request.Claim> { new Application.User.CreateUser.Request.Claim { Type = "ClaimType", Value = "ClaimValue" } }
+                Municipality = "1"
             };
 
             // Act
