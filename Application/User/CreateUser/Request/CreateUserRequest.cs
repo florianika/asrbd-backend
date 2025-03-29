@@ -10,8 +10,7 @@ namespace Application.User.CreateUser.Request
         public string Password { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        
-        public string Municipality { get; set; }
+        public string MunicipalityCode { get; set; }
     }
 
       public class CreateUserRequestValidator : AbstractValidator<CreateUserRequest>
@@ -23,7 +22,9 @@ namespace Application.User.CreateUser.Request
             RuleFor(cur => cur.LastName).NotEmpty().NotNull().MinimumLength(2).WithMessage("Invalid last name");
             RuleFor(cur => cur.Password).NotEmpty().NotNull().MinimumLength(6).WithMessage("Invalid Password");
             //Claims should contain at least the municipality
-            RuleFor(cur => cur.Municipality).NotNull().NotEmpty().WithMessage("Invalid Claims");
+            RuleFor(sum => sum.MunicipalityCode).NotEmpty().NotNull().MinimumLength(1).MaximumLength(2)
+                .Must(code => int.TryParse(code, out var result) && result is >= 1 and <= 61)
+                .WithMessage("Invalid Municipality Code");
         }
     }
 }

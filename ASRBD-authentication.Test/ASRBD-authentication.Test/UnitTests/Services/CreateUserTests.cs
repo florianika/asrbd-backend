@@ -28,7 +28,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
                 Password = "password",
                 Name = "John",
                 LastName = "Doe",
-                Municipality = "1"
+                MunicipalityCode = "1"
             };
 
             // Act

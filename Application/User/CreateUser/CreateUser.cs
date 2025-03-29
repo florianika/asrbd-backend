@@ -43,7 +43,7 @@ namespace Application.User.CreateUser
                     Salt = salt,
                     Name = request.Name,
                     LastName = request.LastName,
-                    Claims = ToClaims(userId, request.Municipality),
+                    Claims = ToClaims(userId, request.MunicipalityCode),
                     CreationDate = currentDate,
                     UpdateDate = currentDate,
                     RefreshToken = refreshToken,
