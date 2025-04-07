@@ -18,11 +18,12 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var loggerMock = new Mock<ILogger<UpdateUserRole>>();
             var authRepositoryMock = new Mock<IAuthRepository>();
             authRepositoryMock.Setup(repo => repo.CheckIfUserExists(It.IsAny<Guid>())).ReturnsAsync(true);
-
+            var userId = Guid.NewGuid();
+            authRepositoryMock.Setup(repo => repo.CheckIfUserExists(userId)).ReturnsAsync(true);
             var updateUserRole = new UpdateUserRole(loggerMock.Object, authRepositoryMock.Object);
             var request = new UpdateUserRoleRequest
             {
-                UserId = Guid.NewGuid(),
+                UserId = userId,
                 AccountRole = AccountRole.USER
             };
 
@@ -49,7 +50,8 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<DirectoryNotFoundException>(() => updateUserRole.Execute(request));
+            var exception = await Assert.ThrowsAsync<NotFoundException>(() => updateUserRole.Execute(request));
+            Assert.Equal("User not found", exception.Message);
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
             authRepositoryMock.Verify(repo => repo.UpdateUserRole(It.IsAny<Guid>(), It.IsAny<AccountRole>()), Times.Never);
         }       

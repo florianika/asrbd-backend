@@ -20,6 +20,16 @@ namespace Application.User.SignOut
             try
             {
                 var user = await _authRepository.GetUserByUserId(request.UserId);
+                if (user == null)
+                {
+                    return new SignOutErrorResponse { Message = "User not found" };
+                }
+
+                // Kontrollo nëse RefreshToken është null
+                if (user.RefreshToken == null)
+                {
+                    return new SignOutErrorResponse { Message = "No refresh token found for the user" };
+                }
                 user.RefreshToken.Active = false;
                 await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);
 

@@ -1,4 +1,5 @@
-﻿using Application.Ports;
+﻿using Application.Exceptions;
+using Application.Ports;
 using Application.User.UpdateUserRole.Request;
 using Application.User.UpdateUserRole.Response;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,13 @@ namespace Application.User.UpdateUserRole
         //FIXME refactor method and sparate error handling
         public async Task<UpdateUserRoleResponse> Execute(UpdateUserRoleRequest request)
         {
+            var userExists = await _authRepository.CheckIfUserExists(request.UserId);
+
+            if (!userExists)
+            {
+                throw new NotFoundException("User not found");
+            }
+
             try
             {
                 await _authRepository.UpdateUserRole(request.UserId, request.AccountRole);
