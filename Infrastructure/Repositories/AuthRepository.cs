@@ -91,7 +91,9 @@ namespace Infrastructure.Repositories
         }
         public async Task<List<User>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Include(u=>u.Claims)
+                .ToListAsync();
         }
         public async Task UpdateUserRole(Guid userId, AccountRole accountRole)
         {
@@ -136,8 +138,8 @@ namespace Infrastructure.Repositories
 
         public async Task<User> FindUserById(Guid userId)
         { 
-            return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(userId))
-                    ?? throw new NotFoundException("User not found");;
+            return await _context.Users.Include(u=>u.Claims).FirstOrDefaultAsync(u => u.Id.Equals(userId))
+                    ?? throw new NotFoundException("User not found");
         }
 
         public async Task<User> FindUserByEmail(string email)

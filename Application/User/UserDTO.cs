@@ -11,5 +11,6 @@ namespace Application.User
         public string LastName { get; set; }
         public AccountStatus AccountStatus { get; set; }
         public AccountRole AccountRole { get; set; }
+        public string Municipality { get; set; }
     }
 }

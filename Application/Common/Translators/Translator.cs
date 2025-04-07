@@ -24,7 +24,8 @@ namespace Application.Common.Translators
                 AccountStatus = user.AccountStatus,
                 Email = user.Email,
                 Name = user.Name,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Municipality = user.Claims?.FirstOrDefault(c => c.Type == "municipality")?.Value
             };
         }
 
