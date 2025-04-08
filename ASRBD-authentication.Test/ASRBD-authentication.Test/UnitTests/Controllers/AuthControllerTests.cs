@@ -95,6 +95,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             );
             
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
+            var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
+            
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginServiceMock.Object,
@@ -107,7 +110,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
-                setUserMunicipalityServiceMock.Object
+                gisFormRequest.Object,
+                setUserMunicipalityServiceMock.Object,
+                iHttpClientFactoryMock.Object
                 
             );
 
@@ -217,6 +222,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             );
             
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
+            var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
+            
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
@@ -229,7 +237,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
-                setUserMunicipalityServiceMock.Object
+                gisFormRequest.Object,
+                setUserMunicipalityServiceMock.Object,
+                iHttpClientFactoryMock.Object
             );
 
             // Act
@@ -331,6 +341,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             );
             
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
+            var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
             
             var controller = new AuthController(
                 createUserServiceMock.Object,
@@ -344,7 +356,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
-                setUserMunicipalityServiceMock.Object
+                gisFormRequest.Object,
+                setUserMunicipalityServiceMock.Object,
+                iHttpClientFactoryMock.Object
             );
             authTokenServiceMock.Setup(service => service.GenerateIdToken(It.IsAny<Domain.User>()))
                     .ReturnsAsync("validIdToken");
@@ -436,11 +450,13 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             );
             
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
+            var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
             
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginService,
-               refreshTokenServiceMock.Object,
+                refreshTokenServiceMock.Object,
                 signOutServiceMock.Object,
                 getAllUsersServiceMock.Object,
                 updateUserRoleServiceMock.Object,
@@ -449,7 +465,9 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserServiceMock.Object,
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
-                setUserMunicipalityServiceMock.Object
+                gisFormRequest.Object,
+                setUserMunicipalityServiceMock.Object,
+                iHttpClientFactoryMock.Object
             );
 
             // Act and Assert

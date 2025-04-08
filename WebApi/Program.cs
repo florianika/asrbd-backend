@@ -38,6 +38,7 @@ using System.Text.Json.Serialization;
 using Application.Configuration;
 using Application.User.GetUserByEmail;
 using Application.User.SetUserMunicipality;
+using Microsoft.Extensions.Options;
 using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -53,6 +54,8 @@ builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
 builder.Services.Configure<GisServerCredentials>(builder.Configuration.GetSection("GisServerCredentials"));
+builder.Services.Configure<GisFormRequest>(builder.Configuration.GetSection("GisFormRequest"));
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -91,6 +94,10 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
     configuration.ValidationStrategy = ValidationStrategy.All;
 });
 
+builder.Services.AddHttpClient("gis", (client) =>
+{
+    client.BaseAddress = new Uri(builder.Configuration.GetSection("GisClientConfig").GetSection("BaseAddress").Value);
+});
 
 builder.Services.AddSwaggerGen(options =>
 {
