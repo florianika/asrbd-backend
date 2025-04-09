@@ -1,4 +1,5 @@
-﻿using Application.Configuration;
+﻿using System.Net;
+using Application.Configuration;
 using Application.User.CreateUser;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
@@ -56,7 +57,9 @@ namespace WebApi.Controllers
         private readonly GetUser _getUserService;
         private readonly GetUserByEmail _getUserByEmailService;
         private readonly IOptions<GisServerCredentials> _gisServerCredentials;
+        private readonly IOptions<GisFormRequest> _gisFormRequest;
         private readonly SetUserMunicipality _setUserMunicipalityService;
+        private readonly IHttpClientFactory _httpClientFactory;
         public AuthController(CreateUser createUserService, 
             Login loginService,
             RefreshToken refreshTokenService,
@@ -68,7 +71,9 @@ namespace WebApi.Controllers
             GetUser getUserService,
             GetUserByEmail getUserByEmailService,
             IOptions<GisServerCredentials> gisServerCredentials,
-            SetUserMunicipality setUserMunicipalityService)
+            IOptions<GisFormRequest> gisFormRequest,
+            SetUserMunicipality setUserMunicipalityService,
+            IHttpClientFactory httpClientFactory)
         {
             _createUserService = createUserService;
             _loginService = loginService;
@@ -81,7 +86,9 @@ namespace WebApi.Controllers
             _getUserService = getUserService;
             _getUserByEmailService = getUserByEmailService;
             _gisServerCredentials = gisServerCredentials;
+            _gisFormRequest = gisFormRequest;
             _setUserMunicipalityService = setUserMunicipalityService;
+            _httpClientFactory = httpClientFactory;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -131,9 +138,7 @@ namespace WebApi.Controllers
             {
                 return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { UserId = id, AccountRole = accountRole });
             }
-            else
-                throw new EnumExeption("Invalid Role");
-            
+            throw new EnumExeption("Invalid Role");
         }
         
         [HttpPatch]
@@ -186,5 +191,23 @@ namespace WebApi.Controllers
         {
             return _gisServerCredentials.Value;
         }
+        
+        //[AllowAnonymous]
+        [HttpGet]
+        [Route("gis/login")]
+        public async Task<GisLoginResponse?> GisLogin()
+        {
+            var client = _httpClientFactory.CreateClient("gis");
+            if (_gisFormRequest.Value == null) 
+                return null;
+            var frmUrl = new FormUrlEncodedContent(_gisFormRequest.Value);
+            var httpResponse = await client.PostAsync("/portal/sharing/rest/generateToken", frmUrl);
+            var response = await httpResponse.Content.ReadFromJsonAsync<GisLoginResponse>();
+            return response;
+
+        }
+        
+
+
     }
 }

@@ -22,7 +22,7 @@ namespace Application.User.CreateUser.Request
             RuleFor(cur => cur.LastName).NotEmpty().NotNull().MinimumLength(2).WithMessage("Invalid last name");
             RuleFor(cur => cur.Password).NotEmpty().NotNull().MinimumLength(6).WithMessage("Invalid Password");
             //Claims should contain at least the municipality
-            RuleFor(sum => sum.MunicipalityCode).NotEmpty().NotNull().MinimumLength(1).MaximumLength(2)
+            RuleFor(cur => cur.MunicipalityCode).NotEmpty().NotNull().MinimumLength(1).MaximumLength(2)
                 .Must(code => int.TryParse(code, out var result) && result is >= 1 and <= 61)
                 .WithMessage("Invalid Municipality Code");
         }
