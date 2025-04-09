@@ -121,7 +121,7 @@ namespace WebApi.Controllers
             return await _signOutService.Execute(request);
         }
 
-        //[AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet]
         [Route("users")]
         public async Task<GetAllUsersResponse> GetAllUsers()

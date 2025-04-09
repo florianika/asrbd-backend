@@ -6,7 +6,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "asrbd-auth",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/auth/{everything}",
@@ -22,7 +22,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "asrbd-auth",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/admin/{everything}",
@@ -35,7 +35,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "asrbd-qms",
-          "Port": 80
+          "Port": 8080
         }
       ],
       "UpstreamPathTemplate": "/qms/{everything}",
