@@ -8,14 +8,14 @@ services:
             - asrbd-network
         image: ghcr.io/florianika/asrbd-gateway:latest
         ports:
-            - "9090:80"
+            - "9090:8080"
         hostname: asrbd-gateway
     asrbd-auth:
         networks:
             - asrbd-network
         image: ghcr.io/florianika/asrbd-auth:latest
         ports:
-            - "8080:80"
+            - "8080:8080"
         hostname: asrbd-auth
 #    asrdb-mssql:
 #        networks:
@@ -42,7 +42,7 @@ services:
             - asrbd-network
         image: ghcr.io/florianika/asrbd-qms:latest
         ports:
-            - "8088:80"
+            - "8088:8080"
         hostname: asrbd-qms
 #    asrdb-frontend:
 #        image: ghcr.io/florianika/asrdb-frontend:latest
