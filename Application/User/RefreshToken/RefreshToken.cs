@@ -60,19 +60,19 @@ namespace Application.User.RefreshToken
         private static void ValidateToken(Domain.RefreshToken refreshToken, RefreshTokenRequest request) 
         {
             if (!refreshToken.Active)
-                {
-                    throw new InvalidTokenException("Inactive token");
-                }
+            {
+                throw new InvalidTokenException("Inactive token");
+            }
 
-                if (refreshToken.ExpirationDate < DateTime.Now)
-                {
-                    throw new InvalidTokenException("Expired token");
-                }
+            if (refreshToken.ExpirationDate < DateTime.Now)
+            {
+                throw new InvalidTokenException("Expired token");
+            }
 
-                if (refreshToken.Value != request.RefreshToken)
-                {
-                    throw new InvalidTokenException("Invalid token");
-                }
+            if (refreshToken.Value != request.RefreshToken)
+            {
+                throw new InvalidTokenException("Invalid token");
+            }
 
         }
         private async Task UpdateRefreshToken(Guid userId, Domain.RefreshToken refreshToken)

@@ -26,24 +26,21 @@ using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Enums;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 using Swashbuckle.AspNetCore.Filters;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Serialization;
 using Application.Configuration;
 using Application.User.GetUserByEmail;
 using Application.User.SetUserMunicipality;
-using Microsoft.Extensions.Options;
 using WebApi.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
-string connectionString = builder.Configuration.GetConnectionString("ASRBDConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("ASRBDConnectionString");
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -96,7 +93,10 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 
 builder.Services.AddHttpClient("gis", (client) =>
 {
-    client.BaseAddress = new Uri(builder.Configuration.GetSection("GisClientConfig").GetSection("BaseAddress").Value);
+    var uriString = builder.Configuration.GetSection("GisClientConfig").GetSection("BaseAddress").Value;
+    if (uriString != null)
+        client.BaseAddress =
+            new Uri(uriString);
 });
 
 builder.Services.AddSwaggerGen(options =>
@@ -117,14 +117,15 @@ builder.Services.AddControllers();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(jwtSettings.AccessTokenSettings.SecretKey)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
+        if (jwtSettings != null)
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                    .GetBytes(jwtSettings.AccessTokenSettings.SecretKey)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
     });
 
 

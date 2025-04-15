@@ -198,8 +198,6 @@ namespace WebApi.Controllers
         public async Task<GisLoginResponse?> GisLogin()
         {
             var client = _httpClientFactory.CreateClient("gis");
-            if (_gisFormRequest.Value == null) 
-                return null;
             var frmUrl = new FormUrlEncodedContent(_gisFormRequest.Value);
             var httpResponse = await client.PostAsync("/portal/sharing/rest/generateToken", frmUrl);
             var response = await httpResponse.Content.ReadFromJsonAsync<GisLoginResponse>();

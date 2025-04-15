@@ -113,18 +113,21 @@ namespace Infrastructure.Services
         public Task<bool> IsTokenValid(string token, bool validateLifeTime)
         {
             var jwtHandler = new JwtSecurityTokenHandler();
-            if(jwtHandler.CanReadToken(token)) {
-                try
-                {
-                    TokenValidationParameters tokenValidationParameters = GetTokenValidationParameters(validateLifeTime);
-                    jwtHandler.ValidateToken(token, tokenValidationParameters, out _);
-                    return Task.FromResult(true);
-                }
-                catch {
-                    return Task.FromResult(false);
-                }
+            if (!jwtHandler.CanReadToken(token)) return Task.FromResult(false);
+            try
+            {
+                var tokenValidationParameters = GetTokenValidationParameters(validateLifeTime);
+                jwtHandler.ValidateToken(token, tokenValidationParameters, out _);
+                return Task.FromResult(true);
             }
-            return Task.FromResult(false);
+            catch (SecurityTokenExpiredException)
+            {
+                return Task.FromResult(!validateLifeTime);
+            }
+            catch (Exception)
+            {
+                return Task.FromResult(false);
+            }
         }
 
         private TokenValidationParameters GetTokenValidationParameters(bool validateLifeTime)

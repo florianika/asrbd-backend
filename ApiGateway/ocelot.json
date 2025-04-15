@@ -5,7 +5,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrbd-auth",
+          "Host": "asrdb-auth",
           "Port": 8080
         }
       ],
@@ -21,7 +21,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrbd-auth",
+          "Host": "asrdb-auth",
           "Port": 8080
         }
       ],
@@ -34,7 +34,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "asrbd-qms",
+          "Host": "asrdb-qms",
           "Port": 8080
         }
       ],
