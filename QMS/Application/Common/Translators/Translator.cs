@@ -1,4 +1,5 @@
 ﻿
+using Application.FieldWork;
 using Application.ProcessOutputLog;
 using Application.Rule;
 using Domain.Enum;
@@ -76,5 +77,30 @@ namespace Application.Common.Translators
             };
         }
 
+        public static List<FieldWorkDTO> ToDTOList(List<Domain.FieldWork> fieldwork)
+        {
+            List<FieldWorkDTO> fieldworks = new();
+            fieldwork.ForEach((fieldwork) => {
+                fieldworks.Add(ToDTO(fieldwork));
+            });
+            return fieldworks;
+        }
+        public static FieldWorkDTO ToDTO(Domain.FieldWork fieldWork)
+        {
+            return new FieldWorkDTO()
+            {
+                FieldWorkId = fieldWork.FieldWorkId,
+                StartDate = fieldWork.StartDate,
+                EndDate = fieldWork.EndDate,
+                fieldWorkStatus = fieldWork.fieldWorkStatus,
+                Description = fieldWork.Description,
+                EmailTemplateId = fieldWork.EmailTemplateId,
+                Remarks = fieldWork.Remarks,
+                CreatedUser = fieldWork.CreatedUser,
+                CreatedTimestamp = fieldWork.CreatedTimestamp,
+                UpdatedUser = fieldWork.UpdatedUser,
+                UpdatedTimestamp = fieldWork.UpdatedTimestamp
+            };
+        }
     }
 }

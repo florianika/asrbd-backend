@@ -16,7 +16,8 @@ namespace Infrastructure.Context
         {
         }
         public DbSet<Rule> Rules { get; set; }
-        public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }        
+        public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }      
+        public DbSet<FieldWork> FieldWork { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -34,6 +35,7 @@ namespace Infrastructure.Context
         {
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new ProcessOutputLogConfiguration());
+            modelBuilder.ApplyConfiguration(new FieldWorkConfiguration());
         }
     }
 }
