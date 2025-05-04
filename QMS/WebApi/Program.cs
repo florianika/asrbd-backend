@@ -76,6 +76,7 @@ builder.Services.AddScoped<AutomaticRules>();
 builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
 builder.Services.AddScoped<CreateFieldWork>();
 builder.Services.AddScoped<GetAllFieldWork>();
+builder.Services.AddScoped<GetAllFieldWork>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

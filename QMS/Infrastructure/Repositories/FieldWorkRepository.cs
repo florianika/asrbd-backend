@@ -1,4 +1,5 @@
 ﻿
+using Application.Exceptions;
 using Application.Ports;
 using Domain;
 using Infrastructure.Context;
@@ -25,6 +26,11 @@ namespace Infrastructure.Repositories
             await _context.FieldWork.AddAsync(fieldwork);
             await _context.SaveChangesAsync();
             return fieldwork.FieldWorkId;
+        }
+        public async Task<Domain.FieldWork> GetFieldWork(int id)
+        {
+            return await _context.FieldWork.FirstOrDefaultAsync(x => x.FieldWorkId.Equals(id))
+                ?? throw new NotFoundException("Rule not found");
         }
     }
 }
