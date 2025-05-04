@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Repositories
 {
-    public class FieldWorkRepository : IFiledWorkRepository
+    public class FieldWorkRepository : IFieldWorkRepository
     {
         private readonly DataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
@@ -19,6 +19,12 @@ namespace Infrastructure.Repositories
         public async Task<List<FieldWork>> GetAllFieldWork()
         {
             return await _context.FieldWork.ToListAsync();
+        }
+        public async Task<int> CreateFieldWork(Domain.FieldWork fieldwork)
+        {
+            await _context.FieldWork.AddAsync(fieldwork);
+            await _context.SaveChangesAsync();
+            return fieldwork.FieldWorkId;
         }
     }
 }

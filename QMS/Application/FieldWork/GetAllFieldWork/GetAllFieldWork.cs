@@ -2,15 +2,14 @@
 using Application.Common.Translators;
 using Application.FieldWork.GetAllFieldWork.Response;
 using Application.Ports;
-using Application.Rule.GetAllRules.Response;
 
 namespace Application.FieldWork.GetAllFieldWork
 {
     public class GetAllFieldWork : IGetAllFieldWork
     {
-        private readonly IFiledWorkRepository _filedWorkRepository;
+        private readonly IFieldWorkRepository _filedWorkRepository;
 
-        public GetAllFieldWork(IFiledWorkRepository filedWorkRepository)
+        public GetAllFieldWork(IFieldWorkRepository filedWorkRepository)
         {
             _filedWorkRepository = filedWorkRepository;
         }

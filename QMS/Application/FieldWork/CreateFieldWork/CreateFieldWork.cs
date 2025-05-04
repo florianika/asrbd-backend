@@ -1,0 +1,49 @@
+﻿
+using Application.FieldWork.CreateFieldWork.Request;
+using Application.FieldWork.CreateFieldWork.Response;
+using Application.Ports;
+using Application.Rule.CreateRule.Response;
+using Microsoft.Extensions.Logging;
+
+namespace Application.FieldWork.CreateFieldWork
+{
+    public class CreateFieldWork : ICreateFieldWork
+    {
+        private readonly ILogger _logger;
+        private readonly IFieldWorkRepository _fieldWorkRepository;
+        public CreateFieldWork(ILogger<CreateFieldWork> logger, IFieldWorkRepository fieldWorkRepository)
+        {
+            _logger = logger;
+            _fieldWorkRepository = fieldWorkRepository;
+        }
+
+        public async Task<CreateFieldWorkResponse> Execute(CreateFieldWorkRequest request)
+        {
+            try 
+            { 
+                var fieldWork = new Domain.FieldWork
+                {
+                    StartDate = request.StartDate,
+                    EndDate = request.EndDate,
+                    Description = request.Description,
+                    EmailTemplateId = 0,
+                    CreatedUser = request.CreatedUser,
+                    CreatedTimestamp = DateTime.Now,
+                    fieldWorkStatus = Domain.Enum.FieldWorkStatus.NEW,
+                    UpdatedUser = null,
+                    UpdatedTimestamp = null
+                };
+                var result = await _fieldWorkRepository.CreateFieldWork(fieldWork);
+                return new CreateFieldWorkSuccessResponse
+                {
+                    FieldWorkId = result
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+    }
+}

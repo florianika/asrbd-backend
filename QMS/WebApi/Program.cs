@@ -27,6 +27,8 @@ using WebApi.Common;
 using Application.Quality.AutomaticRules;
 using Application.ProcessOutputLog.PendOutputLog;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus;
+using Application.FieldWork.GetAllFieldWork;
+using Application.FieldWork.CreateFieldWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,7 @@ builder.Services.AddScoped<IAuthTokenService, JwtService>();
 
 builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
+builder.Services.AddScoped<IFieldWorkRepository, FieldWorkRepository>();
 
 
 builder.Services.AddScoped<CreateRule>();
@@ -71,6 +74,8 @@ builder.Services.AddScoped<RulesExecutor>();
 builder.Services.AddScoped<BuildingQualityCheck>();
 builder.Services.AddScoped<AutomaticRules>();
 builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
+builder.Services.AddScoped<CreateFieldWork>();
+builder.Services.AddScoped<GetAllFieldWork>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
