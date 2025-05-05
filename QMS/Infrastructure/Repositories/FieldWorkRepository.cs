@@ -5,6 +5,7 @@ using Domain;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Data;
 
 namespace Infrastructure.Repositories
 {
@@ -31,6 +32,12 @@ namespace Infrastructure.Repositories
         {
             return await _context.FieldWork.FirstOrDefaultAsync(x => x.FieldWorkId.Equals(id))
                 ?? throw new NotFoundException("Rule not found");
+        }
+
+        public async Task UpdateFieldWork(FieldWork fieldwork)
+        {
+            _context.FieldWork.Update(fieldwork);
+            await _context.SaveChangesAsync();
         }
     }
 }

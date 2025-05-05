@@ -29,6 +29,7 @@ using Application.ProcessOutputLog.PendOutputLog;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus;
 using Application.FieldWork.GetAllFieldWork;
 using Application.FieldWork.CreateFieldWork;
+using Application.FieldWork.UpdateFieldWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,7 @@ builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
 builder.Services.AddScoped<CreateFieldWork>();
 builder.Services.AddScoped<GetAllFieldWork>();
 builder.Services.AddScoped<GetAllFieldWork>();
+builder.Services.AddScoped<UpdateFieldWork>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
