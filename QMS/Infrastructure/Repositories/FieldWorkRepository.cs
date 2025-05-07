@@ -31,13 +31,18 @@ namespace Infrastructure.Repositories
         public async Task<Domain.FieldWork> GetFieldWork(int id)
         {
             return await _context.FieldWork.FirstOrDefaultAsync(x => x.FieldWorkId.Equals(id))
-                ?? throw new NotFoundException("Rule not found");
+                ?? throw new NotFoundException("FieldWork not found");
         }
 
         public async Task UpdateFieldWork(FieldWork fieldwork)
         {
             _context.FieldWork.Update(fieldwork);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<FieldWork> GetActiveFieldWork()
+        {
+            return await _context.FieldWork.FirstOrDefaultAsync(x => x.fieldWorkStatus != Domain.Enum.FieldWorkStatus.CLOSED);
         }
     }
 }

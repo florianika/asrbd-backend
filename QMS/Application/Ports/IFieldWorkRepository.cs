@@ -7,5 +7,6 @@ namespace Application.Ports
         Task<int> CreateFieldWork(Domain.FieldWork fieldwork);
         Task<Domain.FieldWork> GetFieldWork(int id);
         Task UpdateFieldWork(Domain.FieldWork fieldwork);
+        Task<Domain.FieldWork> GetActiveFieldWork();
     }
 }

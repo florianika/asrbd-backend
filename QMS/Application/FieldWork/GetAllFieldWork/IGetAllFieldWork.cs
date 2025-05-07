@@ -1,6 +1,6 @@
 ﻿namespace Application.FieldWork.GetAllFieldWork
 {
-    public class IGetAllFieldWork
+    public interface IGetAllFieldWork
     {
     }
 }

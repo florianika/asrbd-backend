@@ -1,6 +1,8 @@
 ﻿using Application.FieldWork.CreateFieldWork;
 using Application.FieldWork.CreateFieldWork.Request;
 using Application.FieldWork.CreateFieldWork.Response;
+using Application.FieldWork.GetActiveFieldWork;
+using Application.FieldWork.GetActiveFieldWork.Response;
 using Application.FieldWork.GetAllFieldWork;
 using Application.FieldWork.GetAllFieldWork.Response;
 using Application.FieldWork.GetFieldWork;
@@ -31,22 +33,25 @@ namespace WebApi.Controllers
         private readonly CreateFieldWork _createFieldWorkService;
         private readonly GetFieldWork _getFieldWorkService;
         private readonly UpdateFieldWork _updateFieldWorkService;
+        private readonly GetActiveFieldWork _getActiveFieldWorkService;
         private readonly IAuthTokenService _authTokenService;
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
             UpdateFieldWork updateFieldWorkService,
+            GetActiveFieldWork getActiveFieldWorkService,
             IAuthTokenService authTokenService  )
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
             _getFieldWorkService = getFieldWorkService;
             _updateFieldWorkService = updateFieldWorkService;
+            _getActiveFieldWorkService = getActiveFieldWorkService;
             _authTokenService = authTokenService;
         }
 
         [HttpGet]
         [Route("")]
-        public async Task<GetAllFieldWorkResponse> GetAllRules()
+        public async Task<GetAllFieldWorkResponse> GetAllFieldWork()
         {
             return await _getAllFieldWorkService.Execute();
         }
@@ -78,6 +83,13 @@ namespace WebApi.Controllers
             request.UpdatedUser = updatedUser;
             return await _updateFieldWorkService.Execute(request);
         }
+        [HttpGet]
+        [Route("")]
+        public async Task<GetActiveFieldWorkResponse> GetActiveFieldWork()
+        {
+            return await _getActiveFieldWorkService.Execute();
+        }
+
 
     }
 }
