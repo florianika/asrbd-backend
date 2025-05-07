@@ -17,7 +17,8 @@ namespace Infrastructure.Context
         }
         public DbSet<Rule> Rules { get; set; }
         public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }      
-        public DbSet<FieldWork> FieldWork { get; set; }
+        public DbSet<FieldWork> FieldWorks { get; set; }
+        public DbSet<EmailTemplate> EmailTemplates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

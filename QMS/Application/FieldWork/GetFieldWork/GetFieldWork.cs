@@ -20,7 +20,7 @@ namespace Application.FieldWork.GetFieldWork
         {
             var fieldwork = await _fieldWorkRepository.GetFieldWork(request.Id);
             var fieldworkDto = Translator.ToDTO(fieldwork);
-            return new GetFieldWorkSuccessRespose
+            return new GetFieldWorkSuccessResponse
             {
                 FieldWorkDTO = fieldworkDto
             };

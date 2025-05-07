@@ -1,4 +1,5 @@
 ﻿
+using Application.EmailTemplate;
 using Application.FieldWork;
 using Application.ProcessOutputLog;
 using Application.Rule;
@@ -100,6 +101,27 @@ namespace Application.Common.Translators
                 CreatedTimestamp = fieldWork.CreatedTimestamp,
                 UpdatedUser = fieldWork.UpdatedUser,
                 UpdatedTimestamp = fieldWork.UpdatedTimestamp
+            };
+        }
+        public static List<EmailTemplateDTO> ToDTOList(List<Domain.EmailTemplate> emailTemplate)
+        {
+            List<EmailTemplateDTO> emailTemplates = new();
+            emailTemplate.ForEach((emailTemplate) => {
+                emailTemplates.Add(ToDTO(emailTemplate));
+            });
+            return emailTemplates;
+        }
+        public static EmailTemplateDTO ToDTO(Domain.EmailTemplate emailTemplate)
+        {
+            return new EmailTemplateDTO()
+            {
+                EmailTemplateId = emailTemplate.EmailTemplateId,
+                Subject = emailTemplate.Subject,
+                Body = emailTemplate.Body,
+                CreatedUser = emailTemplate.CreatedUser,
+                CreatedTimestamp = emailTemplate.CreatedTimestamp,
+                UpdatedUser = emailTemplate.UpdatedUser,
+                UpdatedTimestamp = emailTemplate.UpdatedTimestamp
             };
         }
     }

@@ -31,6 +31,11 @@ using Application.FieldWork.GetAllFieldWork;
 using Application.FieldWork.CreateFieldWork;
 using Application.FieldWork.UpdateFieldWork;
 using Application.FieldWork.GetActiveFieldWork;
+using Application.EmailTemplate.GetAllEmailTemplates;
+using Application.EmailTemplate.UpdateEmailTemplate;
+using Application.EmailTemplate.CreateEmailTemplate;
+using Application.EmailTemplate.GetEmailTemplate;
+using Application.FieldWork.GetFieldWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +60,7 @@ builder.Services.AddScoped<IAuthTokenService, JwtService>();
 builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
 builder.Services.AddScoped<IFieldWorkRepository, FieldWorkRepository>();
+builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 
 
 builder.Services.AddScoped<CreateRule>();
@@ -78,9 +84,13 @@ builder.Services.AddScoped<AutomaticRules>();
 builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
 builder.Services.AddScoped<CreateFieldWork>();
 builder.Services.AddScoped<GetAllFieldWork>();
-builder.Services.AddScoped<GetAllFieldWork>();
+builder.Services.AddScoped<GetFieldWork>();
 builder.Services.AddScoped<UpdateFieldWork>();
 builder.Services.AddScoped<GetActiveFieldWork>();
+builder.Services.AddScoped<CreateEmailTemplate>();
+builder.Services.AddScoped<GetAllEmailTemplate>();
+builder.Services.AddScoped<GetEmailTemplate>();
+builder.Services.AddScoped<UpdateEmailTemplate>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
