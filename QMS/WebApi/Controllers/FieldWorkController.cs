@@ -84,7 +84,7 @@ namespace WebApi.Controllers
             return await _updateFieldWorkService.Execute(request);
         }
         [HttpGet]
-        [Route("")]
+        [Route("active")]
         public async Task<GetActiveFieldWorkResponse> GetActiveFieldWork()
         {
             return await _getActiveFieldWorkService.Execute();

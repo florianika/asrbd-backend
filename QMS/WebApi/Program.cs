@@ -36,6 +36,7 @@ using Application.EmailTemplate.UpdateEmailTemplate;
 using Application.EmailTemplate.CreateEmailTemplate;
 using Application.EmailTemplate.GetEmailTemplate;
 using Application.FieldWork.GetFieldWork;
+using Application.EmailTemplate.GetAllEmailTemplate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -87,10 +88,10 @@ builder.Services.AddScoped<GetAllFieldWork>();
 builder.Services.AddScoped<GetFieldWork>();
 builder.Services.AddScoped<UpdateFieldWork>();
 builder.Services.AddScoped<GetActiveFieldWork>();
-builder.Services.AddScoped<CreateEmailTemplate>();
-builder.Services.AddScoped<GetAllEmailTemplate>();
-builder.Services.AddScoped<GetEmailTemplate>();
-builder.Services.AddScoped<UpdateEmailTemplate>();
+builder.Services.AddScoped<ICreateEmailTemplate, CreateEmailTemplate>();
+builder.Services.AddScoped<IGetAllEmailTemplate, GetAllEmailTemplate>();
+builder.Services.AddScoped<IGetEmailTemplate, GetEmailTemplate>();
+builder.Services.AddScoped<IUpdateEmailTemplate, UpdateEmailTemplate>();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

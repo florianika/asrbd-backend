@@ -1,5 +1,6 @@
 ﻿
 using Application.Common.Translators;
+using Application.EmailTemplate.GetAllEmailTemplate;
 using Application.EmailTemplate.GetAllEmailTemplate.Response;
 using Application.Ports;
 
