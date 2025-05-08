@@ -37,6 +37,7 @@ using Application.EmailTemplate.CreateEmailTemplate;
 using Application.EmailTemplate.GetEmailTemplate;
 using Application.FieldWork.GetFieldWork;
 using Application.EmailTemplate.GetAllEmailTemplate;
+using Application.Note.CreateNote;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -62,6 +63,7 @@ builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
 builder.Services.AddScoped<IFieldWorkRepository, FieldWorkRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
 
 
 builder.Services.AddScoped<CreateRule>();
@@ -92,6 +94,8 @@ builder.Services.AddScoped<ICreateEmailTemplate, CreateEmailTemplate>();
 builder.Services.AddScoped<IGetAllEmailTemplate, GetAllEmailTemplate>();
 builder.Services.AddScoped<IGetEmailTemplate, GetEmailTemplate>();
 builder.Services.AddScoped<IUpdateEmailTemplate, UpdateEmailTemplate>();
+builder.Services.AddScoped<ICreateNote,CreateNote>();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

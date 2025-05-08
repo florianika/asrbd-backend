@@ -19,6 +19,7 @@ namespace Infrastructure.Context
         public DbSet<ProcessOutputLog> ProcessOutputLogs { get; set; }      
         public DbSet<FieldWork> FieldWorks { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
+        public DbSet<Note> Notes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -37,6 +38,8 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new RuleConfiguration());
             modelBuilder.ApplyConfiguration(new ProcessOutputLogConfiguration());
             modelBuilder.ApplyConfiguration(new FieldWorkConfiguration());
+            modelBuilder.ApplyConfiguration(new EmailTemplateConfiguration());
+            modelBuilder.ApplyConfiguration(new NoteConfiguration());
         }
     }
 }
