@@ -1,6 +1,7 @@
 ﻿
 using Application.EmailTemplate;
 using Application.FieldWork;
+using Application.Note;
 using Application.ProcessOutputLog;
 using Application.Rule;
 using Domain.Enum;
@@ -122,6 +123,28 @@ namespace Application.Common.Translators
                 CreatedTimestamp = emailTemplate.CreatedTimestamp,
                 UpdatedUser = emailTemplate.UpdatedUser,
                 UpdatedTimestamp = emailTemplate.UpdatedTimestamp
+            };
+        }
+
+        public static List<NoteDTO> ToDTOList(List<Domain.Note> note)
+        {
+            List<NoteDTO> notes = new();
+            note.ForEach((note) => {
+                notes.Add(ToDTO(note));
+            });
+            return notes;
+        }
+        public static NoteDTO ToDTO(Domain.Note note)
+        {
+            return new NoteDTO()
+            {
+                NoteId = note.NoteId,
+                NoteText = note.NoteText,
+                BldId = note.BldId,
+                CreatedUser = note.CreatedUser,
+                CreatedTimestamp = note.CreatedTimestamp,
+                UpdatedUser = note.UpdatedUser,
+                UpdatedTimestamp = note.UpdatedTimestamp
             };
         }
     }

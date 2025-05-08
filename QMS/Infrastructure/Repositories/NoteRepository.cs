@@ -3,6 +3,7 @@ using Application.Ports;
 using Domain;
 using Infrastructure.Context;
 using Infrastructure.Migrations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -20,5 +21,11 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return note.NoteId;
         }
+
+        public async Task<List<Note>> GetBuildingNotes(Guid buildingId)
+        {
+            return await _context.Notes.Where(n => n.BldId == buildingId).OrderByDescending(n=>n.CreatedTimestamp).ToListAsync();
+        }
+
     }
 }

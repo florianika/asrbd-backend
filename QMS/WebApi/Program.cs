@@ -38,6 +38,7 @@ using Application.EmailTemplate.GetEmailTemplate;
 using Application.FieldWork.GetFieldWork;
 using Application.EmailTemplate.GetAllEmailTemplate;
 using Application.Note.CreateNote;
+using Application.Note.GetBuildingNotes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +96,7 @@ builder.Services.AddScoped<IGetAllEmailTemplate, GetAllEmailTemplate>();
 builder.Services.AddScoped<IGetEmailTemplate, GetEmailTemplate>();
 builder.Services.AddScoped<IUpdateEmailTemplate, UpdateEmailTemplate>();
 builder.Services.AddScoped<ICreateNote,CreateNote>();
+builder.Services.AddScoped<IGetBuildingNotes, GetBuildingNotes>();
 
 builder.Services.AddSwaggerGen(options =>
 {

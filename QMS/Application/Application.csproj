@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Note\GetBuildingNotes\" />
     <Folder Include="Note\GetNote\" />
     <Folder Include="Note\UpdateNote\" />
   </ItemGroup>
