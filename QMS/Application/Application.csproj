@@ -18,9 +18,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Note\GetNote\" />
-    <Folder Include="Note\UpdateNote\" />
-  </ItemGroup>
-
 </Project>

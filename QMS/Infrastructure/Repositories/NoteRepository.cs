@@ -1,4 +1,5 @@
 ﻿
+using Application.Exceptions;
 using Application.Ports;
 using Domain;
 using Infrastructure.Context;
@@ -22,10 +23,26 @@ namespace Infrastructure.Repositories
             return note.NoteId;
         }
 
+        public async Task DeleteNote(Note note)
+        {
+             _context.Notes.Remove(note);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Note>> GetBuildingNotes(Guid buildingId)
         {
             return await _context.Notes.Where(n => n.BldId == buildingId).OrderByDescending(n=>n.CreatedTimestamp).ToListAsync();
         }
 
+        public async Task<Note> GetNote(long id)
+        {
+            return await _context.Notes.FirstOrDefaultAsync(x => x.NoteId.Equals(id))
+               ?? throw new NotFoundException("Note not found");
+        }
+        public async Task UpdateNote(Domain.Note note)
+        {
+            _context.Notes.Update(note);
+            await _context.SaveChangesAsync();
+        }
     }
 }
