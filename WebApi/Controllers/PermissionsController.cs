@@ -114,7 +114,7 @@ namespace WebApi.Controllers
             request.Id = id;
             return await _updateRolePermissionService.Execute(request);
         }
-
+         
         [AllowAnonymous]
         [HttpPatch("{id}/rights/{permission}")]
         public async Task<ChangeRolePermissionResponse> ChangeRolePermission(long id, Permission permission) {

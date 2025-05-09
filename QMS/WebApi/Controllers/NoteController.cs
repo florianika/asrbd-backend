@@ -78,7 +78,7 @@ namespace WebApi.Controllers
         [HttpDelete("{id:long}")]
         public async Task<DeleteNoteResponse> DeleteNote(long id)
         {
-            return await _deleteNoteService.Execute(new DeleteNoteRequest() { Id=id});
+            return await _deleteNoteService.Execute(new DeleteNoteRequest() { Id=id });
         }
     }
 }
