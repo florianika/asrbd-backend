@@ -20,7 +20,7 @@ namespace Infrastructure.Context
         public DbSet<FieldWork> FieldWorks { get; set; }
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
         public DbSet<Note> Notes { get; set; }
-
+        public DbSet<FieldWorkRule> FieldWorkRules { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -40,6 +40,7 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new FieldWorkConfiguration());
             modelBuilder.ApplyConfiguration(new EmailTemplateConfiguration());
             modelBuilder.ApplyConfiguration(new NoteConfiguration());
+            modelBuilder.ApplyConfiguration(new FieldWorkRuleConfiguration());
         }
     }
 }

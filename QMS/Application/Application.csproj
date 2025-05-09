@@ -18,4 +18,11 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="FieldWorkRule\GetFieldWorkRules\Response\" />
+    <Folder Include="FieldWorkRule\GetFieldWorkRules\Request\" />
+    <Folder Include="FieldWorkRule\RemoveFieldWorkRule\Response\" />
+    <Folder Include="FieldWorkRule\RemoveFieldWorkRule\Request\" />
+  </ItemGroup>
+
 </Project>

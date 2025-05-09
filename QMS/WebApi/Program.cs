@@ -43,6 +43,7 @@ using Application.Note.GetNote;
 using Application.Note.UpdateNote;
 using Application.Note.DeleteNote;
 using Application.Note.DeleteNote.Request;
+using Application.FieldWorkRule.AddFieldWorkRule;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,6 +70,7 @@ builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogReposito
 builder.Services.AddScoped<IFieldWorkRepository, FieldWorkRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<IFieldWorkRuleRepository, FieldWorkRuleRepository>();
 
 
 builder.Services.AddScoped<CreateRule>();
@@ -104,6 +106,7 @@ builder.Services.AddScoped<IGetBuildingNotes, GetBuildingNotes>();
 builder.Services.AddScoped<IGetNote, GetNote>();
 builder.Services.AddScoped<IUpdateNote,UpdateNote>();
 builder.Services.AddScoped<IDeleteNote, DeleteNote>();
+builder.Services.AddScoped<IAddFieldWorkRule,AddFieldWorkRule>();
 
 builder.Services.AddSwaggerGen(options =>
 {
