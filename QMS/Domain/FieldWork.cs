@@ -16,5 +16,6 @@ namespace Domain
         public Guid? UpdatedUser { get; set; }
         public DateTime? UpdatedTimestamp { get; set; }
         public string? Remarks { get; set; }
+        public ICollection<FieldWorkRule> FieldWorkRules { get; set; } = new List<FieldWorkRule>();
     }
 }
