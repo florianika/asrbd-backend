@@ -1,9 +1,9 @@
 ﻿
+using Application.Note.DeleteNote.Request;
 using Application.Note.DeleteNote.Response;
-using Application.Note.UpdateNote.Response;
 using Application.Ports;
 
-namespace Application.Note.DeleteNote.Request
+namespace Application.Note.DeleteNote
 {
     public class DeleteNote : IDeleteNote
     {

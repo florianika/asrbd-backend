@@ -44,6 +44,7 @@ using Application.Note.UpdateNote;
 using Application.Note.DeleteNote;
 using Application.Note.DeleteNote.Request;
 using Application.FieldWorkRule.AddFieldWorkRule;
+using Application.FieldWorkRule.RemoveFieldWorkRule;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -107,6 +108,7 @@ builder.Services.AddScoped<IGetNote, GetNote>();
 builder.Services.AddScoped<IUpdateNote,UpdateNote>();
 builder.Services.AddScoped<IDeleteNote, DeleteNote>();
 builder.Services.AddScoped<IAddFieldWorkRule,AddFieldWorkRule>();
+builder.Services.AddScoped<IRemoveFieldWorkRule, RemoveFieldWorkRule>();
 
 builder.Services.AddSwaggerGen(options =>
 {
