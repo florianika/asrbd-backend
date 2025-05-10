@@ -37,6 +37,8 @@ using Application.Configuration;
 using Application.User.GetUserByEmail;
 using Application.User.SetUserMunicipality;
 using WebApi.Common;
+using Application.Queries;
+using Infrastructure.Queries.GetMunicipalities;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
@@ -83,6 +85,7 @@ builder.Services.AddScoped<UpdateRolePermission>();
 builder.Services.AddScoped<ChangeRolePermission>();
 builder.Services.AddScoped<GetUserByEmail>();
 builder.Services.AddScoped<SetUserMunicipality>();
+builder.Services.AddScoped<IGetMunicipalitiesQuery, GetMunicipalitiesQuery>();
 //builder.Services.AddScoped<IValidator<CreateUserRequest>, CreateUserRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserRequestValidator>();
 builder.Services.AddFluentValidationAutoValidation(configuration =>

@@ -37,6 +37,8 @@ using Application.User.SetUserMunicipality;
 using Application.User.SetUserMunicipality.Request;
 using Application.User.SetUserMunicipality.Response;
 using Microsoft.Extensions.Options;
+using Application.Queries;
+using Application.Queries.GetMunicipalities.Response;
 
 namespace WebApi.Controllers
 {
@@ -59,6 +61,7 @@ namespace WebApi.Controllers
         private readonly IOptions<GisServerCredentials> _gisServerCredentials;
         private readonly IOptions<GisFormRequest> _gisFormRequest;
         private readonly SetUserMunicipality _setUserMunicipalityService;
+        private readonly IGetMunicipalitiesQuery _getMunicipalitiesQuery;
         private readonly IHttpClientFactory _httpClientFactory;
         public AuthController(CreateUser createUserService, 
             Login loginService,
@@ -73,6 +76,7 @@ namespace WebApi.Controllers
             IOptions<GisServerCredentials> gisServerCredentials,
             IOptions<GisFormRequest> gisFormRequest,
             SetUserMunicipality setUserMunicipalityService,
+            IGetMunicipalitiesQuery getMunicipalitiesQuery,
             IHttpClientFactory httpClientFactory)
         {
             _createUserService = createUserService;
@@ -88,6 +92,7 @@ namespace WebApi.Controllers
             _gisServerCredentials = gisServerCredentials;
             _gisFormRequest = gisFormRequest;
             _setUserMunicipalityService = setUserMunicipalityService;
+            _getMunicipalitiesQuery = getMunicipalitiesQuery;
             _httpClientFactory = httpClientFactory;
         }
         [AllowAnonymous]
@@ -150,6 +155,13 @@ namespace WebApi.Controllers
                 UserId = id, 
                 MunicipalityCode = municipalityCode
             });
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("users/municipalities")]
+        public async Task<GetMunicipalitiesResponse> GetMunicipalities()
+        {
+            return await _getMunicipalitiesQuery.Execute();
         }
 
         //[AllowAnonymous]

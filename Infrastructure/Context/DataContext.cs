@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Queries.GetMunicipalities;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -17,6 +18,7 @@ namespace Infrastructure.Context
         public DbSet<RefreshToken> RefreshToken { get; set; }
         public DbSet<Claim> Claim { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
+        public DbSet<MunicipalityDto> Municipalities { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -56,6 +58,7 @@ namespace Infrastructure.Context
                 .Property(r => r.Role)
                 .HasConversion<string>()
                 .HasColumnType("varchar(10)");
+            modelBuilder.Entity<MunicipalityDto>().HasNoKey();
             modelBuilder
                 .ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
 
