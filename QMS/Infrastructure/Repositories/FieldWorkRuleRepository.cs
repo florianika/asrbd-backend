@@ -31,5 +31,9 @@ namespace Infrastructure.Repositories
             _context.FieldWorkRules.Remove(fieldWorkRule);
             await _context.SaveChangesAsync();
         }
+        public async Task<List<FieldWorkRule>> GetRuleByField(int fieldWorkId)
+        {
+            return await _context.FieldWorkRules.Where(r => r.FieldWorkId == fieldWorkId).ToListAsync();
+        }
     }
 }

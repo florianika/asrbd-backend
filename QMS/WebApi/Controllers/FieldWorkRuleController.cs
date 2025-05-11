@@ -4,10 +4,15 @@ using Application.FieldWorkRule.AddFieldWorkRule.Response;
 using Application.FieldWorkRule.GetFieldWorkRule;
 using Application.FieldWorkRule.GetFieldWorkRule.Request;
 using Application.FieldWorkRule.GetFieldWorkRule.Response;
+using Application.FieldWorkRule.GetRuleByFieldWork;
+using Application.FieldWorkRule.GetRuleByFieldWork.Request;
+using Application.FieldWorkRule.GetRuleByFieldWork.Response;
 using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Request;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +26,11 @@ namespace WebApi.Controllers
         private readonly IRemoveFieldWorkRule _removeFieldWorkRule;
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
         private readonly IGetFieldWorkRule _getFieldWorkRuleService;
+        private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
         private readonly IAuthTokenService _authTokenService;
-        public FieldWorkRuleController(IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
+        public FieldWorkRuleController( IGetRuleByFieldWork getRuleByFieldWork,IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
         {
+            _getRuleByFieldWorkService = getRuleByFieldWork;
             _getFieldWorkRuleService = getFieldWorkRule;
             _removeFieldWorkRule = removeFieldWorkRule;
             _addFieldWorkRuleService = addFieldWorkRuleService;
@@ -51,6 +58,12 @@ namespace WebApi.Controllers
         public async Task<GetFieldWorkRuleResponse> GetFieldWorkRule(int id)
         {
             return await _getFieldWorkRuleService.Execute(new GetFieldWorkRuleRequest() { Id = id });
+        }
+        [HttpGet]
+        [Route("fieldwork/{id:int}")]
+        public async Task<GetRuleByFieldWorkResponse> GetRuleByFieldWork(int id)
+        {
+            return await _getRuleByFieldWorkService.Execute(new GetRuleByFieldWorkRequest() { Id = id });
         }
     }
 }
