@@ -1,6 +1,9 @@
 ﻿using Application.FieldWorkRule.AddFieldWorkRule;
 using Application.FieldWorkRule.AddFieldWorkRule.Request;
 using Application.FieldWorkRule.AddFieldWorkRule.Response;
+using Application.FieldWorkRule.GetFieldWorkRule;
+using Application.FieldWorkRule.GetFieldWorkRule.Request;
+using Application.FieldWorkRule.GetFieldWorkRule.Response;
 using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
@@ -17,9 +20,11 @@ namespace WebApi.Controllers
     {
         private readonly IRemoveFieldWorkRule _removeFieldWorkRule;
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
+        private readonly IGetFieldWorkRule _getFieldWorkRuleService;
         private readonly IAuthTokenService _authTokenService;
-        public FieldWorkRuleController(IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
+        public FieldWorkRuleController(IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
         {
+            _getFieldWorkRuleService = getFieldWorkRule;
             _removeFieldWorkRule = removeFieldWorkRule;
             _addFieldWorkRuleService = addFieldWorkRuleService;
             _authTokenService = authTokenService;
@@ -39,6 +44,13 @@ namespace WebApi.Controllers
         public async Task<RemoveFieldWorkRuleResponse> RemoveFieldWorkRule(long id)
         {
             return await _removeFieldWorkRule.Execute(new RemoveFieldWorkRuleRequest() { Id = id });
+        }
+
+        [HttpGet]
+        [Route("{id:long}")]
+        public async Task<GetFieldWorkRuleResponse> GetFieldWorkRule(int id)
+        {
+            return await _getFieldWorkRuleService.Execute(new GetFieldWorkRuleRequest() { Id = id });
         }
     }
 }

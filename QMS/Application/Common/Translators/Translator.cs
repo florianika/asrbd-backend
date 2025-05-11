@@ -1,6 +1,7 @@
 ﻿
 using Application.EmailTemplate;
 using Application.FieldWork;
+using Application.FieldWorkRule;
 using Application.Note;
 using Application.ProcessOutputLog;
 using Application.Rule;
@@ -47,7 +48,6 @@ namespace Application.Common.Translators
                 UpdatedTimestamp = rule.UpdatedTimestamp
             };
         }
-
         public static List<ProcessOutputLogDTO> ToDTOList(List<Domain.ProcessOutputLog> processOutputLog)
         {
             List<ProcessOutputLogDTO> processOutputLogs = new();
@@ -56,7 +56,6 @@ namespace Application.Common.Translators
             });
             return processOutputLogs;
         }
-
         public static ProcessOutputLogDTO ToDTO(Domain.ProcessOutputLog processOutputLog)
         {
             return new ProcessOutputLogDTO()
@@ -78,7 +77,6 @@ namespace Application.Common.Translators
                 CreatedTimestamp = processOutputLog.CreatedTimestamp
             };
         }
-
         public static List<FieldWorkDTO> ToDTOList(List<Domain.FieldWork> fieldwork)
         {
             List<FieldWorkDTO> fieldworks = new();
@@ -125,7 +123,6 @@ namespace Application.Common.Translators
                 UpdatedTimestamp = emailTemplate.UpdatedTimestamp
             };
         }
-
         public static List<NoteDTO> ToDTOList(List<Domain.Note> note)
         {
             List<NoteDTO> notes = new();
@@ -145,6 +142,25 @@ namespace Application.Common.Translators
                 CreatedTimestamp = note.CreatedTimestamp,
                 UpdatedUser = note.UpdatedUser,
                 UpdatedTimestamp = note.UpdatedTimestamp
+            };
+        }
+        public static List<FieldWorkRuleDTO> ToDTOList(List<Domain.FieldWorkRule> fieldworkrule)
+        {
+            List<FieldWorkRuleDTO> fieldworkrules = new();
+            fieldworkrule.ForEach((fieldworkrule) => {
+                fieldworkrules.Add(ToDTO(fieldworkrule));
+            });
+            return fieldworkrules;
+        }
+        public static FieldWorkRuleDTO ToDTO(Domain.FieldWorkRule fieldWorkRule)
+        {
+            return new FieldWorkRuleDTO()
+            {
+                Id = fieldWorkRule.Id,
+                FieldWorkId = fieldWorkRule.FieldWorkId,
+                RuleId = fieldWorkRule.RuleId,
+                CreatedUser = fieldWorkRule.CreatedUser,
+                CreatedTimestamp = fieldWorkRule.CreatedTimestamp
             };
         }
     }

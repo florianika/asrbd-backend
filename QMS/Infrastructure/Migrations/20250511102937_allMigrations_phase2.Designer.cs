@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250508065311_notes")]
-    partial class notes
+    [Migration("20250511102937_allMigrations_phase2")]
+    partial class allMigrations_phase2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,38 @@ namespace Infrastructure.Migrations
                     b.HasKey("FieldWorkId");
 
                     b.ToTable("FieldWorks");
+                });
+
+            modelBuilder.Entity("Domain.FieldWorkRule", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedTimestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedUser")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("FieldWorkId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("RuleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FieldWorkId");
+
+                    b.HasIndex("RuleId");
+
+                    b.HasIndex("FieldWorkId", "RuleId")
+                        .IsUnique();
+
+                    b.ToTable("FieldWorkRules");
                 });
 
             modelBuilder.Entity("Domain.Note", b =>
@@ -287,6 +319,25 @@ namespace Infrastructure.Migrations
                     b.ToTable("Rules");
                 });
 
+            modelBuilder.Entity("Domain.FieldWorkRule", b =>
+                {
+                    b.HasOne("Domain.FieldWork", "FieldWork")
+                        .WithMany("FieldWorkRules")
+                        .HasForeignKey("FieldWorkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Rule", "Rule")
+                        .WithMany()
+                        .HasForeignKey("RuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FieldWork");
+
+                    b.Navigation("Rule");
+                });
+
             modelBuilder.Entity("Domain.ProcessOutputLog", b =>
                 {
                     b.HasOne("Domain.Rule", "Rule")
@@ -296,6 +347,11 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Rule");
+                });
+
+            modelBuilder.Entity("Domain.FieldWork", b =>
+                {
+                    b.Navigation("FieldWorkRules");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,8 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FieldWorkRule\GetFieldWorkRules\Response\" />
-    <Folder Include="FieldWorkRule\GetFieldWorkRules\Request\" />
+    <Folder Include="FieldWorkRule\GetRulesByFieldWork\" />
+    <Folder Include="FieldWorkRule\GetStatistics\" />
   </ItemGroup>
 
 </Project>

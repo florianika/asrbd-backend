@@ -23,6 +23,8 @@ using Application.User.RefreshToken.Request;
 using Application.User.RefreshToken.Response;
 using Application.User.SetUserMunicipality;
 using Microsoft.Extensions.Options;
+using Application.Queries;
+using Infrastructure.Queries.GetMunicipalities;
 
 namespace ASRBD_authentication.Test.UnitTests.Controllers
 {
@@ -93,7 +95,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<SetUserMunicipality>>(),
                 Mock.Of<IAuthRepository>()
             );
-            
+            var getMunicipalitiesQuery = new Mock<IGetMunicipalitiesQuery>();
+
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
@@ -112,6 +115,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
                 setUserMunicipalityServiceMock.Object,
+                getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object
                 
             );
@@ -220,7 +224,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<SetUserMunicipality>>(),
                 Mock.Of<IAuthRepository>()
             );
-            
+            var getMunicipalitiesQuery = new Mock<IGetMunicipalitiesQuery>();
+
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
@@ -239,6 +244,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
                 setUserMunicipalityServiceMock.Object,
+                getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object
             );
 
@@ -339,7 +345,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<SetUserMunicipality>>(),
                 Mock.Of<IAuthRepository>()
             );
-            
+            var getMunicipalitiesQuery = new Mock<IGetMunicipalitiesQuery>();
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
@@ -358,6 +364,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
                 setUserMunicipalityServiceMock.Object,
+                getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object
             );
             authTokenServiceMock.Setup(service => service.GenerateIdToken(It.IsAny<Domain.User>()))
@@ -448,7 +455,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<SetUserMunicipality>>(),
                 Mock.Of<IAuthRepository>()
             );
-            
+            var getMunicipalitiesQuery = new Mock<IGetMunicipalitiesQuery>();
+
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
@@ -467,6 +475,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
                 setUserMunicipalityServiceMock.Object,
+                getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object
             );
 
