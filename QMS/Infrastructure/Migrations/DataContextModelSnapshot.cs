@@ -22,6 +22,36 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Application.Queries.GetStatisticsFromBuilding.BuildingStatisticsDTO", b =>
+                {
+                    b.Property<short>("MunicipalityCode")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MunicipalityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniqueBldCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("BuildingStatisticsDTO");
+                });
+
+            modelBuilder.Entity("Application.Queries.GetStatisticsFromRules.RuleStatisticsDTO", b =>
+                {
+                    b.Property<short>("MunicipalityCode")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MunicipalityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniqueBldCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("RuleStatisticsDTO");
+                });
+
             modelBuilder.Entity("Domain.EmailTemplate", b =>
                 {
                     b.Property<int>("EmailTemplateId")

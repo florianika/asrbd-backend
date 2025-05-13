@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250511102937_allMigrations_phase2")]
-    partial class allMigrations_phase2
+    [Migration("20250513160513_latest_phase2")]
+    partial class latest_phase2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,36 @@ namespace Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Application.Queries.GetStatisticsFromBuilding.BuildingStatisticsDTO", b =>
+                {
+                    b.Property<short>("MunicipalityCode")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MunicipalityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniqueBldCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("BuildingStatisticsDTO");
+                });
+
+            modelBuilder.Entity("Application.Queries.GetStatisticsFromRules.RuleStatisticsDTO", b =>
+                {
+                    b.Property<short>("MunicipalityCode")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("MunicipalityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UniqueBldCount")
+                        .HasColumnType("int");
+
+                    b.ToTable("RuleStatisticsDTO");
+                });
 
             modelBuilder.Entity("Domain.EmailTemplate", b =>
                 {
@@ -174,6 +204,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<Guid>("BldId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<short?>("BldMunicipality")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("CreatedTimestamp")
                         .HasColumnType("datetime2");
