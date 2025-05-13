@@ -46,6 +46,10 @@ using Application.FieldWorkRule.AddFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.GetFieldWorkRule;
 using Application.FieldWorkRule.GetRuleByFieldWork;
+using Application.Queries.GetStatisticsFromRules;
+using Infrastructure.Queries.GetStatisticsFromRules;
+using Infrastructure.Queries.GetStatisticsFromBuilding;
+using Application.Queries.GetStatisticsFromBuilding;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -112,6 +116,8 @@ builder.Services.AddScoped<IAddFieldWorkRule,AddFieldWorkRule>();
 builder.Services.AddScoped<IRemoveFieldWorkRule, RemoveFieldWorkRule>();
 builder.Services.AddScoped<IGetFieldWorkRule, GetFieldWorkRule>();
 builder.Services.AddScoped<IGetRuleByFieldWork, GetRuleByFieldWork>();
+builder.Services.AddScoped<IGetStatisticsFromRulesQuery, GetStatisticsFromRulesQuery>();
+builder.Services.AddScoped<IGetStatisticsFromBuildingQuery, GetStatisticsFromBuildingQuery>();
 
 builder.Services.AddSwaggerGen(options =>
 {

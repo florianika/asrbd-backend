@@ -11,8 +11,10 @@ using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
-using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Request;
-using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId.Response;
+using Application.Queries.GetStatisticsFromBuilding;
+using Application.Queries.GetStatisticsFromBuilding.Response;
+using Application.Queries.GetStatisticsFromRules;
+using Application.Queries.GetStatisticsFromRules.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,13 +29,17 @@ namespace WebApi.Controllers
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
         private readonly IGetFieldWorkRule _getFieldWorkRuleService;
         private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
+        public readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
+        public readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
         private readonly IAuthTokenService _authTokenService;
-        public FieldWorkRuleController( IGetRuleByFieldWork getRuleByFieldWork,IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
+        public FieldWorkRuleController(IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, IGetRuleByFieldWork getRuleByFieldWork,IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
         {
             _getRuleByFieldWorkService = getRuleByFieldWork;
             _getFieldWorkRuleService = getFieldWorkRule;
             _removeFieldWorkRule = removeFieldWorkRule;
             _addFieldWorkRuleService = addFieldWorkRuleService;
+            _getStatisticsFromRuleQueryService = getStatisticsFromRulesQuery;
+            _getStatisticsFromBuildingQueryService = getStatisticsFromBuildingQuery;
             _authTokenService = authTokenService;
         }
 
@@ -65,5 +71,18 @@ namespace WebApi.Controllers
         {
             return await _getRuleByFieldWorkService.Execute(new GetRuleByFieldWorkRequest() { Id = id });
         }
+        [HttpGet]
+        [Route("statistics/rule")]
+        public async Task<GetStatisticsFromRulesResponse> GetStatisticsFromRules()
+        {
+            return await _getStatisticsFromRuleQueryService.Execute();
+        }
+        [HttpGet]
+        [Route("statistics/building")]
+        public async Task<GetStatisticsFromBuildingResponse> GetStatisticsFromBuilding()
+        {
+            return await _getStatisticsFromBuildingQueryService.Execute();
+        }
+
     }
 }

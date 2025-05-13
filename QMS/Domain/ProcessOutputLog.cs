@@ -23,5 +23,6 @@ namespace Domain
         public ErrorLevel ErrorLevel { get; set; }
         public Guid CreatedUser { get; set; }
         public DateTime CreatedTimestamp { get; set; }
+        public Int16? BldMunicipality { get; set; }
     }
 }

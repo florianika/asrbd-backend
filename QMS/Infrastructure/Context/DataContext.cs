@@ -1,4 +1,6 @@
-﻿using Domain;
+﻿using Application.Queries.GetStatisticsFromBuilding;
+using Application.Queries.GetStatisticsFromRules;
+using Domain;
 using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,8 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new EmailTemplateConfiguration());
             modelBuilder.ApplyConfiguration(new NoteConfiguration());
             modelBuilder.ApplyConfiguration(new FieldWorkRuleConfiguration());
+            modelBuilder.Entity<RuleStatisticsDTO>().HasNoKey();
+            modelBuilder.Entity<BuildingStatisticsDTO>().HasNoKey();
         }
     }
 }
