@@ -4,6 +4,7 @@ using Application.Ports;
 using Domain;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Infrastructure.Repositories
 {
@@ -34,6 +35,15 @@ namespace Infrastructure.Repositories
         public async Task<List<FieldWorkRule>> GetRuleByField(int fieldWorkId)
         {
             return await _context.FieldWorkRules.Where(r => r.FieldWorkId == fieldWorkId).ToListAsync();
+        }
+
+        public async Task<long> GetStatisticsByRule(long id)
+        {
+            return await _context.ProcessOutputLogs
+            .Where(pol => pol.RuleId == id)
+            .Select(pol => pol.BldId)
+            .Distinct()
+            .CountAsync();
         }
     }
 }

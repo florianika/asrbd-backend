@@ -50,6 +50,7 @@ using Application.Queries.GetStatisticsFromRules;
 using Infrastructure.Queries.GetStatisticsFromRules;
 using Infrastructure.Queries.GetStatisticsFromBuilding;
 using Application.Queries.GetStatisticsFromBuilding;
+using Application.FieldWorkRule.GetStatisticsByRule;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,6 +119,7 @@ builder.Services.AddScoped<IGetFieldWorkRule, GetFieldWorkRule>();
 builder.Services.AddScoped<IGetRuleByFieldWork, GetRuleByFieldWork>();
 builder.Services.AddScoped<IGetStatisticsFromRulesQuery, GetStatisticsFromRulesQuery>();
 builder.Services.AddScoped<IGetStatisticsFromBuildingQuery, GetStatisticsFromBuildingQuery>();
+builder.Services.AddScoped<IGetStatisticsByRule, GetStatisticsByRule>();
 
 builder.Services.AddSwaggerGen(options =>
 {

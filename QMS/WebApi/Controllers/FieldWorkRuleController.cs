@@ -7,6 +7,9 @@ using Application.FieldWorkRule.GetFieldWorkRule.Response;
 using Application.FieldWorkRule.GetRuleByFieldWork;
 using Application.FieldWorkRule.GetRuleByFieldWork.Request;
 using Application.FieldWorkRule.GetRuleByFieldWork.Response;
+using Application.FieldWorkRule.GetStatisticsByRule;
+using Application.FieldWorkRule.GetStatisticsByRule.Request;
+using Application.FieldWorkRule.GetStatisticsByRule.Response;
 using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
@@ -31,8 +34,9 @@ namespace WebApi.Controllers
         private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
         public readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
         public readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
+        private readonly IGetStatisticsByRule _getStatisticsByRuleService;
         private readonly IAuthTokenService _authTokenService;
-        public FieldWorkRuleController(IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, IGetRuleByFieldWork getRuleByFieldWork,IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
+        public FieldWorkRuleController(IGetStatisticsByRule getStatisticsByRuleService, IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, IGetRuleByFieldWork getRuleByFieldWork,IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
         {
             _getRuleByFieldWorkService = getRuleByFieldWork;
             _getFieldWorkRuleService = getFieldWorkRule;
@@ -40,6 +44,7 @@ namespace WebApi.Controllers
             _addFieldWorkRuleService = addFieldWorkRuleService;
             _getStatisticsFromRuleQueryService = getStatisticsFromRulesQuery;
             _getStatisticsFromBuildingQueryService = getStatisticsFromBuildingQuery;
+            _getStatisticsByRuleService = getStatisticsByRuleService;
             _authTokenService = authTokenService;
         }
 
@@ -84,5 +89,11 @@ namespace WebApi.Controllers
             return await _getStatisticsFromBuildingQueryService.Execute();
         }
 
+        [HttpGet]
+        [Route("statistics/rule/{id:long}")]
+        public async Task<GetStatisticsByRuleResponse> GetStatisticsByRule(long id)
+        {
+            return await _getStatisticsByRuleService.Execute(new GetStatisticsByRuleRequest { Id = id});
+        }
     }
 }
