@@ -8,6 +8,9 @@ using Application.FieldWork.GetAllFieldWork.Response;
 using Application.FieldWork.GetFieldWork;
 using Application.FieldWork.GetFieldWork.Request;
 using Application.FieldWork.GetFieldWork.Response;
+using Application.FieldWork.OpenFieldWork;
+using Application.FieldWork.OpenFieldWork.Request;
+using Application.FieldWork.OpenFieldWork.Response;
 using Application.FieldWork.UpdateFieldWork;
 using Application.FieldWork.UpdateFieldWork.Request;
 using Application.FieldWork.UpdateFieldWork.Response;
@@ -34,11 +37,13 @@ namespace WebApi.Controllers
         private readonly GetFieldWork _getFieldWorkService;
         private readonly UpdateFieldWork _updateFieldWorkService;
         private readonly GetActiveFieldWork _getActiveFieldWorkService;
+        private readonly OpenFieldWork _openFieldWorkService;
         private readonly IAuthTokenService _authTokenService;
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
             UpdateFieldWork updateFieldWorkService,
-            GetActiveFieldWork getActiveFieldWorkService,
+            GetActiveFieldWork getActiveFieldWorkService, 
+            OpenFieldWork openFieldWorkService,
             IAuthTokenService authTokenService  )
         {
             _getAllFieldWorkService = getAllFieldWorkService;
@@ -46,6 +51,7 @@ namespace WebApi.Controllers
             _getFieldWorkService = getFieldWorkService;
             _updateFieldWorkService = updateFieldWorkService;
             _getActiveFieldWorkService = getActiveFieldWorkService;
+            _openFieldWorkService = openFieldWorkService;
             _authTokenService = authTokenService;
         }
 
@@ -90,6 +96,15 @@ namespace WebApi.Controllers
             return await _getActiveFieldWorkService.Execute();
         }
 
+        [HttpPost]
+        [Route("open")]
+        public async Task<OpenFieldWorkResponse> OpenFieldWork(OpenFieldWorkRequest request)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            token = token.Replace("Bearer ", "");
+            request.UpdatedUser = await _authTokenService.GetUserIdFromToken(token);
+            return await _openFieldWorkService.Execute(request);
+        }
 
     }
 }
