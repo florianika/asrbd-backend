@@ -15,13 +15,6 @@ using Application.FieldWork.UpdateFieldWork;
 using Application.FieldWork.UpdateFieldWork.Request;
 using Application.FieldWork.UpdateFieldWork.Response;
 using Application.Ports;
-using Application.Rule.CreateRule.Request;
-using Application.Rule.CreateRule.Response;
-using Application.Rule.GetAllRules.Response;
-using Application.Rule.GetRule.Request;
-using Application.Rule.GetRule.Response;
-using Application.Rule.UpdateRule.Request;
-using Application.Rule.UpdateRule.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -98,6 +91,8 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("open")]
+        //TODO change this method to patch 
+        //TODO all methods where there is a partial update of the fields should be changed to patch
         public async Task<OpenFieldWorkResponse> OpenFieldWork(OpenFieldWorkRequest request)
         {
             var token = Request.Headers["Authorization"].ToString();

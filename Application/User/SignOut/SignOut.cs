@@ -20,12 +20,14 @@ namespace Application.User.SignOut
             try
             {
                 var user = await _authRepository.GetUserByUserId(request.UserId);
-                if (user == null)
+                //TODO remove this, already checked in GetUserByUserId
+                /*if (user == null)
                 {
                     return new SignOutErrorResponse { Message = "User not found" };
-                }
+                }*/
 
-                // Kontrollo nëse RefreshToken është null
+                //TODO comments in english always: Kontrollo nëse RefreshToken është null
+                //TODO create an exception for this instead of returning SignOutErrorResponse
                 if (user.RefreshToken == null)
                 {
                     return new SignOutErrorResponse { Message = "No refresh token found for the user" };

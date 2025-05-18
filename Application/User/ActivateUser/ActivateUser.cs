@@ -29,11 +29,12 @@ namespace Application.User.ActivateUser
         {
             try
             {
-                var exists = await _authRepository.CheckIfUserExists(request.UserId);
+                //TODO this should be removed existence of the user is checked by UpdateUserAccount
+                /*var exists = await _authRepository.CheckIfUserExists(request.UserId);
                 if (!exists)
                 {
                     throw new NotFoundException("User not found");
-                }
+                }*/
                 await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE);
                 return new ActivateUserSuccessResponse
                 {

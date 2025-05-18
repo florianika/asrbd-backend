@@ -39,7 +39,7 @@ namespace Application.Rule.UpdateRule
 
             return new UpdateRuleSuccessResponse
             {
-                Message = "Role updated"
+                Message = "Rule updated"
             };
         }
     }

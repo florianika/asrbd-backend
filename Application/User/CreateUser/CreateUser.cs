@@ -32,7 +32,7 @@ namespace Application.User.CreateUser
                     ExpirationDate = currentDate,
                 };
 
-                Guid userId = Guid.NewGuid();
+                var userId = Guid.NewGuid();
 
                 var user = new Domain.User
                 {
@@ -67,7 +67,7 @@ namespace Application.User.CreateUser
             }
         }
 
-        private static IList<Claim>? ToClaims(Guid userId, string municipality)
+        private static List<Claim>? ToClaims(Guid userId, string municipality)
         {
             var claims = new List<Claim>
                 {

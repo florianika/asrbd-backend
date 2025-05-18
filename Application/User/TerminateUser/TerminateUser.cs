@@ -22,11 +22,12 @@ namespace Application.User.TerminateUser
         
         public async Task<TerminateUserResponse> Execute(TerminateUserRequest request)
         {
-            var userExists = await _authRepository.CheckIfUserExists(request.UserId);
+            //TODO remove this, already checked existence on TerminateUserAsync
+            /*var userExists = await _authRepository.CheckIfUserExists(request.UserId);
             if (!userExists)
             {
                 throw new NotFoundException("User not found");
-            }
+            }*/
             await TerminateUserAsync(request.UserId.ToString());
             return new TerminateUserSuccessResponse
             {

@@ -5,4 +5,7 @@ namespace Application.FieldWorkRule.GetFieldWorkRule.Request
     {
         public long Id { get; set; }
     }
+    
+    //TODO add request validator class
+    
 }

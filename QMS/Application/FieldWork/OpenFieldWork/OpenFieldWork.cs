@@ -1,9 +1,11 @@
 ﻿
+using Application.Exceptions;
 using Application.FieldWork.OpenFieldWork.Request;
 using Application.FieldWork.OpenFieldWork.Response;
 using Application.FieldWork.UpdateFieldWork.Request;
 using Application.FieldWork.UpdateFieldWork.Response;
 using Application.Ports;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 
 namespace Application.FieldWork.OpenFieldWork
@@ -19,13 +21,8 @@ namespace Application.FieldWork.OpenFieldWork
         }
         public async Task<OpenFieldWorkResponse> Execute(OpenFieldWorkRequest request)
         {
-            var fieldwork = await _fieldWorkRepository.GetFieldWork(request.FieldWorkId);
-            if (fieldwork.fieldWorkStatus != Domain.Enum.FieldWorkStatus.NEW)
-                return new OpenFieldWorkErrorResponse 
-                { 
-                    Code = "500", Message = "FieldWork can not be open" 
-                };
-            fieldwork.fieldWorkStatus = Domain.Enum.FieldWorkStatus.OPEN;
+            var fieldwork = await _fieldWorkRepository.GetFieldWorkByIdAndStatus(request.FieldWorkId, FieldWorkStatus.NEW);
+            fieldwork.FieldWorkStatus = Domain.Enum.FieldWorkStatus.OPEN;
             fieldwork.UpdatedUser = request.UpdatedUser;
             fieldwork.UpdatedTimestamp = DateTime.Now;
 

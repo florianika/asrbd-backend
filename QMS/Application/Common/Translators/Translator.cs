@@ -92,7 +92,7 @@ namespace Application.Common.Translators
                 FieldWorkId = fieldWork.FieldWorkId,
                 StartDate = fieldWork.StartDate,
                 EndDate = fieldWork.EndDate,
-                fieldWorkStatus = fieldWork.fieldWorkStatus,
+                fieldWorkStatus = fieldWork.FieldWorkStatus,
                 Description = fieldWork.Description,
                 EmailTemplateId = fieldWork.EmailTemplateId,
                 Remarks = fieldWork.Remarks,

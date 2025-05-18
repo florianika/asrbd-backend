@@ -31,9 +31,12 @@ namespace Infrastructure.Configurations
             builder.HasIndex(r => new { r.LocalId, r.Version, r.EntityType })
                 .IsUnique();
             // Enums
-            builder.Property(r => r.EntityType).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<EntityType>(c));
-            builder.Property(r => r.QualityAction).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<QualityAction>(c));;
-            builder.Property(r => r.RuleStatus).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<RuleStatus>(c));;
+            builder.Property(r => r.EntityType).IsRequired().HasConversion(c => c.ToString(), 
+                c => Enum.Parse<EntityType>(c));
+            builder.Property(r => r.QualityAction).IsRequired().HasConversion(c => c.ToString(), 
+                c => Enum.Parse<QualityAction>(c));
+            builder.Property(r => r.RuleStatus).IsRequired().HasConversion(c => c.ToString(), 
+                c => Enum.Parse<RuleStatus>(c));
         }
     }
 }

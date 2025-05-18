@@ -26,14 +26,16 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/qms/fieldworkrule")]
+    //TODO remove this controller and use the FieldWorkerController instead
+    
     public class FieldWorkRuleController : ControllerBase
     {
         private readonly IRemoveFieldWorkRule _removeFieldWorkRule;
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
         private readonly IGetFieldWorkRule _getFieldWorkRuleService;
         private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
-        public readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
-        public readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
+        private readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
+        private readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
         private readonly IGetStatisticsByRule _getStatisticsByRuleService;
         private readonly IAuthTokenService _authTokenService;
         public FieldWorkRuleController(IGetStatisticsByRule getStatisticsByRuleService, IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, IGetRuleByFieldWork getRuleByFieldWork,IGetFieldWorkRule getFieldWorkRule, IRemoveFieldWorkRule removeFieldWorkRule, IAddFieldWorkRule addFieldWorkRuleService, IAuthTokenService authTokenService)
@@ -50,6 +52,8 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/rules'
         public async Task<AddFieldWorkRuleResponse> AddFieldWorkRule(AddFieldWorkRuleRequest request)
         {
             var token = Request.Headers["Authorization"].ToString();
@@ -59,6 +63,8 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id:long}")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/rules/{ruleId:long}'
         public async Task<RemoveFieldWorkRuleResponse> RemoveFieldWorkRule(long id)
         {
             return await _removeFieldWorkRule.Execute(new RemoveFieldWorkRuleRequest() { Id = id });
@@ -66,24 +72,33 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("{id:long}")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/rule/{ruleId:long}'
         public async Task<GetFieldWorkRuleResponse> GetFieldWorkRule(int id)
         {
             return await _getFieldWorkRuleService.Execute(new GetFieldWorkRuleRequest() { Id = id });
         }
         [HttpGet]
         [Route("fieldwork/{id:int}")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/rules'
         public async Task<GetRuleByFieldWorkResponse> GetRuleByFieldWork(int id)
         {
             return await _getRuleByFieldWorkService.Execute(new GetRuleByFieldWorkRequest() { Id = id });
         }
         [HttpGet]
         [Route("statistics/rule")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/rules/statistics'
+        //TODO try to avoid methods with empty requests
         public async Task<GetStatisticsFromRulesResponse> GetStatisticsFromRules()
         {
             return await _getStatisticsFromRuleQueryService.Execute();
         }
         [HttpGet]
         [Route("statistics/building")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/building/statistics' or thing of better route 
         public async Task<GetStatisticsFromBuildingResponse> GetStatisticsFromBuilding()
         {
             return await _getStatisticsFromBuildingQueryService.Execute();
@@ -91,6 +106,8 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("statistics/rule/{id:long}")]
+        //TODO this should be in teh FieldWorkerController
+        //TODO route '/fieldwork/{id:int}/rules/statistics/{ruleId:long}' or thing of better route
         public async Task<GetStatisticsByRuleResponse> GetStatisticsByRule(long id)
         {
             return await _getStatisticsByRuleService.Execute(new GetStatisticsByRuleRequest { Id = id});

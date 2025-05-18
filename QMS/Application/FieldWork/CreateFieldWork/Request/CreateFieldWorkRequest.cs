@@ -8,4 +8,6 @@ namespace Application.FieldWork.CreateFieldWork.Request
         public string? Description { get; set; }
         public Guid CreatedUser { get; set; }
     }
+    
+    //TODO add validator class
 }

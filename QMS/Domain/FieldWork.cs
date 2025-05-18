@@ -8,7 +8,7 @@ namespace Domain
         public int FieldWorkId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public FieldWorkStatus fieldWorkStatus { get; set; }
+        public FieldWorkStatus FieldWorkStatus { get; set; }
         public string? Description { get; set; }
         public int EmailTemplateId { get; set; }
         public Guid CreatedUser { get; set; }

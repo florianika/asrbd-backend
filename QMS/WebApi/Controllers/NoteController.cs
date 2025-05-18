@@ -65,6 +65,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id:long}")]
+        //TODO change this method to patch 
         public async Task<UpdateNoteResponse> UpdateNote(long id, UpdateNoteRequest request)
         {
             request.NoteId = id;

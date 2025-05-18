@@ -27,14 +27,15 @@ var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(jwtSettings.AccessTokenSettings.SecretKey)),
-            ValidateIssuer = false,
-            ValidateAudience = false
-        };
+        if (jwtSettings != null)
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                    .GetBytes(jwtSettings.AccessTokenSettings.SecretKey)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
     });
 
 builder.Services.AddOcelot(builder.Configuration);

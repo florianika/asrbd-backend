@@ -13,8 +13,9 @@ namespace Application.FieldWork.CreateFieldWork
         private readonly IFieldWorkRepository _fieldWorkRepository;
         public CreateFieldWork(ILogger<CreateFieldWork> logger, IFieldWorkRepository fieldWorkRepository)
         {
-            _logger = logger;
-            _fieldWorkRepository = fieldWorkRepository;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _fieldWorkRepository = fieldWorkRepository ?? throw new ArgumentNullException(nameof(fieldWorkRepository));
+
         }
 
         public async Task<CreateFieldWorkResponse> Execute(CreateFieldWorkRequest request)
@@ -29,7 +30,7 @@ namespace Application.FieldWork.CreateFieldWork
                     EmailTemplateId = 0,
                     CreatedUser = request.CreatedUser,
                     CreatedTimestamp = DateTime.Now,
-                    fieldWorkStatus = Domain.Enum.FieldWorkStatus.NEW,
+                    FieldWorkStatus = Domain.Enum.FieldWorkStatus.NEW,
                     UpdatedUser = null,
                     UpdatedTimestamp = null
                 };

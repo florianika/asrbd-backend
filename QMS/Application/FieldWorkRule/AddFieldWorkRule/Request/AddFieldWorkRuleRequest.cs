@@ -7,4 +7,5 @@ namespace Application.FieldWorkRule.AddFieldWorkRule.Request
         public long RuleId { get; set; }
         public Guid CreatedUser { get; set; }
     }
+    //TODO add request validator class
 }
