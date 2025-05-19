@@ -28,7 +28,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
                 // Other properties...
             };
 
-            authRepositoryMock.Setup(repo => repo.FindUserById(userId))
+            authRepositoryMock.Setup(repo => repo.FindUserById(userId))!
                 .ReturnsAsync((Domain.User?)user); // Explicitly cast to nullable type
 
             // Act
@@ -53,7 +53,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var userId = Guid.NewGuid();
 
             // Removed duplicate and conflicting setup for 'FindUserById'
-            authRepositoryMock.Setup(repo => repo.FindUserById(userId))
+            authRepositoryMock.Setup(repo => repo.FindUserById(userId))!
                 .ReturnsAsync((Domain.User?)null); // Explicitly cast to nullable type
 
             // Act and Assert

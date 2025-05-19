@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Application.Configuration;
+﻿using Application.Configuration;
 using Application.User.CreateUser;
 using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
@@ -216,8 +215,5 @@ namespace WebApi.Controllers
             return response;
 
         }
-        
-
-
     }
 }

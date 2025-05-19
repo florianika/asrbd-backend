@@ -1,6 +1,4 @@
-﻿
-
-using Application.Ports;
+﻿using Application.Ports;
 using Application.User.SignOut.Request;
 using Application.User.SignOut.Response;
 using Application.User.SignOut;
@@ -60,7 +58,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
 
             // Fix for CS8620: Ensure the return type matches the nullable reference type expectations
             authRepositoryMock
-                .Setup(repo => repo.GetUserByUserId(request.UserId))
+                .Setup(repo => repo.GetUserByUserId(request.UserId))!
                 .ReturnsAsync((Domain.User?)null);
 
             // Act
