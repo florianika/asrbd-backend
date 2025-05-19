@@ -1,10 +1,23 @@
-﻿
-namespace Domain.Enum
+﻿namespace Domain.Enum
 {
+    /// <summary>
+    /// Represents different types of entities in the system.
+    /// </summary>
     public enum EntityType
     {
-        BUILDING, 
-        ENTRANCE, 
+        /// <summary>
+        /// Represents a building entity.
+        /// </summary>
+        BUILDING,
+
+        /// <summary>
+        /// Represents an entrance entity.
+        /// </summary>
+        ENTRANCE,
+
+        /// <summary>
+        /// Represents a dwelling entity.
+        /// </summary>
         DWELLING
     }
 }
