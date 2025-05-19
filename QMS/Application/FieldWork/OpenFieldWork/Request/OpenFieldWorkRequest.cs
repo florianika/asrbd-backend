@@ -5,7 +5,5 @@ namespace Application.FieldWork.OpenFieldWork.Request
     {
         public int FieldWorkId { get; set; }
         public Guid UpdatedUser { get; set; }
-    }
-    
-    //TODO add validator class for request
+    }    
 }

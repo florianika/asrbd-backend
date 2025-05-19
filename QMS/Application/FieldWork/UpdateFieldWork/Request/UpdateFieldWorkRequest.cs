@@ -11,6 +11,4 @@ namespace Application.FieldWork.UpdateFieldWork.Request
         public string? Remarks { get; set; }
         public Guid UpdatedUser { get; set; }
     }
-    
-    //TODO add validator class for request
 }

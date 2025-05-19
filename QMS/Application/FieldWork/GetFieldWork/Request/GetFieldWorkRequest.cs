@@ -5,5 +5,4 @@ namespace Application.FieldWork.GetFieldWork.Request
     {
         public int Id { get; set; }
     }
-    //TODO Add validator class for request
 }

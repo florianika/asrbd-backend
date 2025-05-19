@@ -52,6 +52,8 @@ using Infrastructure.Queries.GetStatisticsFromBuilding;
 using Application.Queries.GetStatisticsFromBuilding;
 using Application.FieldWorkRule.GetStatisticsByRule;
 using Application.FieldWork.OpenFieldWork;
+using Application.Common.Validator;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,6 +124,13 @@ builder.Services.AddScoped<IGetStatisticsFromRulesQuery, GetStatisticsFromRulesQ
 builder.Services.AddScoped<IGetStatisticsFromBuildingQuery, GetStatisticsFromBuildingQuery>();
 builder.Services.AddScoped<IGetStatisticsByRule, GetStatisticsByRule>();
 builder.Services.AddScoped<OpenFieldWork>();
+
+builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<RemoveFieldWorkRuleRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateFieldWorkRequestValidator>();
+
 
 builder.Services.AddSwaggerGen(options =>
 {
