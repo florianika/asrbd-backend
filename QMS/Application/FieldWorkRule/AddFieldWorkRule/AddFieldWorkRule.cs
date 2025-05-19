@@ -20,7 +20,7 @@ namespace Application.FieldWorkRule.AddFieldWorkRule
         {
             try
             {
-                var fieldWorkRule = new Domain.FieldWorkRule
+                var fieldWorkRule = new Domain.FieldWorkRule()
                 {
                     RuleId = request.RuleId,
                     FieldWorkId = request.FieldWorkId,

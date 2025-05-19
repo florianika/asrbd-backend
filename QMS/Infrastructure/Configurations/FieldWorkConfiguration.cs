@@ -17,7 +17,8 @@ namespace Infrastructure.Configurations
             builder.Property(fw => fw.CreatedTimestamp).IsRequired();
             builder.Property(fw => fw.UpdatedUser);
             builder.Property(fw => fw.UpdatedTimestamp);
-            builder.Property(fw => fw.FieldWorkStatus).IsRequired().HasConversion(c => c.ToString(), c => Enum.Parse<FieldWorkStatus>(c));
+            builder.Property(fw => fw.FieldWorkStatus).IsRequired()
+                .HasConversion(c => c.ToString(), c => Enum.Parse<FieldWorkStatus>(c));
         }
     }
 }

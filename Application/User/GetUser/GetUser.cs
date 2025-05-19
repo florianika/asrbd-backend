@@ -17,7 +17,6 @@ namespace Application.User.GetUser
             _logger = logger;
             _authRepository = authRepository;
         }
-        //FIXME refactor this method and try to separate the error flow
         public async Task<GetUserResponse> Execute(GetUserRequest request)
         {
             try
