@@ -28,13 +28,7 @@ namespace Application.User.ActivateUser
         public async Task<ActivateUserResponse> Execute(ActivateUserRequest request)
         {
             try
-            {
-                //TODO this should be removed existence of the user is checked by UpdateUserAccount
-                /*var exists = await _authRepository.CheckIfUserExists(request.UserId);
-                if (!exists)
-                {
-                    throw new NotFoundException("User not found");
-                }*/
+            {                
                 await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE);
                 return new ActivateUserSuccessResponse
                 {

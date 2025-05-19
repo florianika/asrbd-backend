@@ -53,7 +53,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var refreshTokenServiceMock = new Mock<RefreshToken>(
                 Mock.Of<ILogger<RefreshToken>>(),
                 Mock.Of<IAuthTokenService>(),
-                Mock.Of<IAuthRepository>()                
+                Mock.Of<IAuthRepository>()
                 );
 
             var signOutServiceMock = new Mock<SignOut>(
@@ -90,7 +90,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 Mock.Of<ILogger<GetUserByEmail>>(),
                 Mock.Of<IAuthRepository>()
             );
-            
+
             var setUserMunicipalityServiceMock = new Mock<SetUserMunicipality>(
                 Mock.Of<ILogger<SetUserMunicipality>>(),
                 Mock.Of<IAuthRepository>()
@@ -100,7 +100,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
-            
+
             var controller = new AuthController(
                 createUserServiceMock.Object,
                 loginServiceMock.Object,
@@ -117,7 +117,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object
-                
+
             );
 
             // Act
@@ -125,7 +125,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
 
             // Assert
             var createdResult = Assert.IsType<CreateUserSuccessResponse>(result);
-            Assert.NotNull(createdResult.UserId);
+            Assert.NotEqual(Guid.Empty, createdResult.UserId); // Replace NotNull check with NotEqual to Guid.Empty
         }
 
         [Fact]
@@ -527,7 +527,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var successResponse = (RefreshTokenSuccessResponse)response;
             Assert.Equal("newAccessToken", successResponse.AccessToken); // Verify against the actual new access token value
             Assert.Equal("newRefreshToken", successResponse.RefreshToken); // Verify against the actual new refresh token value
-            Assert.NotNull(successResponse.RefreshTokenExpirationDate);
+            Assert.True(successResponse.RefreshTokenExpirationDate > DateTime.MinValue); // Replace NotNull check with a valid comparison
         }
 
         [Fact]

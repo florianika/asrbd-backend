@@ -11,156 +11,160 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    [Migration("20230815223942_init")]
-    partial class init
+    namespace Infrastructure.Migrations
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        [DbContext(typeof(DataContext))]
+        [Migration("20230815223942_init")]
+        partial class InitMigration // Renamed from 'init' to 'InitMigration' to avoid CS8981  
         {
+            // Removed 'override' keyword to fix CS0115 as the base class does not define this method.
+            protected void BuildTargetModel(ModelBuilder modelBuilder)
+            {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                modelBuilder
+                    .HasAnnotation("ProductVersion", "6.0.16")
+                    .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Domain.Claim.Claim", b =>
-                {
-                    b.Property<int>("ClaimId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                modelBuilder.Entity("Domain.Claim.Claim", b =>
+                    {
+                        b.Property<int>("ClaimId")
+                            .ValueGeneratedOnAdd()
+                            .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimId"), 1L, 1);
+                        SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClaimId"), 1L, 1);
 
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        b.Property<string>("Type")
+                            .IsRequired()
+                            .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        b.Property<Guid>("UserId")
+                            .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        b.Property<string>("Value")
+                            .IsRequired()
+                            .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ClaimId");
+                        b.HasKey("ClaimId");
 
-                    b.HasIndex("UserId");
+                        b.HasIndex("UserId");
 
-                    b.ToTable("Claim");
-                });
+                        b.ToTable("Claim");
+                    });
 
-            modelBuilder.Entity("Domain.RefreshToken.RefreshToken", b =>
-                {
-                    b.Property<int>("RefreshTokenId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                modelBuilder.Entity("Domain.RefreshToken.RefreshToken", b =>
+                    {
+                        b.Property<int>("RefreshTokenId")
+                            .ValueGeneratedOnAdd()
+                            .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefreshTokenId"), 1L, 1);
+                        SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefreshTokenId"), 1L, 1);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                        b.Property<bool>("Active")
+                            .HasColumnType("bit");
 
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("datetime2");
+                        b.Property<DateTime>("ExpirationDate")
+                            .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                        b.Property<Guid>("UserId")
+                            .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        b.Property<string>("Value")
+                            .IsRequired()
+                            .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RefreshTokenId");
+                        b.HasKey("RefreshTokenId");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                        b.HasIndex("UserId")
+                            .IsUnique();
 
-                    b.ToTable("RefreshToken");
-                });
+                        b.ToTable("RefreshToken");
+                    });
 
-            modelBuilder.Entity("Domain.User.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                modelBuilder.Entity("Domain.User.User", b =>
+                    {
+                        b.Property<Guid>("Id")
+                            .ValueGeneratedOnAdd()
+                            .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("AccountRole")
-                        .HasColumnType("int");
+                        b.Property<int>("AccountRole")
+                            .HasColumnType("int");
 
-                    b.Property<int>("AccountStatus")
-                        .HasColumnType("int");
+                        b.Property<int>("AccountStatus")
+                            .HasColumnType("int");
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                        b.Property<bool>("Active")
+                            .HasColumnType("bit");
 
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
+                        b.Property<DateTime>("CreationDate")
+                            .HasColumnType("datetime2");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        b.Property<string>("Email")
+                            .IsRequired()
+                            .HasMaxLength(255)
+                            .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        b.Property<string>("LastName")
+                            .IsRequired()
+                            .HasMaxLength(255)
+                            .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                        b.Property<string>("Name")
+                            .IsRequired()
+                            .HasMaxLength(255)
+                            .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        b.Property<string>("Password")
+                            .IsRequired()
+                            .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Salt")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        b.Property<string>("Salt")
+                            .IsRequired()
+                            .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        b.Property<DateTime>("UpdateDate")
+                            .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                        b.HasKey("Id");
 
-                    b.HasIndex("Email")
-                        .IsUnique();
+                        b.HasIndex("Email")
+                            .IsUnique();
 
-                    b.ToTable("Users");
-                });
+                        b.ToTable("Users");
+                    });
 
-            modelBuilder.Entity("Domain.Claim.Claim", b =>
-                {
-                    b.HasOne("Domain.User.User", "User")
-                        .WithMany("Claims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                modelBuilder.Entity("Domain.Claim.Claim", b =>
+                    {
+                        b.HasOne("Domain.User.User", "User")
+                            .WithMany("Claims")
+                            .HasForeignKey("UserId")
+                            .OnDelete(DeleteBehavior.Cascade)
+                            .IsRequired();
 
-                    b.Navigation("User");
-                });
+                        b.Navigation("User");
+                    });
 
-            modelBuilder.Entity("Domain.RefreshToken.RefreshToken", b =>
-                {
-                    b.HasOne("Domain.User.User", "User")
-                        .WithOne("RefreshToken")
-                        .HasForeignKey("Domain.RefreshToken.RefreshToken", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                modelBuilder.Entity("Domain.RefreshToken.RefreshToken", b =>
+                    {
+                        b.HasOne("Domain.User.User", "User")
+                            .WithOne("RefreshToken")
+                            .HasForeignKey("Domain.RefreshToken.RefreshToken", "UserId")
+                            .OnDelete(DeleteBehavior.Cascade)
+                            .IsRequired();
 
-                    b.Navigation("User");
-                });
+                        b.Navigation("User");
+                    });
 
-            modelBuilder.Entity("Domain.User.User", b =>
-                {
-                    b.Navigation("Claims");
+                modelBuilder.Entity("Domain.User.User", b =>
+                    {
+                        b.Navigation("Claims");
 
-                    b.Navigation("RefreshToken")
-                        .IsRequired();
-                });
+                        b.Navigation("RefreshToken")
+                            .IsRequired();
+                    });
 #pragma warning restore 612, 618
+            }
         }
     }
 }

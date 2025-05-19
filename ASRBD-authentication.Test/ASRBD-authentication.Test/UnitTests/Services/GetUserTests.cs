@@ -18,18 +18,18 @@ namespace ASRBD_authentication.Test.UnitTests.Services
         {
             // Arrange
             var loggerMock = new Mock<ILogger<GetUser>>();
-            var authRepositoryMock = new Mock<IAuthRepository>(); // Replace with actual repository setup
+            var authRepositoryMock = new Mock<IAuthRepository>();
             var userService = new GetUser(loggerMock.Object, authRepositoryMock.Object);
 
             var userId = Guid.NewGuid();
-            var user = new Domain.User // Replace with actual user setup
+            var user = new Domain.User
             {
                 Id = userId,
                 // Other properties...
             };
 
             authRepositoryMock.Setup(repo => repo.FindUserById(userId))
-                .ReturnsAsync(user);
+                .ReturnsAsync((Domain.User?)user); // Explicitly cast to nullable type
 
             // Act
             var result = await userService.Execute(new GetUserRequest { UserId = userId });
@@ -47,13 +47,14 @@ namespace ASRBD_authentication.Test.UnitTests.Services
         {
             // Arrange
             var loggerMock = new Mock<ILogger<GetUser>>();
-            var authRepositoryMock = new Mock<IAuthRepository>(); // Replace with actual repository setup
+            var authRepositoryMock = new Mock<IAuthRepository>();
             var userService = new GetUser(loggerMock.Object, authRepositoryMock.Object);
 
             var userId = Guid.NewGuid();
 
+            // Removed duplicate and conflicting setup for 'FindUserById'
             authRepositoryMock.Setup(repo => repo.FindUserById(userId))
-                .ReturnsAsync((Domain.User)null); // User not found
+                .ReturnsAsync((Domain.User?)null); // Explicitly cast to nullable type
 
             // Act and Assert
             await Assert.ThrowsAsync<NotFoundException>(() => userService.Execute(new GetUserRequest { UserId = userId }));

@@ -2,7 +2,7 @@
 {
     public class RemoveFieldWorkRuleErrorResponse : RemoveFieldWorkRuleResponse
     {
-        public string Message { get; internal set; }
-        public string Code { get; internal set; }
+        public required string Message { get; set; }
+        public required string Code { get; set; }
     }
 }

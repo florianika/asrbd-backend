@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class district : Migration
+    public partial class District : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

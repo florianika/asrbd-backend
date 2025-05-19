@@ -24,11 +24,11 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var getAllUsersService = new GetAllUsers(authRepositoryMock.Object, loggerMock.Object);
 
             var users = new List<Domain.User>
-        {
-            new Domain.User { Id = Guid.NewGuid(), Name = "User1", Email = "user1@example.com" },
-            new Domain.User { Id = Guid.NewGuid(), Name = "User2", Email = "user2@example.com" }
-            // Add more user instances as needed
-        };
+                {
+                    new Domain.User { Id = Guid.NewGuid(), Name = "User1", Email = "user1@example.com" },
+                    new Domain.User { Id = Guid.NewGuid(), Name = "User2", Email = "user2@example.com" }
+                    // Add more user instances as needed
+                };
 
             authRepositoryMock.Setup(repo => repo.GetAllUsers()).ReturnsAsync(users);
 
@@ -47,7 +47,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             }
             else
             {
-                Assert.True(false, "Unexpected response type");
+                Assert.Fail("Unexpected response type");
             }
         }
     }

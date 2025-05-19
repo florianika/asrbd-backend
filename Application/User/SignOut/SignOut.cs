@@ -1,4 +1,5 @@
-﻿using Application.Ports;
+﻿using Application.Exceptions;
+using Application.Ports;
 using Application.User.SignOut.Request;
 using Application.User.SignOut.Response;
 using Microsoft.Extensions.Logging;
@@ -20,17 +21,10 @@ namespace Application.User.SignOut
             try
             {
                 var user = await _authRepository.GetUserByUserId(request.UserId);
-                //TODO remove this, already checked in GetUserByUserId
-                /*if (user == null)
-                {
-                    return new SignOutErrorResponse { Message = "User not found" };
-                }*/
-
-                //TODO comments in english always: Kontrollo nëse RefreshToken është null
-                //TODO create an exception for this instead of returning SignOutErrorResponse
+                //Check if refresh token is null
                 if (user.RefreshToken == null)
                 {
-                    return new SignOutErrorResponse { Message = "No refresh token found for the user" };
+                    throw new NotFoundException("No refresh token found for the user"); 
                 }
                 user.RefreshToken.Active = false;
                 await _authRepository.UpdateRefreshToken(user.Id, user.RefreshToken);

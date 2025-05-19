@@ -16,17 +16,8 @@ namespace Application.User.UpdateUserRole
             _logger = logger;
             _authRepository = authRepository;
         }
-        //FIXME refactor method and sparate error handling
         public async Task<UpdateUserRoleResponse> Execute(UpdateUserRoleRequest request)
         {
-            //TODO remove this: there is no need for checking user existence, it will b4e checked on UpdateUserRole
-            /*var userExists = await _authRepository.CheckIfUserExists(request.UserId);
-
-            if (!userExists)
-            {
-                throw new NotFoundException("User not found");
-            }*/
-
             try
             {
                 await _authRepository.UpdateUserRole(request.UserId, request.AccountRole);

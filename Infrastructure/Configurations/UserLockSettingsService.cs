@@ -13,15 +13,8 @@ namespace Infrastructure.Configurations
             _configuration = configuration;
         }
 
-        //public UserLockSettings UserLockSettings => throw new NotImplementedException();
-
-        //public UserLockSettings GetUserLockSettings()
-        //{
-        //    var userLockSettings = new UserLockSettings();
-        //    _configuration.GetSection("userLockSettings").Bind(userLockSettings);
-        //    return userLockSettings;
-        //}
         public UserLockSettings UserLockSettings =>
-            _configuration.GetSection("userLockSettings").Get<UserLockSettings>();
+            _configuration.GetSection("userLockSettings").Get<UserLockSettings>()
+            ?? new UserLockSettings(); // Provide a default instance to avoid null reference
     }
 }

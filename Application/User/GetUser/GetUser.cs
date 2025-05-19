@@ -22,14 +22,8 @@ namespace Application.User.GetUser
         {
             try
             {
-                var user = await _authRepository.FindUserById(request.UserId);
-                //TODO remove this already checked in FindUserById
-                /*if (user == null)
-                {
-                    throw new NotFoundException("User not found");
-                }*/
+                var user = await _authRepository.FindUserById(request.UserId);                
                 var userDTO = Translator.ToDTO(user);
-
                 return new GetUserSuccessResponse
                 {
                     UserDTO = userDTO

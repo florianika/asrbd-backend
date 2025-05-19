@@ -6,6 +6,7 @@ using Application.User.SignOut.Response;
 using Application.User.SignOut;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Domain;
 
 namespace ASRBD_authentication.Test.UnitTests.Services
 {
@@ -57,7 +58,10 @@ namespace ASRBD_authentication.Test.UnitTests.Services
                 UserId = Guid.NewGuid() // Provide a valid user ID
             };
 
-            authRepositoryMock.Setup(repo => repo.GetUserByUserId(request.UserId)).ReturnsAsync((Domain.User)null);
+            // Fix for CS8620: Ensure the return type matches the nullable reference type expectations
+            authRepositoryMock
+                .Setup(repo => repo.GetUserByUserId(request.UserId))
+                .ReturnsAsync((Domain.User?)null);
 
             // Act
             var response = await signOutService.Execute(request);
@@ -66,6 +70,12 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             authRepositoryMock.Verify(repo => repo.UpdateRefreshToken(It.IsAny<Guid>(), It.IsAny<Domain.RefreshToken>()), Times.Never);
             Assert.IsType<SignOutErrorResponse>(response);
             Assert.Equal("User not found", (response as SignOutErrorResponse)?.Message);
+        }
+        private Task<User?> GetUserByUserId(Guid userId)
+        {
+            // This is a placeholder implementation to satisfy the compiler.
+            // Replace this with the actual implementation or mock it in your tests.
+            return Task.FromResult<User?>(null);
         }
 
     }

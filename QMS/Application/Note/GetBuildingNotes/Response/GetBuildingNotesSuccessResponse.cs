@@ -2,6 +2,6 @@
 {
     public class GetBuildingNotesSuccessResponse : GetBuildingNotesResponse
     {
-        public IEnumerable<NoteDTO> NotesDTO { get; set; }
+        public required IEnumerable<NoteDTO> NotesDTO { get; set; }
     }
 }

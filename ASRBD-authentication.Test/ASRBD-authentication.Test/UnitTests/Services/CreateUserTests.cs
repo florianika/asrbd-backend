@@ -40,14 +40,13 @@ namespace ASRBD_authentication.Test.UnitTests.Services
 
             if (response is CreateUserSuccessResponse successResponse)
             {
-                Assert.NotNull(successResponse.UserId);
+                Assert.NotEqual(Guid.Empty, successResponse.UserId); // Ensure the Guid is not empty instead of using Assert.NotNull
             }
             else
             {
                 // Handle the case when the response is not of type CreateUserSuccessResponse
-                Assert.True(false, "Unexpected response type");
+                Assert.Fail("Unexpected response type");
             }
         }
-
     }
 }

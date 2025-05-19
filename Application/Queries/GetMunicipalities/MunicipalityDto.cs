@@ -3,6 +3,6 @@
     public class MunicipalityDto
     {
         public short MunicipalityCode { get; set; }
-        public string MunicipalityName { get; set; }
+        public required string MunicipalityName { get; set; }
     }
 }

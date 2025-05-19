@@ -5,6 +5,6 @@ namespace Application.Note.GetNote.Response
 {
     public class GetNoteSuccessResponse : GetNoteResponse
     {
-        public NoteDTO NotesDTO { get; set; }
+        public required NoteDTO NotesDTO { get; set; }
     }
 }

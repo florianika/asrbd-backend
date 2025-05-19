@@ -61,7 +61,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             else
             {
                 // Handle the case when the response is not of type CreateUserSuccessResponse
-                Assert.True(false, "Unexpected response type");
+                Assert.Fail("Unexpected response type");
             }
         }
     }

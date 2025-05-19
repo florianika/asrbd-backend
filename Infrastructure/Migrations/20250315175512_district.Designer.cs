@@ -13,7 +13,7 @@ namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20250315175512_district")]
-    partial class district
+    partial class District
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
