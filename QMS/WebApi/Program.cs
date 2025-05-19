@@ -130,6 +130,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValid
 builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<RemoveFieldWorkRuleRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateFieldWorkRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AddFieldWorkRuleRequestValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRuleRequestValidator> ();
+
 
 
 builder.Services.AddSwaggerGen(options =>
