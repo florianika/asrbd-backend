@@ -31,7 +31,7 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/qms/rules")]
-    public class RuleController : ControllerBase
+    public class RuleController : QmsControllerBase
     {
         private readonly CreateRule _createRuleService;
         private readonly GetAllRules _getAllRulesService;
@@ -61,9 +61,8 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("")]
         public async Task<CreateRuleResponse> CreateRule(CreateRuleRequest request)
-        {   
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+        {
+            var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _createRuleService.Execute(request);
         }
@@ -107,8 +106,7 @@ namespace WebApi.Controllers
         [Route("{id:long}")]
         public async Task<ChangeRuleStatusResponse> ChangeRuleStatus(long id)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _changeRuleStatusService.Execute(new ChangeRuleStatusRequest() { Id = id, UpdatedUser = updatedUser});
         }
@@ -117,8 +115,7 @@ namespace WebApi.Controllers
         public async Task<UpdateRuleResponse> UpdateRule(long id, UpdateRuleRequest request)
         {
             request.Id = id;
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.UpdatedUser = updatedUser;
             return await _updateRuleService.Execute(request);

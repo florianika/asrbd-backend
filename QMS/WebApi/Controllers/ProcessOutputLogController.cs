@@ -26,7 +26,7 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/qms/outputlogs")]
-    public class ProcessOutputLogController : ControllerBase
+    public class ProcessOutputLogController : QmsControllerBase
     {
         private readonly GetProcessOutputLogsByBuildingId _getProcessOutputLogsByBuildingId;
         private readonly GetProcessOutputLogsByEntranceId _getProcessOutputLogsByEntranceId;
@@ -54,8 +54,7 @@ namespace WebApi.Controllers
         [Route("resolve/{id:guid}")]
         public async Task<ResolveProcessOutputLogResponse> ResolveProcessOutputLog(Guid id)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _resolveProcessOutputLogService.Execute(new ResolveProcessOutputLogRequest() 
                 { ProcessOutputLogId = id, UpdatedUser = updatedUser});
@@ -65,8 +64,7 @@ namespace WebApi.Controllers
         [Route("pend/{id:guid}")]
         public async Task<PendProcessOutputLogResponse> PendProcessOutputLog(Guid id)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _pendProcessOutputLogService.Execute(new PendProcessOutputLogRequest() 
                 { ProcessOutputLogId = id, UpdatedUser = updatedUser});

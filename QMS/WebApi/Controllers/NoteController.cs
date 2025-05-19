@@ -21,8 +21,8 @@ namespace WebApi.Controllers
 {
     [Authorize]
         [ApiController]
-        [Route("api/qms/note")]
-    public class NoteController : ControllerBase
+        [Route("api/qms/notes")]
+    public class NoteController : QmsControllerBase
     {
         private readonly IDeleteNote _deleteNoteService;
         private readonly IUpdateNote _updateNoteService;
@@ -40,12 +40,13 @@ namespace WebApi.Controllers
             _createNoteService = createNoteService;
             _authTokenService = authTokenService;
         }
+        
         [HttpPost]
         [Route("")]
         public async Task<CreateNoteResponse> CreateNote(CreateNoteRequest request)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            
+            var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _createNoteService.Execute(request);
         }
@@ -69,8 +70,7 @@ namespace WebApi.Controllers
         public async Task<UpdateNoteResponse> UpdateNote(long id, UpdateNoteRequest request)
         {
             request.NoteId = id;
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.UpdatedUser = updatedUser;
             return await _updateNoteService.Execute(request);
@@ -81,5 +81,6 @@ namespace WebApi.Controllers
         {
             return await _deleteNoteService.Execute(new DeleteNoteRequest() { Id=id });
         }
+        
     }
 }

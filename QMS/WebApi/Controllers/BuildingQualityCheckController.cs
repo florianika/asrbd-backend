@@ -13,7 +13,7 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/qms/check")]
-    public class BuildingQualityCheckController : ControllerBase
+    public class BuildingQualityCheckController : QmsControllerBase
     {
         private readonly IAuthTokenService _authTokenService;
         private readonly BuildingQualityCheck _buildingQualityCheckService;
@@ -27,7 +27,7 @@ namespace WebApi.Controllers
         
         [HttpPost("buildings")]
         public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(BuildingQualityCheckRequest request) {            
-            var token = Request.Headers["Authorization"].ToString();
+            var token = ExtractBearerToken();
             token = token.Replace("Bearer ", "");
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
@@ -36,8 +36,7 @@ namespace WebApi.Controllers
         [HttpPost("automatic")]
         public async Task<AutomaticRulesResponse> AutomaticRules(AutomaticRulesRequest request)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
             return await _automaticRulesService.Execute(request);

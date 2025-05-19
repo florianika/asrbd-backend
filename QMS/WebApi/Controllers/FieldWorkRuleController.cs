@@ -28,7 +28,7 @@ namespace WebApi.Controllers
     [Route("api/qms/fieldworkrule")]
     //TODO remove this controller and use the FieldWorkerController instead
     
-    public class FieldWorkRuleController : ControllerBase
+    public class FieldWorkRuleController : QmsControllerBase
     {
         private readonly IRemoveFieldWorkRule _removeFieldWorkRule;
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
@@ -56,8 +56,7 @@ namespace WebApi.Controllers
         //TODO route '/fieldwork/{id:int}/rules'
         public async Task<AddFieldWorkRuleResponse> AddFieldWorkRule(AddFieldWorkRuleRequest request)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _addFieldWorkRuleService.Execute(request);
         }

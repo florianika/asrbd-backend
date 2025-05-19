@@ -9,13 +9,6 @@ using Application.EmailTemplate.GetEmailTemplate.Response;
 using Application.EmailTemplate.UpdateEmailTemplate;
 using Application.EmailTemplate.UpdateEmailTemplate.Request;
 using Application.EmailTemplate.UpdateEmailTemplate.Response;
-using Application.FieldWork.CreateFieldWork.Request;
-using Application.FieldWork.CreateFieldWork.Response;
-using Application.FieldWork.GetAllFieldWork.Response;
-using Application.FieldWork.GetFieldWork.Request;
-using Application.FieldWork.GetFieldWork.Response;
-using Application.FieldWork.UpdateFieldWork.Request;
-using Application.FieldWork.UpdateFieldWork.Response;
 using Application.Ports;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +18,7 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/qms/emailtemplate")]
-    public class EmailTemplateController : ControllerBase
+    public class EmailTemplateController : QmsControllerBase
     {
         private readonly IGetAllEmailTemplate _getAllEmailTemplateService;
         private readonly IGetEmailTemplate _getEmailTemplateService;
@@ -57,8 +50,7 @@ namespace WebApi.Controllers
         [Route("")]
         public async Task<CreateEmailTemplateResponse> CreateEmailTemplate(CreateEmailTemplateRequest request)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _createEmailTemplateService.Execute(request);
         }
@@ -74,8 +66,7 @@ namespace WebApi.Controllers
         public async Task<UpdateEmailTemplateResponse> UpdateEmailTemplate(int id, UpdateEmailTemplateRequest request)
         {
             request.EmailTemplateId = id;
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.UpdatedUser = updatedUser;
             return await _updateEmailTemplateService.Execute(request);

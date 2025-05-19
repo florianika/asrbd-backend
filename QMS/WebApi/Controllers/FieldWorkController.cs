@@ -23,7 +23,7 @@ namespace WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/qms/fieldwork")]
-    public class FieldWorkController : ControllerBase
+    public class FieldWorkController : QmsControllerBase
     {
         private readonly GetAllFieldWork _getAllFieldWorkService;
         private readonly CreateFieldWork _createFieldWorkService;
@@ -59,8 +59,7 @@ namespace WebApi.Controllers
         [Route("")]
         public async Task<CreateFieldWorkResponse> CreateFieldWork(CreateFieldWorkRequest request)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _createFieldWorkService.Execute(request);
         }
@@ -76,8 +75,7 @@ namespace WebApi.Controllers
         public async Task<UpdateFieldWorkResponse> UpdateFieldWork(int id, UpdateFieldWorkRequest request)
         {
             request.FieldWorkId = id;
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             var updatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.UpdatedUser = updatedUser;
             return await _updateFieldWorkService.Execute(request);
@@ -95,8 +93,7 @@ namespace WebApi.Controllers
         //TODO all methods where there is a partial update of the fields should be changed to patch
         public async Task<OpenFieldWorkResponse> OpenFieldWork(OpenFieldWorkRequest request)
         {
-            var token = Request.Headers["Authorization"].ToString();
-            token = token.Replace("Bearer ", "");
+            var token = ExtractBearerToken();
             request.UpdatedUser = await _authTokenService.GetUserIdFromToken(token);
             return await _openFieldWorkService.Execute(request);
         }
