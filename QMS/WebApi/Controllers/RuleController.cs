@@ -76,9 +76,12 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("variable/{variable}/type/{entityType}")]
-        public async Task<GetRulesByVariableAndEntityResponse> GetRulesByVarialeAndEntityType(string variable, EntityType entityType)
+        public async Task<GetRulesByVariableAndEntityResponse> GetRulesByVariableAndEntityType(
+            string variable, EntityType entityType)
         {
-            return await _getRulesByVariableAndEntityService.Execute(new GetRulesByVariableAndEntityRequest() { Variable = variable, EntityType = entityType });
+            return await _getRulesByVariableAndEntityService.Execute(
+                new GetRulesByVariableAndEntityRequest() { Variable = variable, EntityType = entityType }
+                );
         }
 
         [HttpGet]

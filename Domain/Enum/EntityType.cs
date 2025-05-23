@@ -18,6 +18,10 @@
         /// <summary>
         /// Represents a dwelling entity.
         /// </summary>
-        DWELLING
+        DWELLING,
+        /// <summary>
+        /// Represents a street entity.
+        /// </summary>
+        STREET
     }
 }

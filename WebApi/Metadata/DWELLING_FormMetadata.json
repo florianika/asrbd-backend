@@ -1,0 +1,452 @@
+{
+  "attributes": [
+    {
+      "name": "OBJECTID",
+      "label": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "DwlGlobalID",
+      "label": {
+        "en": "ASRBD Dwelling ID",
+        "al": "ASRBD Banesa ID"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 1
+    },
+    {
+      "name": "DwlEntGlobalID",
+      "label": {
+        "en": "ASRBD Entrance ID",
+        "al": "ASRBD Hyrja ID"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 2
+    },
+    {
+      "name": "DwlCensus2023",
+      "label": {
+        "en": "Dwelling ID of Census 2023",
+        "al": "ID e Banesës nga Census 2023"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 4
+    },
+    {
+      "name": "DwlAddressID",
+      "label": {
+        "en": "Dwelling ID of National Address System",
+        "al": "ID e Banesës në Sisteming Kombëtar të Adresave"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 4
+    },
+    {
+      "name": "DwlQuality",
+      "label": {
+        "en": "Quality status of dwelling data",
+        "al": "Stausi i cliësisë së të dhënave të banesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "title",
+      "order": 99
+    },
+    {
+      "name": "DwlFloor",
+      "label": {
+        "en": "Floor indication of dwelling",
+        "al": "Kati i banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identifier",
+      "order": 11
+    },
+    {
+      "name": "DwlApartNumber",
+      "label": {
+        "en": "Address number of apartment",
+        "al": "Numri i banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identifier",
+      "order": 12
+    },
+    {
+      "name": "DwlStatus",
+      "label": {
+        "en": "Status of dwelling",
+        "al": "Statusi i banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 21
+    },
+    {
+      "name": "DwlYearConstruction",
+      "label": {
+        "en": "Construction year of dwelling",
+        "al": "Viti i ndërtimit të banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 22
+    },
+    {
+      "name": "DwlYearElimination",
+      "label": {
+        "en": "Elimination year of dwelling",
+        "al": "Viti i eliminimit të banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 23
+    },
+    {
+      "name": "DwlType",
+      "label": {
+        "en": "Type of dwelling",
+        "al": "Tipi i banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 31
+    },
+    {
+      "name": "DwlOwnership",
+      "label": {
+        "en": "Ownership of dwelling",
+        "al": "Pronësia e banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "none"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 32
+    },
+    {
+      "name": "DwlOccupancy",
+      "label": {
+        "en": "Occupancy of dwelling",
+        "al": "Statusi i banimit"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "none"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 33
+    },
+    {
+      "name": "DwlSurface",
+      "label": {
+        "en": "Dwelling surface",
+        "al": "Sipërfaqja e banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 41
+    },
+    {
+      "name": "DwlToilet",
+      "label": {
+        "en": "Type of toilet facility",
+        "al": "Tipi i tualetit në banesë"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 52
+    },
+    {
+      "name": "DwlBath",
+      "label": {
+        "en": "Bathing facility",
+        "al": "Tipi i banjos"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 61
+    },
+    {
+      "name": "DwlHeatingEnergy",
+      "label": {
+        "en": "Type of heating energy",
+        "al": "Tipi i ngrohjes"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 62
+    },
+    {
+      "name": "DwlAirConditioner",
+      "label": {
+        "en": "Air conditioning facility",
+        "al": "Ajëri i kondicionuar"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 63
+    },
+    {
+      "name": "DwlSolarPanel",
+      "label": {
+        "en": "Solar panel installation",
+        "al": "Instalimi i paneleve djellore"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 64
+    },
+    {
+      "name": "created_user",
+      "label": {
+        "en": "created_user",
+        "al": "created_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "created_date",
+      "label": {
+        "en": "created_date",
+        "al": "created_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_user",
+      "label": {
+        "en": "last_edited_user",
+        "al": "last_edited_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_date",
+      "label": {
+        "en": "last_edited_date",
+        "al": "last_edited_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "external_creator",
+      "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 64
+    },
+    {
+      "name": "external_creator_date",
+      "label": {
+        "en": "Created on",
+        "al": "E krijar më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 65
+    },
+    {
+      "name": "external_editor",
+      "label": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": ""
+    },
+    {
+      "name": "external_editor_date",
+      "label": {
+        "en": "Modified on",
+        "al": "E modifikaur më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 67
+    }
+  ]
+}

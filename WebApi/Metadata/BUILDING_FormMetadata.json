@@ -1,0 +1,660 @@
+{
+  "attributes": [
+    {
+      "name": "OBJECTID",
+      "label": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "Shape",
+      "label": {
+        "en": "Shape",
+        "al": "Shape"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "map",
+      "order": 0
+    },
+    {
+      "name": "Shape__Area",
+      "label": {
+        "en": "Shape__Area",
+        "al": "Shape__Area"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "Shap__Length",
+      "label": {
+        "en": "Shap__Length",
+        "al": "Shap__Length"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "BldGlobalID",
+      "label": {
+        "en": "ASRBD Building ID",
+        "al": "ASRBD Ndërtesa ID"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 1
+    },
+    {
+      "name": "EntCensus2023",
+      "label": {
+        "en": "Building ID of Census 2023",
+        "al": "ID e ndërtesës nga Census 2023"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 3
+    },
+    {
+      "name": "BldReview",
+      "label": {
+        "en": "Review status of building",
+        "al": "Statusi i rishikimit për ndërtesën"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 98
+    },
+    {
+      "name": "BldQuality",
+      "label": {
+        "en": "Quality status of building data",
+        "al": "Cilësia e të dhënave të ndërtesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "title",
+      "order": 99
+    },
+    {
+      "name": "BldMunicipality",
+      "label": {
+        "en": "Code and name of Municipality",
+        "al": "Kodi dhe emri i bashkisë"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "identification",
+      "order": 11
+    },
+    {
+      "name": "BldEnumArea",
+      "label": {
+        "en": "Enumeration area",
+        "al": "Zona e censusit"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identification",
+      "order": 12
+    },
+    {
+      "name": "BldLatitude",
+      "label": {
+        "en": "Latitude of building centroid",
+        "al": "Gjerësia gjoegrafike e qëndrës së ndërtesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "map",
+      "order": 13
+    },
+    {
+      "name": "BldLongitude",
+      "label": {
+        "en": "Longitude of building centroid",
+        "al": "Gjatësia gjoegrafike e qëndrës së ndërtesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "map",
+      "order": 13
+    },
+    {
+      "name": "BldCentroidStatus",
+      "label": {
+        "en": "Status of building centroid",
+        "al": "Statusi i qendrës së ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "title",
+      "order": 14
+    },
+    {
+      "name": "BldCadastralZone",
+      "label": {
+        "en": "Cadastral zone",
+        "al": "Zona kadastrale"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "identification",
+      "order": 15
+    },
+    {
+      "name": "BldProperty",
+      "label": {
+        "en": "Property number of building ",
+        "al": "Numri i pronës së ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": "false",
+      "internal": "false",
+      "section": "identification",
+      "order": ""
+    },
+    {
+      "name": "BldPermitNumber",
+      "label": {
+        "en": "Number of construction permit",
+        "al": "Numri i lejes së ndërtimit"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identification",
+      "order": 17
+    },
+    {
+      "name": "BldPermitDate",
+      "label": {
+        "en": "Issue date of construction permit",
+        "al": "Data e lejes së ndërtimit"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identification",
+      "order": 18
+    },
+    {
+      "name": "BldStatus",
+      "label": {
+        "en": "Status of building",
+        "al": "Statusi i ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 21
+    },
+    {
+      "name": "BldYearConstruction",
+      "label": {
+        "en": "Construction year of building",
+        "al": "Viti i ndërtimit të banesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 22
+    },
+    {
+      "name": "BldYearDemolition",
+      "label": {
+        "en": "Demolition year of building",
+        "al": "Viti i shëmbjes së ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 23
+    },
+    {
+      "name": "BldType",
+      "label": {
+        "en": "Type of building",
+        "al": "Tipi i ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 31
+    },
+    {
+      "name": "BldClass",
+      "label": {
+        "en": "Classification of the building",
+        "al": "Klsifikimi i ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 32
+    },
+    {
+      "name": "BldArea",
+      "label": {
+        "en": "Estimated built-up area at ground",
+        "al": "Sipërfaqja e vlerësuar e ndërtesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 41
+    },
+    {
+      "name": "BldFloorsAbove",
+      "label": {
+        "en": "Number of floors above ground",
+        "al": "Numri i kateve të ndërtesës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 42
+    },
+    {
+      "name": "BldHeight",
+      "label": {
+        "en": "Estimated height of building",
+        "al": "Lartësia e vlerësuar e ndërtesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 46
+    },
+    {
+      "name": "BldVolume",
+      "label": {
+        "en": "Estimated volume of building",
+        "al": "Vëllimi i vlerësuar i ndërtesës"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 47
+    },
+    {
+      "name": "BldEntranceRecs",
+      "label": {
+        "en": "Number of recorded entrances",
+        "al": "Numri i regjistruar i hyrjeve"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 48
+    },
+    {
+      "name": "BldDwellingRecs",
+      "label": {
+        "en": "Number of recorded dwellings",
+        "al": "Numri i banesave të regjistruara"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 49
+    },
+    {
+      "name": "BldWaterSupply",
+      "label": {
+        "en": "Type of water supply system",
+        "al": "Tipi i prurjes së ujit në banesë"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 51
+    },
+    {
+      "name": "BldWasteWater",
+      "label": {
+        "en": "Wastewater treatment",
+        "al": "Trajtimi i ujrave të zeza"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 53
+    },
+    {
+      "name": "BldElectricity",
+      "label": {
+        "en": "Electricity network connection",
+        "al": "Lidhja me rrjetin elektrik"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 61
+    },
+    {
+      "name": "BldPipedGas",
+      "label": {
+        "en": "Piped gas supply system",
+        "al": "Sistemi i furnizimit me gaz të lëngshëm"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 62
+    },
+    {
+      "name": "BldElevator",
+      "label": {
+        "en": "Elevator",
+        "al": "Ashensori"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 63
+    },
+    {
+      "name": "created_user",
+      "label": {
+        "en": "created_user",
+        "al": "created_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "created_date",
+      "label": {
+        "en": "created_date",
+        "al": "created_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_user",
+      "label": {
+        "en": "last_edited_user",
+        "al": "last_edited_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_date",
+      "label": {
+        "en": "last_edited_date",
+        "al": "last_edited_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "external_creator",
+      "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 64
+    },
+    {
+      "name": "external_creator_date",
+      "label": {
+        "en": "Created on",
+        "al": "E krijar më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 65
+    },
+    {
+      "name": "external_editor",
+      "label": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": ""
+    },
+    {
+      "name": "external_editor_date",
+      "label": {
+        "en": "Modified on",
+        "al": "E modifikaur më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 67
+    }
+  ]
+}

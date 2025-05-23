@@ -71,8 +71,8 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ocelot API Gateway v1");
-    c.SwaggerEndpoint("/api/Authetication/swagger/v1/swagger.json", "Authentication");
-    c.SwaggerEndpoint("/api/WeatherForecast/v1/swagger.json", "ServiceB API");
+    c.SwaggerEndpoint("/api/auth/swagger/v1/swagger.json", "Authentication");
+    c.SwaggerEndpoint("/api/qms/swagger/v1/swagger.json", "QMS API");
 });
 app.UseCors("CorsPolicy");
 app.UseWebSockets();

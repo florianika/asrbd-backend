@@ -1,0 +1,244 @@
+{
+  "attributes": [
+    {
+      "name": "OBJECTID",
+      "label": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "StrGlobalID",
+      "label": {
+        "en": "ASRBD Street ID",
+        "al": "ASRBD Rruga ID"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 1
+    },
+    {
+      "name": "StrMunicipality",
+      "label": {
+        "en": "Code and name of Municipality",
+        "al": "Kodi dhe emri i bashkisë"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "identifier",
+      "order": 10
+    },
+    {
+      "name": "StrType",
+      "label": {
+        "en": "Type of street",
+        "al": "Tipi i rrugës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "info",
+      "order": 11
+    },
+    {
+      "name": "StrNameCore",
+      "label": {
+        "en": "Core name of street",
+        "al": "Emri i shkurtuar i rrugës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "info",
+      "order": 12
+    },
+    {
+      "name": "StrNameFull",
+      "label": {
+        "en": "Full name of street",
+        "al": "Emri i plotë i rrugës"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "info",
+      "order": 13
+    },
+    {
+      "name": "StrAddressID",
+      "label": {
+        "en": "Street ID of National Address System",
+        "al": "ID e rrugës sipas Sistemit Kombëtar të Adresave"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 14
+    },
+    {
+      "name": "created_user",
+      "label": {
+        "en": "created_user",
+        "al": "created_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "created_date",
+      "label": {
+        "en": "created_date",
+        "al": "created_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_user",
+      "label": {
+        "en": "last_edited_user",
+        "al": "last_edited_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_date",
+      "label": {
+        "en": "last_edited_date",
+        "al": "last_edited_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "external_creator",
+      "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 64
+    },
+    {
+      "name": "external_creator_date",
+      "label": {
+        "en": "Created on",
+        "al": "E krijar më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 65
+    },
+    {
+      "name": "external_editor",
+      "label": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": ""
+    },
+    {
+      "name": "external_editor_date",
+      "label": {
+        "en": "Modified on",
+        "al": "E modifikaur më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 67
+    }
+  ]
+}

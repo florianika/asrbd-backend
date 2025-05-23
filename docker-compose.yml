@@ -16,6 +16,8 @@ services:
         image: ghcr.io/florianika/asrdb-auth:latest
         ports:
             - "8080:8080"
+        environment:
+            ASPNETCORE_ENVIRONMENT: Development
         hostname: asrdb-auth
 #    asrdb-mssql:
 #        networks:
@@ -43,6 +45,8 @@ services:
         image: ghcr.io/florianika/asrdb-qms:latest
         ports:
             - "8088:8080"
+        environment:
+            ASPNETCORE_ENVIRONMENT: Development
         hostname: asrdb-qms
 #    asrdb-frontend:
 #        image: ghcr.io/florianika/asrdb-frontend:latest

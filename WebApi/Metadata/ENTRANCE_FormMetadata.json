@@ -1,0 +1,436 @@
+{
+  "attributes": [
+    {
+      "name": "OBJECTID",
+      "label": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "Shape",
+      "label": {
+        "en": "Shape",
+        "al": "Shape"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "map",
+      "order": 0
+    },
+    {
+      "name": "Shape__Area",
+      "label": {
+        "en": "Shape__Area",
+        "al": "Shape__Area"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "Shap__Length",
+      "label": {
+        "en": "Shap__Length",
+        "al": "Shap__Length"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "EntGlobalID",
+      "label": {
+        "en": "ASRBD Entrance ID",
+        "al": "ASRBD Hyrje ID"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 1
+    },
+    {
+      "name": "EntBldGlobalID",
+      "label": {
+        "en": "ASRBD Building ID",
+        "al": "ASRDB Ndërtesa ID"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 2
+    },
+    {
+      "name": "EntCensus2023",
+      "label": {
+        "en": "Entrance ID of Census 2023",
+        "al": "ID e hyrjes nga Census 2023"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 3
+    },
+    {
+      "name": "EntAddressID",
+      "label": {
+        "en": "EntAddressID",
+        "al": "EntAddressID"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 4
+    },
+    {
+      "name": "EntQuality",
+      "label": {
+        "en": "Quality status of entrance data",
+        "al": "Cilësia e të dhënave të hyrjes"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "title",
+      "order": 99
+    },
+    {
+      "name": "EntLatitude",
+      "label": {
+        "en": "Entrance point Latitude",
+        "al": "Gjerësia gjeografike e hyrjes"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "map",
+      "order": 11
+    },
+    {
+      "name": "EntLongitude",
+      "label": {
+        "en": "Entrance point Longitude",
+        "al": "Gjatësia gjeografike e hyrjes"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "map",
+      "order": 11
+    },
+    {
+      "name": "EntPointStatus",
+      "label": {
+        "en": "Status of entrance point",
+        "al": "Statusi i pikës së hyrjes"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "title",
+      "order": 12
+    },
+    {
+      "name": "EntStrGlobalID",
+      "label": {
+        "en": "ASRBD Street",
+        "al": "ASRBD Rruga"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identifier",
+      "order": 13
+    },
+    {
+      "name": "EntBuildingNumber",
+      "label": {
+        "en": "Address number of building",
+        "al": "Addresa, numri i ndërtesës "
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identifier",
+      "order": 14
+    },
+    {
+      "name": "EntEntranceNumber",
+      "label": {
+        "en": "Address number of entrance",
+        "al": "Numri i hyrjes"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identifier",
+      "order": 15
+    },
+    {
+      "name": "EntTown",
+      "label": {
+        "en": "Code and name of town",
+        "al": "Kodi dhe emri i qytetit"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "identifier",
+      "order": 16
+    },
+    {
+      "name": "EntZipCode",
+      "label": {
+        "en": "Post office area",
+        "al": "Kodi postar"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "identifier",
+      "order": 17
+    },
+    {
+      "name": "EntDwellingRecs",
+      "label": {
+        "en": "Number of recorded dwellings",
+        "al": "Numri i banesave të regjistruara"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 22
+    },
+    {
+      "name": "EntDwellingExpec",
+      "label": {
+        "en": "Number of expected dwellings",
+        "al": "Numri i vlerësuar i banesave "
+      },
+      "display": {
+        "admin": "writre",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
+      "order": 23
+    },
+    {
+      "name": "created_user",
+      "label": {
+        "en": "created_user",
+        "al": "created_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "created_date",
+      "label": {
+        "en": "created_date",
+        "al": "created_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_user",
+      "label": {
+        "en": "last_edited_user",
+        "al": "last_edited_user"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "last_edited_date",
+      "label": {
+        "en": "last_edited_date",
+        "al": "last_edited_date"
+      },
+      "display": {
+        "admin": "none",
+        "supervisor": "none",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": true,
+      "section": "none",
+      "order": -1
+    },
+    {
+      "name": "external_creator",
+      "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 64
+    },
+    {
+      "name": "external_creator_date",
+      "label": {
+        "en": "Created on",
+        "al": "E krijar më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 65
+    },
+    {
+      "name": "external_editor",
+      "label": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": ""
+    },
+    {
+      "name": "external_editor_date",
+      "label": {
+        "en": "Modified on",
+        "al": "E modifikaur më"
+      },
+      "display": {
+        "admin": "read",
+        "supervisor": "read",
+        "enumerator": "read"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "history",
+      "order": 67
+    }
+  ]
+}
