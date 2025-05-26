@@ -48,10 +48,10 @@ services:
         environment:
             ASPNETCORE_ENVIRONMENT: Development
         hostname: asrdb-qms
-#    asrdb-frontend:
-#        image: ghcr.io/florianika/asrdb-frontend:latest
-#        ports:
-#            - "80:80"
+    asrdb-frontend:
+        image: ghcr.io/florianika/asrdb-frontend:latest
+        ports:
+            - "80:80"
 
 #volumes:
 #    sqlservervolume: test
