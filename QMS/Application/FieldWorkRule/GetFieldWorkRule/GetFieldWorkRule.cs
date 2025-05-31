@@ -15,7 +15,7 @@ namespace Application.FieldWorkRule.GetFieldWorkRule
         }
         public async Task<GetFieldWorkRuleResponse> Execute(GetFieldWorkRuleRequest request)
         {
-            var fieldWorkRules = await _fieldWorkRuleRepository.GetFieldWorkRule(request.Id);
+            var fieldWorkRules = await _fieldWorkRuleRepository.GetFieldWorkRule(request.Id,request.RuleId);
             var fieldworkruleDto = Translator.ToDTO(fieldWorkRules);
             return new GetFieldWorkRuleSuccessResponse
             {

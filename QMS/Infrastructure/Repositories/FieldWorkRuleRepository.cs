@@ -22,10 +22,10 @@ namespace Infrastructure.Repositories
             return fieldWorkRule.Id;
         }
 
-        public async Task<FieldWorkRule> GetFieldWorkRule(long id)
+        public async Task<FieldWorkRule> GetFieldWorkRule(int id, long ruleId)
         {
-            return await _context.FieldWorkRules.FirstOrDefaultAsync(x => x.Id.Equals(id))
-               ?? throw new NotFoundException("FieldWorkRule not found");
+            return await _context.FieldWorkRules.FirstOrDefaultAsync(x => x.RuleId.Equals(ruleId) && x.FieldWorkId.Equals(id))
+               ?? throw new NotFoundException($"FieldWorkRule with FieldWorkId={id} and RuleId={ruleId} not found");
         }
         public async Task RemoveFieldWorkRule(FieldWorkRule fieldWorkRule)
         {

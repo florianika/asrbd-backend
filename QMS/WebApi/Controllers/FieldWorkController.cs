@@ -14,7 +14,27 @@ using Application.FieldWork.OpenFieldWork.Response;
 using Application.FieldWork.UpdateFieldWork;
 using Application.FieldWork.UpdateFieldWork.Request;
 using Application.FieldWork.UpdateFieldWork.Response;
+using Application.FieldWorkRule.AddFieldWorkRule;
+using Application.FieldWorkRule.AddFieldWorkRule.Request;
+using Application.FieldWorkRule.AddFieldWorkRule.Response;
+using Application.FieldWorkRule.GetFieldWorkRule;
+using Application.FieldWorkRule.GetFieldWorkRule.Request;
+using Application.FieldWorkRule.GetFieldWorkRule.Response;
+using Application.FieldWorkRule.GetRuleByFieldWork;
+using Application.FieldWorkRule.GetRuleByFieldWork.Request;
+using Application.FieldWorkRule.GetRuleByFieldWork.Response;
+using Application.FieldWorkRule.GetStatisticsByRule;
+using Application.FieldWorkRule.GetStatisticsByRule.Request;
+using Application.FieldWorkRule.GetStatisticsByRule.Response;
+using Application.FieldWorkRule.RemoveFieldWorkRule;
+using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
+using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
+using Application.Queries.GetStatisticsFromBuilding;
+using Application.Queries.GetStatisticsFromBuilding.Response;
+using Application.Queries.GetStatisticsFromRules;
+using Application.Queries.GetStatisticsFromRules.Request;
+using Application.Queries.GetStatisticsFromRules.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,11 +52,27 @@ namespace WebApi.Controllers
         private readonly GetActiveFieldWork _getActiveFieldWorkService;
         private readonly OpenFieldWork _openFieldWorkService;
         private readonly IAuthTokenService _authTokenService;
+
+        private readonly IRemoveFieldWorkRule _removeFieldWorkRule;
+        private readonly IAddFieldWorkRule _addFieldWorkRuleService;
+        private readonly IGetFieldWorkRule _getFieldWorkRuleService;
+        private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
+        private readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
+        private readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
+        private readonly IGetStatisticsByRule _getStatisticsByRuleService;
+
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
             UpdateFieldWork updateFieldWorkService,
             GetActiveFieldWork getActiveFieldWorkService, 
-            OpenFieldWork openFieldWorkService,
+            OpenFieldWork openFieldWorkService, 
+            IGetStatisticsByRule getStatisticsByRuleService, 
+            IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, 
+            IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, 
+            IGetRuleByFieldWork getRuleByFieldWork, 
+            IGetFieldWorkRule getFieldWorkRule, 
+            IRemoveFieldWorkRule removeFieldWorkRule, 
+            IAddFieldWorkRule addFieldWorkRuleService,
             IAuthTokenService authTokenService  )
         {
             _getAllFieldWorkService = getAllFieldWorkService;
@@ -45,6 +81,13 @@ namespace WebApi.Controllers
             _updateFieldWorkService = updateFieldWorkService;
             _getActiveFieldWorkService = getActiveFieldWorkService;
             _openFieldWorkService = openFieldWorkService;
+            _getRuleByFieldWorkService = getRuleByFieldWork;
+            _getFieldWorkRuleService = getFieldWorkRule;
+            _removeFieldWorkRule = removeFieldWorkRule;
+            _addFieldWorkRuleService = addFieldWorkRuleService;
+            _getStatisticsFromRuleQueryService = getStatisticsFromRulesQuery;
+            _getStatisticsFromBuildingQueryService = getStatisticsFromBuildingQuery;
+            _getStatisticsByRuleService = getStatisticsByRuleService;
             _authTokenService = authTokenService;
         }
 
@@ -87,16 +130,68 @@ namespace WebApi.Controllers
             return await _getActiveFieldWorkService.Execute();
         }
 
-        [HttpPost]
-        [Route("open")]
-        //TODO change this method to patch 
-        //TODO all methods where there is a partial update of the fields should be changed to patch
-        public async Task<OpenFieldWorkResponse> OpenFieldWork(OpenFieldWorkRequest request)
+        [HttpPatch]
+        [Route("{id:int}/open")]
+        public async Task<OpenFieldWorkResponse> OpenFieldWork(int id)
         {
             var token = ExtractBearerToken();
-            request.UpdatedUser = await _authTokenService.GetUserIdFromToken(token);
+            var request = new OpenFieldWorkRequest
+            {
+                FieldWorkId = id,
+                UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
+            };
             return await _openFieldWorkService.Execute(request);
         }
 
+        [HttpPost]
+        [Route("{id:int}/rules")]
+        public async Task<AddFieldWorkRuleResponse> AddFieldWorkRule(int id, [FromBody]AddFieldWorkRuleRequest request)
+        {
+            var token = ExtractBearerToken();
+            request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
+            request.FieldWorkId = id;
+            return await _addFieldWorkRuleService.Execute(request);
+        }
+
+        [HttpDelete("{id:int}/rules/{ruleId:long}")]
+        public async Task<RemoveFieldWorkRuleResponse> RemoveFieldWorkRule(int id, long ruleId)
+        {
+            return await _removeFieldWorkRule.Execute(new RemoveFieldWorkRuleRequest() { Id = id, RuleId=ruleId });
+        }
+
+        [HttpGet]
+        [Route("{id:int}/rule/{ruleId:long}")]
+        public async Task<GetFieldWorkRuleResponse> GetFieldWorkRule(int id, long ruleId)
+        {
+            return await _getFieldWorkRuleService.Execute(new GetFieldWorkRuleRequest() { Id = id, RuleId=ruleId });
+        }
+
+        [HttpGet]
+        [Route("{id:int}/rules")]
+        public async Task<GetRuleByFieldWorkResponse> GetRuleByFieldWork(int id)
+        {
+            return await _getRuleByFieldWorkService.Execute(new GetRuleByFieldWorkRequest() { Id = id });
+        }
+
+        [HttpGet]
+        [Route("{id:int}/rules/statistics")]
+        public async Task<GetStatisticsFromRulesResponse> GetStatisticsFromRules(int id)
+        {
+            return await _getStatisticsFromRuleQueryService.Execute(new GetStatisticsFromRulesRequest() { Id=id});
+        }
+
+        [HttpGet]
+        [Route("buildings/statistics")]
+        public async Task<GetStatisticsFromBuildingResponse> GetStatisticsFromBuilding()
+        {
+            return await _getStatisticsFromBuildingQueryService.Execute();
+        }
+
+        [HttpGet]
+        [Route("rules/statistics/{ruleId:long}")]
+        public async Task<GetStatisticsByRuleResponse> GetStatisticsByRule(long id)
+        {
+            return await _getStatisticsByRuleService.Execute(new GetStatisticsByRuleRequest { Id = id });
+        }
     }
 }
