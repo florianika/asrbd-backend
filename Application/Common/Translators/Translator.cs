@@ -1,5 +1,4 @@
-﻿
-using Application.RolePermission;
+﻿using Application.RolePermission;
 using Application.User;
 
 namespace Application.Common.Translators
@@ -37,7 +36,7 @@ namespace Application.Common.Translators
             return permissions;
         }
         
-        public static RolePermissionDTO ToDTO(Domain.RolePermission rolePermission) {
+        private static RolePermissionDTO ToDTO(Domain.RolePermission rolePermission) {
             return new RolePermissionDTO() {
                 Id = rolePermission.Id,
                 EntityType = rolePermission.EntityType,

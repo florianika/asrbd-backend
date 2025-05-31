@@ -1,5 +1,4 @@
-﻿using Domain;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Application.User.CreateUser.Request
 {

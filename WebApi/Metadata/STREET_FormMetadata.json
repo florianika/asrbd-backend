@@ -185,7 +185,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -201,7 +201,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -217,7 +217,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -233,7 +233,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
