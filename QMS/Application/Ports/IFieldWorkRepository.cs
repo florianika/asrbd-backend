@@ -11,5 +11,6 @@ namespace Application.Ports
         Task<Domain.FieldWork> GetFieldWorkByIdAndStatus(int id, FieldWorkStatus status);
         Task UpdateFieldWork(Domain.FieldWork fieldwork);
         Task<Domain.FieldWork> GetActiveFieldWork();
+        Task<bool>UpdateBldReviewStatus(int id, Guid updatedUser);
     }
 }

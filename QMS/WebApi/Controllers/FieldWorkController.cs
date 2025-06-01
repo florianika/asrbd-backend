@@ -11,6 +11,9 @@ using Application.FieldWork.GetFieldWork.Response;
 using Application.FieldWork.OpenFieldWork;
 using Application.FieldWork.OpenFieldWork.Request;
 using Application.FieldWork.OpenFieldWork.Response;
+using Application.FieldWork.UpdateBldReviewStatus;
+using Application.FieldWork.UpdateBldReviewStatus.Request;
+using Application.FieldWork.UpdateBldReviewStatus.Response;
 using Application.FieldWork.UpdateFieldWork;
 using Application.FieldWork.UpdateFieldWork.Request;
 using Application.FieldWork.UpdateFieldWork.Response;
@@ -60,6 +63,7 @@ namespace WebApi.Controllers
         private readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
         private readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
         private readonly IGetStatisticsByRule _getStatisticsByRuleService;
+        private readonly IUpdateBldReviewStatus _updateBldReviewStatus;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -73,6 +77,7 @@ namespace WebApi.Controllers
             IGetFieldWorkRule getFieldWorkRule, 
             IRemoveFieldWorkRule removeFieldWorkRule, 
             IAddFieldWorkRule addFieldWorkRuleService,
+            IUpdateBldReviewStatus updateBldReviewStatus,
             IAuthTokenService authTokenService  )
         {
             _getAllFieldWorkService = getAllFieldWorkService;
@@ -88,6 +93,7 @@ namespace WebApi.Controllers
             _getStatisticsFromRuleQueryService = getStatisticsFromRulesQuery;
             _getStatisticsFromBuildingQueryService = getStatisticsFromBuildingQuery;
             _getStatisticsByRuleService = getStatisticsByRuleService;
+            _updateBldReviewStatus = updateBldReviewStatus;
             _authTokenService = authTokenService;
         }
 
@@ -128,19 +134,6 @@ namespace WebApi.Controllers
         public async Task<GetActiveFieldWorkResponse> GetActiveFieldWork()
         {
             return await _getActiveFieldWorkService.Execute();
-        }
-
-        [HttpPatch]
-        [Route("{id:int}/open")]
-        public async Task<OpenFieldWorkResponse> OpenFieldWork(int id)
-        {
-            var token = ExtractBearerToken();
-            var request = new OpenFieldWorkRequest
-            {
-                FieldWorkId = id,
-                UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
-            };
-            return await _openFieldWorkService.Execute(request);
         }
 
         [HttpPost]
@@ -193,5 +186,35 @@ namespace WebApi.Controllers
         {
             return await _getStatisticsByRuleService.Execute(new GetStatisticsByRuleRequest { Id = id });
         }
+
+        [HttpPatch]
+        [Route("{id:int}/open")]
+        public async Task<OpenFieldWorkResponse> OpenFieldWork(int id)
+        {
+            var token = ExtractBearerToken();
+            var request = new OpenFieldWorkRequest
+            {
+                FieldWorkId = id,
+                UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
+            };
+            return await _openFieldWorkService.Execute(request);
+        }
+
+        [HttpPost]
+        [Route("fieldwork/{id:int}/updatebldreviewstatus")]
+        public async Task<UpdateBldReviewStatusResponse> UpdateReviewStatus(int id)
+        {
+            var token = ExtractBearerToken();
+            var updatedUser = await _authTokenService.GetUserIdFromToken(token);
+
+            var request = new UpdateBldReviewStatusRequest
+            {
+                Id = id,
+                UpdatedUser = updatedUser
+            };
+
+            return await _updateBldReviewStatus.Execute(request);
+        }
+
     }
 }

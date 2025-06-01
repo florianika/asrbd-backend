@@ -7,15 +7,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using Domain.Enum;
+using Microsoft.Data.SqlClient;
 
 namespace Infrastructure.Repositories
 {
     public class FieldWorkRepository : IFieldWorkRepository
     {
         private readonly DataContext _context;
-        public FieldWorkRepository(DataContext dataContext)
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+        public FieldWorkRepository(DataContext dataContext, IServiceScopeFactory serviceScopeFactory)
         {
             _context = dataContext;
+            _serviceScopeFactory = serviceScopeFactory;
         }
         public async Task<List<FieldWork>> GetAllFieldWork()
         {
@@ -49,6 +52,31 @@ namespace Infrastructure.Repositories
         {
             return await _context.FieldWorks.FirstOrDefaultAsync(x => x.FieldWorkStatus != Domain.Enum.FieldWorkStatus.CLOSED)
                 ?? throw new NotFoundException("FieldWork not found");
+        }
+
+        public async Task<bool> UpdateBldReviewStatus(int id, Guid updatedUser)
+        {
+            try
+            {
+                
+                var parameters = new List<SqlParameter>
+                {
+                    new ("@FiledWorkId", id),
+                    new ("@UpdatedUser", updatedUser)
+                };
+
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec UpdateBldReviewStatusToRequired  @FiledWorkId, @UpdatedUser", parameters.ToArray());
+
+                return true; // Indicate success
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error executing stored procedure.", ex);
+            }
         }
     }
 }

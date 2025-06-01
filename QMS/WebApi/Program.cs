@@ -54,6 +54,7 @@ using Application.FieldWorkRule.GetStatisticsByRule;
 using Application.FieldWork.OpenFieldWork;
 using Application.Common.Validator;
 using FluentValidation;
+using Application.FieldWork.UpdateBldReviewStatus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -123,6 +124,7 @@ builder.Services.AddScoped<IGetRuleByFieldWork, GetRuleByFieldWork>();
 builder.Services.AddScoped<IGetStatisticsFromRulesQuery, GetStatisticsFromRulesQuery>();
 builder.Services.AddScoped<IGetStatisticsFromBuildingQuery, GetStatisticsFromBuildingQuery>();
 builder.Services.AddScoped<IGetStatisticsByRule, GetStatisticsByRule>();
+builder.Services.AddScoped<IUpdateBldReviewStatus, UpdateBldReviewStatus>();
 builder.Services.AddScoped<OpenFieldWork>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
