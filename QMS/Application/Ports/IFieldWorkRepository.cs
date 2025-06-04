@@ -1,4 +1,5 @@
 ﻿
+using Application.FieldWork.SendFieldWorkEmail;
 using Domain.Enum;
 
 namespace Application.Ports
@@ -12,5 +13,6 @@ namespace Application.Ports
         Task UpdateFieldWork(Domain.FieldWork fieldwork);
         Task<Domain.FieldWork> GetActiveFieldWork();
         Task<bool>UpdateBldReviewStatus(int id, Guid updatedUser);
+        Task<List<UserDTO>> GetActiveUsers();
     }
 }

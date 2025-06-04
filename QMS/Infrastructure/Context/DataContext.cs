@@ -1,4 +1,5 @@
-﻿using Application.Queries.GetStatisticsFromBuilding;
+﻿using Application.FieldWork.SendFieldWorkEmail;
+using Application.Queries.GetStatisticsFromBuilding;
 using Application.Queries.GetStatisticsFromRules;
 using Domain;
 using Infrastructure.Configurations;
@@ -45,6 +46,8 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new FieldWorkRuleConfiguration());
             modelBuilder.Entity<RuleStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<BuildingStatisticsDTO>().HasNoKey();
+            modelBuilder.Entity<UserDTO>().HasNoKey().ToView(null);
+
         }
     }
 }

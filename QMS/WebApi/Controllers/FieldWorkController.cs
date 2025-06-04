@@ -11,6 +11,9 @@ using Application.FieldWork.GetFieldWork.Response;
 using Application.FieldWork.OpenFieldWork;
 using Application.FieldWork.OpenFieldWork.Request;
 using Application.FieldWork.OpenFieldWork.Response;
+using Application.FieldWork.SendFieldWorkEmail;
+using Application.FieldWork.SendFieldWorkEmail.Request;
+using Application.FieldWork.SendFieldWorkEmail.Response;
 using Application.FieldWork.UpdateBldReviewStatus;
 using Application.FieldWork.UpdateBldReviewStatus.Request;
 using Application.FieldWork.UpdateBldReviewStatus.Response;
@@ -64,6 +67,7 @@ namespace WebApi.Controllers
         private readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
         private readonly IGetStatisticsByRule _getStatisticsByRuleService;
         private readonly IUpdateBldReviewStatus _updateBldReviewStatus;
+        private readonly ISendFieldWorkEmail _sendFieldWorkEmail;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -78,6 +82,7 @@ namespace WebApi.Controllers
             IRemoveFieldWorkRule removeFieldWorkRule, 
             IAddFieldWorkRule addFieldWorkRuleService,
             IUpdateBldReviewStatus updateBldReviewStatus,
+            ISendFieldWorkEmail sendFieldWorkEmail,
             IAuthTokenService authTokenService  )
         {
             _getAllFieldWorkService = getAllFieldWorkService;
@@ -94,6 +99,7 @@ namespace WebApi.Controllers
             _getStatisticsFromBuildingQueryService = getStatisticsFromBuildingQuery;
             _getStatisticsByRuleService = getStatisticsByRuleService;
             _updateBldReviewStatus = updateBldReviewStatus;
+            _sendFieldWorkEmail = sendFieldWorkEmail;
             _authTokenService = authTokenService;
         }
 
@@ -216,5 +222,17 @@ namespace WebApi.Controllers
             return await _updateBldReviewStatus.Execute(request);
         }
 
+        [HttpPost]
+        [Route("fieldwork/{id:int}/sendfieldworkemail")]
+        public async Task<SendFieldWorkEmailResponse> SendFieldWorkEmail(int id)
+        {
+            
+            var request = new SendFieldWorkEmailRequest
+            {
+                FieldWorkId = id
+            };
+
+            return await _sendFieldWorkEmail.Execute(request);
+        }
     }
 }

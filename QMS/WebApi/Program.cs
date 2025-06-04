@@ -55,6 +55,10 @@ using Application.FieldWork.OpenFieldWork;
 using Application.Common.Validator;
 using FluentValidation;
 using Application.FieldWork.UpdateBldReviewStatus;
+using Hangfire;
+using Hangfire.SqlServer;
+using Infrastructure.BackgroundJobs.Hangfire;
+using Application.FieldWork.SendFieldWorkEmail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +71,20 @@ var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("QMSConnectionString"), new SqlServerStorageOptions
+    {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.FromSeconds(15),
+        UseRecommendedIsolationLevel = true,
+        DisableGlobalLocks = true
+    }));
+
+builder.Services.AddHangfireServer();
 
 
 builder.Services.AddControllers()
@@ -75,6 +93,7 @@ builder.Services.AddControllers()
 
 
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
+builder.Services.AddScoped<ISendFieldWorkEmail, SendFieldWorkEmailService>();
 
 builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
@@ -172,6 +191,10 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 app.MapHealthChecks("/health");
 // REGISTER MIDDLEWARE HERE
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[] { new BasicDashboardAuthorizationFilter() }
+});
 
 if (app.Environment.IsDevelopment())
 {

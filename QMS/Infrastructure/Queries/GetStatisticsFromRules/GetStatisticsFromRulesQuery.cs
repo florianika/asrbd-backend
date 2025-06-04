@@ -19,7 +19,7 @@ namespace Infrastructure.Queries.GetStatisticsFromRules
         public async Task<GetStatisticsFromRulesResponse> Execute(GetStatisticsFromRulesRequest request)
         {
             var list = await _context.Set<RuleStatisticsDTO>()
-                .FromSqlRaw($"EXEC [asrbd-qms].[dbo].[GetStatisticsFromRules]  @FieldWorkId = {request.Id}")
+                .FromSql($"EXEC [asrbd-qms].[dbo].[GetStatisticsFromRules]  @FieldWorkId = {request.Id}")
                 .ToListAsync();
 
             return new GetStatisticsFromRulesResponse

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 using Domain.Enum;
 using Microsoft.Data.SqlClient;
+using Application.FieldWork.SendFieldWorkEmail;
 
 namespace Infrastructure.Repositories
 {
@@ -78,5 +79,13 @@ namespace Infrastructure.Repositories
                 throw new Exception("Error executing stored procedure.", ex);
             }
         }
+
+        public async Task<List<UserDTO>> GetActiveUsers()
+        {
+            return await _context.Set<UserDTO>()
+                .FromSqlRaw("EXEC [dbo].[GetActiveUsers]") // Call stored procedure that returns active users from QMS database
+                .ToListAsync();
+        }
+
     }
 }
