@@ -29,60 +29,62 @@ namespace Infrastructure.Services
         {
             try
             {
-                using (var scope = _serviceScopeFactory.CreateScope())
+                using var scope = _serviceScopeFactory.CreateScope();
+                var fieldWorkRepository = scope.ServiceProvider.GetRequiredService<IFieldWorkRepository>();
+                var emailTemplateRepository = scope.ServiceProvider.GetRequiredService<IEmailTemplateRepository>();
+
+                // Lexo SMTP settings nje here
+                var smtpSection = _configuration.GetSection("Smtp");
+                var host = smtpSection["Host"];
+                var portValue = smtpSection["Port"];
+                var username = smtpSection["Username"];
+                var encryptedPassword = smtpSection["EncryptedPassword"];
+                var key = smtpSection["EncryptionKey"];
+                var iv = smtpSection["EncryptionIV"];
+
+                if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(portValue) || string.IsNullOrEmpty(username)
+                    || string.IsNullOrEmpty(encryptedPassword) || string.IsNullOrEmpty(key) || string.IsNullOrEmpty(iv))
                 {
-                    var fieldWorkRepository = scope.ServiceProvider.GetRequiredService<IFieldWorkRepository>();
-                    var emailTemplateRepository = scope.ServiceProvider.GetRequiredService<IEmailTemplateRepository>();
-                    var fieldwork = await fieldWorkRepository.GetFieldWork(request.FieldWorkId);
-                    var template = await emailTemplateRepository.GetEmailTemplate(fieldwork.EmailTemplateId);
-                    var users = await fieldWorkRepository.GetActiveUsers();
-                    foreach (var user in users)
-                    {
-                        var body = template.Body
-                            .Replace("{Name}", user.Name)
-                            .Replace("{Surname}", user.LastName)
-                            .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"))
-                            .Replace("{Description}", fieldwork.Description ?? "");
-                        BackgroundJob.Enqueue(() => SendEmail(user.Email, template.Subject, body));
-                    }
-                    return new SendFieldWorkEmailSuccessResponse
-                    {
-                        Message = "FieldWork email sent successfully"
-                    };
+                    throw new InvalidOperationException("SMTP configuration is missing or incomplete.");
                 }
+
+                var password = Decrypt(encryptedPassword, key, iv);
+                var port = int.Parse(portValue);
+
+                var fieldwork = await fieldWorkRepository.GetFieldWork(request.FieldWorkId);
+                var template = await emailTemplateRepository.GetEmailTemplate(fieldwork.EmailTemplateId);
+                var users = await fieldWorkRepository.GetActiveUsers();
+
+                foreach (var user in users)
+                {
+                    var body = template.Body
+                        .Replace("{Name}", user.Name)
+                        .Replace("{Surname}", user.LastName)
+                        .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"))
+                        .Replace("{Description}", fieldwork.Description ?? "");
+
+                    BackgroundJob.Enqueue(() =>
+                        SendEmail(user.Email, template.Subject, body, host, port, username, password)
+                    );
+                }
+
+                return new SendFieldWorkEmailSuccessResponse
+                {
+                    Message = "FieldWork emails queued successfully"
+                };
             }
             catch (Exception ex)
             {
                 return new SendFieldWorkEmailErrorResponse
                 {
-                    Message = "Failed to send FieldWork email",
+                    Message = "Failed to send FieldWork emails",
                     Code = ex.Message
                 };
             }
         }
 
-        public void SendEmail(string toEmail, string subject, string body)
+        public void SendEmail(string toEmail, string subject, string body, string host, int port, string username, string password)
         {
-            var smtpSection = _configuration.GetSection("Smtp");
-            var host = smtpSection["Host"];
-            var portValue = smtpSection["Port"];
-            var username = smtpSection["Username"];
-            var encryptedPassword = smtpSection["EncryptedPassword"];
-            var key = smtpSection["EncryptionKey"];
-            var iv = smtpSection["EncryptionIV"];
-            if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(portValue) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(encryptedPassword) || string.IsNullOrEmpty(key) || string.IsNullOrEmpty(iv))
-            {
-                throw new InvalidOperationException("SMTP configuration is missing or incomplete.");
-            }
-            var password = Decrypt(encryptedPassword, key, iv);
-
-            if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(portValue) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-            {
-                throw new InvalidOperationException("SMTP configuration is missing or incomplete.");
-            }
-
-            var port = int.Parse(portValue);
-
             using var client = new SmtpClient(host, port)
             {
                 Credentials = new NetworkCredential(username, password),
@@ -96,6 +98,7 @@ namespace Infrastructure.Services
 
             client.Send(mail);
         }
+
 
         private string Decrypt(string encryptedBase64, string base64Key, string base64IV)
         {

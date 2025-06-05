@@ -59,6 +59,7 @@ using Hangfire;
 using Hangfire.SqlServer;
 using Infrastructure.BackgroundJobs.Hangfire;
 using Application.FieldWork.SendFieldWorkEmail;
+using Hangfire.MemoryStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,18 +72,12 @@ var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
-builder.Services.AddHangfire(configuration => configuration
-    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-    .UseSimpleAssemblyNameTypeSerializer()
-    .UseRecommendedSerializerSettings()
-    .UseSqlServerStorage(builder.Configuration.GetConnectionString("QMSConnectionString"), new SqlServerStorageOptions
-    {
-        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
-        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
-        QueuePollInterval = TimeSpan.FromSeconds(15),
-        UseRecommendedIsolationLevel = true,
-        DisableGlobalLocks = true
-    }));
+// Shto Hangfire me MemoryStorage
+builder.Services.AddHangfire(config =>
+{
+    config.UseMemoryStorage();
+});
+builder.Services.AddHangfireServer();
 
 builder.Services.AddHangfireServer();
 
@@ -191,6 +186,7 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 app.MapHealthChecks("/health");
 // REGISTER MIDDLEWARE HERE
+
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     Authorization = new[] { new BasicDashboardAuthorizationFilter() }
