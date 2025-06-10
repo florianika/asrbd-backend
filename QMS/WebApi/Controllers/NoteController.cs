@@ -44,10 +44,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("")]
         public async Task<CreateNoteResponse> CreateNote(CreateNoteRequest request)
-        {
-            
-            var token = ExtractBearerToken();
-            request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
+        {   
             return await _createNoteService.Execute(request);
         }
 
@@ -70,9 +67,6 @@ namespace WebApi.Controllers
         public async Task<UpdateNoteResponse> UpdateNote(long id, UpdateNoteRequest request)
         {
             request.NoteId = id;
-            var token = ExtractBearerToken();
-            var updatedUser = await _authTokenService.GetUserIdFromToken(token);
-            request.UpdatedUser = updatedUser;
             return await _updateNoteService.Execute(request);
         }
 

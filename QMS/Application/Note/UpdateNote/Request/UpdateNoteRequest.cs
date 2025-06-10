@@ -4,6 +4,6 @@
     {
         public long NoteId { get; set; }
         public required string NoteText { get; set; }
-        public Guid UpdatedUser { get; set; }
+        public required string UpdatedUser { get; set; }
     }
 }

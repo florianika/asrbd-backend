@@ -4,6 +4,6 @@
     {
         public Guid BldId { get; set; }
         public required string NoteText { get; set; }
-        public Guid CreatedUser { get; set; }
+        public required string CreatedUser { get; set; }
     }
 }
