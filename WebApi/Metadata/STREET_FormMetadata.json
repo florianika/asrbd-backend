@@ -17,7 +17,7 @@
       "order": -1
     },
     {
-      "name": "StrGlobalID",
+      "name": "GlobalID",
       "label": {
         "en": "ASRBD Street ID",
         "al": "ASRBD Rruga ID"

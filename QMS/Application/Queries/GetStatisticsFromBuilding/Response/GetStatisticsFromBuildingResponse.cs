@@ -2,6 +2,6 @@
 {
     public class GetStatisticsFromBuildingResponse
     {
-        public List<BuildingStatisticsDTO> Statistics { get; set; } = new();
+        public List<BuildingStatisticsDTO> Statistics { get; set; } = [];
     }
 }

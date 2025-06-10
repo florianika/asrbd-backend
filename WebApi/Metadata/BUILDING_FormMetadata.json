@@ -65,7 +65,7 @@
       "order": -1
     },
     {
-      "name": "BldGlobalID",
+      "name": "GlobalID",
       "label": {
         "en": "ASRBD Building ID",
         "al": "ASRBD Ndërtesa ID"
@@ -81,10 +81,26 @@
       "order": 1
     },
     {
-      "name": "EntCensus2023",
+      "name": "BldCensus2023",
       "label": {
         "en": "Building ID of Census 2023",
         "al": "ID e ndërtesës nga Census 2023"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "technical",
+      "order": 3
+    },
+    {
+      "name": "BldAddressID",
+      "label": {
+        "en": "Building ID of National Address System",
+        "al": "ID e ndërtesës nga sistemi kombëtar i adresave"
       },
       "display": {
         "admin": "write",
@@ -169,7 +185,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -233,7 +249,7 @@
       "display": {
         "admin": "write",
         "supervisor": "write",
-        "enumerator": "write"
+        "enumerator": "read"
       },
       "selectable": "false",
       "internal": "false",

@@ -65,7 +65,7 @@
       "order": -1
     },
     {
-      "name": "EntGlobalID",
+      "name": "GlobalID",
       "label": {
         "en": "ASRBD Entrance ID",
         "al": "ASRBD Hyrje ID"
