@@ -1,4 +1,5 @@
-﻿using Application.Note.CreateNote;
+﻿using Application.Exceptions;
+using Application.Note.CreateNote;
 using Application.Note.CreateNote.Request;
 using Application.Note.CreateNote.Response;
 using Application.Note.DeleteNote;
@@ -44,7 +45,10 @@ namespace WebApi.Controllers
         [HttpPost]
         [Route("")]
         public async Task<CreateNoteResponse> CreateNote(CreateNoteRequest request)
-        {   
+        {
+            var token = ExtractBearerToken();
+            var userId = await _authTokenService.GetUserIdFromToken(token);
+            request.UserId = userId;
             return await _createNoteService.Execute(request);
         }
 
@@ -66,15 +70,21 @@ namespace WebApi.Controllers
         //TODO change this method to patch 
         public async Task<UpdateNoteResponse> UpdateNote(long id, UpdateNoteRequest request)
         {
+           
+            var token = ExtractBearerToken();
+            var userId = await _authTokenService.GetUserIdFromToken(token);
             request.NoteId = id;
+            request.UserId = userId;
             return await _updateNoteService.Execute(request);
         }
 
         [HttpDelete("{id:long}")]
         public async Task<DeleteNoteResponse> DeleteNote(long id)
         {
-            return await _deleteNoteService.Execute(new DeleteNoteRequest() { Id=id });
-        }
-        
+            var token = ExtractBearerToken(); 
+            var userId = await _authTokenService.GetUserIdFromToken(token);
+            var role = await _authTokenService.GetUserRoleFromToken(token);
+            return await _deleteNoteService.Execute(new DeleteNoteRequest() { Id=id, UserId=userId, Role=role });
+        }        
     }
 }

@@ -5,5 +5,6 @@
         public Guid BldId { get; set; }
         public required string NoteText { get; set; }
         public required string CreatedUser { get; set; }
+        public Guid UserId { get; set; }
     }
 }

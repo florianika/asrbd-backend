@@ -68,5 +68,35 @@ namespace Infrastructure.Services
                 ClockSkew = TimeSpan.FromMinutes(0)
             };
         }
+        public Task<bool> IsUserAdmin(string token)
+        {
+            try
+            {
+                var jwtHandler = new JwtSecurityTokenHandler();
+                var roleClaim = jwtHandler.ReadJwtToken(token).Claims
+                    .FirstOrDefault(c => c.Type.Equals("role", StringComparison.InvariantCultureIgnoreCase));
+
+                return Task.FromResult(roleClaim != null && roleClaim.Value.Equals("ADMIN", StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
+        }
+        public Task<string?> GetUserRoleFromToken(string token)
+        {
+            try
+            {
+                var jwtHandler = new JwtSecurityTokenHandler();
+                var roleClaim = jwtHandler.ReadJwtToken(token).Claims
+                    .FirstOrDefault(c => c.Type.Equals("role", StringComparison.InvariantCultureIgnoreCase));
+
+                return Task.FromResult(roleClaim?.Value);
+            }
+            catch
+            {
+                return Task.FromResult<string?>(null);
+            }
+        }
     }
 }

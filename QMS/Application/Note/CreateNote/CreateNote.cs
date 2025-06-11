@@ -24,6 +24,7 @@ namespace Application.Note.CreateNote
                     NoteText = request.NoteText,
                     CreatedUser = request.CreatedUser,
                     CreatedTimestamp = DateTime.Now,
+                    UserId = request.UserId,
                     UpdatedUser = null,
                     UpdatedTimestamp = null
                 };

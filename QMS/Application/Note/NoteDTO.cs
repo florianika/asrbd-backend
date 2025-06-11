@@ -9,5 +9,6 @@
         public DateTime CreatedTimestamp { get; set; }
         public string? UpdatedUser { get; set; }
         public DateTime? UpdatedTimestamp { get; set; }
+        public Guid UserId { get; set; }
     }
 }
