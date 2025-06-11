@@ -76,7 +76,7 @@ namespace Infrastructure.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Error executing stored procedure.", ex);
+                throw new AppException("Error executing stored procedure.", ex);
             }
         }
 

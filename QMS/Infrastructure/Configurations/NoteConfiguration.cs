@@ -11,6 +11,7 @@ namespace Infrastructure.Configurations
             builder.HasKey(n => n.NoteId);
             builder.Property(n => n.NoteText).HasColumnType("nvarchar(max)");
             builder.Property(n => n.BldId).IsRequired();
+            builder.Property(n => n.UserId).IsRequired();
             builder.Property(n => n.CreatedUser).IsRequired();
             builder.Property(n=>n.CreatedUser).HasMaxLength(500);
             builder.Property(n => n.UpdatedUser).HasMaxLength(500);

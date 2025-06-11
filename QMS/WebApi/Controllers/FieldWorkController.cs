@@ -193,19 +193,24 @@ namespace WebApi.Controllers
             return await _getStatisticsByRuleService.Execute(new GetStatisticsByRuleRequest { Id = id });
         }
 
-        [HttpPatch]
-        [Route("{id:int}/open")]
-        public async Task<OpenFieldWorkResponse> OpenFieldWork(int id)
-        {
-            var token = ExtractBearerToken();
-            var request = new OpenFieldWorkRequest
-            {
-                FieldWorkId = id,
-                UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
-            };
-            return await _openFieldWorkService.Execute(request);
-        }
+        //[HttpPatch]
+        //[Route("{id:int}/open")]
+        //public async Task<OpenFieldWorkResponse> OpenFieldWork(int id)
+        //{
+        //    var token = ExtractBearerToken();
+        //    var request = new OpenFieldWorkRequest
+        //    {
+        //        FieldWorkId = id,
+        //        UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
+        //    };
+        //    return await _openFieldWorkService.Execute(request);
+        //}
 
+        /// <summary>
+        /// Updates the BldReviewStatus to required in the geodatabase for the given fieldwork id and sets the fieldwork status to OPEN.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("fieldwork/{id:int}/updatebldreviewstatus")]
         public async Task<UpdateBldReviewStatusResponse> UpdateReviewStatus(int id)
