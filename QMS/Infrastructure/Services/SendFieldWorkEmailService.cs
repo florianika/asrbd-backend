@@ -9,8 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Text;
 
 namespace Infrastructure.Services
 {
@@ -33,7 +31,7 @@ namespace Infrastructure.Services
                 var fieldWorkRepository = scope.ServiceProvider.GetRequiredService<IFieldWorkRepository>();
                 var emailTemplateRepository = scope.ServiceProvider.GetRequiredService<IEmailTemplateRepository>();
 
-                // Lexo SMTP settings nje here
+                // Read SMTP settings
                 var smtpSection = _configuration.GetSection("Smtp");
                 var host = smtpSection["Host"];
                 var portValue = smtpSection["Port"];
@@ -83,13 +81,11 @@ namespace Infrastructure.Services
             }
         }
 
-        public void SendEmail(string toEmail, string subject, string body, string host, int port, string username, string password)
+        private static void SendEmail(string toEmail, string subject, string body, string host, int port, string username, string password)
         {
-            using var client = new SmtpClient(host, port)
-            {
-                Credentials = new NetworkCredential(username, password),
-                EnableSsl = true
-            };
+            using var client = new SmtpClient(host, port);
+            client.Credentials = new NetworkCredential(username, password);
+            client.EnableSsl = true;
 
             var mail = new MailMessage(username, toEmail, subject, body)
             {
@@ -102,9 +98,9 @@ namespace Infrastructure.Services
 
         private string Decrypt(string encryptedBase64, string base64Key, string base64IV)
         {
-            byte[] encryptedBytes = Convert.FromBase64String(encryptedBase64);
-            byte[] key = Convert.FromBase64String(base64Key);
-            byte[] iv = Convert.FromBase64String(base64IV);
+            var encryptedBytes = Convert.FromBase64String(encryptedBase64);
+            var key = Convert.FromBase64String(base64Key);
+            var iv = Convert.FromBase64String(base64IV);
 
             using var aes = Aes.Create();
             aes.Key = key;

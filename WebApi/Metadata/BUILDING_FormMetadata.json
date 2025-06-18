@@ -125,7 +125,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "title",
       "order": 98
     },
     {
@@ -254,7 +254,7 @@
       "selectable": "false",
       "internal": "false",
       "section": "identification",
-      "order": ""
+      "order": 16
     },
     {
       "name": "BldPermitNumber",
