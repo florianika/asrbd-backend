@@ -1,4 +1,5 @@
 ﻿using Application.Exceptions;
+using Application.FieldWork.UpdateBldReviewStatus;
 using Application.Ports;
 using Domain;
 using Domain.Enum;
@@ -6,6 +7,7 @@ using Infrastructure.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Data;
 using System.Reflection.Metadata;
 
@@ -15,10 +17,12 @@ namespace Infrastructure.Repositories
     {
         private readonly DataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        public RuleRepository(DataContext dataContext, IServiceScopeFactory serviceScopeFactory)
+        private readonly ILogger _logger;
+        public RuleRepository(DataContext dataContext, IServiceScopeFactory serviceScopeFactory, ILogger<RuleRepository> logger)
         {
             _context = dataContext;
             _serviceScopeFactory = serviceScopeFactory;
+            _logger = logger;
         }
 
         public async Task ChangeRuleStatus(long id, RuleStatus status, Guid updatedUser)
@@ -99,9 +103,22 @@ namespace Infrastructure.Repositories
 
                 return true; // Indicate success
             }
+            catch (SqlException sqlEx)
+            {
+                var sqlError = sqlEx.Errors.Cast<SqlError>().FirstOrDefault();
+                var procedure = sqlError?.Procedure ?? "unknown procedure";
+                var line = sqlError?.LineNumber.ToString() ?? "unknown line";
+                var errorNumber = sqlError?.Number.ToString() ?? "N/A";
+
+                var detailedMessage = $"SQL error (#{errorNumber}) in procedure '{procedure}' at line {line}: {sqlEx.Message}";
+                _logger.LogError(sqlEx, "ExecuteRulesStoreProcedure failed: {Error}", detailedMessage);
+
+                throw new AppException(detailedMessage, sqlEx);
+            }
             catch (Exception ex)
             {
-                throw new Exception("Error executing stored procedure.", ex);
+                _logger.LogError(ex, "Unexpected error executing ExecuteRules");
+                throw new AppException("Unexpected error occurred while executing rules.", ex);
             }
         }
 
@@ -129,9 +146,21 @@ namespace Infrastructure.Repositories
 
                 return true; // Indicate success
             }
+            catch (SqlException sqlEx)
+            {
+                // Extract SQL error details
+                var errorMessage = $"SQL error occurred while executing ExecuteAutomaticRulesStoredProcedure. " +
+                                   $"Message: {sqlEx.Message}, Line: {sqlEx.LineNumber}, Procedure: {sqlEx.Procedure}";
+
+                // Optionally log the full error
+                _logger?.LogError(sqlEx, errorMessage);
+
+                throw new AppException(errorMessage, sqlEx);
+            }
             catch (Exception ex)
             {
-                throw new Exception("Error executing stored procedure.", ex);
+                _logger?.LogError(ex, "Unexpected error while executing ExecuteAutomaticRulesStoredProcedure");
+                throw new AppException("Unexpected error while executing ExecuteAutomaticRulesStoredProcedure", ex);
             }
         }
     }

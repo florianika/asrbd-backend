@@ -1,6 +1,8 @@
 ﻿
+using Application.Exceptions;
 using Application.Quality.AutomaticRules.Request;
 using Application.Quality.AutomaticRules.Response;
+using Application.Quality.BuildingQualityCheck.Response;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -28,13 +30,12 @@ namespace Application.Quality.AutomaticRules
                 {
                     return new AutomaticRulesSuccessResponse { Message = "Automatic Rules were executed" };
                 }
-                return new AutomaticRulesErrorResponse { Message = "There was an error" };
+                return new AutomaticRulesErrorResponse { Message = "There was an error", Code = "EXECUTION_FAILED" };
             }
-            catch (Exception ex)
+            catch (AppException appEx)
             {
-                return new AutomaticRulesErrorResponse
-                { Message = "There was an error", Code = ex.GetType().Name };
-            }
+                throw new AppException(appEx.Message);
+            }            
         }
 
     }

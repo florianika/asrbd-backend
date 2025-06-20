@@ -1,3 +1,4 @@
+using Application.Exceptions;
 using Application.Quality.BuildingQualityCheck.Request;
 using Application.Quality.BuildingQualityCheck.Response;
 using Microsoft.Extensions.Configuration;
@@ -28,12 +29,11 @@ namespace Application.Quality.BuildingQualityCheck
                 {
                     return new BuildingQualityCheckSuccessResponse { Message = "Rules were executed" };
                 }
-                return new BuildingQualityCheckErrorResponse { Message = "There was an error" };
+                return new BuildingQualityCheckErrorResponse { Message = "There was an error", Code = "EXECUTION_FAILED" };
             }
-            catch (Exception ex)
+            catch (AppException appEx)
             {
-                return new BuildingQualityCheckErrorResponse
-                    { Message = "There was an error", Code = ex.GetType().Name };
+                throw new AppException(appEx.Message);
             }
         }
     }
