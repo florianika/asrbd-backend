@@ -141,7 +141,8 @@ namespace Application.Common.Translators
                 CreatedUser = note.CreatedUser,
                 CreatedTimestamp = note.CreatedTimestamp,
                 UpdatedUser = note.UpdatedUser,
-                UpdatedTimestamp = note.UpdatedTimestamp
+                UpdatedTimestamp = note.UpdatedTimestamp,
+                UserId = note.UserId
             };
         }
         public static List<FieldWorkRuleDTO> ToDTOList(List<Domain.FieldWorkRule> fieldworkrule)

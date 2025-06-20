@@ -270,13 +270,29 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "order": 53
+    },
+    {
+      "name": "DwlHeatingFacility",
+      "label": {
+        "en": "Type of heating facility",
+        "al": "Tipi i paisjej ngrohëse"
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "write",
+        "enumerator": "write"
+      },
+      "selectable": true,
+      "internal": false,
+      "section": "info",
       "order": 61
     },
     {
       "name": "DwlHeatingEnergy",
       "label": {
         "en": "Type of heating energy",
-        "al": "Tipi i ngrohjes"
+        "al": "Tipi i energjisë për ngrohje"
       },
       "display": {
         "admin": "write",
