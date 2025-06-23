@@ -8,6 +8,7 @@ namespace Application.FieldWork
         public int FieldWorkId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public required string FieldWorkName { get; set; }
         public FieldWorkStatus fieldWorkStatus { get; set; }
         public string? Description { get; set; }
         public int EmailTemplateId { get; set; }

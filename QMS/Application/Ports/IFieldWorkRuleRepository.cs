@@ -1,4 +1,6 @@
-﻿namespace Application.Ports
+﻿using Domain.Enum;
+
+namespace Application.Ports
 {
     public interface IFieldWorkRuleRepository
     {
@@ -7,5 +9,7 @@
         Task RemoveFieldWorkRule(Domain.FieldWorkRule fieldWorkRule);
         Task<List<Domain.FieldWorkRule>> GetRuleByField(int id);
         Task<long> GetStatisticsByRule(long id);
+        Task<List<Domain.FieldWorkRule>> GetRuleByFieldWorkAndEntity(int id, EntityType entityType);
+        Task<bool> ExistsRule(int fieldWorkId, long ruleId);
     }
 }

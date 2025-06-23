@@ -93,6 +93,7 @@ namespace Application.Common.Translators
                 StartDate = fieldWork.StartDate,
                 EndDate = fieldWork.EndDate,
                 fieldWorkStatus = fieldWork.FieldWorkStatus,
+                FieldWorkName = fieldWork.FieldWorkName,
                 Description = fieldWork.Description,
                 EmailTemplateId = fieldWork.EmailTemplateId,
                 Remarks = fieldWork.Remarks,
@@ -161,7 +162,10 @@ namespace Application.Common.Translators
                 FieldWorkId = fieldWorkRule.FieldWorkId,
                 RuleId = fieldWorkRule.RuleId,
                 CreatedUser = fieldWorkRule.CreatedUser,
-                CreatedTimestamp = fieldWorkRule.CreatedTimestamp
+                CreatedTimestamp = fieldWorkRule.CreatedTimestamp,
+                RuleNameAl = fieldWorkRule.Rule?.NameAl,
+                RuleNameEn = fieldWorkRule.Rule?.NameEn,
+                RuleLocalId = fieldWorkRule.Rule?.LocalId
             };
         }
     }

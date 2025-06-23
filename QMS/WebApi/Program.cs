@@ -60,6 +60,7 @@ using Hangfire.SqlServer;
 using Infrastructure.BackgroundJobs.Hangfire;
 using Application.FieldWork.SendFieldWorkEmail;
 using Hangfire.MemoryStorage;
+using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -135,6 +136,7 @@ builder.Services.AddScoped<IAddFieldWorkRule,AddFieldWorkRule>();
 builder.Services.AddScoped<IRemoveFieldWorkRule, RemoveFieldWorkRule>();
 builder.Services.AddScoped<IGetFieldWorkRule, GetFieldWorkRule>();
 builder.Services.AddScoped<IGetRuleByFieldWork, GetRuleByFieldWork>();
+builder.Services.AddScoped<IGetRuleByFieldWorkAndEntity, GetRuleByFieldWorkAndEntity>();
 builder.Services.AddScoped<IGetStatisticsFromRulesQuery, GetStatisticsFromRulesQuery>();
 builder.Services.AddScoped<IGetStatisticsFromBuildingQuery, GetStatisticsFromBuildingQuery>();
 builder.Services.AddScoped<IGetStatisticsByRule, GetStatisticsByRule>();

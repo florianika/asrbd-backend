@@ -20,6 +20,11 @@ namespace Application.FieldWorkRule.AddFieldWorkRule
         {
             try
             {
+                // Check if the rule already exists for the given field work
+                if (await _fieldWorkRuleRepository.ExistsRule(request.FieldWorkId, request.RuleId))
+                {
+                    throw new InvalidOperationException($"Rule already exists.");
+                }
                 var fieldWorkRule = new Domain.FieldWorkRule()
                 {
                     RuleId = request.RuleId,

@@ -2,6 +2,7 @@
 using Application.Exceptions;
 using Application.Ports;
 using Domain;
+using Domain.Enum;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -27,6 +28,12 @@ namespace Infrastructure.Repositories
             return await _context.FieldWorkRules.FirstOrDefaultAsync(x => x.RuleId.Equals(ruleId) && x.FieldWorkId.Equals(id))
                ?? throw new NotFoundException($"FieldWorkRule with FieldWorkId={id} and RuleId={ruleId} not found");
         }
+
+        public async Task<bool> ExistsRule(int fieldWorkId, long ruleId)
+        {
+            return await _context.FieldWorkRules
+                .AnyAsync(x => x.FieldWorkId == fieldWorkId && x.RuleId == ruleId);
+        }
         public async Task RemoveFieldWorkRule(FieldWorkRule fieldWorkRule)
         {
             _context.FieldWorkRules.Remove(fieldWorkRule);
@@ -44,6 +51,14 @@ namespace Infrastructure.Repositories
             .Select(pol => pol.BldId)
             .Distinct()
             .CountAsync();
+        }
+
+        public async Task<List<FieldWorkRule>> GetRuleByFieldWorkAndEntity(int id, EntityType entityType)
+        {
+            return await _context.FieldWorkRules
+            .Include(r => r.Rule) 
+            .Where(r => r.FieldWorkId == id && r.Rule.EntityType == entityType)
+            .ToListAsync();
         }
     }
 }

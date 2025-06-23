@@ -27,6 +27,9 @@ using Application.FieldWorkRule.GetFieldWorkRule.Response;
 using Application.FieldWorkRule.GetRuleByFieldWork;
 using Application.FieldWorkRule.GetRuleByFieldWork.Request;
 using Application.FieldWorkRule.GetRuleByFieldWork.Response;
+using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
+using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity.Request;
+using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity.Response;
 using Application.FieldWorkRule.GetStatisticsByRule;
 using Application.FieldWorkRule.GetStatisticsByRule.Request;
 using Application.FieldWorkRule.GetStatisticsByRule.Response;
@@ -39,6 +42,7 @@ using Application.Queries.GetStatisticsFromBuilding.Response;
 using Application.Queries.GetStatisticsFromRules;
 using Application.Queries.GetStatisticsFromRules.Request;
 using Application.Queries.GetStatisticsFromRules.Response;
+using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,6 +65,7 @@ namespace WebApi.Controllers
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
         private readonly IGetFieldWorkRule _getFieldWorkRuleService;
         private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
+        private readonly IGetRuleByFieldWorkAndEntity getRuleByFieldWorkAndEntityService;
         private readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
         private readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
         private readonly IGetStatisticsByRule _getStatisticsByRuleService;
@@ -75,7 +80,8 @@ namespace WebApi.Controllers
             IGetStatisticsByRule getStatisticsByRuleService, 
             IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, 
             IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, 
-            IGetRuleByFieldWork getRuleByFieldWork, 
+            IGetRuleByFieldWork getRuleByFieldWork,
+            IGetRuleByFieldWorkAndEntity getRuleByFieldWorkAndEntity,
             IGetFieldWorkRule getFieldWorkRule, 
             IRemoveFieldWorkRule removeFieldWorkRule, 
             IAddFieldWorkRule addFieldWorkRuleService,
@@ -90,6 +96,7 @@ namespace WebApi.Controllers
             _getActiveFieldWorkService = getActiveFieldWorkService;
             _openFieldWorkService = openFieldWorkService;
             _getRuleByFieldWorkService = getRuleByFieldWork;
+            getRuleByFieldWorkAndEntityService = getRuleByFieldWorkAndEntity;
             _getFieldWorkRuleService = getFieldWorkRule;
             _removeFieldWorkRule = removeFieldWorkRule;
             _addFieldWorkRuleService = addFieldWorkRuleService;
@@ -169,6 +176,14 @@ namespace WebApi.Controllers
         {
             return await _getRuleByFieldWorkService.Execute(new GetRuleByFieldWorkRequest() { Id = id });
         }
+
+        [HttpGet]
+        [Route("{id:int}/rules/entity/{entityType}")]
+        public async Task<GetRuleByFieldWorkAndEntityResponse> GetRuleByFieldWorkAndEntity(int id, EntityType entityType)
+        {
+            return await getRuleByFieldWorkAndEntityService.Execute(new GetRuleByFieldWorkAndEntityRequest() { Id = id, EntityType = entityType});
+        }
+
 
         [HttpGet]
         [Route("{id:int}/rules/statistics")]

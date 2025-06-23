@@ -21,6 +21,7 @@ namespace Application.FieldWork.UpdateFieldWork
             var fieldwork = await _fieldWorkRepository.GetFieldWork(request.FieldWorkId);
             fieldwork.StartDate = request.StartDate;
             fieldwork.EndDate = request.EndDate;
+            fieldwork.FieldWorkName = request.FieldWorkName;
             fieldwork.Description = request.Description;
             fieldwork.EmailTemplateId = request.EmailTemplateId;
             fieldwork.UpdatedUser = request.UpdatedUser;
