@@ -1,4 +1,5 @@
 ﻿
+using Application.Exceptions;
 using Application.FieldWork.UpdateBldReviewStatus.Request;
 using Application.FieldWork.UpdateBldReviewStatus.Response;
 using Application.Ports;
@@ -35,12 +36,11 @@ namespace Application.FieldWork.UpdateBldReviewStatus
 
                     return new UpdateBldReviewStatusSuccessResponse { Message = "BldReview status set to required and fieldwork status set to OPEN" };
                 }
-                return new UpdateBldReviewStatusErrorResponse { Message = "There was an internal error", Code="500" };
+                return new UpdateBldReviewStatusErrorResponse { Message = "There was an error", Code = "EXECUTION_FAILED" };
             }
-            catch (Exception ex)
+            catch (AppException appEx)
             {
-                _logger.LogError(ex, ex.Message);
-                throw;
+                throw new AppException(appEx.Message);
             }
         }
     }

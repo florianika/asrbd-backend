@@ -9,6 +9,7 @@ using System.Data;
 using Domain.Enum;
 using Microsoft.Data.SqlClient;
 using Application.FieldWork.SendFieldWorkEmail;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repositories
 {
@@ -16,10 +17,12 @@ namespace Infrastructure.Repositories
     {
         private readonly DataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        public FieldWorkRepository(DataContext dataContext, IServiceScopeFactory serviceScopeFactory)
+        private readonly ILogger _logger;
+        public FieldWorkRepository(DataContext dataContext, IServiceScopeFactory serviceScopeFactory, ILogger<FieldWorkRepository> logger)
         {
             _context = dataContext;
             _serviceScopeFactory = serviceScopeFactory;
+            _logger = logger;
         }
         public async Task<List<FieldWork>> GetAllFieldWork()
         {
@@ -74,9 +77,22 @@ namespace Infrastructure.Repositories
 
                 return true; // Indicate success
             }
+            catch (SqlException sqlEx)
+            {
+                var sqlError = sqlEx.Errors.Cast<SqlError>().FirstOrDefault();
+                var procedure = sqlError?.Procedure ?? "unknown procedure";
+                var line = sqlError?.LineNumber.ToString() ?? "unknown line";
+                var errorNumber = sqlError?.Number.ToString() ?? "N/A";
+
+                var detailedMessage = $"SQL error (#{errorNumber}) in procedure '{procedure}' at line {line}: {sqlEx.Message}";
+                _logger.LogError(sqlEx, "ExecuteRulesStoreProcedure failed: {Error}", detailedMessage);
+
+                throw new AppException(detailedMessage, sqlEx);
+            }
             catch (Exception ex)
             {
-                throw new AppException("Error executing stored procedure.", ex);
+                _logger.LogError(ex, "Unexpected error executing ExecuteRules");
+                throw new AppException("Unexpected error occurred while executing rules.", ex);
             }
         }
 

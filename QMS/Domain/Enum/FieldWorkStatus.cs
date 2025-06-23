@@ -5,6 +5,7 @@ namespace Domain.Enum
     {
         NEW,
         OPEN,
-        CLOSED
+        CLOSED,
+        FAILED
     }
 }
