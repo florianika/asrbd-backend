@@ -14,5 +14,6 @@ namespace Application.Ports
         Task<Domain.FieldWork> GetActiveFieldWork();
         Task<bool>UpdateBldReviewStatus(int id, Guid updatedUser);
         Task<List<UserDTO>> GetActiveUsers();
+        Task<bool> HasActiveFieldWork();
     }
 }

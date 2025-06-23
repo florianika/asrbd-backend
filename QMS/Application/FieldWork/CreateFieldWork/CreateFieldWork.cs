@@ -1,4 +1,5 @@
 ﻿
+using Application.Exceptions;
 using Application.FieldWork.CreateFieldWork.Request;
 using Application.FieldWork.CreateFieldWork.Response;
 using Application.Ports;
@@ -21,11 +22,16 @@ namespace Application.FieldWork.CreateFieldWork
         public async Task<CreateFieldWorkResponse> Execute(CreateFieldWorkRequest request)
         {
             try 
-            { 
+            {
+                if (!await _fieldWorkRepository.HasActiveFieldWork())
+                {
+                    throw new ForbidenException("There are active fieldwork and cannot create e new one");
+                }
                 var fieldWork = new Domain.FieldWork
                 {
                     StartDate = request.StartDate,
                     EndDate = request.EndDate,
+                    FieldWorkName = request.FieldWorkName,
                     Description = request.Description,
                     EmailTemplateId = 0,
                     CreatedUser = request.CreatedUser,

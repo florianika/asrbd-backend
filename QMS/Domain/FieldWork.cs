@@ -6,6 +6,7 @@ namespace Domain
     public class FieldWork
     {
         public int FieldWorkId { get; set; }
+        public required string FieldWorkName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public FieldWorkStatus FieldWorkStatus { get; set; }

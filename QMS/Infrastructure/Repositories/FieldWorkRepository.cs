@@ -58,6 +58,15 @@ namespace Infrastructure.Repositories
                 ?? throw new NotFoundException("FieldWork not found");
         }
 
+        public async Task<bool> HasActiveFieldWork()
+        {
+            // Check if there are records that do not have status CLOSED, → if yes, return FALSE
+            var hasActive = await _context.FieldWorks
+                .AnyAsync(x => x.FieldWorkStatus != Domain.Enum.FieldWorkStatus.CLOSED);
+
+            return !hasActive;
+        }
+
         public async Task<bool> UpdateBldReviewStatus(int id, Guid updatedUser)
         {
             try

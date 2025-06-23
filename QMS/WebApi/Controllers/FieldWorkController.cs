@@ -9,8 +9,6 @@ using Application.FieldWork.GetFieldWork;
 using Application.FieldWork.GetFieldWork.Request;
 using Application.FieldWork.GetFieldWork.Response;
 using Application.FieldWork.OpenFieldWork;
-using Application.FieldWork.OpenFieldWork.Request;
-using Application.FieldWork.OpenFieldWork.Response;
 using Application.FieldWork.SendFieldWorkEmail;
 using Application.FieldWork.SendFieldWorkEmail.Request;
 using Application.FieldWork.SendFieldWorkEmail.Response;

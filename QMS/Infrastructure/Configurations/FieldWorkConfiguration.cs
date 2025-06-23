@@ -13,6 +13,8 @@ namespace Infrastructure.Configurations
             builder.HasKey(fw=> fw.FieldWorkId);
             builder.Property(fw => fw.Description).HasColumnType("nvarchar(max)");
             builder.Property(fw => fw.Remarks).HasColumnType("nvarchar(max)");
+            builder.Property(fw => fw.FieldWorkName).HasColumnType("nvarchar(max)");
+            builder.Property(fw => fw.FieldWorkName).IsRequired();
             builder.Property(fw => fw.CreatedUser).IsRequired();
             builder.Property(fw => fw.CreatedTimestamp).IsRequired();
             builder.Property(fw => fw.UpdatedUser);
