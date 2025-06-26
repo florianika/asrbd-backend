@@ -61,6 +61,7 @@ using Infrastructure.BackgroundJobs.Hangfire;
 using Application.FieldWork.SendFieldWorkEmail;
 using Hangfire.MemoryStorage;
 using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
+using Application.Rule.GetActiveRules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,6 +102,7 @@ builder.Services.AddScoped<IFieldWorkRuleRepository, FieldWorkRuleRepository>();
 
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
+builder.Services.AddScoped<GetActiveRules>();
 builder.Services.AddScoped<GetRulesByVariableAndEntity>();
 builder.Services.AddScoped<GetRulesByEntity>();
 builder.Services.AddScoped<GetRule>();

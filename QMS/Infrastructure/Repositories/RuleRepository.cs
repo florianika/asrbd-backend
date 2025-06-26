@@ -6,6 +6,7 @@ using Domain.Enum;
 using Infrastructure.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Data;
@@ -46,6 +47,10 @@ namespace Infrastructure.Repositories
         {
             return await _context.Rules.ToListAsync();
         }
+        public async Task<List<Domain.Rule>> GetActiveRules()
+        {
+            return await _context.Rules.Where(x => x.RuleStatus == RuleStatus.ACTIVE).OrderBy(x => x.LocalId).ToListAsync();
+        }
 
         public async Task<Domain.Rule> GetRule(long id)
         {
@@ -53,12 +58,12 @@ namespace Infrastructure.Repositories
                 ?? throw new NotFoundException("Rule not found");
         }
 
-        public async Task<List<Domain.Rule>> GetRulesByEntity(EntityType entityType)
+        public async Task<List<Domain.Rule>> GetRulesByEntity(Domain.Enum.EntityType entityType)
         {
             return await _context.Rules.Where(x => x.EntityType == entityType).ToListAsync();
         }
 
-        public async Task<List<Domain.Rule>> GetActiveRulesByEntity(EntityType entityType) 
+        public async Task<List<Domain.Rule>> GetActiveRulesByEntity(Domain.Enum.EntityType entityType) 
         {
             return await _context.Rules.Where(x => x.EntityType == entityType && x.RuleStatus == RuleStatus.ACTIVE).ToListAsync();
         }
@@ -68,7 +73,7 @@ namespace Infrastructure.Repositories
             return await _context.Rules.Where(x => x.QualityAction == qualityAction).ToListAsync();
         }
 
-        public async Task<List<Domain.Rule>> GetRulesByVariableAndEntity(string variable, EntityType entityType)
+        public async Task<List<Domain.Rule>> GetRulesByVariableAndEntity(string variable, Domain.Enum.EntityType entityType)
         {
             return await _context.Rules.Where(x => x.Variable == variable
                                         && x.EntityType == entityType).ToListAsync();

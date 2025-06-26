@@ -25,6 +25,8 @@ using Application.Rule.UpdateRule.Response;
 using Application.Rule.UpdateRule.Request;
 using Application.Rule.UpdateRule;
 using Application.Ports;
+using Application.Rule.GetActiveRules;
+using Application.Rule.GetActiveRules.Response;
 
 namespace WebApi.Controllers
 {
@@ -35,6 +37,7 @@ namespace WebApi.Controllers
     {
         private readonly CreateRule _createRuleService;
         private readonly GetAllRules _getAllRulesService;
+        private readonly GetActiveRules _getActiveRulesService;
         private readonly GetRulesByVariableAndEntity _getRulesByVariableAndEntityService;
         private readonly GetRulesByEntity _getRulesByEntityService;
         private readonly GetRule _getRuleService;
@@ -42,13 +45,14 @@ namespace WebApi.Controllers
         private readonly ChangeRuleStatus _changeRuleStatusService;
         private readonly UpdateRule _updateRuleService;
         private readonly IAuthTokenService _authTokenService;
-        public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService,
+        public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService, GetActiveRules getActiveRulesService,
              GetRulesByVariableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
              GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService,
              ChangeRuleStatus changeRuleStatusService, UpdateRule updateRuleService, IAuthTokenService authTokenService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
+            _getActiveRulesService = getActiveRulesService;
             _getRulesByVariableAndEntityService = getRulesByVariableAndEntityService;
             _getRulesByEntityService = getRulesByEntity;
             _getRuleService = getRuleService;
@@ -72,6 +76,12 @@ namespace WebApi.Controllers
         public async Task<GetAllRulesResponse> GetAllRules()
         {
             return await _getAllRulesService.Execute();
+        }
+        [HttpGet]
+        [Route("active")]
+        public async Task<GetActiveRulesResponse> GetActiveRules()
+        {
+            return await _getActiveRulesService.Execute();
         }
 
         [HttpGet]

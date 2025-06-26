@@ -48,6 +48,27 @@ namespace Application.Common.Translators
                 UpdatedTimestamp = rule.UpdatedTimestamp
             };
         }
+
+        public static List<ActiveRuleDTO> ToDTOActiveRuleList(List<Domain.Rule> rule)
+        {
+            List<ActiveRuleDTO> rules = new();
+            rule.ForEach((rule) => {
+                rules.Add(ToDTOActiveRule(rule));
+            });
+            return rules;
+        }
+
+        public static ActiveRuleDTO ToDTOActiveRule(Domain.Rule rule)
+        {
+            return new ActiveRuleDTO()
+            {
+                Id = rule.Id,
+                LocalId = rule.LocalId,
+                EntityType = rule.EntityType,
+                NameAl = rule.NameAl,
+                NameEn = rule.NameEn
+            };
+        }
         public static List<ProcessOutputLogDTO> ToDTOList(List<Domain.ProcessOutputLog> processOutputLog)
         {
             List<ProcessOutputLogDTO> processOutputLogs = new();
