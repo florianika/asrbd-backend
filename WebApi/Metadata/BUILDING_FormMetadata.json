@@ -100,7 +100,7 @@
       "name": "BldAddressID",
       "label": {
         "en": "Building ID of National Address System",
-        "al": "ID e ndërtesës nga sistemi kombëtar i adresave"
+        "al": "ID e ndërtesës nga Sistemi Kombëtar i Adresave"
       },
       "display": {
         "admin": "write",
@@ -110,7 +110,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
-      "order": 3
+      "order": 4
     },
     {
       "name": "BldReview",
@@ -126,7 +126,7 @@
       "selectable": false,
       "internal": false,
       "section": "title",
-      "order": 98
+      "order": 8
     },
     {
       "name": "BldQuality",
@@ -142,7 +142,7 @@
       "selectable": false,
       "internal": false,
       "section": "title",
-      "order": 99
+      "order": 9
     },
     {
       "name": "BldMunicipality",
@@ -155,7 +155,7 @@
         "supervisor": "write",
         "enumerator": "write"
       },
-      "selectable": false,
+      "selectable": true,
       "internal": false,
       "section": "identification",
       "order": 11
@@ -190,7 +190,7 @@
       "selectable": false,
       "internal": false,
       "section": "map",
-      "order": 13
+      "order": 6
     },
     {
       "name": "BldLongitude",
@@ -206,7 +206,7 @@
       "selectable": false,
       "internal": false,
       "section": "map",
-      "order": 13
+      "order": 6
     },
     {
       "name": "BldCentroidStatus",
@@ -222,7 +222,7 @@
       "selectable": false,
       "internal": false,
       "section": "title",
-      "order": 14
+      "order": 7
     },
     {
       "name": "BldCadastralZone",
@@ -235,7 +235,7 @@
         "supervisor": "write",
         "enumerator": "read"
       },
-      "selectable": false,
+      "selectable": true,
       "internal": false,
       "section": "identification",
       "order": 15
@@ -251,8 +251,8 @@
         "supervisor": "write",
         "enumerator": "read"
       },
-      "selectable": "false",
-      "internal": "false",
+      "selectable": true,
+      "internal": false,
       "section": "identification",
       "order": 16
     },

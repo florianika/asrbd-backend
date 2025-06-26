@@ -62,7 +62,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
-      "order": 4
+      "order": 3
     },
     {
       "name": "DwlAddressID",
@@ -94,7 +94,7 @@
       "selectable": false,
       "internal": false,
       "section": "title",
-      "order": 99
+      "order": 9
     },
     {
       "name": "DwlFloor",
