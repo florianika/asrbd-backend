@@ -3,7 +3,7 @@ using Domain.Enum;
 
 namespace Application.Rule
 {
-    public class ActiveRuleDTO
+    public class ShortRuleDTO
     {
         public long Id { get; set; }
         public string? LocalId { get; set; }

@@ -16,7 +16,7 @@ namespace Application.Rule.GetActiveRules
             var rules = await _ruleRepository.GetAllRules();
             return new GetActiveRulesSuccessResponse
             {
-                ActiveRulesDTO = Translator.ToDTOActiveRuleList(rules)
+                ShortRulesDTO = Translator.ToDTOShortRuleList(rules)
             };
         }
     }

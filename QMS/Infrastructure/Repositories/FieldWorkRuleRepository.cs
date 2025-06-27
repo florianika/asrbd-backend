@@ -25,7 +25,7 @@ namespace Infrastructure.Repositories
 
         public async Task<FieldWorkRule> GetFieldWorkRule(int id, long ruleId)
         {
-            return await _context.FieldWorkRules.FirstOrDefaultAsync(x => x.RuleId.Equals(ruleId) && x.FieldWorkId.Equals(id))
+            return await _context.FieldWorkRules.Include(r => r.Rule).FirstOrDefaultAsync(x => x.RuleId.Equals(ruleId) && x.FieldWorkId.Equals(id))
                ?? throw new NotFoundException($"FieldWorkRule with FieldWorkId={id} and RuleId={ruleId} not found");
         }
 
@@ -41,7 +41,7 @@ namespace Infrastructure.Repositories
         }
         public async Task<List<FieldWorkRule>> GetRuleByField(int fieldWorkId)
         {
-            return await _context.FieldWorkRules.Where(r => r.FieldWorkId == fieldWorkId).ToListAsync();
+            return await _context.FieldWorkRules.Include(r => r.Rule).Where(r => r.FieldWorkId == fieldWorkId).ToListAsync();
         }
 
         public async Task<long> GetStatisticsByRule(long id)

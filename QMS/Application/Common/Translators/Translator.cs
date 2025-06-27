@@ -49,18 +49,18 @@ namespace Application.Common.Translators
             };
         }
 
-        public static List<ActiveRuleDTO> ToDTOActiveRuleList(List<Domain.Rule> rule)
+        public static List<ShortRuleDTO> ToDTOShortRuleList(List<Domain.Rule> rule)
         {
-            List<ActiveRuleDTO> rules = new();
+            List<ShortRuleDTO> rules = new();
             rule.ForEach((rule) => {
-                rules.Add(ToDTOActiveRule(rule));
+                rules.Add(ToDTOShortRule(rule));
             });
             return rules;
         }
 
-        public static ActiveRuleDTO ToDTOActiveRule(Domain.Rule rule)
+        public static ShortRuleDTO ToDTOShortRule(Domain.Rule rule)
         {
-            return new ActiveRuleDTO()
+            return new ShortRuleDTO()
             {
                 Id = rule.Id,
                 LocalId = rule.LocalId,
@@ -186,7 +186,8 @@ namespace Application.Common.Translators
                 CreatedTimestamp = fieldWorkRule.CreatedTimestamp,
                 RuleNameAl = fieldWorkRule.Rule?.NameAl,
                 RuleNameEn = fieldWorkRule.Rule?.NameEn,
-                RuleLocalId = fieldWorkRule.Rule?.LocalId
+                RuleLocalId = fieldWorkRule.Rule?.LocalId,
+                RuleEntityType = fieldWorkRule.Rule?.EntityType ?? default(EntityType),
             };
         }
     }

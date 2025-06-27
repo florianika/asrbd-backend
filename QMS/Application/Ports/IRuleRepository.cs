@@ -16,6 +16,6 @@ namespace Application.Ports
         Task<bool> ExecuteRulesStoreProcedure(List<Guid> buildingIds, Guid createdUser);
         Task<bool> ExecuteAutomaticRulesStoreProcedure(List<Guid> buildingIds, Guid createdUser);
         Task<List<Domain.Rule>> GetActiveRules();
-
+        Task<bool> ExistsRule(long ruleId);
     }
 }

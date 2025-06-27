@@ -168,5 +168,11 @@ namespace Infrastructure.Repositories
                 throw new AppException("Unexpected error while executing ExecuteAutomaticRulesStoredProcedure", ex);
             }
         }
+
+        public async Task<bool> ExistsRule(long ruleId)
+        {
+            return await _context.Rules
+                .AnyAsync(x=>x.Id == ruleId);
+        }
     }
 }

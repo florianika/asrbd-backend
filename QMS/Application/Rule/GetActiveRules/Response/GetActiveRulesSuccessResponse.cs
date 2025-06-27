@@ -2,6 +2,6 @@
 {
     public class GetActiveRulesSuccessResponse : GetActiveRulesResponse
     {
-        public IEnumerable<ActiveRuleDTO> ActiveRulesDTO { get; set; } = new List<ActiveRuleDTO>();
+        public IEnumerable<ShortRuleDTO> ShortRulesDTO { get; set; } = new List<ShortRuleDTO>();
     }
 }

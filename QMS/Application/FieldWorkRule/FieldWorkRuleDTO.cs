@@ -1,4 +1,6 @@
 ﻿
+using Domain.Enum;
+
 namespace Application.FieldWorkRule
 {
     public class FieldWorkRuleDTO
@@ -11,5 +13,6 @@ namespace Application.FieldWorkRule
         public string? RuleNameAl { get; set; }
         public string? RuleNameEn { get; set; }
         public string? RuleLocalId { get; set; }
+        public EntityType RuleEntityType { get; set; }
     }
 }
