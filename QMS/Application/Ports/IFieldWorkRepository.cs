@@ -15,5 +15,9 @@ namespace Application.Ports
         Task<bool>UpdateBldReviewStatus(int id, Guid updatedUser);
         Task<List<UserDTO>> GetActiveUsers();
         Task<bool> HasActiveFieldWork();
+        Task<int> CreateJob(Domain.Jobs job);
+        Task<Domain.Jobs> GetJobById(int id);
+        Task UpdateJob(Domain.Jobs job);
+        Task ExecuteStatisticsSP(int jobId);
     }
 }

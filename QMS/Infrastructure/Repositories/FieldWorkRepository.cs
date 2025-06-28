@@ -112,5 +112,56 @@ namespace Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<int> CreateJob(Domain.Jobs job)
+        {
+            await _context.Jobs.AddAsync(job);
+            await _context.SaveChangesAsync();
+            return job.Id;
+        }
+
+        public async Task<Jobs> GetJobById(int id)
+        {
+            return await _context.Jobs.FirstOrDefaultAsync(x => x.Id.Equals(id))
+                ?? throw new NotFoundException("Job not found");
+        }
+        public async Task UpdateJob(Domain.Jobs job)
+        {
+            _context.Jobs.Update(job);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task ExecuteStatisticsSP(int jobId)
+        {
+            try
+            {
+                var parameters = new List<SqlParameter>
+                {
+                    new ("@JobId", jobId)
+                };
+
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec ExecuteStatistics  @JobId", parameters.ToArray());
+            }
+            catch (SqlException sqlEx)
+            {
+                var sqlError = sqlEx.Errors.Cast<SqlError>().FirstOrDefault();
+                var procedure = sqlError?.Procedure ?? "unknown procedure";
+                var line = sqlError?.LineNumber.ToString() ?? "unknown line";
+                var errorNumber = sqlError?.Number.ToString() ?? "N/A";
+
+                var detailedMessage = $"SQL error (#{errorNumber}) in procedure '{procedure}' at line {line}: {sqlEx.Message}";
+                _logger.LogError(sqlEx, "ExecuteStatistics failed: {Error}", detailedMessage);
+
+                throw new AppException(detailedMessage, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error executing ExecuteRules");
+                throw new AppException("Unexpected error occurred while executing rules.", ex);
+            }
+        }
     }
 }

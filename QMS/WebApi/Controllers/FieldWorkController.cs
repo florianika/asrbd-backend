@@ -1,6 +1,9 @@
 ﻿using Application.FieldWork.CreateFieldWork;
 using Application.FieldWork.CreateFieldWork.Request;
 using Application.FieldWork.CreateFieldWork.Response;
+using Application.FieldWork.ExecuteJob;
+using Application.FieldWork.ExecuteJob.Request;
+using Application.FieldWork.ExecuteJob.Response;
 using Application.FieldWork.GetActiveFieldWork;
 using Application.FieldWork.GetActiveFieldWork.Response;
 using Application.FieldWork.GetAllFieldWork;
@@ -65,10 +68,8 @@ namespace WebApi.Controllers
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
         private readonly IGetFieldWorkRule _getFieldWorkRuleService;
         private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
-        private readonly IGetRuleByFieldWorkAndEntity getRuleByFieldWorkAndEntityService;
-        private readonly IGetStatisticsFromRulesQuery _getStatisticsFromRuleQueryService;
-        private readonly IGetStatisticsFromBuildingQuery _getStatisticsFromBuildingQueryService;
-        private readonly IGetStatisticsByRule _getStatisticsByRuleService;
+        private readonly IGetRuleByFieldWorkAndEntity _getRuleByFieldWorkAndEntityService;
+        private readonly IExecuteJob _executeJobService;
         private readonly IUpdateBldReviewStatus _updateBldReviewStatus;
         private readonly ISendFieldWorkEmail _sendFieldWorkEmail;
 
@@ -77,9 +78,7 @@ namespace WebApi.Controllers
             UpdateFieldWork updateFieldWorkService,
             GetActiveFieldWork getActiveFieldWorkService, 
             OpenFieldWork openFieldWorkService, 
-            IGetStatisticsByRule getStatisticsByRuleService, 
-            IGetStatisticsFromBuildingQuery getStatisticsFromBuildingQuery, 
-            IGetStatisticsFromRulesQuery getStatisticsFromRulesQuery, 
+            IExecuteJob executeJobService,
             IGetRuleByFieldWork getRuleByFieldWork,
             IGetRuleByFieldWorkAndEntity getRuleByFieldWorkAndEntity,
             IGetFieldWorkRule getFieldWorkRule, 
@@ -96,13 +95,11 @@ namespace WebApi.Controllers
             _getActiveFieldWorkService = getActiveFieldWorkService;
             _openFieldWorkService = openFieldWorkService;
             _getRuleByFieldWorkService = getRuleByFieldWork;
-            getRuleByFieldWorkAndEntityService = getRuleByFieldWorkAndEntity;
+            _getRuleByFieldWorkAndEntityService = getRuleByFieldWorkAndEntity;
             _getFieldWorkRuleService = getFieldWorkRule;
             _removeFieldWorkRule = removeFieldWorkRule;
             _addFieldWorkRuleService = addFieldWorkRuleService;
-            _getStatisticsFromRuleQueryService = getStatisticsFromRulesQuery;
-            _getStatisticsFromBuildingQueryService = getStatisticsFromBuildingQuery;
-            _getStatisticsByRuleService = getStatisticsByRuleService;
+            _executeJobService = executeJobService;
             _updateBldReviewStatus = updateBldReviewStatus;
             _sendFieldWorkEmail = sendFieldWorkEmail;
             _authTokenService = authTokenService;
@@ -181,29 +178,17 @@ namespace WebApi.Controllers
         [Route("{id:int}/rules/entity/{entityType}")]
         public async Task<GetRuleByFieldWorkAndEntityResponse> GetRuleByFieldWorkAndEntity(int id, EntityType entityType)
         {
-            return await getRuleByFieldWorkAndEntityService.Execute(new GetRuleByFieldWorkAndEntityRequest() { Id = id, EntityType = entityType});
+            return await _getRuleByFieldWorkAndEntityService.Execute(new GetRuleByFieldWorkAndEntityRequest() { Id = id, EntityType = entityType});
         }
 
-
-        [HttpGet]
-        [Route("{id:int}/rules/statistics")]
-        public async Task<GetStatisticsFromRulesResponse> GetStatisticsFromRules(int id)
+        [HttpPost]
+        [Route("{id:int}/execute-job")]
+        public async Task<ExecuteJobResponse> ExecuteStatistics(int id, [FromBody] ExecuteJobRequest request)
         {
-            return await _getStatisticsFromRuleQueryService.Execute(new GetStatisticsFromRulesRequest() { Id=id});
-        }
-
-        [HttpGet]
-        [Route("buildings/statistics")]
-        public async Task<GetStatisticsFromBuildingResponse> GetStatisticsFromBuilding()
-        {
-            return await _getStatisticsFromBuildingQueryService.Execute();
-        }
-
-        [HttpGet]
-        [Route("rules/statistics/{ruleId:long}")]
-        public async Task<GetStatisticsByRuleResponse> GetStatisticsByRule(long id)
-        {
-            return await _getStatisticsByRuleService.Execute(new GetStatisticsByRuleRequest { Id = id });
+            var token = ExtractBearerToken();
+            request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
+            request.Id = id;
+            return await _executeJobService.Execute(request);
         }
 
         //[HttpPatch]

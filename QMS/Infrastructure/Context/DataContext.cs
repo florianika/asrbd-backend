@@ -24,6 +24,8 @@ namespace Infrastructure.Context
         public DbSet<EmailTemplate> EmailTemplates { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<FieldWorkRule> FieldWorkRules { get; set; }
+        public DbSet<Statistics> Statistics { get; set; }
+        public DbSet<Jobs>Jobs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -47,7 +49,8 @@ namespace Infrastructure.Context
             modelBuilder.Entity<RuleStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<BuildingStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<UserDTO>().HasNoKey().ToView(null);
-
+            modelBuilder.ApplyConfiguration(new StatisticsConfiguration());
+            modelBuilder.ApplyConfiguration(new JobsConfigurations());
         }
     }
 }
