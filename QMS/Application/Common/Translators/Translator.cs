@@ -190,5 +190,24 @@ namespace Application.Common.Translators
                 RuleEntityType = fieldWorkRule.Rule?.EntityType ?? default(EntityType),
             };
         }
+        public static List<StatisticsDTO> ToDTOList(List<Domain.Statistics> statistic)
+        {
+            List<StatisticsDTO> statistics = new();
+            statistic.ForEach((statistic) => {
+                statistics.Add(ToDTO(statistic));
+            });
+            return statistics;
+        }
+
+        public static StatisticsDTO ToDTO(Domain.Statistics statistic)
+        {
+            return new StatisticsDTO()
+            {
+                Municipality = statistic.Municipality,
+                RuleStatistics = statistic.RuleStatistics,
+                BldStatistics = statistic.BldStatistics
+            };
+        }
+
     }
 }

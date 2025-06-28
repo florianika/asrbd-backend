@@ -19,5 +19,7 @@ namespace Application.Ports
         Task<Domain.Jobs> GetJobById(int id);
         Task UpdateJob(Domain.Jobs job);
         Task ExecuteStatisticsSP(int jobId);
+        Task<Domain.Jobs> GetJob(int id);
+        Task<List<Domain.Statistics>> GetStatistics(int id);
     }
 }

@@ -11,6 +11,12 @@ using Application.FieldWork.GetAllFieldWork.Response;
 using Application.FieldWork.GetFieldWork;
 using Application.FieldWork.GetFieldWork.Request;
 using Application.FieldWork.GetFieldWork.Response;
+using Application.FieldWork.GetJobResults;
+using Application.FieldWork.GetJobResults.Request;
+using Application.FieldWork.GetJobResults.Response;
+using Application.FieldWork.GetJobStatus;
+using Application.FieldWork.GetJobStatus.Request;
+using Application.FieldWork.GetJobStatus.Response;
 using Application.FieldWork.OpenFieldWork;
 using Application.FieldWork.SendFieldWorkEmail;
 using Application.FieldWork.SendFieldWorkEmail.Request;
@@ -33,18 +39,10 @@ using Application.FieldWorkRule.GetRuleByFieldWork.Response;
 using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
 using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity.Request;
 using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity.Response;
-using Application.FieldWorkRule.GetStatisticsByRule;
-using Application.FieldWorkRule.GetStatisticsByRule.Request;
-using Application.FieldWorkRule.GetStatisticsByRule.Response;
 using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
-using Application.Queries.GetStatisticsFromBuilding;
-using Application.Queries.GetStatisticsFromBuilding.Response;
-using Application.Queries.GetStatisticsFromRules;
-using Application.Queries.GetStatisticsFromRules.Request;
-using Application.Queries.GetStatisticsFromRules.Response;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +68,8 @@ namespace WebApi.Controllers
         private readonly IGetRuleByFieldWork _getRuleByFieldWorkService;
         private readonly IGetRuleByFieldWorkAndEntity _getRuleByFieldWorkAndEntityService;
         private readonly IExecuteJob _executeJobService;
+        private readonly IGetJobStatus _getJobStatusService;
+        private readonly IGetJobResults _getJobResultsService;
         private readonly IUpdateBldReviewStatus _updateBldReviewStatus;
         private readonly ISendFieldWorkEmail _sendFieldWorkEmail;
 
@@ -79,6 +79,8 @@ namespace WebApi.Controllers
             GetActiveFieldWork getActiveFieldWorkService, 
             OpenFieldWork openFieldWorkService, 
             IExecuteJob executeJobService,
+            IGetJobStatus getJobStatusService,
+            IGetJobResults getJobResultsService,
             IGetRuleByFieldWork getRuleByFieldWork,
             IGetRuleByFieldWorkAndEntity getRuleByFieldWorkAndEntity,
             IGetFieldWorkRule getFieldWorkRule, 
@@ -100,6 +102,8 @@ namespace WebApi.Controllers
             _removeFieldWorkRule = removeFieldWorkRule;
             _addFieldWorkRuleService = addFieldWorkRuleService;
             _executeJobService = executeJobService;
+            _getJobStatusService = getJobStatusService;
+            _getJobResultsService = getJobResultsService;
             _updateBldReviewStatus = updateBldReviewStatus;
             _sendFieldWorkEmail = sendFieldWorkEmail;
             _authTokenService = authTokenService;
@@ -189,6 +193,19 @@ namespace WebApi.Controllers
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.Id = id;
             return await _executeJobService.Execute(request);
+        }
+        [HttpGet]
+        [Route("job/{id:int}/status")]
+        public async Task<GetJobStatusResponse> GetJobStatus(int id)
+        {
+            return await _getJobStatusService.Execute(new GetJobStatusRequest() { Id = id });
+        }
+
+        [HttpGet]
+        [Route("job/{id:int}/results")]
+        public async Task<GetJobResultsResponse> GetJobResults(int id)
+        {
+            return await _getJobResultsService.Execute(new GetJobResultsRequest() { Id = id });
         }
 
         //[HttpPatch]

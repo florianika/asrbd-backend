@@ -163,5 +163,16 @@ namespace Infrastructure.Repositories
                 throw new AppException("Unexpected error occurred while executing rules.", ex);
             }
         }
+
+        public async Task<Jobs> GetJob(int id)
+        {
+            return await _context.Jobs.FirstOrDefaultAsync(x => x.Id.Equals(id))
+               ?? throw new NotFoundException("Job not found");
+        }
+
+        public async Task<List<Statistics>> GetStatistics(int id)
+        {
+            return await _context.Statistics.Where(s => s.JobId.Equals(id)).OrderBy(s => s.Municipality).ToListAsync();
+        }
     }
 }

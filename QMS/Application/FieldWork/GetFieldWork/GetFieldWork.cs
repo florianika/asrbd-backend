@@ -3,8 +3,6 @@ using Application.Common.Translators;
 using Application.FieldWork.GetFieldWork.Request;
 using Application.FieldWork.GetFieldWork.Response;
 using Application.Ports;
-using Application.Rule.GetRule.Request;
-using Application.Rule.GetRule.Response;
 
 namespace Application.FieldWork.GetFieldWork
 {

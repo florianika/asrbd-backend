@@ -46,11 +46,6 @@ using Application.FieldWorkRule.AddFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.GetFieldWorkRule;
 using Application.FieldWorkRule.GetRuleByFieldWork;
-using Application.Queries.GetStatisticsFromRules;
-using Infrastructure.Queries.GetStatisticsFromRules;
-using Infrastructure.Queries.GetStatisticsFromBuilding;
-using Application.Queries.GetStatisticsFromBuilding;
-using Application.FieldWorkRule.GetStatisticsByRule;
 using Application.FieldWork.OpenFieldWork;
 using Application.Common.Validator;
 using FluentValidation;
@@ -63,6 +58,8 @@ using Hangfire.MemoryStorage;
 using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
 using Application.Rule.GetActiveRules;
 using Application.FieldWork.ExecuteJob;
+using Application.FieldWork.GetJobStatus;
+using Application.FieldWork.GetJobResults;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -144,6 +141,8 @@ builder.Services.AddScoped<IExecuteJob, ExecuteJob>();
 builder.Services.AddScoped<IJobExecutor, JobExecutor>();
 builder.Services.AddScoped<IUpdateBldReviewStatus, UpdateBldReviewStatus>();
 builder.Services.AddScoped<OpenFieldWork>();
+builder.Services.AddScoped<IGetJobStatus, GetJobStatus>();
+builder.Services.AddScoped<IGetJobResults, GetJobResults>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();
