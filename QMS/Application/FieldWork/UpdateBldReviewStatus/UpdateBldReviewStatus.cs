@@ -1,10 +1,17 @@
 ﻿
 using Application.Exceptions;
+using Application.FieldWork.SendFieldWorkEmail.Response;
 using Application.FieldWork.UpdateBldReviewStatus.Request;
 using Application.FieldWork.UpdateBldReviewStatus.Response;
 using Application.Ports;
 using Domain.Enum;
+using Hangfire;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Net.Mail;
+using System.Net;
+using System.Security.Cryptography;
 
 namespace Application.FieldWork.UpdateBldReviewStatus
 {
@@ -12,36 +19,35 @@ namespace Application.FieldWork.UpdateBldReviewStatus
     {
         private readonly ILogger _logger;
         private readonly IFieldWorkRepository _fieldWorkRepository;
+        private readonly IConfiguration _configuration;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IJobDispatcher _jobDispatcher;
 
-        public UpdateBldReviewStatus(ILogger<UpdateBldReviewStatus> logger, IFieldWorkRepository fieldWorkRepository)
+        public UpdateBldReviewStatus(ILogger<UpdateBldReviewStatus> logger, IFieldWorkRepository fieldWorkRepository, IServiceScopeFactory serviceScopeFactory, IConfiguration configuration, IJobDispatcher jobDispatcher)
         {
             _logger = logger;
             _fieldWorkRepository = fieldWorkRepository;
+            _serviceScopeFactory = serviceScopeFactory;
+            _configuration = configuration;
+            _jobDispatcher = jobDispatcher;
         }
         public async Task<UpdateBldReviewStatusResponse> Execute(UpdateBldReviewStatusRequest request)
         {
             try
             {
-                //update the BldReviewStatus to required in the geodatabase for the given fieldwork id
-                var success = await _fieldWorkRepository.UpdateBldReviewStatus(request.Id, request.UpdatedUser);
-                if (success)
+                _jobDispatcher.ScheduleBldReviewAndEmail(request.Id, request.UpdatedUser);
+                return new UpdateBldReviewStatusSuccessResponse
                 {
-                    //if the update was successful, update the fieldwork status to OPEN
-                    var fieldwork = await _fieldWorkRepository.GetFieldWorkByIdAndStatus(request.Id, FieldWorkStatus.NEW);
-                    fieldwork.FieldWorkStatus = Domain.Enum.FieldWorkStatus.OPEN;
-                    fieldwork.UpdatedUser = request.UpdatedUser;
-                    fieldwork.UpdatedTimestamp = DateTime.Now;
-
-                    await _fieldWorkRepository.UpdateFieldWork(fieldwork);
-
-                    return new UpdateBldReviewStatusSuccessResponse { Message = "BldReview status set to required and fieldwork status set to OPEN" };
-                }
-                return new UpdateBldReviewStatusErrorResponse { Message = "There was an error", Code = "EXECUTION_FAILED" };
+                    Message = "Job for updating status queued. Emails will be sent after update completes."
+                };
             }
             catch (AppException appEx)
             {
+                _logger.LogError(appEx,"An error occurred");
                 throw new AppException(appEx.Message);
             }
         }
+
+
     }
 }

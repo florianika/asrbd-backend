@@ -143,6 +143,7 @@ builder.Services.AddScoped<IUpdateBldReviewStatus, UpdateBldReviewStatus>();
 builder.Services.AddScoped<OpenFieldWork>();
 builder.Services.AddScoped<IGetJobStatus, GetJobStatus>();
 builder.Services.AddScoped<IGetJobResults, GetJobResults>();
+builder.Services.AddScoped<IJobDispatcher, JobDispatcher>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();
