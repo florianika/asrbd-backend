@@ -72,12 +72,8 @@ var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
-// Shto Hangfire me MemoryStorage
-builder.Services.AddHangfire(config =>
-{
-    config.UseMemoryStorage();
-});
-builder.Services.AddHangfireServer();
+builder.Services.AddHangfire(x =>
+    x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnectionString")));
 
 builder.Services.AddHangfireServer();
 
@@ -195,6 +191,7 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
     Authorization = new[] { new BasicDashboardAuthorizationFilter() }
 });
+
 
 if (app.Environment.IsDevelopment())
 {
