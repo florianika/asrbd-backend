@@ -28,7 +28,6 @@ namespace WebApi.Controllers
         [HttpPost("buildings")]
         public async Task<BuildingQualityCheckResponse> BuildingQualityCheck(BuildingQualityCheckRequest request) {            
             var token = ExtractBearerToken();
-            token = token.Replace("Bearer ", "");
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
             return await _buildingQualityCheckService.Execute(request);
