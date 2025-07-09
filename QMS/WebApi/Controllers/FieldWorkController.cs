@@ -1,4 +1,7 @@
-﻿using Application.FieldWork.CreateFieldWork;
+﻿using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
+using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Request;
+using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Response;
+using Application.FieldWork.CreateFieldWork;
 using Application.FieldWork.CreateFieldWork.Request;
 using Application.FieldWork.CreateFieldWork.Response;
 using Application.FieldWork.ExecuteJob;
@@ -62,7 +65,7 @@ namespace WebApi.Controllers
         private readonly GetActiveFieldWork _getActiveFieldWorkService;
         private readonly OpenFieldWork _openFieldWorkService;
         private readonly IAuthTokenService _authTokenService;
-
+        private readonly IAssociateEmailTemplateWithFieldWork _associateEmailTemplateWithFieldWorkService;
         private readonly IRemoveFieldWorkRule _removeFieldWorkRule;
         private readonly IAddFieldWorkRule _addFieldWorkRuleService;
         private readonly IGetFieldWorkRule _getFieldWorkRuleService;
@@ -89,7 +92,8 @@ namespace WebApi.Controllers
             IAddFieldWorkRule addFieldWorkRuleService,
             IUpdateBldReviewStatus updateBldReviewStatus,
             ISendFieldWorkEmail sendFieldWorkEmail,
-            IAuthTokenService authTokenService  )
+            IAuthTokenService authTokenService,
+            IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService)
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -108,6 +112,7 @@ namespace WebApi.Controllers
             _updateBldReviewStatus = updateBldReviewStatus;
             _sendFieldWorkEmail = sendFieldWorkEmail;
             _authTokenService = authTokenService;
+            _associateEmailTemplateWithFieldWorkService = associateEmailTemplateWithFieldWorkService;
         }
 
         [HttpGet]
@@ -142,6 +147,21 @@ namespace WebApi.Controllers
             request.UpdatedUser = updatedUser;
             return await _updateFieldWorkService.Execute(request);
         }
+
+        [HttpPatch("{id:int}/email")]
+        public async Task<AssociateEmailTemplateWithFieldWorkResponse> AssociateEmailTemplateWithFieldWork(int id, [FromBody] AssociateEmailTemplateWithFieldWorkRequestDTO emailtemplate)
+        {
+            var token = ExtractBearerToken();
+            AssociateEmailTemplateWithFieldWorkRequest request = new AssociateEmailTemplateWithFieldWorkRequest
+            {
+                FieldWorkId = id,
+                EmailTemplateId = emailtemplate.EmailTemplateId,
+                UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
+
+            };
+            return await _associateEmailTemplateWithFieldWorkService.Execute(request);
+        }
+
         [HttpGet]
         [Route("active")]
         public async Task<GetActiveFieldWorkResponse> GetActiveFieldWork()

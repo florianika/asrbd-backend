@@ -60,6 +60,7 @@ using Application.Rule.GetActiveRules;
 using Application.FieldWork.ExecuteJob;
 using Application.FieldWork.GetJobStatus;
 using Application.FieldWork.GetJobResults;
+using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,6 +119,7 @@ builder.Services.AddScoped<CreateFieldWork>();
 builder.Services.AddScoped<GetAllFieldWork>();
 builder.Services.AddScoped<GetFieldWork>();
 builder.Services.AddScoped<UpdateFieldWork>();
+builder.Services.AddScoped<IAssociateEmailTemplateWithFieldWork, AssociateEmailTemplateWithFieldWork>();
 builder.Services.AddScoped<GetActiveFieldWork>();
 builder.Services.AddScoped<ICreateEmailTemplate, CreateEmailTemplate>();
 builder.Services.AddScoped<IGetAllEmailTemplate, GetAllEmailTemplate>();
