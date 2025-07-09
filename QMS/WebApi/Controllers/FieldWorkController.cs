@@ -46,6 +46,7 @@ using Application.Ports;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.DTOs;
 
 namespace WebApi.Controllers
 {
@@ -150,11 +151,16 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("{id:int}/rules")]
-        public async Task<AddFieldWorkRuleResponse> AddFieldWorkRule(int id, [FromBody]AddFieldWorkRuleRequest request)
+        public async Task<AddFieldWorkRuleResponse> AddFieldWorkRule(int id, [FromBody] AddFieldWorkRuleRequestDTO rule)
         {
             var token = ExtractBearerToken();
-            request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
-            request.FieldWorkId = id;
+            AddFieldWorkRuleRequest request = new AddFieldWorkRuleRequest
+            {
+                FieldWorkId = id,
+                RuleId = rule.RuleId,
+                CreatedUser = await _authTokenService.GetUserIdFromToken(token)
+
+            };
             return await _addFieldWorkRuleService.Execute(request);
         }
 
