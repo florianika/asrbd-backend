@@ -61,6 +61,7 @@ using Application.FieldWork.ExecuteJob;
 using Application.FieldWork.GetJobStatus;
 using Application.FieldWork.GetJobResults;
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
+using Application.Rule.GetRulesByEntityAndStatus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -99,6 +100,7 @@ builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
 builder.Services.AddScoped<GetActiveRules>();
 builder.Services.AddScoped<GetRulesByVariableAndEntity>();
+builder.Services.AddScoped<IGetRulesByEntityAndStatus,GetRulesByEntityAndStatus>();
 builder.Services.AddScoped<GetRulesByEntity>();
 builder.Services.AddScoped<GetRule>();
 builder.Services.AddScoped<GetRulesByQualityAction>();

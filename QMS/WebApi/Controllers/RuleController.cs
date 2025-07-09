@@ -27,6 +27,9 @@ using Application.Rule.UpdateRule;
 using Application.Ports;
 using Application.Rule.GetActiveRules;
 using Application.Rule.GetActiveRules.Response;
+using Application.Rule.GetRulesByEntityAndStatus.Request;
+using Application.Rule.GetRulesByEntityAndStatus;
+using Application.Rule.GetRulesByEntityAndStatus.Response;
 
 namespace WebApi.Controllers
 {
@@ -45,10 +48,11 @@ namespace WebApi.Controllers
         private readonly ChangeRuleStatus _changeRuleStatusService;
         private readonly UpdateRule _updateRuleService;
         private readonly IAuthTokenService _authTokenService;
+        private readonly IGetRulesByEntityAndStatus _getRulesByEntityAndStatusService;
         public RuleController(CreateRule createRuleService, GetAllRules getAllRulesService, GetActiveRules getActiveRulesService,
              GetRulesByVariableAndEntity getRulesByVariableAndEntityService, GetRulesByEntity getRulesByEntity, 
              GetRule getRuleService, GetRulesByQualityAction getRulesByQualityActionService,
-             ChangeRuleStatus changeRuleStatusService, UpdateRule updateRuleService, IAuthTokenService authTokenService)
+             ChangeRuleStatus changeRuleStatusService, UpdateRule updateRuleService, IAuthTokenService authTokenService, IGetRulesByEntityAndStatus getRulesByEntityAndStatusService)
         {
             _createRuleService = createRuleService;
             _getAllRulesService = getAllRulesService;
@@ -60,6 +64,7 @@ namespace WebApi.Controllers
             _changeRuleStatusService = changeRuleStatusService;
             _updateRuleService = updateRuleService;
             _authTokenService = authTokenService;   
+            _getRulesByEntityAndStatusService = getRulesByEntityAndStatusService;
 
         }
         [HttpPost]
@@ -99,6 +104,13 @@ namespace WebApi.Controllers
         public async Task<GetRulesByEntityResponse> GetRulesByEntity(EntityType entityType)
         {
             return await _getRulesByEntityService.Execute(new GetRulesByEntityRequest() { EntityType = entityType });
+        }
+
+        [HttpGet]
+        [Route("entity/{entityType}/status/{ruleStatus}")]
+        public async Task<GetRulesByEntityAndStatusResponse> GetRulesByEntityAndStatus(EntityType entityType, RuleStatus ruleStatus)
+        {
+            return await _getRulesByEntityAndStatusService.Execute(new GetRulesByEntityAndStatusRequest() { EntityType = entityType, RuleStatus = ruleStatus });
         }
 
         [HttpGet]

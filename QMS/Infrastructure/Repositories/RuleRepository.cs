@@ -78,7 +78,12 @@ namespace Infrastructure.Repositories
             return await _context.Rules.Where(x => x.Variable == variable
                                         && x.EntityType == entityType).ToListAsync();
         }
-        
+        public async Task<List<Domain.Rule>> GetRulesByEntityAndStatus(Domain.Enum.EntityType entityType, Domain.Enum.RuleStatus ruleStatus)
+        {
+            return await _context.Rules.Where(x => x.EntityType == entityType
+                                        && x.RuleStatus == ruleStatus).ToListAsync();
+        }
+
         public async Task UpdateRule(Domain.Rule rule)
         {
             _context.Rules.Update(rule);
