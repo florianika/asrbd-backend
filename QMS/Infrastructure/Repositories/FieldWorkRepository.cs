@@ -81,6 +81,7 @@ namespace Infrastructure.Repositories
                 using var scope = _serviceScopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
 
+                _context.Database.SetCommandTimeout(500);
                 await dbContext.Database.ExecuteSqlRawAsync(
                     @"exec UpdateBldReviewStatusToRequired  @FiledWorkId, @UpdatedUser", parameters.ToArray());
 
@@ -141,7 +142,7 @@ namespace Infrastructure.Repositories
 
                 using var scope = _serviceScopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-
+                _context.Database.SetCommandTimeout(500);
                 await dbContext.Database.ExecuteSqlRawAsync(
                     @"exec ExecuteStatistics  @JobId", parameters.ToArray());
             }
