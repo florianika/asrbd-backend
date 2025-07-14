@@ -191,10 +191,7 @@ var app = builder.Build();
 app.MapHealthChecks("/health");
 // REGISTER MIDDLEWARE HERE
 
-app.UseHangfireDashboard("/hangfire", new DashboardOptions
-{
-    Authorization = new[] { new BasicDashboardAuthorizationFilter() }
-});
+
 
 
 if (app.Environment.IsDevelopment())
@@ -209,6 +206,11 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseHangfireDashboard("/hangfire", new DashboardOptions
+{
+    Authorization = new[] { new BasicDashboardAuthorizationFilter() }
+});
 
 app.UseEndpoints(endpoints =>
 {
