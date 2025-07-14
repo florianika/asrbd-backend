@@ -12,16 +12,15 @@ namespace Infrastructure.BackgroundJobs.Hangfire
         public bool Authorize(DashboardContext context)
         {
             //var httpContext = context.GetHttpContext();
-
-            //// Ensure user is authenticated
-            //if (!httpContext.User.Identity?.IsAuthenticated ?? false)
+            //if (!httpContext.User.Identity.IsAuthenticated)
             //    return false;
 
-            //if(!httpContext.User.IsInRole("ADMIN"))
-            //{
-            //    // Allow access for Admin users
-            //    return false;
-            //}            
+            //var user = httpContext.User;
+
+            //return user.Claims.Any(c =>
+            //    (c.Type == "role" || c.Type.EndsWith("/role"))
+            //    && c.Value == "ADMIN");
+
             return true;
         }
     }

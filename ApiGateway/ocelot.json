@@ -44,6 +44,41 @@
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
+    },
+    {
+      "DownstreamPathTemplate": "/hangfire/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-qms",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/hangfire/{everything}",
+      "Priority": 1,
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AllowAnonymous": true
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/hangfire",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-qms",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/hangfire",
+      "Priority": 1,
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AllowAnonymous": true
+      }
     }
-  ]
+  ],
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId"
+  }
 }
