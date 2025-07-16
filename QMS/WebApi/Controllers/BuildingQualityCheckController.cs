@@ -7,6 +7,9 @@ using Application.Quality.BuildingQualityCheck;
 using Application.Quality.AutomaticRules.Response;
 using Application.Quality.AutomaticRules.Request;
 using Application.Quality.AutomaticRules;
+using Application.Quality.AllBuildingsQualityCheck;
+using Application.Quality.AllBuildingsQualityCheck.Response;
+using Application.Quality.AllBuildingsQualityCheck.Request;
 
 namespace WebApi.Controllers
 {
@@ -18,11 +21,14 @@ namespace WebApi.Controllers
         private readonly IAuthTokenService _authTokenService;
         private readonly BuildingQualityCheck _buildingQualityCheckService;
         private readonly AutomaticRules _automaticRulesService;
+        private readonly AllBuildingsQualityCheck _allBuildingsQualityCheckService;
 
-        public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService, AutomaticRules automaticRules) {
+        public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService, AutomaticRules automaticRules, 
+                AllBuildingsQualityCheck allBuildingsQualityCheckService) {
             _authTokenService = authTokenService;
             _buildingQualityCheckService = buildingQualityCheckService;
             _automaticRulesService = automaticRules;
+            _allBuildingsQualityCheckService = allBuildingsQualityCheckService;
         }
         
         [HttpPost("buildings")]
@@ -41,5 +47,13 @@ namespace WebApi.Controllers
             return await _automaticRulesService.Execute(request);
         }
 
+        [HttpPost("all-buildings")]
+        public async Task<AllBuildingsQualityCheckResponse> AllBuildingsQualityCheck(AllBuildingsQualityCheckRequest request)
+        {
+            var token = ExtractBearerToken();
+            var executionUser = await _authTokenService.GetUserIdFromToken(token);
+            request.ExecutionUser = executionUser;
+            return await _allBuildingsQualityCheckService.Execute(request);
+        }
     }
 }

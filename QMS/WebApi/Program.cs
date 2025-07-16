@@ -62,6 +62,7 @@ using Application.FieldWork.GetJobStatus;
 using Application.FieldWork.GetJobResults;
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
 using Application.Rule.GetRulesByEntityAndStatus;
+using Application.Quality.AllBuildingsQualityCheck;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -115,6 +116,7 @@ builder.Services.AddScoped<IResolveProcessOutputLog, ResolveProcessOutputLog>();
 builder.Services.AddScoped<IPendProcessOutputLog, PendProcessOutputLog>();
 builder.Services.AddScoped<RulesExecutor>();
 builder.Services.AddScoped<BuildingQualityCheck>();
+builder.Services.AddScoped<AllBuildingsQualityCheck>();
 builder.Services.AddScoped<AutomaticRules>();
 builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
 builder.Services.AddScoped<CreateFieldWork>();
