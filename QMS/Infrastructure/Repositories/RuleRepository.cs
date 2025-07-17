@@ -137,7 +137,7 @@ namespace Infrastructure.Repositories
             try
             {
                 var bldIds = "";
-                if (buildingIds.Count > 0)
+                if (buildingIds != null && buildingIds.Count > 0)
                 {
                     bldIds = buildingIds.Aggregate(bldIds, (current, guid) => current + ("'" + guid.ToString() + "',"));
                     bldIds = bldIds.Remove(bldIds.Length - 1, 1);
@@ -150,7 +150,7 @@ namespace Infrastructure.Repositories
 
                 using var scope = _serviceScopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
-
+                dbContext.Database.SetCommandTimeout(5000);
                 await dbContext.Database.ExecuteSqlRawAsync(
                     @"exec ExecuteAutomaticRulesStoredProcedure @buildingIds, @CreatedUser", parameters.ToArray());
 

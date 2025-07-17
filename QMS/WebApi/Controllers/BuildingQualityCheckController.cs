@@ -10,6 +10,9 @@ using Application.Quality.AutomaticRules;
 using Application.Quality.AllBuildingsQualityCheck;
 using Application.Quality.AllBuildingsQualityCheck.Response;
 using Application.Quality.AllBuildingsQualityCheck.Request;
+using Application.Quality.AllBuildingsAutomaticRules.Request;
+using Application.Quality.AllBuildingsAutomaticRules.Response;
+using Application.Quality.AllBuildingsAutomaticRules;
 
 namespace WebApi.Controllers
 {
@@ -22,13 +25,15 @@ namespace WebApi.Controllers
         private readonly BuildingQualityCheck _buildingQualityCheckService;
         private readonly AutomaticRules _automaticRulesService;
         private readonly AllBuildingsQualityCheck _allBuildingsQualityCheckService;
+        private readonly AllBuildingsAutomaticRules _allBuildingsAutomaticRulesService;
 
         public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService, AutomaticRules automaticRules, 
-                AllBuildingsQualityCheck allBuildingsQualityCheckService) {
+                AllBuildingsQualityCheck allBuildingsQualityCheckService, AllBuildingsAutomaticRules allBuildingsAutomaticRulesService) {
             _authTokenService = authTokenService;
             _buildingQualityCheckService = buildingQualityCheckService;
             _automaticRulesService = automaticRules;
             _allBuildingsQualityCheckService = allBuildingsQualityCheckService;
+            _allBuildingsAutomaticRulesService = allBuildingsAutomaticRulesService;
         }
         
         [HttpPost("buildings")]
@@ -54,6 +59,15 @@ namespace WebApi.Controllers
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
             return await _allBuildingsQualityCheckService.Execute(request);
+        }
+
+        [HttpPost("all-automatic")]
+        public async Task<AllBuildingsAutomaticRulesResponse> AllBuildingsAutomaticRules(AllBuildingsAutomaticRulesRequest request)
+        {
+            var token = ExtractBearerToken();
+            var executionUser = await _authTokenService.GetUserIdFromToken(token);
+            request.ExecutionUser = executionUser;
+            return await _allBuildingsAutomaticRulesService.Execute(request);
         }
     }
 }
