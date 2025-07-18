@@ -66,6 +66,7 @@ using Application.Quality.AllBuildingsQualityCheck;
 using Application.Quality.AllBuildingsAutomaticRules;
 using Infrastructure.Realtime;
 using WebApi.Hubs;
+using Application.FieldWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -153,6 +154,8 @@ builder.Services.AddScoped<IGetJobStatus, GetJobStatus>();
 builder.Services.AddScoped<IGetJobResults, GetJobResults>();
 builder.Services.AddScoped<IJobDispatcher, JobDispatcher>();
 
+builder.Services.AddScoped<UpdateFieldworkStatus>();
+
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRequestValidator>();
@@ -160,6 +163,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<RemoveFieldWorkRuleRequestV
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<AddFieldWorkRuleRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRuleRequestValidator> ();
+
+
 
 
 

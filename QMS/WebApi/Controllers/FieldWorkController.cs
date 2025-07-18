@@ -1,4 +1,5 @@
-﻿using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
+﻿using Application.FieldWork;
+using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Request;
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Response;
 using Application.FieldWork.CreateFieldWork;
@@ -46,6 +47,7 @@ using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
+using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +78,7 @@ namespace WebApi.Controllers
         private readonly IGetJobResults _getJobResultsService;
         private readonly IUpdateBldReviewStatus _updateBldReviewStatus;
         private readonly ISendFieldWorkEmail _sendFieldWorkEmail;
+        private readonly UpdateFieldworkStatus _updateFieldworkStatusService;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -93,7 +96,8 @@ namespace WebApi.Controllers
             IUpdateBldReviewStatus updateBldReviewStatus,
             ISendFieldWorkEmail sendFieldWorkEmail,
             IAuthTokenService authTokenService,
-            IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService)
+            IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService,
+            UpdateFieldworkStatus updateFieldworkStatusService)
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -113,6 +117,7 @@ namespace WebApi.Controllers
             _sendFieldWorkEmail = sendFieldWorkEmail;
             _authTokenService = authTokenService;
             _associateEmailTemplateWithFieldWorkService = associateEmailTemplateWithFieldWorkService;
+            _updateFieldworkStatusService = updateFieldworkStatusService;
         }
 
         [HttpGet]
@@ -249,6 +254,21 @@ namespace WebApi.Controllers
             };
 
             return await _updateBldReviewStatus.Execute(request);
+        }
+        [HttpPatch("{id:int}/change-status")]
+        public async Task<IActionResult> UpdateFieldWorkStatus(int id, [FromBody] UpdateFieldworkStatusRequest request)
+        {
+            try
+            {
+                var updated = await _updateFieldworkStatusService.ExecuteAsync(id, request.Status);
+                if (updated)
+                    return NoContent(); // 204 Success with no content
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
     }
 }
