@@ -208,9 +208,10 @@ var app = builder.Build();
 app.MapHealthChecks("/health");
 // REGISTER MIDDLEWARE HERE
 
+app.UseRouting();
 app.UseCors();
 
-app.MapHub<FieldworkHub>("qms/fieldwork/is-active");
+app.MapHub<FieldworkHub>("/qms/fieldwork/is-active");
 
 if (app.Environment.IsDevelopment())
 {
@@ -220,7 +221,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "QMS.API v1"));
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseRouting();
+
 
 app.UseAuthentication();
 app.UseAuthorization();
