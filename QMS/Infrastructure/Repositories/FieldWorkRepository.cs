@@ -58,6 +58,13 @@ namespace Infrastructure.Repositories
                 ?? throw new NotFoundException("FieldWork not found");
         }
 
+        public async Task<FieldWork> GetCurrentOpenFieldwork()
+        {
+            return await _context.FieldWorks
+            .Where(f => f.FieldWorkStatus == Domain.Enum.FieldWorkStatus.OPEN)
+            .OrderByDescending(f => f.StartDate)
+            .FirstOrDefaultAsync();
+        }
         public async Task<bool> HasActiveFieldWork()
         {
             // Check if there are records that do not have status CLOSED, → if yes, return FALSE

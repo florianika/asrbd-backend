@@ -21,5 +21,6 @@ namespace Application.Ports
         Task ExecuteStatisticsSP(int jobId);
         Task<Domain.Jobs> GetJob(int id);
         Task<List<Domain.Statistics>> GetStatistics(int id);
+        Task<Domain.FieldWork> GetCurrentOpenFieldwork();
     }
 }

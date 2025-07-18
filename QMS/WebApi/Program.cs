@@ -64,6 +64,8 @@ using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
 using Application.Rule.GetRulesByEntityAndStatus;
 using Application.Quality.AllBuildingsQualityCheck;
 using Application.Quality.AllBuildingsAutomaticRules;
+using Infrastructure.Realtime;
+using WebApi.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +87,8 @@ builder.Services.AddHangfireServer();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+builder.Services.AddSignalR();
+builder.Services.AddScoped<IFieldworkStatusNotifier, SignalRFieldworkStatusNotifier>();
 
 
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
@@ -188,15 +192,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
     });
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials() // e nevojshme për SignalR
+              .SetIsOriginAllowed(_ => true); // ose vendos origjinën specifike
+    });
+});
 
 builder.Services.AddHealthChecks();
 var app = builder.Build();
 app.MapHealthChecks("/health");
 // REGISTER MIDDLEWARE HERE
 
+app.UseCors();
 
-
+app.MapHub<FieldworkHub>("qms/fieldwork/is-active");
 
 if (app.Environment.IsDevelopment())
 {
