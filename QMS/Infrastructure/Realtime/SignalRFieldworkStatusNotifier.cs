@@ -16,7 +16,7 @@ namespace Infrastructure.Realtime
             {
                 isFieldworkTime = true,
                 startTime = DateTime.UtcNow,
-                fieldworkId = 123
+                fieldworkId = fieldworkId
             });
 
         }
