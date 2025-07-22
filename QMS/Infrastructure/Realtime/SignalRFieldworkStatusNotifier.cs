@@ -1,12 +1,13 @@
 ﻿using Application.Ports;
+using Infrastructure.Realtime.Hubs;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Infrastructure.Realtime
 {
     public class SignalRFieldworkStatusNotifier : IFieldworkStatusNotifier
     {
-        private readonly IHubContext<Hub> _hubContext;
-        public SignalRFieldworkStatusNotifier(IHubContext<Hub> hubContext)
+        private readonly IHubContext<FieldworkHub> _hubContext;
+        public SignalRFieldworkStatusNotifier(IHubContext<FieldworkHub> hubContext)
         {
             _hubContext = hubContext;
         }

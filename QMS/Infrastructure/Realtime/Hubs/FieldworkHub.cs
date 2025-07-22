@@ -1,19 +1,18 @@
-﻿using Application.Ports;
-using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authorization;
+﻿
+using Application.Ports;
 using Microsoft.AspNetCore.SignalR;
 
-namespace WebApi.Hubs
+namespace Infrastructure.Realtime.Hubs
 {
-    //[Authorize]
     public class FieldworkHub : Hub
     {
-
         private readonly IFieldWorkRepository _fieldWorkRepository;
-        public FieldworkHub(IFieldWorkRepository fieldWorkRepositoryy)
+
+        public FieldworkHub(IFieldWorkRepository fieldWorkRepository)
         {
-            _fieldWorkRepository = fieldWorkRepositoryy;
+            _fieldWorkRepository = fieldWorkRepository;
         }
+
         public override async Task OnConnectedAsync()
         {
             var fieldwork = await _fieldWorkRepository.GetCurrentOpenFieldwork();
@@ -33,7 +32,7 @@ namespace WebApi.Hubs
                 {
                     isFieldworkTime = false,
                     startTime = (DateTime?)null,
-                    fieldworkId = (Guid?)null
+                    fieldworkId = (int?)null
                 });
             }
 

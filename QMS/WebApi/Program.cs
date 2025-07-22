@@ -65,8 +65,8 @@ using Application.Rule.GetRulesByEntityAndStatus;
 using Application.Quality.AllBuildingsQualityCheck;
 using Application.Quality.AllBuildingsAutomaticRules;
 using Infrastructure.Realtime;
-using WebApi.Hubs;
 using Application.FieldWork;
+using Infrastructure.Realtime.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -153,6 +153,7 @@ builder.Services.AddScoped<OpenFieldWork>();
 builder.Services.AddScoped<IGetJobStatus, GetJobStatus>();
 builder.Services.AddScoped<IGetJobResults, GetJobResults>();
 builder.Services.AddScoped<IJobDispatcher, JobDispatcher>();
+builder.Services.AddScoped<IFieldworkStatusNotifier, SignalRFieldworkStatusNotifier>();
 
 builder.Services.AddScoped<UpdateFieldworkStatus>();
 
@@ -216,7 +217,9 @@ app.MapHealthChecks("/health");
 app.UseRouting();
 app.UseCors();
 
-app.MapHub<FieldworkHub>("/qms/fieldwork/is-active");
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapHub<FieldworkHub>("/fieldwork/is-active");
 
 if (app.Environment.IsDevelopment())
 {
@@ -228,8 +231,6 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "QMS.API v1"
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {

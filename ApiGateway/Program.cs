@@ -5,27 +5,29 @@ using Microsoft.OpenApi.Models;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using System.Text;
+using Ocelot.Provider.Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+
 builder.Services.AddCors(options =>
-        {
-            options.AddPolicy(name: "CorsPolicy",
-                policy => policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
-        });
+{
+    options.AddPolicy(name: "CorsPolicy",
+        policy => policy.SetIsOriginAllowed(origin => true)
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()); // E rëndësishme për SignalR
+});
 
-//builder.Services.AddScoped<IAuthTokenService, JwtService>();
-
+// JWT Configuration
 var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
     {
         if (jwtSettings != null)
             options.TokenValidationParameters = new TokenValidationParameters
@@ -38,26 +40,26 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             };
     });
 
-builder.Services.AddOcelot(builder.Configuration);
+// Ocelot Configuration
+builder.Services.AddOcelot(builder.Configuration)
+    .AddPolly(); // Shto këtë për QoS support
+
+// Logging
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swagger Configuration
 builder.Services.AddEndpointsApiExplorer();
-// Add services to the container.
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ocelot API Gateway", Version = "v1" });
 });
 
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Services.AddHealthChecks();
+
 var app = builder.Build();
+
 app.MapHealthChecks("/health");
 
 // Configure the HTTP request pipeline.
@@ -74,14 +76,22 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/api/auth/swagger/v1/swagger.json", "Authentication");
     c.SwaggerEndpoint("/api/qms/swagger/v1/swagger.json", "QMS API");
 });
+
+// IMPORTANT: Order matters for middleware!
 app.UseCors("CorsPolicy");
-app.UseWebSockets();
-app.UseOcelot().Wait();
+
+// Enable WebSockets BEFORE Ocelot
+app.UseWebSockets(new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(2)
+});
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Ocelot should be one of the last middleware
+await app.UseOcelot();
 
 app.MapControllers();
 

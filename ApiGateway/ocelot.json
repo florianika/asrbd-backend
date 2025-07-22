@@ -39,10 +39,27 @@
         }
       ],
       "UpstreamPathTemplate": "/qms/{everything}",
-      "Priority": 1,
+      "Priority": 2,
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/qms/fieldwork/is-active",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-qms",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/qms/fieldwork/is-active",
+      "Priority": 0,
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        //"AuthenticationProviderKey": "Bearer"
+        "AllowAnonymous": true
       }
     },
     {
