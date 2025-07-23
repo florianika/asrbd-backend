@@ -1,9 +1,11 @@
 ﻿
 using Application.Ports;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Infrastructure.Realtime.Hubs
 {
+    [Authorize]
     public class FieldworkHub : Hub
     {
         private readonly IFieldWorkRepository _fieldWorkRepository;

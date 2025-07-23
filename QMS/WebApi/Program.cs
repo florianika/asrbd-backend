@@ -219,7 +219,7 @@ app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapHub<FieldworkHub>("/api/qms/fieldwork/is-active");
+app.MapHub<FieldworkHub>("/api/qms/fieldwork/is-active").RequireAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
