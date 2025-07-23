@@ -204,8 +204,8 @@ builder.Services.AddCors(options =>
     {
         policy.AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials() // e nevojshme për SignalR
-              .SetIsOriginAllowed(_ => true); // ose vendos origjinën specifike
+              .AllowCredentials() // e nevojshme pï¿½r SignalR
+              .SetIsOriginAllowed(_ => true); // ose vendos origjinï¿½n specifike
     });
 });
 
@@ -219,7 +219,7 @@ app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapHub<FieldworkHub>("/fieldwork/is-active");
+app.MapHub<FieldworkHub>("/api/qms/fieldwork/is-active");
 
 if (app.Environment.IsDevelopment())
 {

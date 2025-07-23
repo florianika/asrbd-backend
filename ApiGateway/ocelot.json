@@ -39,14 +39,14 @@
         }
       ],
       "UpstreamPathTemplate": "/qms/{everything}",
-      "Priority": 2,
+      "Priority": 0,
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
       }
     },
     {
-      "DownstreamPathTemplate": "/qms/fieldwork/is-active",
+      "DownstreamPathTemplate": "/api/qms/fieldwork/is-active/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -54,12 +54,11 @@
           "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/qms/fieldwork/is-active",
-      "Priority": 0,
+      "UpstreamPathTemplate": "/qms/fieldwork/is-active/{everything}",
+      "Priority": 1,
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
-        //"AuthenticationProviderKey": "Bearer"
-        "AllowAnonymous": true
+        "AuthenticationProviderKey": "Bearer"
       }
     },
     {
