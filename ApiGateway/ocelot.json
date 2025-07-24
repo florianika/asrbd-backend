@@ -62,7 +62,7 @@
       }
     },
     {
-      "DownstreamPathTemplate": "/api/qms/fieldwork/is-active/negotiate",
+      "DownstreamPathTemplate": "/api/qms/fieldwork/is-active/negotiate/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -70,7 +70,7 @@
           "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/qms/fieldwork/is-active/negotiate",
+      "UpstreamPathTemplate": "/qms/fieldwork/is-active/negotiate/{everything}",
       "Priority": 2,
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
