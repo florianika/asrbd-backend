@@ -47,7 +47,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/qms/fieldwork/is-active/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "ws",
       "DownstreamHostAndPorts": [
         {
           "Host": "asrdb-qms",
@@ -56,6 +56,22 @@
       ],
       "UpstreamPathTemplate": "/qms/fieldwork/is-active/{everything}",
       "Priority": 1,
+      "UpstreamHttpMethod": [],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/qms/fieldwork/is-active/negotiate",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "asrdb-qms",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/qms/fieldwork/is-active/negotiate",
+      "Priority": 2,
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
         "AuthenticationProviderKey": "Bearer"
