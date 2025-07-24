@@ -17,28 +17,28 @@ namespace Infrastructure.Realtime.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            var fieldwork = await _fieldWorkRepository.GetCurrentOpenFieldwork();
+            //var fieldwork = await _fieldWorkRepository.GetCurrentOpenFieldwork();
 
-            if (fieldwork != null)
-            {
-                await Clients.Caller.SendAsync("FieldworkStatusChanged", new
-                {
-                    isFieldworkTime = true,
-                    startTime = fieldwork.StartDate,
-                    fieldworkId = fieldwork.FieldWorkId
-                });
-            }
-            else
-            {
-                await Clients.Caller.SendAsync("FieldworkStatusChanged", new
-                {
-                    isFieldworkTime = false,
-                    startTime = (DateTime?)null,
-                    fieldworkId = (int?)null
-                });
-            }
+            //if (fieldwork != null)
+            //{
+            //    await Clients.Caller.SendAsync("FieldworkStatusChanged", new
+            //    {
+            //        isFieldworkTime = true,
+            //        startTime = fieldwork.StartDate,
+            //        fieldworkId = fieldwork.FieldWorkId
+            //    });
+            //}
+            //else
+            //{
+            //    await Clients.Caller.SendAsync("FieldworkStatusChanged", new
+            //    {
+            //        isFieldworkTime = false,
+            //        startTime = (DateTime?)null,
+            //        fieldworkId = (int?)null
+            //    });
+            //}
 
-            await base.OnConnectedAsync();
+            //await base.OnConnectedAsync();
         }
     }
 }
