@@ -217,6 +217,11 @@ app.MapHealthChecks("/health");
 app.UseRouting();
 app.UseCors();
 
+app.UseWebSockets(new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromMinutes(2)
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<FieldworkHub>("/api/qms/fieldwork/is-active").RequireAuthorization();
