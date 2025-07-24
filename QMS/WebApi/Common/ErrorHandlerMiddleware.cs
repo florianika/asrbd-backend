@@ -20,21 +20,29 @@ namespace WebApi.Common
             }
             catch (Exception error)
             {
+                if (context.Response.HasStarted)
+                {
+                    // Nuk mund të ndryshosh headers pasi përgjigjja ka nisur
+                    Console.WriteLine("[ErrorHandler] Response has already started. Cannot write error.");
+                    Console.WriteLine(error); // Ose log në ndonjë logger
+                    return;
+                }
+
                 var response = context.Response;
                 response.ContentType = "application/json";
 
                 response.StatusCode = error switch
                 {
-                    AppException e => (int)HttpStatusCode.InternalServerError,// custom application error
-                    InvalidTokenException e => (int)HttpStatusCode.Unauthorized,
-                    //UpdateUserException e => (int)HttpStatusCode.BadRequest,
-                    //NotFoundException e => (int)HttpStatusCode.NotFound,// not found error
-                    EnumExeption e => (int)(HttpStatusCode)HttpStatusCode.BadRequest,
-                    ForbidenException e => (int)HttpStatusCode.Forbidden,
-                    _ => (int)HttpStatusCode.InternalServerError,// unhandled error
+                    AppException => (int)HttpStatusCode.InternalServerError,
+                    InvalidTokenException => (int)HttpStatusCode.Unauthorized,
+                    EnumExeption => (int)HttpStatusCode.BadRequest,
+                    ForbidenException => (int)HttpStatusCode.Forbidden,
+                    _ => (int)HttpStatusCode.InternalServerError,
                 };
+
                 var result = JsonSerializer.Serialize(new { message = error?.Message });
                 await response.WriteAsync(result);
+
 
             }
         }

@@ -1,18 +1,12 @@
 ﻿
 using Application.Exceptions;
-using Application.FieldWork.SendFieldWorkEmail.Response;
 using Application.FieldWork.UpdateBldReviewStatus.Request;
 using Application.FieldWork.UpdateBldReviewStatus.Response;
 using Application.Ports;
-using Domain.Enum;
-using Hangfire;
+using Domain;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Net.Mail;
-using System.Net;
-using System.Security.Cryptography;
-using Domain;
 
 namespace Application.FieldWork.UpdateBldReviewStatus
 {
@@ -23,25 +17,29 @@ namespace Application.FieldWork.UpdateBldReviewStatus
         private readonly IConfiguration _configuration;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly IJobDispatcher _jobDispatcher;
-        private readonly IFieldworkStatusNotifier _notifier;
+        private readonly IWebSocketBroadcaster _webSocketBroadcaster;
 
         public UpdateBldReviewStatus(ILogger<UpdateBldReviewStatus> logger, IFieldWorkRepository fieldWorkRepository, IServiceScopeFactory serviceScopeFactory, 
-            IConfiguration configuration, IJobDispatcher jobDispatcher, IFieldworkStatusNotifier notifier)
+            IConfiguration configuration, IJobDispatcher jobDispatcher, IWebSocketBroadcaster webSocketBroadcaster)
         {
             _logger = logger;
             _fieldWorkRepository = fieldWorkRepository;
             _serviceScopeFactory = serviceScopeFactory;
             _configuration = configuration;
             _jobDispatcher = jobDispatcher;
-            _notifier = notifier;
+            _webSocketBroadcaster = webSocketBroadcaster;
         }
         public async Task<UpdateBldReviewStatusResponse> Execute(UpdateBldReviewStatusRequest request)
         {
             try
             {
                 var fieldwork = await _fieldWorkRepository.GetFieldWork(request.Id);
-                await _notifier.NotifyFieldworkStatusChanged(true, fieldwork.StartDate, fieldwork.FieldWorkId);
-
+                //broadcast open status
+                await _webSocketBroadcaster.BroadcastStatusAsync(
+                    true,
+                    fieldwork.StartDate,
+                    fieldwork.FieldWorkId
+                );
                 _jobDispatcher.ScheduleBldReviewAndEmail(request.Id, request.UpdatedUser);
                 return new UpdateBldReviewStatusSuccessResponse
                 {
@@ -50,6 +48,8 @@ namespace Application.FieldWork.UpdateBldReviewStatus
             }
             catch (AppException appEx)
             {
+                //broadcast status that there is no active fieldwork
+                await _webSocketBroadcaster.BroadcastStatusAsync(false,null,null);
                 _logger.LogError(appEx,"An error occurred");
                 throw new AppException(appEx.Message);
             }

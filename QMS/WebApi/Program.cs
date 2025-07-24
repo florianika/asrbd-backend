@@ -64,9 +64,7 @@ using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
 using Application.Rule.GetRulesByEntityAndStatus;
 using Application.Quality.AllBuildingsQualityCheck;
 using Application.Quality.AllBuildingsAutomaticRules;
-using Infrastructure.Realtime;
 using Application.FieldWork;
-using Infrastructure.Realtime.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +76,17 @@ builder.Services.AddDbContext<DataContext>(options =>
 var jwtSettingsConfiguration = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
+var jwtSecret = jwtSettings?.AccessTokenSettings?.SecretKey ?? throw new Exception("JWT secret key missing");
+
+var tokenValidationParameters = new TokenValidationParameters
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = true,
+    ClockSkew = TimeSpan.Zero
+};
 
 builder.Services.AddHangfire(x =>
     x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnectionString")));
@@ -88,21 +97,27 @@ builder.Services.AddHangfireServer();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-builder.Services.AddSignalR();
-builder.Services.AddScoped<IFieldworkStatusNotifier, SignalRFieldworkStatusNotifier>();
+//duhet singletone sepse e perdorim ne WebSocketManager 1 instance per gjithe aplikacionin
+builder.Services.AddSingleton<IWebSocketBroadcaster, Infrastructure.Services.WebSocketManager>();
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
 builder.Services.AddScoped<ISendFieldWorkEmail, SendFieldWorkEmailService>();
-
 builder.Services.AddScoped<IRuleRepository, RuleRepository>();
 builder.Services.AddScoped<IProcessOutputLogRepository, ProcessOutputLogRepository>();
 builder.Services.AddScoped<IFieldWorkRepository, FieldWorkRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IFieldWorkRuleRepository, FieldWorkRuleRepository>();
-
-
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
 builder.Services.AddScoped<GetActiveRules>();
@@ -153,10 +168,7 @@ builder.Services.AddScoped<OpenFieldWork>();
 builder.Services.AddScoped<IGetJobStatus, GetJobStatus>();
 builder.Services.AddScoped<IGetJobResults, GetJobResults>();
 builder.Services.AddScoped<IJobDispatcher, JobDispatcher>();
-builder.Services.AddScoped<IFieldworkStatusNotifier, SignalRFieldworkStatusNotifier>();
-
 builder.Services.AddScoped<UpdateFieldworkStatus>();
-
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRequestValidator>();
@@ -164,10 +176,6 @@ builder.Services.AddValidatorsFromAssemblyContaining<RemoveFieldWorkRuleRequestV
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<AddFieldWorkRuleRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<GetFieldWorkRuleRequestValidator> ();
-
-
-
-
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -181,33 +189,13 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddControllers();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        if (jwtSettings?.AccessTokenSettings.SecretKey != null)
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                    .GetBytes(jwtSettings.AccessTokenSettings.SecretKey)),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
+        options.TokenValidationParameters = tokenValidationParameters;
     });
-
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials() // e nevojshme p�r SignalR
-              .SetIsOriginAllowed(_ => true); // ose vendos origjin�n specifike
-    });
-});
 
 builder.Services.AddHealthChecks();
 var app = builder.Build();
@@ -215,16 +203,42 @@ app.MapHealthChecks("/health");
 // REGISTER MIDDLEWARE HERE
 
 app.UseRouting();
-app.UseCors();
 
-app.UseWebSockets(new WebSocketOptions
+app.UseCors("AllowAll");
+
+app.UseWebSockets();
+
+app.Use(async (context, next) =>
 {
-    KeepAliveInterval = TimeSpan.FromMinutes(2)
+    if (context.Request.Path.StartsWithSegments("/api/qms/fieldwork/is-active") &&
+        context.WebSockets.IsWebSocketRequest &&
+        context.Request.Headers.TryGetValue("Authorization", out var authHeader))
+    {
+        var token = authHeader.ToString().Replace("Bearer ", "");
+
+        var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+
+        var validationParameters = tokenValidationParameters;
+        try
+        {
+            var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+            context.User = principal;
+        }
+        catch
+        {
+            context.Response.StatusCode = 401;
+            return;
+        }
+    }
+
+    await next();
 });
+
+
+
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapHub<FieldworkHub>("/api/qms/fieldwork/is-active").RequireAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
@@ -245,6 +259,20 @@ app.UseHangfireDashboard("/hangfire", new DashboardOptions
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+
+    endpoints.Map("/api/qms/fieldwork/is-active", async context =>
+    {
+        if (context.WebSockets.IsWebSocketRequest)
+        {
+            var socket = await context.WebSockets.AcceptWebSocketAsync();
+            var wsManager = context.RequestServices.GetRequiredService<IWebSocketBroadcaster>();
+            await wsManager.HandleConnection(context, socket);
+        }
+        else
+        {
+            context.Response.StatusCode = 400;
+        }
+    });
 });
 
 app.Run();
