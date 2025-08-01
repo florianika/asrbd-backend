@@ -65,6 +65,7 @@ using Application.Rule.GetRulesByEntityAndStatus;
 using Application.Quality.AllBuildingsQualityCheck;
 using Application.Quality.AllBuildingsAutomaticRules;
 using Application.FieldWork;
+using Application.FieldWork.TestUntestedBld;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -162,6 +163,7 @@ builder.Services.AddScoped<IGetFieldWorkRule, GetFieldWorkRule>();
 builder.Services.AddScoped<IGetRuleByFieldWork, GetRuleByFieldWork>();
 builder.Services.AddScoped<IGetRuleByFieldWorkAndEntity, GetRuleByFieldWorkAndEntity>();
 builder.Services.AddScoped<IExecuteJob, ExecuteJob>();
+builder.Services.AddScoped<ITestUntestedBld, TestUntestedBld>();
 builder.Services.AddScoped<IJobExecutor, JobExecutor>();
 builder.Services.AddScoped<IUpdateBldReviewStatus, UpdateBldReviewStatus>();
 builder.Services.AddScoped<OpenFieldWork>();

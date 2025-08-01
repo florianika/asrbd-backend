@@ -35,6 +35,27 @@ namespace Infrastructure.Services
                 await _repository.UpdateJob(job);
             }
         }
+
+        public async Task ExecuteTestUntestedBldJobAsync(int jobId)
+        {
+            try
+            {
+                await _repository.ExecuteTestUntestedBldSP(jobId);
+
+                var job = await _repository.GetJobById(jobId);
+                job.Status = Domain.Enum.JobStatus.COMPLETED;
+                job.CompletedTimestamp = DateTime.Now;
+                await _repository.UpdateJob(job);
+            }
+            catch (AppException ex)
+            {
+                _logger.LogError(ex, "Job {JobId} failed", jobId);
+                var job = await _repository.GetJobById(jobId);
+                job.Status = Domain.Enum.JobStatus.FAILED;
+                job.CompletedTimestamp = DateTime.Now;
+                await _repository.UpdateJob(job);
+            }
+        }
     }
 
 }

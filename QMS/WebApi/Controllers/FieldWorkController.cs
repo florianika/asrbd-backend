@@ -25,6 +25,9 @@ using Application.FieldWork.OpenFieldWork;
 using Application.FieldWork.SendFieldWorkEmail;
 using Application.FieldWork.SendFieldWorkEmail.Request;
 using Application.FieldWork.SendFieldWorkEmail.Response;
+using Application.FieldWork.TestUntestedBld;
+using Application.FieldWork.TestUntestedBld.Request;
+using Application.FieldWork.TestUntestedBld.Response;
 using Application.FieldWork.UpdateBldReviewStatus;
 using Application.FieldWork.UpdateBldReviewStatus.Request;
 using Application.FieldWork.UpdateBldReviewStatus.Response;
@@ -51,6 +54,7 @@ using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 using WebApi.DTOs;
 
 namespace WebApi.Controllers
@@ -79,6 +83,7 @@ namespace WebApi.Controllers
         private readonly IUpdateBldReviewStatus _updateBldReviewStatus;
         private readonly ISendFieldWorkEmail _sendFieldWorkEmail;
         private readonly UpdateFieldworkStatus _updateFieldworkStatusService;
+        private readonly ITestUntestedBld _testUntestedBldService;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -97,7 +102,8 @@ namespace WebApi.Controllers
             ISendFieldWorkEmail sendFieldWorkEmail,
             IAuthTokenService authTokenService,
             IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService,
-            UpdateFieldworkStatus updateFieldworkStatusService)
+            UpdateFieldworkStatus updateFieldworkStatusService,
+            ITestUntestedBld testUntestedBldService)
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -118,6 +124,7 @@ namespace WebApi.Controllers
             _authTokenService = authTokenService;
             _associateEmailTemplateWithFieldWorkService = associateEmailTemplateWithFieldWorkService;
             _updateFieldworkStatusService = updateFieldworkStatusService;
+            _testUntestedBldService = testUntestedBldService;
         }
 
         [HttpGet]
@@ -255,6 +262,8 @@ namespace WebApi.Controllers
 
             return await _updateBldReviewStatus.Execute(request);
         }
+
+        //servis i perkohshem
         [HttpPatch("{id:int}/change-status")]
         public async Task<IActionResult> UpdateFieldWorkStatus(int id, [FromBody] UpdateFieldworkStatusRequest request)
         {
@@ -269,6 +278,16 @@ namespace WebApi.Controllers
             {
                 return BadRequest(new { error = ex.Message });
             }
+        }
+
+        [HttpPost]
+        [Route("{id:int}/run-test-job")]
+        public async Task<TestUntestedBldResponse> TestUntestedBld(int id, [FromBody] TestUntestedBldRequest request)
+        {
+            var token = ExtractBearerToken();
+            request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
+            request.Id = id;
+            return await _testUntestedBldService.Execute(request);
         }
     }
 }

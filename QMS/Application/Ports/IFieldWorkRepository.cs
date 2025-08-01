@@ -22,5 +22,6 @@ namespace Application.Ports
         Task<Domain.Jobs> GetJob(int id);
         Task<List<Domain.Statistics>> GetStatistics(int id);
         Task<Domain.FieldWork> GetCurrentOpenFieldwork();
+        Task ExecuteTestUntestedBldSP(int jobId);
     }
 }

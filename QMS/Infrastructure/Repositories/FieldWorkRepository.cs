@@ -182,5 +182,39 @@ namespace Infrastructure.Repositories
         {
             return await _context.Statistics.Where(s => s.JobId.Equals(id)).OrderBy(s => s.Municipality).ToListAsync();
         }
+
+        public async Task ExecuteTestUntestedBldSP(int jobId)
+        {
+            try
+            {
+                var parameters = new List<SqlParameter>
+                {
+                    new ("@JobId", jobId)
+                };
+
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                dbContext.Database.SetCommandTimeout(5000);
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec TestUntestedBld  @JobId", parameters.ToArray());
+            }
+            catch (SqlException sqlEx)
+            {
+                var sqlError = sqlEx.Errors.Cast<SqlError>().FirstOrDefault();
+                var procedure = sqlError?.Procedure ?? "unknown procedure";
+                var line = sqlError?.LineNumber.ToString() ?? "unknown line";
+                var errorNumber = sqlError?.Number.ToString() ?? "N/A";
+
+                var detailedMessage = $"SQL error (#{errorNumber}) in procedure '{procedure}' at line {line}: {sqlEx.Message}";
+                _logger.LogError(sqlEx, "TestUntestedBld failed: {Error}", detailedMessage);
+
+                throw new AppException(detailedMessage, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error executing TestUntestedBld");
+                throw new AppException("Unexpected error occurred while executing rules.", ex);
+            }
+        }
     }
 }
