@@ -2,6 +2,9 @@
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Request;
 using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Response;
+using Application.FieldWork.CanBeClosed;
+using Application.FieldWork.CanBeClosed.Request;
+using Application.FieldWork.CanBeClosed.Response;
 using Application.FieldWork.CreateFieldWork;
 using Application.FieldWork.CreateFieldWork.Request;
 using Application.FieldWork.CreateFieldWork.Response;
@@ -23,8 +26,6 @@ using Application.FieldWork.GetJobStatus.Request;
 using Application.FieldWork.GetJobStatus.Response;
 using Application.FieldWork.OpenFieldWork;
 using Application.FieldWork.SendFieldWorkEmail;
-using Application.FieldWork.SendFieldWorkEmail.Request;
-using Application.FieldWork.SendFieldWorkEmail.Response;
 using Application.FieldWork.TestUntestedBld;
 using Application.FieldWork.TestUntestedBld.Request;
 using Application.FieldWork.TestUntestedBld.Response;
@@ -84,6 +85,7 @@ namespace WebApi.Controllers
         private readonly ISendFieldWorkEmail _sendFieldWorkEmail;
         private readonly UpdateFieldworkStatus _updateFieldworkStatusService;
         private readonly ITestUntestedBld _testUntestedBldService;
+        private readonly ICanBeClosed _canBeClosedService;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -103,7 +105,8 @@ namespace WebApi.Controllers
             IAuthTokenService authTokenService,
             IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService,
             UpdateFieldworkStatus updateFieldworkStatusService,
-            ITestUntestedBld testUntestedBldService)
+            ITestUntestedBld testUntestedBldService,
+            ICanBeClosed canBeClosedService)
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -125,6 +128,7 @@ namespace WebApi.Controllers
             _associateEmailTemplateWithFieldWorkService = associateEmailTemplateWithFieldWorkService;
             _updateFieldworkStatusService = updateFieldworkStatusService;
             _testUntestedBldService = testUntestedBldService;
+            _canBeClosedService = canBeClosedService;
         }
 
         [HttpGet]
@@ -288,6 +292,13 @@ namespace WebApi.Controllers
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.Id = id;
             return await _testUntestedBldService.Execute(request);
+        }
+
+        [HttpGet]
+        [Route("{id:int}/can-be-closed")]
+        public async Task<CanBeClosedResponse> CanBeClosed(int id)
+        {
+            return await _canBeClosedService.Execute(new CanBeClosedRequest() { Id = id });
         }
     }
 }

@@ -23,5 +23,6 @@ namespace Application.Ports
         Task<List<Domain.Statistics>> GetStatistics(int id);
         Task<Domain.FieldWork> GetCurrentOpenFieldwork();
         Task ExecuteTestUntestedBldSP(int jobId);
+        Task<int> HasBldReviewExecuted();
     }
 }

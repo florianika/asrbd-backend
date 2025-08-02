@@ -216,5 +216,30 @@ namespace Infrastructure.Repositories
                 throw new AppException("Unexpected error occurred while executing rules.", ex);
             }
         }
+
+        public async Task<int> HasBldReviewExecuted()
+        {
+            try
+            {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                dbContext.Database.SetCommandTimeout(5000);
+
+                await using var command = dbContext.Database.GetDbConnection().CreateCommand();
+                command.CommandText = "HasBldReviewExecuted";
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (command.Connection.State != ConnectionState.Open)
+                    await command.Connection.OpenAsync();
+
+                var result = await command.ExecuteScalarAsync();
+                return Convert.ToInt32(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error executing HasBldReviewExecuted");
+                throw new AppException("Unexpected error occurred while executing rules.", ex);
+            }
+        }
     }
 }
