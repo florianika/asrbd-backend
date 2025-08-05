@@ -1,4 +1,5 @@
 ﻿using Application.FieldWork.SendFieldWorkEmail;
+using Application.Queries.GetBuildingSummaryStats;
 using Application.Queries.GetStatisticsFromBuilding;
 using Application.Queries.GetStatisticsFromRules;
 using Domain;
@@ -49,6 +50,7 @@ namespace Infrastructure.Context
             modelBuilder.Entity<RuleStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<BuildingStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<UserDTO>().HasNoKey().ToView(null);
+            modelBuilder.Entity<BuildingSummaryStatsDTO>().HasNoKey();
             modelBuilder.ApplyConfiguration(new StatisticsConfiguration());
             modelBuilder.ApplyConfiguration(new JobsConfigurations());
         }

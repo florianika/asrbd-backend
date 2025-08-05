@@ -51,6 +51,8 @@ using Application.FieldWorkRule.RemoveFieldWorkRule;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Request;
 using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
+using Application.Queries.GetBuildingSummaryStats;
+using Application.Queries.GetBuildingSummaryStats.Response;
 using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
@@ -86,6 +88,7 @@ namespace WebApi.Controllers
         private readonly UpdateFieldworkStatus _updateFieldworkStatusService;
         private readonly ITestUntestedBld _testUntestedBldService;
         private readonly ICanBeClosed _canBeClosedService;
+        private readonly IGetBuildingSummaryStatsQuery _getBuildingSummaryStatsQuery;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -106,7 +109,7 @@ namespace WebApi.Controllers
             IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService,
             UpdateFieldworkStatus updateFieldworkStatusService,
             ITestUntestedBld testUntestedBldService,
-            ICanBeClosed canBeClosedService)
+            ICanBeClosed canBeClosedService, IGetBuildingSummaryStatsQuery getBuildingSummaryStatsQuery)
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -129,6 +132,7 @@ namespace WebApi.Controllers
             _updateFieldworkStatusService = updateFieldworkStatusService;
             _testUntestedBldService = testUntestedBldService;
             _canBeClosedService = canBeClosedService;
+            _getBuildingSummaryStatsQuery = getBuildingSummaryStatsQuery;
         }
 
         [HttpGet]
@@ -299,6 +303,13 @@ namespace WebApi.Controllers
         public async Task<CanBeClosedResponse> CanBeClosed(int id)
         {
             return await _canBeClosedService.Execute(new CanBeClosedRequest() { Id = id });
+        }
+
+        [HttpGet]
+        [Route("stats")]
+        public async Task<GetBuildingSummaryStatsResponse> GetBuildingSummaryStats()
+        {
+            return await _getBuildingSummaryStatsQuery.Execute();
         }
     }
 }
