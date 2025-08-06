@@ -38,7 +38,7 @@ namespace Infrastructure.Services
             var password = Decrypt(encryptedPassword, key, iv);
 
             var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
-            var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.EmailTemplateId);
+            var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.OpenEmailTemplateId);
             var users = await _fieldWorkRepository.GetActiveUsers();
 
             foreach (var user in users)

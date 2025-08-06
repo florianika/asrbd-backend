@@ -11,7 +11,8 @@ namespace Application.FieldWork
         public required string FieldWorkName { get; set; }
         public FieldWorkStatus fieldWorkStatus { get; set; }
         public string? Description { get; set; }
-        public int EmailTemplateId { get; set; }
+        public int OpenEmailTemplateId { get; set; }
+        public int CloseEmailTemplateId { get; set; }
         public Guid CreatedUser { get; set; }
         public DateTime CreatedTimestamp { get; set; }
         public Guid? UpdatedUser { get; set; }

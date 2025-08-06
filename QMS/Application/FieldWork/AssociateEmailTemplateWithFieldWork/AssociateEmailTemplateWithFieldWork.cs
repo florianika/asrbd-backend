@@ -24,7 +24,15 @@ namespace Application.FieldWork.AssociateEmailTemplateWithFieldWork
             var fieldwork = await _fieldWorkRepository.GetFieldWork(request.FieldWorkId);
             var template = await _emailTemplateRepository.GetEmailTemplate(request.EmailTemplateId);
 
-            fieldwork.EmailTemplateId = request.EmailTemplateId;
+            if ((request.isOpen))
+            {
+                 fieldwork.OpenEmailTemplateId = request.EmailTemplateId;
+            }
+            else
+            {
+                fieldwork.CloseEmailTemplateId = request.EmailTemplateId;
+            }
+
             fieldwork.UpdatedUser = request.UpdatedUser;
             fieldwork.UpdatedTimestamp = DateTime.Now;
 

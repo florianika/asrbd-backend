@@ -50,7 +50,7 @@ namespace Infrastructure.Services
                 var port = int.Parse(portValue);
 
                 var fieldwork = await fieldWorkRepository.GetFieldWork(request.FieldWorkId);
-                var template = await emailTemplateRepository.GetEmailTemplate(fieldwork.EmailTemplateId);
+                var template = await emailTemplateRepository.GetEmailTemplate(fieldwork.OpenEmailTemplateId);
                 var users = await fieldWorkRepository.GetActiveUsers();
 
                 foreach (var user in users)

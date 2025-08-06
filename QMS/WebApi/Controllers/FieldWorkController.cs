@@ -168,19 +168,19 @@ namespace WebApi.Controllers
             return await _updateFieldWorkService.Execute(request);
         }
 
-        [HttpPatch("{id:int}/email")]
-        public async Task<AssociateEmailTemplateWithFieldWorkResponse> AssociateEmailTemplateWithFieldWork(int id, [FromBody] AssociateEmailTemplateWithFieldWorkRequestDTO emailtemplate)
-        {
-            var token = ExtractBearerToken();
-            AssociateEmailTemplateWithFieldWorkRequest request = new AssociateEmailTemplateWithFieldWorkRequest
-            {
-                FieldWorkId = id,
-                EmailTemplateId = emailtemplate.EmailTemplateId,
-                UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
+        ////[HttpPatch("{id:int}/email")]
+        ////public async Task<AssociateEmailTemplateWithFieldWorkResponse> AssociateEmailTemplateWithFieldWork(int id, [FromBody] AssociateEmailTemplateWithFieldWorkRequestDTO emailtemplate)
+        ////{
+        ////    var token = ExtractBearerToken();
+        ////    AssociateEmailTemplateWithFieldWorkRequest request = new AssociateEmailTemplateWithFieldWorkRequest
+        ////    {
+        ////        FieldWorkId = id,
+        ////        EmailTemplateId = emailtemplate.EmailTemplateId,
+        ////        UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
 
-            };
-            return await _associateEmailTemplateWithFieldWorkService.Execute(request);
-        }
+        ////    };
+        ////    return await _associateEmailTemplateWithFieldWorkService.Execute(request);
+        ////}
 
         [HttpGet]
         [Route("active")]
@@ -310,6 +310,34 @@ namespace WebApi.Controllers
         public async Task<GetBuildingSummaryStatsResponse> GetBuildingSummaryStats()
         {
             return await _getBuildingSummaryStatsQuery.Execute();
+        }
+
+        [HttpPatch("{id:int}/email/template/open")]
+        public async Task<AssociateEmailTemplateWithFieldWorkResponse> AssociateEmailTemplateOpenWithFieldWork(int id, [FromBody] AssociateEmailTemplateWithFieldWorkRequestDTO emailtemplate)
+        {
+            var token = ExtractBearerToken();
+            AssociateEmailTemplateWithFieldWorkRequest request = new AssociateEmailTemplateWithFieldWorkRequest
+            {
+                FieldWorkId = id,
+                EmailTemplateId = emailtemplate.EmailTemplateId,
+                UpdatedUser = await _authTokenService.GetUserIdFromToken(token),
+                isOpen = true
+            };
+            return await _associateEmailTemplateWithFieldWorkService.Execute(request);
+        }
+
+        [HttpPatch("{id:int}/email/template/close")]
+        public async Task<AssociateEmailTemplateWithFieldWorkResponse> AssociateEmailTemplateCloseWithFieldWork(int id, [FromBody] AssociateEmailTemplateWithFieldWorkRequestDTO emailtemplate)
+        {
+            var token = ExtractBearerToken();
+            AssociateEmailTemplateWithFieldWorkRequest request = new AssociateEmailTemplateWithFieldWorkRequest
+            {
+                FieldWorkId = id,
+                EmailTemplateId = emailtemplate.EmailTemplateId,
+                UpdatedUser = await _authTokenService.GetUserIdFromToken(token),
+                isOpen = false
+            };
+            return await _associateEmailTemplateWithFieldWorkService.Execute(request);
         }
     }
 }

@@ -23,7 +23,8 @@ namespace Application.FieldWork.UpdateFieldWork
             fieldwork.EndDate = request.EndDate;
             fieldwork.FieldWorkName = request.FieldWorkName;
             fieldwork.Description = request.Description;
-            fieldwork.EmailTemplateId = request.EmailTemplateId;
+            fieldwork.OpenEmailTemplateId = request.OpenEmailTemplateId;
+            fieldwork.CloseEmailTemplateId = request.CloseEmailTemplateId;
             fieldwork.UpdatedUser = request.UpdatedUser;
             fieldwork.UpdatedTimestamp = DateTime.Now;
             fieldwork.Remarks = request.Remarks;
