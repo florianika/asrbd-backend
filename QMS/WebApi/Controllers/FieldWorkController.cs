@@ -5,6 +5,9 @@ using Application.FieldWork.AssociateEmailTemplateWithFieldWork.Response;
 using Application.FieldWork.CanBeClosed;
 using Application.FieldWork.CanBeClosed.Request;
 using Application.FieldWork.CanBeClosed.Response;
+using Application.FieldWork.ConfirmFieldworkClosure;
+using Application.FieldWork.ConfirmFieldworkClosure.Request;
+using Application.FieldWork.ConfirmFieldworkClosure.Response;
 using Application.FieldWork.CreateFieldWork;
 using Application.FieldWork.CreateFieldWork.Request;
 using Application.FieldWork.CreateFieldWork.Response;
@@ -53,6 +56,8 @@ using Application.FieldWorkRule.RemoveFieldWorkRule.Response;
 using Application.Ports;
 using Application.Queries.GetBuildingSummaryStats;
 using Application.Queries.GetBuildingSummaryStats.Response;
+using Application.Queries.GetFieldworkProgressByMunicipality;
+using Application.Queries.GetFieldworkProgressByMunicipality.Response;
 using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
@@ -89,6 +94,8 @@ namespace WebApi.Controllers
         private readonly ITestUntestedBld _testUntestedBldService;
         private readonly ICanBeClosed _canBeClosedService;
         private readonly IGetBuildingSummaryStatsQuery _getBuildingSummaryStatsQuery;
+        private readonly IConfirmFieldworkClosure _confirmFieldworkClosureService;
+        private readonly IGetFieldworkProgressByMunicipalityQuery _getFieldworkProgressByMunicipalityQuery;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
@@ -109,7 +116,9 @@ namespace WebApi.Controllers
             IAssociateEmailTemplateWithFieldWork associateEmailTemplateWithFieldWorkService,
             UpdateFieldworkStatus updateFieldworkStatusService,
             ITestUntestedBld testUntestedBldService,
-            ICanBeClosed canBeClosedService, IGetBuildingSummaryStatsQuery getBuildingSummaryStatsQuery)
+            ICanBeClosed canBeClosedService, IGetBuildingSummaryStatsQuery getBuildingSummaryStatsQuery,
+            IConfirmFieldworkClosure confirmFieldworkClosureService,
+            IGetFieldworkProgressByMunicipalityQuery getFieldworkProgressByMunicipalityQuery)
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -133,6 +142,8 @@ namespace WebApi.Controllers
             _testUntestedBldService = testUntestedBldService;
             _canBeClosedService = canBeClosedService;
             _getBuildingSummaryStatsQuery = getBuildingSummaryStatsQuery;
+            _confirmFieldworkClosureService = confirmFieldworkClosureService;
+            _getFieldworkProgressByMunicipalityQuery = getFieldworkProgressByMunicipalityQuery;
         }
 
         [HttpGet]
@@ -167,20 +178,6 @@ namespace WebApi.Controllers
             request.UpdatedUser = updatedUser;
             return await _updateFieldWorkService.Execute(request);
         }
-
-        ////[HttpPatch("{id:int}/email")]
-        ////public async Task<AssociateEmailTemplateWithFieldWorkResponse> AssociateEmailTemplateWithFieldWork(int id, [FromBody] AssociateEmailTemplateWithFieldWorkRequestDTO emailtemplate)
-        ////{
-        ////    var token = ExtractBearerToken();
-        ////    AssociateEmailTemplateWithFieldWorkRequest request = new AssociateEmailTemplateWithFieldWorkRequest
-        ////    {
-        ////        FieldWorkId = id,
-        ////        EmailTemplateId = emailtemplate.EmailTemplateId,
-        ////        UpdatedUser = await _authTokenService.GetUserIdFromToken(token)
-
-        ////    };
-        ////    return await _associateEmailTemplateWithFieldWorkService.Execute(request);
-        ////}
 
         [HttpGet]
         [Route("active")]
@@ -339,5 +336,24 @@ namespace WebApi.Controllers
             };
             return await _associateEmailTemplateWithFieldWorkService.Execute(request);
         }
+
+        [HttpPost]
+        [Route("close")]
+        public async Task<ConfirmFieldworkClosureResponse> ConfirmFieldworkClosure(ConfirmFieldworkClosureRequest request)
+        {
+            var token = ExtractBearerToken();
+            var updatedUser = await _authTokenService.GetUserIdFromToken(token);
+            request.UpdatedUser = updatedUser;
+
+            return await _confirmFieldworkClosureService.Execute(request);
+        }
+
+        [HttpGet]
+        [Route("progress")]
+        public async Task<GetFieldworkProgressByMunicipalityResponse> GetFieldworkProgressByMunicipality()
+        {
+            return await _getFieldworkProgressByMunicipalityQuery.Execute();
+        }
+
     }
 }

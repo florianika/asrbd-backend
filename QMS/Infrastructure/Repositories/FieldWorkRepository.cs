@@ -102,13 +102,13 @@ namespace Infrastructure.Repositories
                 var errorNumber = sqlError?.Number.ToString() ?? "N/A";
 
                 var detailedMessage = $"SQL error (#{errorNumber}) in procedure '{procedure}' at line {line}: {sqlEx.Message}";
-                _logger.LogError(sqlEx, "ExecuteRulesStoreProcedure failed: {Error}", detailedMessage);
+                _logger.LogError(sqlEx, "UpdateBldReviewStatusToRequired failed: {Error}", detailedMessage);
 
                 throw new AppException(detailedMessage, sqlEx);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error executing ExecuteRules");
+                _logger.LogError(ex, "Unexpected error executing UpdateBldReviewStatusToRequired");
                 throw new AppException("Unexpected error occurred while executing rules.", ex);
             }
         }
@@ -213,11 +213,11 @@ namespace Infrastructure.Repositories
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error executing TestUntestedBld");
-                throw new AppException("Unexpected error occurred while executing rules.", ex);
+                throw new AppException("Unexpected error occurred while executing TestUntestedBld.", ex);
             }
         }
 
-        public async Task<int> HasBldReviewExecuted()
+        public async Task<bool> HasBldReviewExecuted()
         {
             try
             {
@@ -233,11 +233,75 @@ namespace Infrastructure.Repositories
                     await command.Connection.OpenAsync();
 
                 var result = await command.ExecuteScalarAsync();
-                return Convert.ToInt32(result);
+                return result != null && Convert.ToBoolean(result);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error executing HasBldReviewExecuted");
+                throw new AppException("Unexpected error occurred while executing HasBldReviewExecuted.", ex);
+            }
+        }
+
+        public async Task<bool> AreMostBuildingsReviewed()
+        {
+            try
+            {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                dbContext.Database.SetCommandTimeout(5000);
+
+                await using var command = dbContext.Database.GetDbConnection().CreateCommand();
+                command.CommandText = "AreMostBuildingsReviewed";
+                command.CommandType = CommandType.StoredProcedure;
+
+                if (command.Connection.State != ConnectionState.Open)
+                    await command.Connection.OpenAsync();
+
+                var result = await command.ExecuteScalarAsync();
+                return result != null && Convert.ToBoolean(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error executing AreMostBuildingsReviewed");
+                throw new AppException("Unexpected error occurred while executing AreMostBuildingsReviewed.", ex);
+            }
+        }
+
+        public async Task<bool> TransformBldReviewForClosing(int id, Guid updatedUser)
+        {
+            try
+            {
+
+                var parameters = new List<SqlParameter>
+                {
+                    new ("@FiledWorkId", id),
+                    new ("@UpdatedUser", updatedUser)
+                };
+
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+
+                dbContext.Database.SetCommandTimeout(5000);
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec TransformBldReviewForClosing  @FiledWorkId, @UpdatedUser", parameters.ToArray());
+
+                return true; // Indicate success
+            }
+            catch (SqlException sqlEx)
+            {
+                var sqlError = sqlEx.Errors.Cast<SqlError>().FirstOrDefault();
+                var procedure = sqlError?.Procedure ?? "unknown procedure";
+                var line = sqlError?.LineNumber.ToString() ?? "unknown line";
+                var errorNumber = sqlError?.Number.ToString() ?? "N/A";
+
+                var detailedMessage = $"SQL error (#{errorNumber}) in procedure '{procedure}' at line {line}: {sqlEx.Message}";
+                _logger.LogError(sqlEx, "ExecuteRulesStoreProcedure failed: {Error}", detailedMessage);
+
+                throw new AppException(detailedMessage, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error executing ExecuteRules");
                 throw new AppException("Unexpected error occurred while executing rules.", ex);
             }
         }

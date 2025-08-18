@@ -28,7 +28,7 @@ namespace Application.FieldWork.CanBeClosed
                 {
 
                     var result = await _fieldWorkRepository.HasBldReviewExecuted();
-                    if(result > 0) //check in the database if there are buildings with BldReview=3 --Review executed
+                    if(result) //check in the database if there are buildings with BldReview=3 --Review executed
                     {
                         return new CanBeClosedSuccessResponse
                         {

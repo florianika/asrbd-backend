@@ -10,7 +10,15 @@ namespace Infrastructure.Services
             var jobId = BackgroundJob.Enqueue<FieldWorkJobService>(svc =>
                 svc.UpdateBldReviewStatusJob(fieldWorkId, updatedUser));
             BackgroundJob.ContinueWith<FieldWorkJobService>(jobId, svc =>
-                svc.SendEmailsJob(fieldWorkId));
+                svc.SendOpenEmailsJob(fieldWorkId));
+        }
+
+        public void ScheduleClosureAndEmail(int fieldWorkId, Guid updatedUser, string Remarks)
+        {
+            var jobId = BackgroundJob.Enqueue<FieldWorkJobService>(svc =>
+               svc.ConfirmFieldworkClosureJob(fieldWorkId, updatedUser, Remarks));
+            BackgroundJob.ContinueWith<FieldWorkJobService>(jobId, svc =>
+                svc.SendCloseEmailsJob(fieldWorkId));
         }
     }
 }

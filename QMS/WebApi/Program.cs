@@ -69,6 +69,9 @@ using Application.FieldWork.TestUntestedBld;
 using Application.FieldWork.CanBeClosed;
 using Application.Queries.GetBuildingSummaryStats;
 using Infrastructure.Queries.GetBuildingSummaryStats;
+using Infrastructure.Queries.GetFieldworkProgressByMunicipality;
+using Application.Queries.GetFieldworkProgressByMunicipality;
+using Application.FieldWork.ConfirmFieldworkClosure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -176,6 +179,8 @@ builder.Services.AddScoped<IGetJobResults, GetJobResults>();
 builder.Services.AddScoped<IJobDispatcher, JobDispatcher>();
 builder.Services.AddScoped<UpdateFieldworkStatus>();
 builder.Services.AddScoped<IGetBuildingSummaryStatsQuery, GetBuildingSummaryStatsQuery>();
+builder.Services.AddScoped<IConfirmFieldworkClosure, ConfirmFieldworkClosure>();
+builder.Services.AddScoped<IGetFieldworkProgressByMunicipalityQuery, GetFieldworkProgressByMunicipalityQuery>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();

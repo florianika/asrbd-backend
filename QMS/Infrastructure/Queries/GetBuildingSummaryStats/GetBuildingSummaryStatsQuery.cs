@@ -1,6 +1,4 @@
 ﻿using Application.Queries.GetBuildingSummaryStats;
-using Application.Queries.GetStatisticsFromBuilding.Response;
-using Application.Queries.GetStatisticsFromBuilding;
 using Infrastructure.Context;
 using Application.Queries.GetBuildingSummaryStats.Response;
 using Microsoft.EntityFrameworkCore;
