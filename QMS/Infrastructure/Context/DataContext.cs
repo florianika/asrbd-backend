@@ -28,6 +28,7 @@ namespace Infrastructure.Context
         public DbSet<FieldWorkRule> FieldWorkRules { get; set; }
         public DbSet<Statistics> Statistics { get; set; }
         public DbSet<Jobs>Jobs { get; set; }
+        public DbSet<FieldWorkProgress> FieldWorkProgress { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -48,6 +49,7 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new EmailTemplateConfiguration());
             modelBuilder.ApplyConfiguration(new NoteConfiguration());
             modelBuilder.ApplyConfiguration(new FieldWorkRuleConfiguration());
+            modelBuilder.ApplyConfiguration(new FieldWorkProgressConfiguration());
             modelBuilder.Entity<RuleStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<BuildingStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<UserDTO>().HasNoKey().ToView(null);

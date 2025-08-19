@@ -1,4 +1,5 @@
 ﻿
+using Application.Exceptions;
 using Application.FieldWork.UpdateFieldWork.Request;
 using Application.FieldWork.UpdateFieldWork.Response;
 using Application.Ports;
@@ -19,6 +20,11 @@ namespace Application.FieldWork.UpdateFieldWork
         public async Task<UpdateFieldWorkResponse> Execute(UpdateFieldWorkRequest request)
         {
             var fieldwork = await _fieldWorkRepository.GetFieldWork(request.FieldWorkId);
+            if(fieldwork.FieldWorkStatus != Domain.Enum.FieldWorkStatus.NEW)
+            {
+                _logger.LogError("Fieldwork with ID {FieldWorkId} is not open for update.", request.FieldWorkId);
+                throw new AppException("Fieldwork is not with status NEW, therefore cannot be updated");
+            }
             fieldwork.StartDate = request.StartDate;
             fieldwork.EndDate = request.EndDate;
             fieldwork.FieldWorkName = request.FieldWorkName;

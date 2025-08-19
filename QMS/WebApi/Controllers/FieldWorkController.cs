@@ -349,10 +349,10 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("progress")]
-        public async Task<GetFieldworkProgressByMunicipalityResponse> GetFieldworkProgressByMunicipality()
+        [Route("{id:int}/progress")]
+        public async Task<GetFieldworkProgressByMunicipalityResponse> GetFieldworkProgressByMunicipality(int id)
         {
-            return await _getFieldworkProgressByMunicipalityQuery.Execute();
+            return await _getFieldworkProgressByMunicipalityQuery.Execute(id);
         }
 
     }

@@ -4,6 +4,6 @@ namespace Application.Queries.GetFieldworkProgressByMunicipality
 {
     public interface IGetFieldworkProgressByMunicipalityQuery
     {
-        Task<GetFieldworkProgressByMunicipalityResponse> Execute();
+        Task<GetFieldworkProgressByMunicipalityResponse> Execute( int id);
     }
 }

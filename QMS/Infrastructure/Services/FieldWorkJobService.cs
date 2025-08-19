@@ -114,7 +114,7 @@ namespace Infrastructure.Services
             var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
             var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.CloseEmailTemplateId);
             var users = await _fieldWorkRepository.GetActiveUsers();
-            var progress = _getFieldworkProgressByMunicipalityQuery.Execute();
+            var progress = _getFieldworkProgressByMunicipalityQuery.Execute(fieldWorkId);
             var progressList = progress.Result.progressDTO;
             var progressByCode = progressList
                 .GroupBy(p => p.MunicipalityCode)
