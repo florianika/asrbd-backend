@@ -45,7 +45,7 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Domain.Rule>> GetAllRules()
         {
-            return await _context.Rules.ToListAsync();
+            return await _context.Rules.OrderBy(x=>x.LocalId).ToListAsync();
         }
         public async Task<List<Domain.Rule>> GetActiveRules()
         {
@@ -60,28 +60,28 @@ namespace Infrastructure.Repositories
 
         public async Task<List<Domain.Rule>> GetRulesByEntity(Domain.Enum.EntityType entityType)
         {
-            return await _context.Rules.Where(x => x.EntityType == entityType).ToListAsync();
+            return await _context.Rules.Where(x => x.EntityType == entityType).OrderBy(x => x.LocalId).ToListAsync();
         }
 
         public async Task<List<Domain.Rule>> GetActiveRulesByEntity(Domain.Enum.EntityType entityType) 
         {
-            return await _context.Rules.Where(x => x.EntityType == entityType && x.RuleStatus == RuleStatus.ACTIVE).ToListAsync();
+            return await _context.Rules.Where(x => x.EntityType == entityType && x.RuleStatus == RuleStatus.ACTIVE).OrderBy(x => x.LocalId).ToListAsync();
         }
 
         public async Task<List<Domain.Rule>> GetRulesByQualityAction(QualityAction qualityAction)
         {
-            return await _context.Rules.Where(x => x.QualityAction == qualityAction).ToListAsync();
+            return await _context.Rules.Where(x => x.QualityAction == qualityAction).OrderBy(x => x.LocalId).ToListAsync();
         }
 
         public async Task<List<Domain.Rule>> GetRulesByVariableAndEntity(string variable, Domain.Enum.EntityType entityType)
         {
             return await _context.Rules.Where(x => x.Variable == variable
-                                        && x.EntityType == entityType).ToListAsync();
+                                        && x.EntityType == entityType).OrderBy(x => x.LocalId).ToListAsync();
         }
         public async Task<List<Domain.Rule>> GetRulesByEntityAndStatus(Domain.Enum.EntityType entityType, Domain.Enum.RuleStatus ruleStatus)
         {
             return await _context.Rules.Where(x => x.EntityType == entityType
-                                        && x.RuleStatus == ruleStatus).ToListAsync();
+                                        && x.RuleStatus == ruleStatus).OrderBy(x => x.LocalId).ToListAsync();
         }
 
         public async Task UpdateRule(Domain.Rule rule)
