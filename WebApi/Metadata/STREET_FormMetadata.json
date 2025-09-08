@@ -14,6 +14,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -30,6 +31,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
+      "required": false,
       "order": 1
     },
     {
@@ -46,6 +48,7 @@
       "selectable": false,
       "internal": false,
       "section": "identifier",
+      "required": false,
       "order": 10
     },
     {
@@ -62,6 +65,7 @@
       "selectable": false,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 11
     },
     {
@@ -78,6 +82,7 @@
       "selectable": false,
       "internal": false,
       "section": "info",
+      "required": true,
       "order": 12
     },
     {
@@ -94,6 +99,7 @@
       "selectable": false,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 13
     },
     {
@@ -110,6 +116,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
+      "required": false,
       "order": 14
     },
     {
@@ -126,6 +133,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -142,6 +150,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -158,6 +167,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -174,6 +184,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -190,13 +201,14 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 64
     },
     {
       "name": "external_creator_date",
       "label": {
         "en": "Created on",
-        "al": "E krijar më"
+        "al": "E krijuar më"
       },
       "display": {
         "admin": "read",
@@ -206,6 +218,7 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 65
     },
     {
@@ -222,13 +235,14 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 66
     },
     {
       "name": "external_editor_date",
       "label": {
         "en": "Modified on",
-        "al": "E modifikaur më"
+        "al": "E modifikuar më"
       },
       "display": {
         "admin": "read",
@@ -238,6 +252,7 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 67
     }
   ]

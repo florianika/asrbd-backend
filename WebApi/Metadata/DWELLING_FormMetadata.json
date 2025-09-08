@@ -14,6 +14,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -30,6 +31,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
+      "required": false,
       "order": 1
     },
     {
@@ -46,6 +48,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
+      "required": false,
       "order": 2
     },
     {
@@ -62,6 +65,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
+      "required": false,
       "order": 3
     },
     {
@@ -78,6 +82,7 @@
       "selectable": false,
       "internal": false,
       "section": "technical",
+      "required": false,
       "order": 4
     },
     {
@@ -94,6 +99,7 @@
       "selectable": false,
       "internal": false,
       "section": "title",
+      "required": false,
       "order": 9
     },
     {
@@ -110,6 +116,7 @@
       "selectable": true,
       "internal": false,
       "section": "identifier",
+      "required": true,
       "order": 11
     },
     {
@@ -126,6 +133,7 @@
       "selectable": true,
       "internal": false,
       "section": "identifier",
+      "required": false,
       "order": 12
     },
     {
@@ -142,6 +150,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 21
     },
     {
@@ -158,6 +167,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 22
     },
     {
@@ -174,6 +184,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 23
     },
     {
@@ -190,6 +201,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 31
     },
     {
@@ -206,6 +218,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 32
     },
     {
@@ -222,6 +235,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 33
     },
     {
@@ -238,6 +252,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 41
     },
     {
@@ -254,6 +269,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 52
     },
     {
@@ -270,13 +286,14 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 53
     },
     {
       "name": "DwlHeatingFacility",
       "label": {
         "en": "Type of heating facility",
-        "al": "Tipi i paisjej ngrohëse"
+        "al": "Tipi i paisjes ngrohëse"
       },
       "display": {
         "admin": "write",
@@ -286,6 +303,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 61
     },
     {
@@ -302,6 +320,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 62
     },
     {
@@ -318,6 +337,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 63
     },
     {
@@ -334,6 +354,7 @@
       "selectable": true,
       "internal": false,
       "section": "info",
+      "required": false,
       "order": 64
     },
     {
@@ -350,6 +371,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -366,6 +388,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -382,6 +405,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -398,6 +422,7 @@
       "selectable": false,
       "internal": true,
       "section": "none",
+      "required": false,
       "order": -1
     },
     {
@@ -414,13 +439,14 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 64
     },
     {
       "name": "external_creator_date",
       "label": {
         "en": "Created on",
-        "al": "E krijar më"
+        "al": "E krijuar më"
       },
       "display": {
         "admin": "read",
@@ -430,6 +456,7 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 65
     },
     {
@@ -446,13 +473,14 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 66
     },
     {
       "name": "external_editor_date",
       "label": {
         "en": "Modified on",
-        "al": "E modifikaur më"
+        "al": "E modifikuar më"
       },
       "display": {
         "admin": "read",
@@ -462,6 +490,7 @@
       "selectable": false,
       "internal": false,
       "section": "history",
+      "required": false,
       "order": 67
     }
   ]
