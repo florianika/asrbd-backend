@@ -38,6 +38,9 @@ using Application.User.SetUserMunicipality.Response;
 using Microsoft.Extensions.Options;
 using Application.Queries;
 using Application.Queries.GetMunicipalities.Response;
+using Application.User.Login2fa.Response;
+using Application.User.Login2fa.Request;
+using Application.User.Login2fa;
 
 namespace WebApi.Controllers
 {
@@ -49,6 +52,7 @@ namespace WebApi.Controllers
         
         private readonly CreateUser _createUserService;
         private readonly Login _loginService;
+        private readonly Login2fa _login2faService;
         private readonly RefreshToken _refreshTokenService;
         private readonly SignOut _signOutService;
         private readonly GetAllUsers _getAllUsersService;
@@ -64,6 +68,7 @@ namespace WebApi.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         public AuthController(CreateUser createUserService, 
             Login loginService,
+
             RefreshToken refreshTokenService,
             SignOut signOutService,
             GetAllUsers getAllUsersService,
@@ -76,7 +81,8 @@ namespace WebApi.Controllers
             IOptions<GisFormRequest> gisFormRequest,
             SetUserMunicipality setUserMunicipalityService,
             IGetMunicipalitiesQuery getMunicipalitiesQuery,
-            IHttpClientFactory httpClientFactory)
+            IHttpClientFactory httpClientFactory,
+            Login2fa login2faService)
         {
             _createUserService = createUserService;
             _loginService = loginService;
@@ -93,6 +99,7 @@ namespace WebApi.Controllers
             _setUserMunicipalityService = setUserMunicipalityService;
             _getMunicipalitiesQuery = getMunicipalitiesQuery;
             _httpClientFactory = httpClientFactory;
+            _login2faService = login2faService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -109,6 +116,18 @@ namespace WebApi.Controllers
         {
             return await _loginService.Execute(request);
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("2fa/login")]
+        public async Task<Login2faResponse> Login2fa(Login2faRequest request)
+        {
+            return await _login2faService.Execute(request);
+        }
+
+
+
+
         [AllowAnonymous]
         [HttpPost]
         [Route("RefreshToken")]

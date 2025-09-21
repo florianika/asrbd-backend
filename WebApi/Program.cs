@@ -39,6 +39,7 @@ using Application.User.SetUserMunicipality;
 using WebApi.Common;
 using Application.Queries;
 using Infrastructure.Queries.GetMunicipalities;
+using Application.User.Login2fa;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
@@ -66,8 +67,11 @@ builder.Services.AddSingleton<IUserLockSettings, UserLockSettingsService>();
 builder.Services.AddScoped<IAuthTokenService, JwtService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
+builder.Services.AddScoped<IOtpRepository, OtpRepository>();
+builder.Services.AddScoped<INotificationSender, SmtpEmailSender>();
 builder.Services.AddScoped<CreateUser>();
 builder.Services.AddScoped<Login>();
+builder.Services.AddScoped<Login2fa>();
 builder.Services.AddScoped<RefreshToken>();
 builder.Services.AddScoped<SignOut>();
 builder.Services.AddScoped<GetAllUsers>();

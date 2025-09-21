@@ -1,5 +1,6 @@
 ﻿using Application.Queries.GetMunicipalities;
 using Domain;
+using Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -19,6 +20,7 @@ namespace Infrastructure.Context
         public DbSet<Claim> Claim { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<MunicipalityDto> Municipalities { get; set; } = null!;
+        public DbSet<OtpRecord> OtpRecords { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -59,9 +61,8 @@ namespace Infrastructure.Context
                 .HasConversion<string>()
                 .HasColumnType("varchar(10)");
             modelBuilder.Entity<MunicipalityDto>().HasNoKey();
-            modelBuilder
-                .ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
 
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DataContext).Assembly);
         }
     }
 }
