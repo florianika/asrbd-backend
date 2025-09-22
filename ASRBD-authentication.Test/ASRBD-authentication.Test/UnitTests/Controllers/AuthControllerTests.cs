@@ -26,6 +26,7 @@ using Microsoft.Extensions.Options;
 using Application.Queries;
 using Infrastructure.Queries.GetMunicipalities;
 using Application.User.Login2fa;
+using Application.User.Verify2fa;
 
 namespace ASRBD_authentication.Test.UnitTests.Controllers
 {
@@ -58,7 +59,13 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
            Mock.Of<IAuthTokenService>(),
            Mock.Of<IOtpRepository>()
            );
-
+            var verify2faServiceMock = new Mock<Verify2fa>(
+           Mock.Of<ILogger<Verify2fa>>(),
+           Mock.Of<IAuthRepository>(),
+           Mock.Of<ICryptographyService>(),
+           Mock.Of<IAuthTokenService>(),
+           Mock.Of<IOtpRepository>()
+           );
             var refreshTokenServiceMock = new Mock<RefreshToken>(
                 Mock.Of<ILogger<RefreshToken>>(),
                 Mock.Of<IAuthTokenService>(),
@@ -126,8 +133,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
-                login2faServiceMock.Object
-
+                login2faServiceMock.Object,
+                verify2faServiceMock.Object
             );
 
             // Act
@@ -147,6 +154,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var cryptographyServiceMock = new Mock<ICryptographyService>();
             var authTokenServiceMock = new Mock<IAuthTokenService>();
             var logger2faMock = new Mock<ILogger<Login2fa>>();
+            var verify2faMock = new Mock<ILogger<Verify2fa>>();
             var otpRepositoryMock = new Mock<IOtpRepository>();
             // Set up a sample user
             var sampleUser = new Domain.User
@@ -193,6 +201,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
 
             var login2faService = new Login2fa(logger2faMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object,otpRepositoryMock.Object);
 
+            var verify2faService = new Verify2fa(verify2faMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object, otpRepositoryMock.Object);
+
             var refreshTokenServiceMock = new Mock<RefreshToken>(
                 Mock.Of<ILogger<RefreshToken>>(),
                 Mock.Of<IAuthTokenService>(),
@@ -260,7 +270,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
-                login2faService
+                login2faService,
+                verify2faService
             );
 
             // Act
@@ -286,6 +297,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var authTokenServiceMock = new Mock<IAuthTokenService>();
             var OtpRepositoryMock = new Mock<IOtpRepository>();
             var logger2faMock = new Mock<ILogger<Login2fa>>();
+            var verifyLogger2faMock = new Mock<ILogger<Verify2fa>>();
             // Set up a sample user with an incorrect password
             var sampleUser = new Domain.User
             {
@@ -317,6 +329,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
 
             var loginService = new Login(loggerMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object);
             var login2faService = new Login2fa(logger2faMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object, OtpRepositoryMock.Object);
+            var verify2faService = new Verify2fa(verifyLogger2faMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object, OtpRepositoryMock.Object);
 
             var refreshTokenServiceMock = new Mock<RefreshToken>(
                 Mock.Of<ILogger<RefreshToken>>(),
@@ -384,7 +397,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
-                login2faService
+                login2faService, 
+                verify2faService
             );
             authTokenServiceMock.Setup(service => service.GenerateIdToken(It.IsAny<Domain.User>()))
                     .ReturnsAsync("validIdToken");
@@ -404,6 +418,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var cryptographyServiceMock = new Mock<ICryptographyService>();
             var authTokenServiceMock = new Mock<IAuthTokenService>();
             var logger2faMock = new Mock<ILogger<Login2fa>>();
+            var verifyLogger2faMock = new Mock<ILogger<Verify2fa>>();
             var otpRepositoryMock = new Mock<IOtpRepository>();
 
             // Set up a sample user with a locked account
@@ -432,6 +447,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var loginService = new Login(loggerMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object);
 
             var login2faService = new Login2fa(logger2faMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object, otpRepositoryMock.Object);
+            var verify2faService = new Verify2fa(verifyLogger2faMock.Object, authRepositoryMock.Object, cryptographyServiceMock.Object, authTokenServiceMock.Object, otpRepositoryMock.Object);
 
             var refreshTokenServiceMock = new Mock<RefreshToken>(
                 Mock.Of<ILogger<RefreshToken>>(),
@@ -500,7 +516,8 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
-                login2faService
+                login2faService,
+                verify2faService
             );
 
             // Act and Assert

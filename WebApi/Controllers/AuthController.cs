@@ -41,6 +41,9 @@ using Application.Queries.GetMunicipalities.Response;
 using Application.User.Login2fa.Response;
 using Application.User.Login2fa.Request;
 using Application.User.Login2fa;
+using Application.User.Verify2fa.Request;
+using Application.User.Verify2fa;
+using Application.User.Verify2fa.Response;
 
 namespace WebApi.Controllers
 {
@@ -53,6 +56,7 @@ namespace WebApi.Controllers
         private readonly CreateUser _createUserService;
         private readonly Login _loginService;
         private readonly Login2fa _login2faService;
+        private readonly Verify2fa _verify2faService;
         private readonly RefreshToken _refreshTokenService;
         private readonly SignOut _signOutService;
         private readonly GetAllUsers _getAllUsersService;
@@ -82,7 +86,8 @@ namespace WebApi.Controllers
             SetUserMunicipality setUserMunicipalityService,
             IGetMunicipalitiesQuery getMunicipalitiesQuery,
             IHttpClientFactory httpClientFactory,
-            Login2fa login2faService)
+            Login2fa login2faService,
+            Verify2fa verify2faService)
         {
             _createUserService = createUserService;
             _loginService = loginService;
@@ -100,6 +105,7 @@ namespace WebApi.Controllers
             _getMunicipalitiesQuery = getMunicipalitiesQuery;
             _httpClientFactory = httpClientFactory;
             _login2faService = login2faService;
+            _verify2faService = verify2faService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -125,7 +131,13 @@ namespace WebApi.Controllers
             return await _login2faService.Execute(request);
         }
 
-
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("2fa/verify")]
+        public async Task<Verify2faResponse> Verify2fa(Verify2faRequest request)
+        {
+            return await _verify2faService.Execute(request);
+        }
 
 
         [AllowAnonymous]

@@ -40,6 +40,7 @@ using WebApi.Common;
 using Application.Queries;
 using Infrastructure.Queries.GetMunicipalities;
 using Application.User.Login2fa;
+using Application.User.Verify2fa;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
@@ -72,6 +73,7 @@ builder.Services.AddScoped<INotificationSender, SmtpEmailSender>();
 builder.Services.AddScoped<CreateUser>();
 builder.Services.AddScoped<Login>();
 builder.Services.AddScoped<Login2fa>();
+builder.Services.AddScoped<Verify2fa>();
 builder.Services.AddScoped<RefreshToken>();
 builder.Services.AddScoped<SignOut>();
 builder.Services.AddScoped<GetAllUsers>();

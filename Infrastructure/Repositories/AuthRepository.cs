@@ -143,6 +143,7 @@ namespace Infrastructure.Repositories
         public async Task<User> FindUserById(Guid userId)
         { 
             return await _context.Users
+                       .Include(u=>u.RefreshToken)
                        .Include(u=>u.Claims)
                        .FirstOrDefaultAsync(u => u.Id.Equals(userId))
                     ?? throw new NotFoundException($"User with ID {userId} not found");
