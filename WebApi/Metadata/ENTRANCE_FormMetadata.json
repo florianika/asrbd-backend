@@ -313,7 +313,7 @@
         "al": "Numri i vlerësuar i banesave "
       },
       "display": {
-        "admin": "writre",
+        "admin": "write",
         "supervisor": "write",
         "enumerator": "write"
       },
