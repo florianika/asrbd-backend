@@ -13,6 +13,9 @@ using Application.Quality.AllBuildingsQualityCheck.Request;
 using Application.Quality.AllBuildingsAutomaticRules.Request;
 using Application.Quality.AllBuildingsAutomaticRules.Response;
 using Application.Quality.AllBuildingsAutomaticRules;
+using Application.Quality.SetBldToUntested.Response;
+using Application.Quality.SetBldToUntested.Request;
+using Application.Quality.SetBldToUntested;
 
 namespace WebApi.Controllers
 {
@@ -26,14 +29,16 @@ namespace WebApi.Controllers
         private readonly AutomaticRules _automaticRulesService;
         private readonly AllBuildingsQualityCheck _allBuildingsQualityCheckService;
         private readonly AllBuildingsAutomaticRules _allBuildingsAutomaticRulesService;
+        private readonly SetBldToUntested _toUntestedService;
 
         public BuildingQualityCheckController(IAuthTokenService authTokenService, BuildingQualityCheck buildingQualityCheckService, AutomaticRules automaticRules, 
-                AllBuildingsQualityCheck allBuildingsQualityCheckService, AllBuildingsAutomaticRules allBuildingsAutomaticRulesService) {
+                AllBuildingsQualityCheck allBuildingsQualityCheckService, AllBuildingsAutomaticRules allBuildingsAutomaticRulesService, SetBldToUntested toUntestedService) {
             _authTokenService = authTokenService;
             _buildingQualityCheckService = buildingQualityCheckService;
             _automaticRulesService = automaticRules;
             _allBuildingsQualityCheckService = allBuildingsQualityCheckService;
             _allBuildingsAutomaticRulesService = allBuildingsAutomaticRulesService;
+            _toUntestedService = toUntestedService;
         }
         
         [HttpPost("buildings")]
@@ -68,6 +73,12 @@ namespace WebApi.Controllers
             var executionUser = await _authTokenService.GetUserIdFromToken(token);
             request.ExecutionUser = executionUser;
             return await _allBuildingsAutomaticRulesService.Execute(request);
+        }
+
+        [HttpPost("untested")]
+        public async Task<SetBldToUntestedResponse> SetBldToUntested(SetBldToUntestedRequest request)
+        {
+            return await _toUntestedService.Execute(request);
         }
     }
 }

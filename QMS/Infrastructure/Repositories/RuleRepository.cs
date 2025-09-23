@@ -179,5 +179,46 @@ namespace Infrastructure.Repositories
             return await _context.Rules
                 .AnyAsync(x=>x.Id == ruleId);
         }
+
+        public async Task<bool> SetBldToUntestedStoreProcedure(List<Guid> buildingIds)
+        {
+            try
+            {
+                var bldIds = "";
+                if (buildingIds != null && buildingIds.Count > 0)
+                {
+                    bldIds = buildingIds.Aggregate(bldIds, (current, guid) => current + ("'" + guid.ToString() + "',"));
+                    bldIds = bldIds.Remove(bldIds.Length - 1, 1);
+                }
+                var parameters = new List<SqlParameter>
+                {
+                    new ("@buildingIds", bldIds)
+                };
+
+                using var scope = _serviceScopeFactory.CreateScope();
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
+                dbContext.Database.SetCommandTimeout(5000);
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    @"exec SetBuildingsToUntested @buildingIds", parameters.ToArray());
+
+                return true; // Indicate success
+            }
+            catch (SqlException sqlEx)
+            {
+                // Extract SQL error details
+                var errorMessage = $"SQL error occurred while executing SetBuildingsToUntested. " +
+                                   $"Message: {sqlEx.Message}, Line: {sqlEx.LineNumber}, Procedure: {sqlEx.Procedure}";
+
+                // Optionally log the full error
+                _logger?.LogError(sqlEx, errorMessage);
+
+                throw new AppException(errorMessage, sqlEx);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Unexpected error while executing SetBuildingsToUntested");
+                throw new AppException("Unexpected error while executing SetBuildingsToUntested", ex);
+            }
+        }
     }
 }

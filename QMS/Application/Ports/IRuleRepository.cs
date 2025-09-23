@@ -18,5 +18,6 @@ namespace Application.Ports
         Task<List<Domain.Rule>> GetActiveRules();
         Task<bool> ExistsRule(long ruleId);
         Task<List<Domain.Rule>> GetRulesByEntityAndStatus(EntityType entityType, RuleStatus ruleStatus);
+        Task<bool> SetBldToUntestedStoreProcedure(List<Guid> buildingIds);
     }
 }

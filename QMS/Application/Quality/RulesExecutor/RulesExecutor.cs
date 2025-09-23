@@ -18,5 +18,10 @@ namespace Application.Quality.RulesExecutor
         {
             return await _ruleRepository.ExecuteAutomaticRulesStoreProcedure(buildingIds, user);
         }
+
+        public async Task<bool> SetBldToUntested(List<Guid> buildingIds)
+        {
+            return await _ruleRepository.SetBldToUntestedStoreProcedure(buildingIds);
+        }
     }
 }

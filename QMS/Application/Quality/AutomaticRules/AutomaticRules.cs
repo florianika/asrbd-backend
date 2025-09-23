@@ -2,7 +2,6 @@
 using Application.Exceptions;
 using Application.Quality.AutomaticRules.Request;
 using Application.Quality.AutomaticRules.Response;
-using Application.Quality.BuildingQualityCheck.Response;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

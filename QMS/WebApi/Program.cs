@@ -72,6 +72,7 @@ using Infrastructure.Queries.GetBuildingSummaryStats;
 using Infrastructure.Queries.GetFieldworkProgressByMunicipality;
 using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.FieldWork.ConfirmFieldworkClosure;
+using Application.Quality.SetBldToUntested;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -146,6 +147,7 @@ builder.Services.AddScoped<RulesExecutor>();
 builder.Services.AddScoped<BuildingQualityCheck>();
 builder.Services.AddScoped<AllBuildingsQualityCheck>();
 builder.Services.AddScoped<AutomaticRules>();
+builder.Services.AddScoped<SetBldToUntested>();
 builder.Services.AddScoped<AllBuildingsAutomaticRules>();
 builder.Services.AddScoped<IAutomaticRules, AutomaticRules>();
 builder.Services.AddScoped<CreateFieldWork>();
