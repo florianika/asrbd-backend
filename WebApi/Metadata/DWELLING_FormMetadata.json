@@ -6,6 +6,10 @@
         "en": "OBJECTID",
         "al": "OBJECTID"
       },
+      "description": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -21,7 +25,11 @@
       "name": "GlobalID",
       "label": {
         "en": "ASRBD Dwelling ID",
-        "al": "ASRBD Banesa ID"
+        "al": "ID e Banesës (ASRBD)"
+      },
+      "description": {
+        "en": "Globally unique identifier (GUID) automatically assigned by the geodatabase to each dwelling recorded in ASRBD.",
+        "al": "Identifikues unik global (GUID) i caktuar automatikisht nga gjeodatabaza për çdo banesë të regjistruar në ASRBD."
       },
       "display": {
         "admin": "read",
@@ -38,7 +46,11 @@
       "name": "DwlEntGlobalID",
       "label": {
         "en": "ASRBD Entrance ID",
-        "al": "ASRBD Hyrja ID"
+        "al": "ID e Hyrjes (ASRBD)"
+      },
+      "description": {
+        "en": "Globally unique identifier (GUID) assigned to the relevant entrance of the dwelling",
+        "al": "Identifikues unik global (GUID) i caktuar për hyrjen përkatëse të banesës."
       },
       "display": {
         "admin": "read",
@@ -55,7 +67,11 @@
       "name": "DwlCensus2023",
       "label": {
         "en": "Dwelling ID of Census 2023",
-        "al": "ID e Banesës nga Census 2023"
+        "al": "ID e Banesës nga Regjistrimi i Popullsisë 2023"
+      },
+      "description": {
+        "en": "Unique dwelling identifier allocated to all dwellings enumerated in Census 2023",
+        "al": "Identifikues unik i banesës i caktuar për të gjitha banesat e regjistruara në Regjistrimin e Popullsisë 2023."
       },
       "display": {
         "admin": "write",
@@ -72,7 +88,11 @@
       "name": "DwlAddressID",
       "label": {
         "en": "Dwelling ID of National Address System",
-        "al": "ID e Banesës në Sisteming Kombëtar të Adresave"
+        "al": "ID e Banesës nga Sistemin Kombëtar i Adresave"
+      },
+      "description": {
+        "en": "Unique dwelling identifier applied by the National Address System (AS).",
+        "al": "Identifikues unik i banesës i aplikuar nga Sistemi Kombëtar i Adresave (SKA)"
       },
       "display": {
         "admin": "write",
@@ -89,7 +109,11 @@
       "name": "DwlQuality",
       "label": {
         "en": "Quality status of dwelling data",
-        "al": "Stausi i cliësisë së të dhënave të banesës"
+        "al": "Cilësia e të dhënave të banesës"
+      },
+      "description": {
+        "en": "Status of dwelling data according to the quality requirements.",
+        "al": "Statusi i të dhënave për banesën sipas kërkesave të cilësisë."
       },
       "display": {
         "admin": "read",
@@ -108,6 +132,10 @@
         "en": "Floor indication of dwelling",
         "al": "Kati i banesës"
       },
+      "description": {
+        "en": "Floor of the building on which the dwelling or building unit is located.",
+        "al": "Kati i ndërtesës në të cilin ndodhet banesa ose njësia e ndërtesës."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -124,6 +152,10 @@
       "label": {
         "en": "Address number of apartment",
         "al": "Numri i banesës"
+      },
+      "description": {
+        "en": "Official apartment number aligned with the National Address System (AS).",
+        "al": "Numri zyrtar i apartamentit sipas Sistemit Kombëtar të Adresave (SKA)."
       },
       "display": {
         "admin": "write",
@@ -142,6 +174,10 @@
         "en": "Status of dwelling",
         "al": "Statusi i banesës"
       },
+      "description": {
+        "en": "Indication of whether a dwelling or building unit exists or does not yet exist or no longer exists.",
+        "al": "Tregues nëse një banesë ose njësi ndërtese ekziston, ende nuk ekziston, ose nuk ekziston më."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -158,6 +194,10 @@
       "label": {
         "en": "Construction year of dwelling",
         "al": "Viti i ndërtimit të banesës"
+      },
+      "description": {
+        "en": "Year when the dwelling or building unit was officially released for its intended use.",
+        "al": "Viti kur banesa ose njësia e ndërtesës u lëshua zyrtarisht për përdorim."
       },
       "display": {
         "admin": "write",
@@ -176,6 +216,10 @@
         "en": "Elimination year of dwelling",
         "al": "Viti i eliminimit të banesës"
       },
+      "description": {
+        "en": "Year when the dwelling or building unit was eliminated.",
+        "al": "Viti kur banesa ose njësia e ndërtesës u eliminua"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -191,7 +235,11 @@
       "name": "DwlType",
       "label": {
         "en": "Type of dwelling",
-        "al": "Tipi i banesës"
+        "al": "Lloji i banesës"
+      },
+      "description": {
+        "en": "Intended use of the dwelling or building unit.",
+        "al": "Përdorimi i parashikuar i banesës ose njësisë së ndërtesës."
       },
       "display": {
         "admin": "write",
@@ -210,6 +258,10 @@
         "en": "Ownership of dwelling",
         "al": "Pronësia e banesës"
       },
+      "description": {
+        "en": "Current ownership of dwelling or building unit.",
+        "al": "Pronësia aktuale e banesës ose njësisë së ndërtesës."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -225,7 +277,11 @@
       "name": "DwlOccupancy",
       "label": {
         "en": "Occupancy of dwelling",
-        "al": "Statusi i banimit"
+        "al": "Shfrytëzimi i banesës"
+      },
+      "description": {
+        "en": "Current occupation of dwelling.",
+        "al": "Përdorimi aktual i banesës."
       },
       "display": {
         "admin": "write",
@@ -244,6 +300,10 @@
         "en": "Dwelling surface",
         "al": "Sipërfaqja e banesës"
       },
+      "description": {
+        "en": "Useful floor space of the dwelling or building unit in square meters.",
+        "al": "Sipërfaqja e shfrytëzueshme e banesës ose njësisë së ndërtesës në metra katrorë."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -259,7 +319,11 @@
       "name": "DwlToilet",
       "label": {
         "en": "Type of toilet facility",
-        "al": "Tipi i tualetit në banesë"
+        "al": "Lloji tualetit në banesë"
+      },
+      "description": {
+        "en": "Main type of the toilet facility available in the dwelling.",
+        "al": "Lloji kryesor i tualetit që është në dispozicion në banesë."
       },
       "display": {
         "admin": "write",
@@ -276,7 +340,11 @@
       "name": "DwlBath",
       "label": {
         "en": "Bathing facility",
-        "al": "Tipi i banjos"
+        "al": "Pajisje për larje"
+      },
+      "description": {
+        "en": "Presence of a fixed bathing facility (bath or shower) in the dwelling",
+        "al": "Prania e një pajisjeje fikse për larje (banjë ose dush) në banesë."
       },
       "display": {
         "admin": "write",
@@ -293,7 +361,11 @@
       "name": "DwlHeatingFacility",
       "label": {
         "en": "Type of heating facility",
-        "al": "Tipi i paisjes ngrohëse"
+        "al": "Lloji i pajisjes për ngrohje"
+      },
+      "description": {
+        "en": "Type of heating facility available for the dwelling or building unit.",
+        "al": "Lloji i pajisjes së ngrohjes që është në dispozicion për banesën ose njësinë e ndërtesës."
       },
       "display": {
         "admin": "write",
@@ -310,7 +382,11 @@
       "name": "DwlHeatingEnergy",
       "label": {
         "en": "Type of heating energy",
-        "al": "Tipi i energjisë për ngrohje"
+        "al": "Lloji i energjisë për ngrohje"
+      },
+      "description": {
+        "en": "Main type of the energy used for heating of the dwelling or building unit.",
+        "al": "Lloji kryesor i energjisë që përdoret për ngrohjen e banesës ose njësisë së ndërtesës."
       },
       "display": {
         "admin": "write",
@@ -327,7 +403,11 @@
       "name": "DwlAirConditioner",
       "label": {
         "en": "Air conditioning facility",
-        "al": "Ajëri i kondicionuar"
+        "al": "Pajisje për kondicionim ajri"
+      },
+      "description": {
+        "en": "Presence of an air conditioning facility in the dwelling or building unit.",
+        "al": "Prania e një pajisjeje kondicionimi në banesë ose njësinë e ndërtesës."
       },
       "display": {
         "admin": "write",
@@ -346,6 +426,10 @@
         "en": "Solar panel installation",
         "al": "Instalimi i paneleve djellore"
       },
+      "description": {
+        "en": "Presence of a solar panel installation for the dwelling or building unit.",
+        "al": "Prania e paneleve dielloretë instaluar për banesën ose njësinë e ndërtesës."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -360,6 +444,10 @@
     {
       "name": "created_user",
       "label": {
+        "en": "created_user",
+        "al": "created_user"
+      },
+      "description": {
         "en": "created_user",
         "al": "created_user"
       },
@@ -380,6 +468,10 @@
         "en": "created_date",
         "al": "created_date"
       },
+      "description": {
+        "en": "created_date",
+        "al": "created_date"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -394,6 +486,10 @@
     {
       "name": "last_edited_user",
       "label": {
+        "en": "last_edited_user",
+        "al": "last_edited_user"
+      },
+      "description": {
         "en": "last_edited_user",
         "al": "last_edited_user"
       },
@@ -414,6 +510,10 @@
         "en": "last_edited_date",
         "al": "last_edited_date"
       },
+      "description": {
+        "en": "last_edited_date",
+        "al": "last_edited_date"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -428,6 +528,10 @@
     {
       "name": "external_creator",
       "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "description": {
         "en": "Created by",
         "al": "Krijuar nga"
       },
@@ -448,6 +552,10 @@
         "en": "Created on",
         "al": "E krijuar më"
       },
+      "description": {
+        "en": "Created on",
+        "al": "E krijuar më"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -465,6 +573,10 @@
         "en": "Modified by",
         "al": "E modifikuar nga"
       },
+      "description": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -479,6 +591,10 @@
     {
       "name": "external_editor_date",
       "label": {
+        "en": "Modified on",
+        "al": "E modifikuar më"
+      },
+      "description": {
         "en": "Modified on",
         "al": "E modifikuar më"
       },
