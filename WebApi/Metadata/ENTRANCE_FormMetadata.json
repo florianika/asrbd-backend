@@ -118,7 +118,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -139,7 +139,7 @@
       "display": {
         "admin": "write",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -269,7 +269,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 13
     },
@@ -290,7 +290,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 14
     },
@@ -311,7 +311,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 15
     },
@@ -332,7 +332,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 16
     },
@@ -353,7 +353,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 17
     },

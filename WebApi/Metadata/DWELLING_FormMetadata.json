@@ -55,7 +55,7 @@
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
@@ -143,7 +143,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": true,
       "order": 11
     },
@@ -164,7 +164,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 12
     },
