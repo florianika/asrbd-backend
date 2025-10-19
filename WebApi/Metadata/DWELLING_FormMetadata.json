@@ -185,7 +185,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 21
     },
@@ -206,7 +206,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 22
     },
@@ -227,7 +227,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 23
     },
@@ -248,7 +248,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 31
     },
@@ -269,7 +269,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 32
     },
@@ -290,7 +290,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 33
     },
@@ -311,7 +311,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 41
     },
@@ -332,7 +332,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 52
     },
@@ -353,7 +353,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 53
     },
@@ -374,7 +374,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 61
     },
@@ -395,7 +395,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 62
     },
@@ -416,7 +416,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 63
     },
@@ -437,7 +437,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 64
     },
