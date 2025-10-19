@@ -100,7 +100,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 1
     },
@@ -121,7 +121,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 3
     },
@@ -142,7 +142,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 4
     },
