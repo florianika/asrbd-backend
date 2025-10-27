@@ -51,7 +51,7 @@ namespace Infrastructure.Repositories
             {
                 UserId = userId,
                 CodeHash = Hash(code),
-                ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(ttlMinutes)
+                ExpiresAt = DateTime.UtcNow.AddMinutes(ttlMinutes)
             };
             await SaveAsync(rec);
 
@@ -66,7 +66,7 @@ namespace Infrastructure.Repositories
             var rec = await GetLatestAsync(userId);
             if (rec is null) return false;
             if (rec.ConsumedAt.HasValue) return false;
-            if (rec.ExpiresAt < DateTimeOffset.UtcNow) return false;
+            if (rec.ExpiresAt < DateTime.UtcNow) return false;
 
             // constant-time compare
             var ok = CryptographicOperations.FixedTimeEquals(
@@ -80,7 +80,7 @@ namespace Infrastructure.Repositories
                 return false;
             }
 
-            rec.ConsumedAt = DateTimeOffset.UtcNow;
+            rec.ConsumedAt = DateTime.UtcNow;
             await UpdateAsync(rec);
             return true;
         }

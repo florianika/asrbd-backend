@@ -79,16 +79,16 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<DateTimeOffset?>("ConsumedAt")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime?>("ConsumedAt")
+                        .HasColumnType("datetime");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("SYSDATETIMEOFFSET()");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("SYSDATETIME()");
 
-                    b.Property<DateTimeOffset>("ExpiresAt")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");

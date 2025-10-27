@@ -1,13 +1,13 @@
-﻿namespace Domain
+﻿
+namespace Domain
 {
-    public class OtpRecord
+    public class PasswordResetToken
     {
         public long Id { get; set; }
         public Guid UserId { get; set; }
-        public string CodeHash { get; set; } = default!;
+        public string TokenHash { get; set; } = default!;
         public DateTime ExpiresAt { get; set; }
         public DateTime? ConsumedAt { get; set; }
-        public int Attempts { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

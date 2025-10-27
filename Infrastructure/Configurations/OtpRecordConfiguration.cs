@@ -24,7 +24,7 @@ namespace Infrastructure.Configurations
                    .HasDefaultValue(0);
             builder.Property(x => x.CreatedAt)
                    .IsRequired()
-                   .HasDefaultValueSql("SYSDATETIMEOFFSET()");
+                   .HasDefaultValueSql("SYSDATETIME()");
             builder.HasIndex(x => new { x.UserId, x.CodeHash })
                    .IsUnique()
                    .HasDatabaseName("UX_OtpRecords_User_Code");

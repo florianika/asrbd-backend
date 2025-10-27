@@ -20,10 +20,10 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CodeHash = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    ExpiresAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    ConsumedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    ConsumedAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     Attempts = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false, defaultValueSql: "SYSDATETIMEOFFSET()")
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false, defaultValueSql: "SYSDATETIME()")
                 },
                 constraints: table =>
                 {
