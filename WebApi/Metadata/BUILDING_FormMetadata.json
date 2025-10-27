@@ -6,6 +6,10 @@
         "en": "OBJECTID",
         "al": "OBJECTID"
       },
+      "description": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -23,6 +27,10 @@
         "en": "Shape",
         "al": "Shape"
       },
+      "description": {
+        "en": "Shape",
+        "al": "Shape"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -36,6 +44,10 @@
     {
       "name": "Shape__Area",
       "label": {
+        "en": "Shape__Area",
+        "al": "Shape__Area"
+      },
+      "description": {
         "en": "Shape__Area",
         "al": "Shape__Area"
       },
@@ -56,6 +68,10 @@
         "en": "Shap__Length",
         "al": "Shap__Length"
       },
+      "description": {
+        "en": "Shap__Length",
+        "al": "Shap__Length"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -71,7 +87,11 @@
       "name": "GlobalID",
       "label": {
         "en": "ASRBD Building ID",
-        "al": "ASRBD Ndërtesa ID"
+        "al": "ID e Ndërtesës ASRBD"
+      },
+      "description": {
+        "en": "Globally unique identifier (GUID) automatically assigned by the geodatabase to each building recorded in ASRBD.",
+        "al": "Identifikues unik global (GUID) i caktuar automatikisht nga geodatabaza për çdo ndërtesë të regjistruar në ASRBD."
       },
       "display": {
         "admin": "read",
@@ -80,7 +100,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 1
     },
@@ -88,7 +108,11 @@
       "name": "BldCensus2023",
       "label": {
         "en": "Building ID of Census 2023",
-        "al": "ID e ndërtesës nga Census 2023"
+        "al": "ID e Ndërtesës në Census 2023"
+      },
+      "description": {
+        "en": "Unique building identifier allocated to all buildings enumerated in Census 2023.",
+        "al": "Identifikues unik i ndërtesës i caktuar për të gjitha ndërtesat e numëruara në Regjistrimin e Popullsisë 2023."
       },
       "display": {
         "admin": "write",
@@ -97,7 +121,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 3
     },
@@ -105,7 +129,11 @@
       "name": "BldAddressID",
       "label": {
         "en": "Building ID of National Address System",
-        "al": "ID e ndërtesës nga Sistemi Kombëtar i Adresave"
+        "al": "ID e Ndërtesës në Sistemin Kombëtar të Adresave"
+      },
+      "description": {
+        "en": "Unique building identifier applied by the National Address System (AS).",
+        "al": "Identifikues unik i ndërtesës i aplikuar nga Sistemi Kombëtar i Adresave (SKA)."
       },
       "display": {
         "admin": "write",
@@ -114,7 +142,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 4
     },
@@ -122,7 +150,11 @@
       "name": "BldReview",
       "label": {
         "en": "Review status of building",
-        "al": "Statusi i rishikimit për ndërtesën"
+        "al": "Statusi i rishikimit të ndërtesës"
+      },
+      "description": {
+        "en": "Current status of field data collection for the building.",
+        "al": "Gjendja aktuale e mbledhjes së të dhënave në terren për ndërtesën."
       },
       "display": {
         "admin": "write",
@@ -139,7 +171,11 @@
       "name": "BldQuality",
       "label": {
         "en": "Quality status of building data",
-        "al": "Cilësia e të dhënave të ndërtesës"
+        "al": "Statusi i cilësisë së të dhënave për ndërtesën"
+      },
+      "description": {
+        "en": "Status of building data according to the quality requirements.",
+        "al": "Statusi i të dhënave të ndërtesës sipas kërkesave të cilësisë"
       },
       "display": {
         "admin": "read",
@@ -158,6 +194,10 @@
         "en": "Code and name of Municipality",
         "al": "Kodi dhe emri i bashkisë"
       },
+      "description": {
+        "en": "Municipality in which the building is located",
+        "al": "Bashkia në të cilën ndodhet ndërtesa"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -174,6 +214,10 @@
       "label": {
         "en": "Enumeration area",
         "al": "Zona e censusit"
+      },
+      "description": {
+        "en": "Enumeration area in which the building is located.",
+        "al": "Zona e censusit në të cilën ndodhet ndërtesa "
       },
       "display": {
         "admin": "write",
@@ -192,6 +236,10 @@
         "en": "Latitude of building centroid",
         "al": "Gjerësia gjoegrafike e qëndrës së ndërtesës"
       },
+      "description": {
+        "en": "Latitude of building centroid in decimal degrees.",
+        "al": "Gjerësia gjoegrafike e qendrës së ndërtesës në gradë dhjetore"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -208,6 +256,10 @@
       "label": {
         "en": "Longitude of building centroid",
         "al": "Gjatësia gjoegrafike e qëndrës së ndërtesës"
+      },
+      "description": {
+        "en": "Longitude of building centroid in decimal degrees.",
+        "al": "Gjatësia gjoegrafike e qendrës së ndërtesës në gradë dhjetore"
       },
       "display": {
         "admin": "read",
@@ -226,6 +278,10 @@
         "en": "Status of building centroid",
         "al": "Statusi i qendrës së ndërtesës"
       },
+      "description": {
+        "en": "Classification of coordinates locating the building centroid",
+        "al": "Klasifikimi i koordinatave që tregojnë qendrën e ndërtesës"
+      },
       "display": {
         "admin": "write",
         "supervisor": "read",
@@ -242,6 +298,10 @@
       "label": {
         "en": "Cadastral zone",
         "al": "Zona kadastrale"
+      },
+      "description": {
+        "en": "Cadastral zone in which the building is located",
+        "al": "Zona kadastrale ku ndodhet ndërtesa"
       },
       "display": {
         "admin": "write",
@@ -260,6 +320,10 @@
         "en": "Property number of building ",
         "al": "Numri i pronës së ndërtesës"
       },
+      "description": {
+        "en": "Property to which the building is allocated.",
+        "al": "Prona mbi të cilën është ndërtuar ndërtesa"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -276,6 +340,10 @@
       "label": {
         "en": "Number of construction permit",
         "al": "Numri i lejes së ndërtimit"
+      },
+      "description": {
+        "en": "Number attributed to construction permit by ePermit System.", 
+        "al": "Numri i lejes së ndërtimit që është lëshuar nga shërbimi e-leje"
       },
       "display": {
         "admin": "write",
@@ -294,6 +362,10 @@
         "en": "Issue date of construction permit",
         "al": "Data e lejes së ndërtimit"
       },
+      "description": {
+        "en": "Date when construction permit is issued (or extended).",
+        "al": "Data kur është lëshuar ose zgjatur leja e ndërtimit"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -311,6 +383,10 @@
         "en": "Status of building",
         "al": "Statusi i ndërtesës"
       },
+      "description": {
+        "en": "Indication of whether a building exists or does not yet exist or no longer exists",
+        "al": "Tregon nëse ndërtesa ekziston, nuk ekziston ose është shkatërruar"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -318,7 +394,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 21
     },
@@ -326,7 +402,11 @@
       "name": "BldYearConstruction",
       "label": {
         "en": "Construction year of building",
-        "al": "Viti i ndërtimit të banesës"
+        "al": "Viti i ndërtimit të ndërtesës"
+      },
+      "description": {
+        "en": "Year when the building was officially released for its intended use",
+        "al": "Viti kur ndërtesa u vu zyrtarisht në përdorim sipas qëllimit të saj"
       },
       "display": {
         "admin": "write",
@@ -335,7 +415,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 22
     },
@@ -345,6 +425,10 @@
         "en": "Demolition year of building",
         "al": "Viti i shëmbjes së ndërtesës"
       },
+      "description": {
+        "en": "Year when the building was demolished.",
+        "al": "Viti kur ndërtesa është shëmbur"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -352,7 +436,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 23
     },
@@ -360,7 +444,11 @@
       "name": "BldType",
       "label": {
         "en": "Type of building",
-        "al": "Tipi i ndërtesës"
+        "al": "LLoji i ndërtesës"
+      },
+      "description": {
+        "en": "Predominantly use of the building.",
+        "al": "Përdorimi kryesor i ndërtesës"
       },
       "display": {
         "admin": "write",
@@ -369,7 +457,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 31
     },
@@ -379,6 +467,10 @@
         "en": "Classification of the building",
         "al": "Klsifikimi i ndërtesës"
       },
+      "description": {
+        "en": "Classification of predominantly use of the building", 
+        "al": "Klasifikimi i përdorimit kryesor të ndërtesës"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -386,15 +478,19 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 32
     },
     {
       "name": "BldArea",
       "label": {
-        "en": "Estimated built-up area at ground",
-        "al": "Sipërfaqja e vlerësuar e ndërtesës"
+        "en": "Built-up area at ground",
+        "al": "Sipërfaqja e ndërtuar në tokë"
+      },
+      "description": {
+        "en": "Estimated built-up area of the building at ground level in square meters.",
+        "al": "Sipërfaqja e ndërtuar e ndërtesës në nivelin e tokës, e vlerësuar në metra katrorë."
       },
       "display": {
         "admin": "read",
@@ -403,7 +499,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 41
     },
@@ -413,6 +509,10 @@
         "en": "Number of floors above ground",
         "al": "Numri i kateve të ndërtesës"
       },
+      "description": {
+        "en": "Number of floors above the ground level (including the ground floor)", 
+        "al": "Numri i katëve mbi nivelin e tokës"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -420,7 +520,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 42
     },
@@ -430,6 +530,10 @@
         "en": "Estimated height of building",
         "al": "Lartësia e vlerësuar e ndërtesës"
       },
+      "description": {
+        "en": "Estimated building height from the ground level expressed in meters.",
+        "al": "Lartësia e ndërtesës nga niveli i tokës, e vlerësuar në metra."
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -437,7 +541,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 46
     },
@@ -447,6 +551,10 @@
         "en": "Estimated volume of building",
         "al": "Vëllimi i vlerësuar i ndërtesës"
       },
+      "description": {
+        "en": "Estimated building volume expressed in thousand cubic meters.",
+        "al": "Vëllimi i vlerësuar i ndërtesës, shprehur në mijë metra kub"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -454,7 +562,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 47
     },
@@ -462,7 +570,11 @@
       "name": "BldEntranceRecs",
       "label": {
         "en": "Number of recorded entrances",
-        "al": "Numri i regjistruar i hyrjeve"
+        "al": "Numri i hyrjeve të regjistruara"
+      },
+      "description": {
+        "en": "Total number of entrances assigned to the building",
+        "al": "Numri total i hyrjeve në ndërtesë"
       },
       "display": {
         "admin": "read",
@@ -471,7 +583,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 48
     },
@@ -481,6 +593,10 @@
         "en": "Number of recorded dwellings",
         "al": "Numri i banesave të regjistruara"
       },
+      "description": {
+        "en": "Total number of dwellings assigned to the building.", 
+        "al": "Numri total i banesave në ndërtesë"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -488,7 +604,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 49
     },
@@ -496,7 +612,11 @@
       "name": "BldWaterSupply",
       "label": {
         "en": "Type of water supply system",
-        "al": "Tipi i prurjes së ujit në banesë"
+        "al": "Lloji i furnizimit me ujë"
+      },
+      "description": {
+        "en": "Type of water supply system the building is connected to",
+        "al": "Lloji i sistemit të furnizimit me ujë me të cilin është lidhur ndërtesa"
       },
       "display": {
         "admin": "write",
@@ -505,7 +625,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 51
     },
@@ -515,6 +635,10 @@
         "en": "Wastewater treatment",
         "al": "Trajtimi i ujrave të zeza"
       },
+      "description": {
+        "en": "Connection to a wastewater treatment plant.",
+        "al": "Lidhja me sistemin e trajtimit të ujërave"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -522,7 +646,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 53
     },
@@ -532,6 +656,10 @@
         "en": "Electricity network connection",
         "al": "Lidhja me rrjetin elektrik"
       },
+      "description": {
+        "en": "Connection to an electricity network.",
+        "al": "Furnizimi me energji elektrike"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -539,7 +667,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 61
     },
@@ -549,6 +677,10 @@
         "en": "Piped gas supply system",
         "al": "Sistemi i furnizimit me gaz të lëngshëm"
       },
+      "description": {
+        "en": "Connection to a piped gas supply system.",
+        "al": "Lidhja me sistemin e gazit"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -556,7 +688,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 62
     },
@@ -566,6 +698,10 @@
         "en": "Elevator",
         "al": "Ashensori"
       },
+      "description": {
+        "en": "Presence of an elevator in the building.",
+        "al": "Prania e ashensorit në ndërtesë"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -573,7 +709,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 63
     },
@@ -582,6 +718,10 @@
       "label": {
         "en": "created_user",
         "al": "created_user"
+      },
+      "description": {
+        "en": "Created user",
+        "al": "Krijuar nga"
       },
       "display": {
         "admin": "none",
@@ -600,6 +740,10 @@
         "en": "created_date",
         "al": "created_date"
       },
+      "description": {
+        "en": "Created date",
+        "al": "Krijuar më"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -616,6 +760,10 @@
       "label": {
         "en": "last_edited_user",
         "al": "last_edited_user"
+      },
+      "description": {
+        "en": "Last edited user",
+        "al": "E modifikuar nga"
       },
       "display": {
         "admin": "none",
@@ -634,6 +782,10 @@
         "en": "last_edited_date",
         "al": "last_edited_date"
       },
+      "description": {
+        "en": "Last edited date",
+        "al": "E modifikuar më"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -648,6 +800,10 @@
     {
       "name": "external_creator",
       "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "description": {
         "en": "Created by",
         "al": "Krijuar nga"
       },
@@ -668,6 +824,10 @@
         "en": "Created on",
         "al": "E krijuar më"
       },
+      "description": {
+        "en": "Created on",
+        "al": "E krijuar më"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -685,6 +845,10 @@
         "en": "Modified by",
         "al": "E modifikuar nga"
       },
+      "description": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -699,6 +863,10 @@
     {
       "name": "external_editor_date",
       "label": {
+        "en": "Modified on",
+        "al": "E modifikuar më"
+      },
+      "description": {
         "en": "Modified on",
         "al": "E modifikuar më"
       },

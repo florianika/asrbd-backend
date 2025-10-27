@@ -6,6 +6,10 @@
         "en": "OBJECTID",
         "al": "OBJECTID"
       },
+      "description": {
+        "en": "OBJECTID",
+        "al": "OBJECTID"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -20,6 +24,10 @@
     {
       "name": "Shape",
       "label": {
+        "en": "Shape",
+        "al": "Shape"
+      },
+      "description": {
         "en": "Shape",
         "al": "Shape"
       },
@@ -40,6 +48,10 @@
         "en": "Shape__Area",
         "al": "Shape__Area"
       },
+      "description": { 
+        "en": "Shape__Area",
+        "al": "Shape__Area"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -54,6 +66,10 @@
     {
       "name": "Shap__Length",
       "label": {
+        "en": "Shap__Length",
+        "al": "Shap__Length"
+      },
+      "description": {
         "en": "Shap__Length",
         "al": "Shap__Length"
       },
@@ -72,7 +88,11 @@
       "name": "GlobalID",
       "label": {
         "en": "ASRBD Entrance ID",
-        "al": "ASRBD Hyrje ID"
+        "al": "ID e hyrjes ASRBD"
+      },
+      "description": {
+        "en": "Globally unique identifier (GUID) automatically assigned by the geodatabase to each entrance recorded in ASRBD.",
+        "al": "Identifikues unik global (GUID) i caktuar automatikisht nga geodatabaza për secilën hyrje të regjistruar në ASRBD."
       },
       "display": {
         "admin": "read",
@@ -81,7 +101,7 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 1
     },
@@ -89,16 +109,20 @@
       "name": "EntBldGlobalID",
       "label": {
         "en": "ASRBD Building ID",
-        "al": "ASRDB Ndërtesa ID"
+        "al": "ID e ndërtesës ASRBD"
+      },
+      "description": {
+        "en": "Globally unique identifier (GUID) assigned to the relevant building of the entrance.",
+        "al": "Identifikues unik global (GUID) i caktuar për ndërtesën përkatëse të hyrjes."
       },
       "display": {
         "admin": "read",
         "supervisor": "read",
-        "enumerator": "read"
+        "enumerator": "none"
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
       "required": false,
       "order": 2
     },
@@ -108,22 +132,9 @@
         "en": "Entrance ID of Census 2023",
         "al": "ID e hyrjes nga Census 2023"
       },
-      "display": {
-        "admin": "write",
-        "supervisor": "read",
-        "enumerator": "read"
-      },
-      "selectable": false,
-      "internal": false,
-      "section": "technical",
-      "required": false,
-      "order": 3
-    },
-    {
-      "name": "EntAddressID",
-      "label": {
-        "en": "Entrance ID in the National Address System",
-        "al": "Kodi i hyrjes në Sistemin Kombëtar të Adresave"
+      "description": {
+        "en": "Unique entrance identifier allocated to all entrances enumerated in Census 2023.",
+        "al": "Identifikues unik i hyrjes i ndarë për të gjitha hyrjet e numëruara në Regjistrimin 2023."
       },
       "display": {
         "admin": "write",
@@ -132,7 +143,28 @@
       },
       "selectable": false,
       "internal": false,
-      "section": "technical",
+      "section": "identification",
+      "required": false,
+      "order": 3
+    },
+    {
+      "name": "EntAddressID",
+      "label": {
+        "en": "Entrance ID in the National Address System",
+        "al": "ID e hyrjes në Sistemin Kombëtar të Adresave"
+      },
+      "description": {
+        "en": "Unique entrance identifier applied by the National Address System (AS).",
+        "al": "Identifikues unik i hyrjes i aplikuar nga Sistemi Kombëtar i Adresave (SKA)."
+      },
+      "display": {
+        "admin": "write",
+        "supervisor": "read",
+        "enumerator": "none"
+      },
+      "selectable": false,
+      "internal": false,
+      "section": "identification",
       "required": false,
       "order": 4
     },
@@ -140,7 +172,11 @@
       "name": "EntQuality",
       "label": {
         "en": "Quality status of entrance data",
-        "al": "Cilësia e të dhënave të hyrjes"
+        "al": "Statusi i cilësisë së të dhënave për hyrjen"
+      },
+      "description": {
+        "en": "Status of entrance data according to the quality requirements.",
+        "al": "Statusi i të dhënave të hyrjes sipas kërkesave të cilësisë."
       },
       "display": {
         "admin": "read",
@@ -156,6 +192,10 @@
     {
       "name": "EntLatitude",
       "label": {
+        "en": "Entrance point Latitude",
+        "al": "Gjerësia gjeografike e hyrjes"
+      },
+      "description": {
         "en": "Entrance point Latitude",
         "al": "Gjerësia gjeografike e hyrjes"
       },
@@ -176,6 +216,10 @@
         "en": "Entrance point Longitude",
         "al": "Gjatësia gjeografike e hyrjes"
       },
+      "description": {
+        "en": "Entrance point Longitude",
+        "al": "Gjatësia gjeografike e hyrjes"
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -192,6 +236,10 @@
       "label": {
         "en": "Status of entrance point",
         "al": "Statusi i pikës së hyrjes"
+      },
+      "description": {
+        "en": "Classification of coordinates locating the entrance point.",
+        "al": "Klasifikimi i koordinatave që lokalizojnë pikën e hyrjes."
       },
       "display": {
         "admin": "write",
@@ -210,6 +258,10 @@
         "en": "Street Name",
         "al": "Emri i rrugës"
       },
+      "description": {
+        "en": "Globally unique identifier (GUID) assigned to the streetname in which the building entrance is located.",
+        "al": "Identifikues unik global (GUID) i caktuar për emrin e rrugës në të cilën ndodhet hyrja e ndërtesës."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -217,7 +269,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 13
     },
@@ -225,7 +277,11 @@
       "name": "EntBuildingNumber",
       "label": {
         "en": "Address number of building",
-        "al": "Adresa, numri i ndërtesës "
+        "al": "Numri i ndërtesës në adresë"
+      },
+      "description": {
+        "en": "Official building number aligned with the National Address System (AS).",
+        "al": "Numri zyrtar i ndërtesës i përshtatur me Sistemin Kombëtar të Adresave (SKA)."
       },
       "display": {
         "admin": "write",
@@ -234,7 +290,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 14
     },
@@ -244,6 +300,10 @@
         "en": "Address number of entrance",
         "al": "Numri i hyrjes"
       },
+      "description": {
+        "en": "Official entrance number aligned with the National Address System (AS).",
+        "al": "Numri zyrtar i hyrjes i përshtatur me Sistemin Kombëtar të Adresave (SKA)."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -251,7 +311,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 15
     },
@@ -261,6 +321,10 @@
         "en": "Code and name of town",
         "al": "Kodi dhe emri i qytetit"
       },
+      "description": {
+        "en": "Town or village in which the building entrance is located.",
+        "al": "Qyteti ose fshati në të cilin ndodhet hyrja e ndërtesës."
+      },
       "display": {
         "admin": "write",
         "supervisor": "write",
@@ -268,15 +332,19 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 16
     },
     {
       "name": "EntZipCode",
       "label": {
-        "en": "Post office area",
-        "al": "Kodi postar"
+        "en": "Official postal code",
+        "al": "Kodi postar zyrtar"
+      },
+      "description": {
+        "en": "Post office area (represented by zip code) in which the entrance of the building is located.",
+        "al": "Zona postare (përfaqësuar me kodin postar) në të cilën ndodhet hyrja e ndërtesës."
       },
       "display": {
         "admin": "write",
@@ -285,7 +353,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "identifier",
+      "section": "identification",
       "required": false,
       "order": 17
     },
@@ -295,6 +363,10 @@
         "en": "Number of recorded dwellings",
         "al": "Numri i banesave të regjistruara"
       },
+      "description": {
+        "en": "Total number of dwellings assigned to the entrance.",
+        "al": "Numri total i banesave të caktuara për hyrjen."
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -302,7 +374,7 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 22
     },
@@ -310,7 +382,11 @@
       "name": "EntDwellingExpec",
       "label": {
         "en": "Number of expected dwellings",
-        "al": "Numri i vlerësuar i banesave "
+        "al": "Numri i banesave të pritura"
+      },
+      "description": {
+        "en": "Total number of dwellings expected to be assigned to the entrance.",
+        "al": "Numri total i banesave të pritshme që do t’i caktohen hyrjes."
       },
       "display": {
         "admin": "write",
@@ -319,13 +395,17 @@
       },
       "selectable": true,
       "internal": false,
-      "section": "info",
+      "section": "description",
       "required": false,
       "order": 23
     },
     {
       "name": "created_user",
       "label": {
+        "en": "created_user",
+        "al": "created_user"
+      },
+      "description": {
         "en": "created_user",
         "al": "created_user"
       },
@@ -346,6 +426,10 @@
         "en": "created_date",
         "al": "created_date"
       },
+      "description": {
+        "en": "created_date",
+        "al": "created_date"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -360,6 +444,10 @@
     {
       "name": "last_edited_user",
       "label": {
+        "en": "last_edited_user",
+        "al": "last_edited_user"
+      },
+      "description": {
         "en": "last_edited_user",
         "al": "last_edited_user"
       },
@@ -380,6 +468,10 @@
         "en": "last_edited_date",
         "al": "last_edited_date"
       },
+      "description": {
+        "en": "last_edited_date",
+        "al": "last_edited_date"
+      },
       "display": {
         "admin": "none",
         "supervisor": "none",
@@ -394,6 +486,10 @@
     {
       "name": "external_creator",
       "label": {
+        "en": "Created by",
+        "al": "Krijuar nga"
+      },
+      "description": {
         "en": "Created by",
         "al": "Krijuar nga"
       },
@@ -414,6 +510,10 @@
         "en": "Created on",
         "al": "E krijuar më"
       },
+      "description": {
+        "en": "Created on",
+        "al": "E krijuar më"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -431,6 +531,10 @@
         "en": "Modified by",
         "al": "E modifikuar nga"
       },
+      "description": {
+        "en": "Modified by",
+        "al": "E modifikuar nga"
+      },
       "display": {
         "admin": "read",
         "supervisor": "read",
@@ -445,6 +549,10 @@
     {
       "name": "external_editor_date",
       "label": {
+        "en": "Modified on",
+        "al": "E modifikuar më"
+      },
+      "description": {
         "en": "Modified on",
         "al": "E modifikuar më"
       },
