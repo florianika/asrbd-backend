@@ -23,5 +23,11 @@ namespace Application.Ports
         Task UnlockAccount(Domain.User user);
         Task<Domain.User> FindUserByEmail(string email);
         Task SetUserMunicipality(Guid requestUserId, string requestMunicipalityCode);
+        Task SavePasswordResetToken(PasswordResetToken token);
+        Task<PasswordResetToken?> GetPasswordResetTokenByHash(string tokenHash);
+        Task InvalidatePasswordResetToken(long tokenId, Guid consumedBy);
+        Task InvalidateAllUserResetTokens(Guid userId);
+        Task UpdateUserPassword(Guid userId, string passwordHash);
+        Task BuildAndSendResetPasswordEmail(PasswordResetToken token, Domain.User user, string rawToken);
     }
 }

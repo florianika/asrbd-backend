@@ -9,5 +9,6 @@ namespace Domain
         public DateTime ExpiresAt { get; set; }
         public DateTime? ConsumedAt { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public int Attempts { get; set; } = 0;
     }
 }

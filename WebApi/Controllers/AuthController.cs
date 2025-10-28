@@ -44,6 +44,12 @@ using Application.User.Login2fa;
 using Application.User.Verify2fa.Request;
 using Application.User.Verify2fa;
 using Application.User.Verify2fa.Response;
+using Application.User.ForgetPassword.Request;
+using Application.User.ForgetPassword.Response;
+using Application.User.ForgetPassword;
+using Application.User.ResetPassword.Response;
+using Application.User.ResetPassword.Request;
+using Application.User.ResetPassword;
 
 namespace WebApi.Controllers
 {
@@ -70,6 +76,8 @@ namespace WebApi.Controllers
         private readonly SetUserMunicipality _setUserMunicipalityService;
         private readonly IGetMunicipalitiesQuery _getMunicipalitiesQuery;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IForgetPassword _forgetPasswordService;
+        private readonly IResetPassword _resetPasswordService;  
         public AuthController(CreateUser createUserService, 
             Login loginService,
 
@@ -87,7 +95,9 @@ namespace WebApi.Controllers
             IGetMunicipalitiesQuery getMunicipalitiesQuery,
             IHttpClientFactory httpClientFactory,
             Login2fa login2faService,
-            Verify2fa verify2faService)
+            Verify2fa verify2faService,
+            ForgetPassword forgetPasswordService,
+            ResetPassword resetPasswordService)
         {
             _createUserService = createUserService;
             _loginService = loginService;
@@ -106,6 +116,8 @@ namespace WebApi.Controllers
             _httpClientFactory = httpClientFactory;
             _login2faService = login2faService;
             _verify2faService = verify2faService;
+            _forgetPasswordService = forgetPasswordService;
+            _resetPasswordService = resetPasswordService;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -246,5 +258,22 @@ namespace WebApi.Controllers
             return response;
 
         }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("forget-password")]
+        public async Task<ForgetPasswordResponse> ForgetPassword(ForgetPasswordRequest request)
+        {
+            return await _forgetPasswordService.Execute(request);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("reset-password")]
+        public async Task<ResetPasswordResponse> ResetPassword(ResetPasswordRequest request)
+        {
+            return await _resetPasswordService.Execute(request);
+        }
+
     }
 }

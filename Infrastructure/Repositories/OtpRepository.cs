@@ -44,7 +44,7 @@ namespace Infrastructure.Repositories
 
         public async Task GenerateOtp(Guid userId)
         {
-            var ttlMinutes = int.Parse(_cfg["Otp:TtlMinutes"] ?? "10");
+            var ttlMinutes = 15;// token time to live in minutes
             var code = GenerateNumericCode(6);
 
             var rec = new OtpRecord

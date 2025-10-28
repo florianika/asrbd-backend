@@ -41,6 +41,8 @@ using Application.Queries;
 using Infrastructure.Queries.GetMunicipalities;
 using Application.User.Login2fa;
 using Application.User.Verify2fa;
+using Application.User.ForgetPassword;
+using Application.User.ResetPassword;
 
 var builder = WebApplication.CreateBuilder(args);
 // REGISTER SERVICES HERE
@@ -74,6 +76,8 @@ builder.Services.AddScoped<CreateUser>();
 builder.Services.AddScoped<Login>();
 builder.Services.AddScoped<Login2fa>();
 builder.Services.AddScoped<Verify2fa>();
+builder.Services.AddScoped<ForgetPassword>();
+builder.Services.AddScoped<ResetPassword>();
 builder.Services.AddScoped<RefreshToken>();
 builder.Services.AddScoped<SignOut>();
 builder.Services.AddScoped<GetAllUsers>();

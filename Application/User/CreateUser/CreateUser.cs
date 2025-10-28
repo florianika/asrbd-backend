@@ -3,6 +3,8 @@ using Application.User.CreateUser.Request;
 using Application.User.CreateUser.Response;
 using Domain.Enum;
 using Microsoft.Extensions.Logging;
+using System.Security.Cryptography;
+using System.Text;
 using Claim = Domain.Claim;
 
 namespace Application.User.CreateUser
@@ -39,7 +41,7 @@ namespace Application.User.CreateUser
                     Id = userId,
                     Active = true,
                     Email = request.Email,
-                    Password = _cryptographyService.HashPassword(request.Password, salt),
+                    Password = _cryptographyService.HashPassword(GeneratePassword(), salt),
                     Salt = salt,
                     Name = request.Name,
                     LastName = request.LastName,
@@ -65,6 +67,24 @@ namespace Application.User.CreateUser
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+
+        private string GeneratePassword()
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const int length = 10; // mund ta ndryshosh (minimum 8)
+
+            var data = new byte[length];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(data);
+
+            var result = new StringBuilder(length);
+            foreach (var b in data)
+            {
+                result.Append(chars[b % chars.Length]);
+            }
+
+            return result.ToString();
         }
 
         private static List<Claim>? ToClaims(Guid userId, string municipality)

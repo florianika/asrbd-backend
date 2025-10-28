@@ -21,6 +21,7 @@ namespace Infrastructure.Context
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<MunicipalityDto> Municipalities { get; set; } = null!;
         public DbSet<OtpRecord> OtpRecords { get; set; }
+        public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

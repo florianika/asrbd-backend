@@ -25,7 +25,6 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var request = new CreateUserRequest
             {
                 Email = "test@example.com",
-                Password = "password",
                 Name = "John",
                 LastName = "Doe",
                 MunicipalityCode = "1"
