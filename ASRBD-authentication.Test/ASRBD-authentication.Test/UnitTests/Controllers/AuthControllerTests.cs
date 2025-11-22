@@ -126,6 +126,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
 
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var gisFormRequestIP = new Mock<IOptions<GisFormRequestIP>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
 
             var controller = new AuthController(
@@ -141,6 +142,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
+                gisFormRequestIP.Object,
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
@@ -273,6 +275,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
 
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var gisFormRequestIP = new Mock<IOptions<GisFormRequestIP>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
             
             var controller = new AuthController(
@@ -288,6 +291,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
+                gisFormRequestIP.Object,
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
@@ -409,6 +413,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
             var getMunicipalitiesQuery = new Mock<IGetMunicipalitiesQuery>();
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var gisFromRequestIP = new Mock<IOptions<GisFormRequestIP>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
             
             var controller = new AuthController(
@@ -424,6 +429,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
+                gisFromRequestIP.Object,
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,
@@ -538,6 +544,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
 
             var gisServerCredentials = new Mock<IOptions<GisServerCredentials>>();
             var gisFormRequest = new Mock<IOptions<GisFormRequest>>();
+            var gisFormRequestIP = new Mock<IOptions<GisFormRequestIP>>();
             var iHttpClientFactoryMock = new Mock<IHttpClientFactory>();
             
             var controller = new AuthController(
@@ -553,6 +560,7 @@ namespace ASRBD_authentication.Test.UnitTests.Controllers
                 getUserByEmailServiceMock.Object,
                 gisServerCredentials.Object,
                 gisFormRequest.Object,
+                gisFormRequestIP.Object,
                 setUserMunicipalityServiceMock.Object,
                 getMunicipalitiesQuery.Object,
                 iHttpClientFactoryMock.Object,

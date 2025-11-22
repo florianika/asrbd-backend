@@ -73,6 +73,7 @@ namespace WebApi.Controllers
         private readonly GetUserByEmail _getUserByEmailService;
         private readonly IOptions<GisServerCredentials> _gisServerCredentials;
         private readonly IOptions<GisFormRequest> _gisFormRequest;
+        private readonly IOptions<GisFormRequestIP> _gisFormRequestIP;
         private readonly SetUserMunicipality _setUserMunicipalityService;
         private readonly IGetMunicipalitiesQuery _getMunicipalitiesQuery;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -91,6 +92,7 @@ namespace WebApi.Controllers
             GetUserByEmail getUserByEmailService,
             IOptions<GisServerCredentials> gisServerCredentials,
             IOptions<GisFormRequest> gisFormRequest,
+            IOptions<GisFormRequestIP> gisFormRequestIP,
             SetUserMunicipality setUserMunicipalityService,
             IGetMunicipalitiesQuery getMunicipalitiesQuery,
             IHttpClientFactory httpClientFactory,
@@ -111,6 +113,7 @@ namespace WebApi.Controllers
             _getUserByEmailService = getUserByEmailService;
             _gisServerCredentials = gisServerCredentials;
             _gisFormRequest = gisFormRequest;
+            _gisFormRequestIP = gisFormRequestIP;
             _setUserMunicipalityService = setUserMunicipalityService;
             _getMunicipalitiesQuery = getMunicipalitiesQuery;
             _httpClientFactory = httpClientFactory;
@@ -253,6 +256,18 @@ namespace WebApi.Controllers
         {
             var client = _httpClientFactory.CreateClient("gis");
             var frmUrl = new FormUrlEncodedContent(_gisFormRequest.Value);
+            var httpResponse = await client.PostAsync("/portal/sharing/rest/generateToken", frmUrl);
+            var response = await httpResponse.Content.ReadFromJsonAsync<GisLoginResponse>();
+            return response;
+
+        }
+        //[AllowAnonymous]
+        [HttpGet]
+        [Route("gis/ip/login")]
+        public async Task<GisLoginResponse?> GisIpLogin()
+        {
+            var client = _httpClientFactory.CreateClient("gis");
+            var frmUrl = new FormUrlEncodedContent(_gisFormRequestIP.Value);
             var httpResponse = await client.PostAsync("/portal/sharing/rest/generateToken", frmUrl);
             var response = await httpResponse.Content.ReadFromJsonAsync<GisLoginResponse>();
             return response;
