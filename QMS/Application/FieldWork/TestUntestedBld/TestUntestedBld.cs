@@ -25,7 +25,7 @@ namespace Application.FieldWork.TestUntestedBld
             {
                 var job = new Domain.Jobs
                 {
-                    FieldWorkId = request.Id,
+                    FieldWorkId = request.Id == 0 ? null : request.Id,
                     CreatedUser = request.CreatedUser,
                     CreatedTimestamp = DateTime.Now,
                     Status = Domain.Enum.JobStatus.RUNNING,
