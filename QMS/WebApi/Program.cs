@@ -73,6 +73,7 @@ using Infrastructure.Queries.GetFieldworkProgressByMunicipality;
 using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.FieldWork.ConfirmFieldworkClosure;
 using Application.Quality.SetBldToUntested;
+using Application.Building.TestBuildings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -183,6 +184,8 @@ builder.Services.AddScoped<UpdateFieldworkStatus>();
 builder.Services.AddScoped<IGetBuildingSummaryStatsQuery, GetBuildingSummaryStatsQuery>();
 builder.Services.AddScoped<IConfirmFieldworkClosure, ConfirmFieldworkClosure>();
 builder.Services.AddScoped<IGetFieldworkProgressByMunicipalityQuery, GetFieldworkProgressByMunicipalityQuery>();
+
+builder.Services.AddScoped<ITestBuildings, TestBuildings>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();

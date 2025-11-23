@@ -6,54 +6,76 @@ namespace Infrastructure.Services
 {
     public class JobExecutor : IJobExecutor
     {
-        private readonly IFieldWorkRepository _repository;
+        private readonly IFieldWorkRepository _fieldWorkrepository;
         private readonly ILogger<JobExecutor> _logger;
+        private readonly IBuildingRepository _buildingRepository;
 
-        public JobExecutor(IFieldWorkRepository repository, ILogger<JobExecutor> logger)
+        public JobExecutor(IFieldWorkRepository repository, ILogger<JobExecutor> logger, IBuildingRepository buildingRepository)
         {
-            _repository = repository;
+            _fieldWorkrepository = repository;
             _logger = logger;
+            _buildingRepository = buildingRepository;
         }
 
         public async Task ExecuteStatisticsJobAsync(int jobId)
         {
             try
             {
-                await _repository.ExecuteStatisticsSP(jobId);
+                await _fieldWorkrepository.ExecuteStatisticsSP(jobId);
 
-                var job = await _repository.GetJobById(jobId);
+                var job = await _fieldWorkrepository.GetJobById(jobId);
                 job.Status = Domain.Enum.JobStatus.COMPLETED;
                 job.CompletedTimestamp = DateTime.Now;
-                await _repository.UpdateJob(job);
+                await _fieldWorkrepository.UpdateJob(job);
             }
             catch (AppException ex)
             {
                 _logger.LogError(ex, "Job {JobId} failed", jobId);
-                var job = await _repository.GetJobById(jobId);
+                var job = await _fieldWorkrepository.GetJobById(jobId);
                 job.Status = Domain.Enum.JobStatus.FAILED;
                 job.CompletedTimestamp = DateTime.Now;
-                await _repository.UpdateJob(job);
+                await _fieldWorkrepository.UpdateJob(job);
             }
         }
-
         public async Task ExecuteTestUntestedBldJobAsync(int jobId)
         {
             try
             {
-                await _repository.ExecuteTestUntestedBldSP(jobId);
+                await _fieldWorkrepository.ExecuteTestUntestedBldSP(jobId);
 
-                var job = await _repository.GetJobById(jobId);
+                var job = await _fieldWorkrepository.GetJobById(jobId);
                 job.Status = Domain.Enum.JobStatus.COMPLETED;
                 job.CompletedTimestamp = DateTime.Now;
-                await _repository.UpdateJob(job);
+                await _fieldWorkrepository.UpdateJob(job);
             }
             catch (AppException ex)
             {
                 _logger.LogError(ex, "Job {JobId} failed", jobId);
-                var job = await _repository.GetJobById(jobId);
+                var job = await _fieldWorkrepository.GetJobById(jobId);
                 job.Status = Domain.Enum.JobStatus.FAILED;
                 job.CompletedTimestamp = DateTime.Now;
-                await _repository.UpdateJob(job);
+                await _fieldWorkrepository.UpdateJob(job);
+            }
+        }
+
+        public async Task ExecuteTestBuildingsAsync(int jobId, bool isAllBuildings)
+        {
+            try
+            {
+                await _buildingRepository.ExecuteTestBuildingSP(jobId, isAllBuildings);
+
+                var job = await _buildingRepository.GetJobById(jobId);
+                job.Status = Domain.Enum.JobStatus.COMPLETED;
+                job.CompletedTimestamp = DateTime.Now;
+                await _buildingRepository.UpdateJob(job);
+            }
+            catch (AppException ex)
+            {
+                _logger.LogError(ex, "Job {JobId} failed", jobId);
+                var job = await _buildingRepository.GetJobById(jobId);
+                job.Status = Domain.Enum.JobStatus.FAILED;
+                job.CompletedTimestamp = DateTime.Now;
+                await _buildingRepository.UpdateJob(job);
             }
         }
     }
