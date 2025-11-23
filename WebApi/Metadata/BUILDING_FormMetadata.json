@@ -348,7 +348,7 @@
       "display": {
         "admin": "write",
         "supervisor": "write",
-        "enumerator": "read"
+        "enumerator": "write"
       },
       "selectable": true,
       "internal": false,
@@ -369,7 +369,7 @@
       "display": {
         "admin": "write",
         "supervisor": "write",
-        "enumerator": "read"
+        "enumerator": "write"
       },
       "selectable": true,
       "internal": false,

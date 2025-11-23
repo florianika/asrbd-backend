@@ -58,6 +58,7 @@ var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 
 builder.Services.Configure<GisServerCredentials>(builder.Configuration.GetSection("GisServerCredentials"));
 builder.Services.Configure<GisFormRequest>(builder.Configuration.GetSection("GisFormRequest"));
+builder.Services.Configure<GisFormRequestIP>(builder.Configuration.GetSection("GisFormRequestIP"));
 
 
 builder.Services.AddControllers()
