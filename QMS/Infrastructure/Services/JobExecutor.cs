@@ -1,5 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.Ports;
+using Hangfire;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Services
@@ -57,25 +58,24 @@ namespace Infrastructure.Services
                 await _fieldWorkrepository.UpdateJob(job);
             }
         }
-
+        [DisableConcurrentExecution(timeoutInSeconds: 3600)]
+        [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
         public async Task ExecuteTestBuildingsAsync(int jobId, bool isAllBuildings)
         {
             try
             {
                 await _buildingRepository.ExecuteTestBuildingSP(jobId, isAllBuildings);
 
-                var job = await _buildingRepository.GetJobById(jobId);
-                job.Status = Domain.Enum.JobStatus.COMPLETED;
-                job.CompletedTimestamp = DateTime.Now;
-                await _buildingRepository.UpdateJob(job);
+                //var job = await _buildingRepository.GetJobById(jobId);
+                //job.Status = Domain.Enum.JobStatus.COMPLETED;
+                //job.CompletedTimestamp = DateTime.Now;
+                //await _buildingRepository.UpdateJob(job);
+                // e bej ne stored procedure
             }
             catch (AppException ex)
             {
                 _logger.LogError(ex, "Job {JobId} failed", jobId);
-                var job = await _buildingRepository.GetJobById(jobId);
-                job.Status = Domain.Enum.JobStatus.FAILED;
-                job.CompletedTimestamp = DateTime.Now;
-                await _buildingRepository.UpdateJob(job);
+                
             }
         }
     }

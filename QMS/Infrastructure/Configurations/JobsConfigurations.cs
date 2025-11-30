@@ -19,7 +19,7 @@ namespace Infrastructure.Configurations
             builder.HasOne(j => j.FieldWork)
                .WithMany()
                .HasForeignKey(s => s.FieldWorkId)
-               .IsRequired()
+               .IsRequired(false)
                .OnDelete(DeleteBehavior.Cascade);
         }
     }

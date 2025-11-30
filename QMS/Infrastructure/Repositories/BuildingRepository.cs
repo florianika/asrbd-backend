@@ -1,6 +1,7 @@
 ﻿using Application.Exceptions;
 using Application.Ports;
 using Domain;
+using Domain.Enum;
 using Infrastructure.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,11 @@ namespace Infrastructure.Repositories
 
                 throw new AppException(detailedMessage, sqlEx);
             }
+            catch (NotFoundException nfEx)
+            {
+                _logger.LogError(nfEx, "Job {JobId} not found when trying to mark as COMPLETED", jobId);
+                return;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Unexpected error executing TestBuildings");
@@ -68,7 +74,12 @@ namespace Infrastructure.Repositories
         public async Task<Jobs> GetJobById(int id)
         {
             return await _context.Jobs.FirstOrDefaultAsync(x => x.Id.Equals(id))
-                ?? throw new NotFoundException("Job not found");
+            ?? throw new NotFoundException("Job not found");
+        }
+
+        public async Task<List<Jobs>> GetRunningJobs()
+        {
+            return await _context.Jobs.Where(x => x.Status == JobStatus.RUNNING).ToListAsync();
         }
         public async Task UpdateJob(Domain.Jobs job)
         {

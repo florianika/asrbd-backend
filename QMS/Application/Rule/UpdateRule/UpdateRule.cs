@@ -34,6 +34,7 @@ namespace Application.Rule.UpdateRule
             rule.QualityMessageEn = request.QualityMessageEn;
             rule.UpdatedUser = request.UpdatedUser;
             rule.UpdatedTimestamp = DateTime.Now;
+            rule.RuleStatus = request.RuleStatus;
 
             await _ruleRepository.UpdateRule(rule);
 

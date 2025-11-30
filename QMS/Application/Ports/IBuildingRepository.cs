@@ -6,5 +6,6 @@
         Task<Domain.Jobs> GetJobById(int id);
         Task UpdateJob(Domain.Jobs job);
         Task ExecuteTestBuildingSP(int jobId, bool isAllBuildings);
+        Task<List<Domain.Jobs>> GetRunningJobs();
     }
 }

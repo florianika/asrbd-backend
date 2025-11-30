@@ -21,6 +21,7 @@ namespace Application.Rule.UpdateRule.Request
         public string? Remark { get; set; }
         public string? QualityMessageAl { get; set; }
         public string? QualityMessageEn { get; set; }
+        public RuleStatus RuleStatus { get; set; }
         public Guid UpdatedUser { get; set; }
     }
 }

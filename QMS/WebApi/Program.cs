@@ -74,6 +74,8 @@ using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.FieldWork.ConfirmFieldworkClosure;
 using Application.Quality.SetBldToUntested;
 using Application.Building.TestBuildings;
+using Application.Building.GetRunningJobs;
+using Application.Building.GetBldJobStatus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -127,6 +129,7 @@ builder.Services.AddScoped<IFieldWorkRepository, FieldWorkRepository>();
 builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 builder.Services.AddScoped<INoteRepository, NoteRepository>();
 builder.Services.AddScoped<IFieldWorkRuleRepository, FieldWorkRuleRepository>();
+builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<CreateRule>();
 builder.Services.AddScoped<GetAllRules>();
 builder.Services.AddScoped<GetActiveRules>();
@@ -178,6 +181,7 @@ builder.Services.AddScoped<IJobExecutor, JobExecutor>();
 builder.Services.AddScoped<IUpdateBldReviewStatus, UpdateBldReviewStatus>();
 builder.Services.AddScoped<OpenFieldWork>();
 builder.Services.AddScoped<IGetJobStatus, GetJobStatus>();
+
 builder.Services.AddScoped<IGetJobResults, GetJobResults>();
 builder.Services.AddScoped<IJobDispatcher, JobDispatcher>();
 builder.Services.AddScoped<UpdateFieldworkStatus>();
@@ -186,6 +190,9 @@ builder.Services.AddScoped<IConfirmFieldworkClosure, ConfirmFieldworkClosure>();
 builder.Services.AddScoped<IGetFieldworkProgressByMunicipalityQuery, GetFieldworkProgressByMunicipalityQuery>();
 
 builder.Services.AddScoped<ITestBuildings, TestBuildings>();
+
+builder.Services.AddScoped<IGetBldJobStatus, GetBldJobStatus>();
+builder.Services.AddScoped<GetRunningJobs>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();

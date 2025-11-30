@@ -1,4 +1,5 @@
 ﻿
+using Application.Building;
 using Application.EmailTemplate;
 using Application.FieldWork;
 using Application.FieldWorkRule;
@@ -199,7 +200,6 @@ namespace Application.Common.Translators
             });
             return statistics;
         }
-
         public static StatisticsDTO ToDTO(Domain.Statistics statistic)
         {
             return new StatisticsDTO()
@@ -210,5 +210,25 @@ namespace Application.Common.Translators
             };
         }
 
+        public static List<JobDTO> ToDTOList(List<Domain.Jobs> job)
+        {
+            List<JobDTO> jobs = new();
+            job.ForEach((job) => {
+                jobs.Add(ToDTO(job));
+            });
+            return jobs;
+        }
+        public static JobDTO ToDTO(Domain.Jobs job)
+        {
+            return new JobDTO()
+            {
+                Id = job.Id,
+                FieldWorkId = job.FieldWorkId,
+                Status = job.Status,
+                CreatedUser = job.CreatedUser,
+                CreatedTimestamp = job.CreatedTimestamp,
+                CompletedTimestamp = job.CompletedTimestamp
+            };
+        }
     }
 }

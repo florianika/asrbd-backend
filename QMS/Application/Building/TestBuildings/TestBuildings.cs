@@ -21,6 +21,15 @@ namespace Application.Building.TestBuildings
         {
             try
             {
+                //kontrollo nese ka job running
+                var runningJobs = await _buildingRepository.GetRunningJobs();
+
+                if (runningJobs.Any())
+                {
+                    // ka job-e që po ekzekutohen
+                    throw new PreconditionFailedException("There is a job already running");
+                }
+
                 var job = new Domain.Jobs
                 {
                     FieldWorkId = null,
