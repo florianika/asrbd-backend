@@ -41,9 +41,30 @@ namespace Application.Building.TestBuildings
 
                 var jobId = await _buildingRepository.CreateJob(job);
 
-                // Hangfire enqueue
-                BackgroundJob.Enqueue<IJobExecutor>(executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings));
+                //// Hangfire enqueue
+                //BackgroundJob.Enqueue<IJobExecutor>(executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings));
+                TimeSpan delay = TimeSpan.Zero;
+                if (request.StartAt.HasValue)
+                {
+                    var runAt = request.StartAt.Value;
+                    delay = runAt - DateTime.Now;
+                    if (delay < TimeSpan.Zero)
+                        delay = TimeSpan.Zero; // nëse ora ka kaluar, ekzekutoje menjëherë
+                }
 
+                if (delay == TimeSpan.Zero)
+                {
+                    // ekzekutim i menjëhershëm
+                    BackgroundJob.Enqueue<IJobExecutor>(
+                        executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings));
+                }
+                else
+                {
+                    // ekzekutim i skeduluar
+                    BackgroundJob.Schedule<IJobExecutor>(
+                        executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings),
+                        delay);
+                }
                 return new TestBuildingsSuccessResponse
                 {
                     JobId = jobId

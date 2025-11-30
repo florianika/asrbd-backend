@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Building.GetBldJobStatus.Response;
 using Application.Building.GetBldJobStatus.Request;
 using Application.Building.GetBldJobStatus;
+using Application.Building;
 
 namespace WebApi.Controllers
 {
@@ -29,23 +30,25 @@ namespace WebApi.Controllers
         }
         [HttpPost]
         [Route("run-test-job/all")]
-        public async Task<TestBuildingsResponse> TestAllBuildings()
+        public async Task<TestBuildingsResponse> TestAllBuildings([FromBody] TestBuildingRequestDTO dto)
         {
             TestBuildingsRequest request = new TestBuildingsRequest();
             var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.isAllBuildings = true; // all buildings
+            request.StartAt = dto?.StartAt;
             return await _testBuildingsService.Execute(request);
         }
 
         [HttpPost]
         [Route("run-test-job/untested")]
-        public async Task<TestBuildingsResponse> TestUntestedBld()
+        public async Task<TestBuildingsResponse> TestUntestedBld([FromBody] TestBuildingRequestDTO dto)
         {
             TestBuildingsRequest request = new TestBuildingsRequest();
             var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.isAllBuildings = false; // untested buildings
+            request.StartAt = dto?.StartAt;
             return await _testBuildingsService.Execute(request);
         }
         [HttpGet]
