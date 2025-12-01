@@ -1,5 +1,7 @@
 ﻿using Application.FieldWork.SendFieldWorkEmail;
+using Application.Queries.GetBuildingQualityStats;
 using Application.Queries.GetBuildingSummaryStats;
+using Application.Queries.GetDwellingQualityStats;
 using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.Queries.GetStatisticsFromBuilding;
 using Application.Queries.GetStatisticsFromRules;
@@ -54,6 +56,8 @@ namespace Infrastructure.Context
             modelBuilder.Entity<BuildingStatisticsDTO>().HasNoKey();
             modelBuilder.Entity<UserDTO>().HasNoKey().ToView(null);
             modelBuilder.Entity<BuildingSummaryStatsDTO>().HasNoKey();
+            modelBuilder.Entity<BuildingQualityStatsDTO>().HasNoKey();
+            modelBuilder.Entity<DwellingQualityStatsDTO>().HasNoKey();
             modelBuilder.Entity<FieldworkProgressByMunicipalityDTO>().HasNoKey();
             modelBuilder.ApplyConfiguration(new StatisticsConfiguration());
             modelBuilder.ApplyConfiguration(new JobsConfigurations());

@@ -76,6 +76,10 @@ using Application.Quality.SetBldToUntested;
 using Application.Building.TestBuildings;
 using Application.Building.GetRunningJobs;
 using Application.Building.GetBldJobStatus;
+using Application.Queries.GetDwellingQualityStats;
+using Application.Queries.GetBuildingQualityStats;
+using Infrastructure.Queries.GetBuildingQualityStats;
+using Infrastructure.Queries.GetDwellingQualityStats;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -193,6 +197,8 @@ builder.Services.AddScoped<ITestBuildings, TestBuildings>();
 
 builder.Services.AddScoped<IGetBldJobStatus, GetBldJobStatus>();
 builder.Services.AddScoped<GetRunningJobs>();
+builder.Services.AddScoped<IGetDwellingQualityStatsQuery, GetDwellingQualityStatsQuery>();
+builder.Services.AddScoped<IGetBuildingQualityStatsQuery, GetBuildingQualityStatsQuery>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();

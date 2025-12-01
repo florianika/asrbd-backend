@@ -8,6 +8,10 @@ using Application.Building.GetBldJobStatus.Response;
 using Application.Building.GetBldJobStatus.Request;
 using Application.Building.GetBldJobStatus;
 using Application.Building;
+using Application.Queries.GetBuildingQualityStats.Response;
+using Application.Queries.GetDwellingQualityStats.Response;
+using Application.Queries.GetBuildingQualityStats;
+using Application.Queries.GetDwellingQualityStats;
 
 namespace WebApi.Controllers
 {
@@ -19,14 +23,20 @@ namespace WebApi.Controllers
         private readonly ITestBuildings _testBuildingsService;
         private readonly IAuthTokenService _authTokenService;
         private readonly IGetBldJobStatus _getJobStatusService;
+        private readonly IGetBuildingQualityStatsQuery _getBuildingQualityStatsQuery;
+        private readonly IGetDwellingQualityStatsQuery _getDwellingQualaityStatsQuery;
         public BuildingsController(ITestBuildings testBuildingsService,
             IAuthTokenService authTokenService,
-            IGetBldJobStatus getJobStatusService
+            IGetBldJobStatus getJobStatusService,
+            IGetBuildingQualityStatsQuery getBuildingQualityStatsQuery,
+            IGetDwellingQualityStatsQuery getDwellingQualityStatsQuery
             )
         {
             _testBuildingsService = testBuildingsService;
             _authTokenService = authTokenService;
             _getJobStatusService = getJobStatusService;
+            _getBuildingQualityStatsQuery = getBuildingQualityStatsQuery;
+            _getDwellingQualaityStatsQuery = getDwellingQualityStatsQuery;
         }
         [HttpPost]
         [Route("run-test-job/all")]
@@ -56,6 +66,20 @@ namespace WebApi.Controllers
         public async Task<GetBldJobStatusResponse> BldGetJobStatus(int id)
         {
             return await _getJobStatusService.Execute(new GetBldJobStatusRequest() { Id = id });
+        }
+
+        [HttpGet]
+        [Route("bld-quality-stats")]
+        public async Task<GetBuildingQualityStatsResponse> GetBuildingQualityStats()
+        {
+            return await _getBuildingQualityStatsQuery.Execute();
+        }
+
+        [HttpGet]
+        [Route("dwl-quality-stats")]
+        public async Task<GetDwellingQualityStatsResponse> GetDwellingQualityStats()
+        {
+            return await _getDwellingQualaityStatsQuery.Execute();
         }
     }
 }
