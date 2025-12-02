@@ -80,6 +80,9 @@ using Application.Queries.GetDwellingQualityStats;
 using Application.Queries.GetBuildingQualityStats;
 using Infrastructure.Queries.GetBuildingQualityStats;
 using Infrastructure.Queries.GetDwellingQualityStats;
+using Application.Building.CreateAnnualSnapshot;
+using Application.Building.GetAllAnnualSnapshots;
+using Application.Building.GetAnnualSnapshotById;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -199,6 +202,11 @@ builder.Services.AddScoped<IGetBldJobStatus, GetBldJobStatus>();
 builder.Services.AddScoped<GetRunningJobs>();
 builder.Services.AddScoped<IGetDwellingQualityStatsQuery, GetDwellingQualityStatsQuery>();
 builder.Services.AddScoped<IGetBuildingQualityStatsQuery, GetBuildingQualityStatsQuery>();
+builder.Services.AddScoped<ICreateAnnualSnapshot, CreateAnnualSnapshot>();
+builder.Services.AddScoped<IAnnualSnapshotExecutor, AnnualSnapshotExecutor>();
+builder.Services.AddScoped<IDownloadJobRepository, DownloadJobRepository>();
+builder.Services.AddScoped<IGetAllAnnualSnapshots, GetAllAnnualSnapshots>();
+builder.Services.AddScoped<IGetAnnualSnapshotById, GetAnnualSnapshotById>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<OpenFieldWorkRequestValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateFieldWorkRequestValidator>();

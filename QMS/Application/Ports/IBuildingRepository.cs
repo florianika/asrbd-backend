@@ -7,5 +7,7 @@
         Task UpdateJob(Domain.Jobs job);
         Task ExecuteTestBuildingSP(int jobId, bool isAllBuildings);
         Task<List<Domain.Jobs>> GetRunningJobs();
+        Task<List<Domain.DownloadJob>> GetAllAnnualSnapshots();
+        Task<Domain.DownloadJob> GetAnnualSnapshotById(int id);
     }
 }

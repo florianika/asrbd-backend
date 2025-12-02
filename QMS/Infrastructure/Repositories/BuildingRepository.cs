@@ -71,6 +71,17 @@ namespace Infrastructure.Repositories
             }
         }
 
+        public async Task<List<DownloadJob>> GetAllAnnualSnapshots()
+        {
+            return await _context.DownloadJobs.OrderBy(x=>x.ReferenceYear).ToListAsync();
+        }
+
+        public async Task<DownloadJob> GetAnnualSnapshotById(int id)
+        {
+            return await _context.DownloadJobs.FirstOrDefaultAsync(x => x.Id.Equals(id))
+            ?? throw new NotFoundException("download job not found");
+        }
+
         public async Task<Jobs> GetJobById(int id)
         {
             return await _context.Jobs.FirstOrDefaultAsync(x => x.Id.Equals(id))

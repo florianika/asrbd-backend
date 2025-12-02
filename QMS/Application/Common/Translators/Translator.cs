@@ -209,7 +209,6 @@ namespace Application.Common.Translators
                 BldStatistics = statistic.BldStatistics
             };
         }
-
         public static List<JobDTO> ToDTOList(List<Domain.Jobs> job)
         {
             List<JobDTO> jobs = new();
@@ -228,6 +227,30 @@ namespace Application.Common.Translators
                 CreatedUser = job.CreatedUser,
                 CreatedTimestamp = job.CreatedTimestamp,
                 CompletedTimestamp = job.CompletedTimestamp
+            };
+        }
+
+        public static List<DownloadJobDTO> ToDTOList(List<Domain.DownloadJob> downloadJob)
+        {
+            List<DownloadJobDTO> downloadJobs = new();
+            downloadJob.ForEach((downloadJob) => {
+                downloadJobs.Add(ToDTO(downloadJob));
+            });
+            return downloadJobs;
+        }
+        public static DownloadJobDTO ToDTO(Domain.DownloadJob downloadJob)
+        {
+            return new DownloadJobDTO()
+            {
+                Id = downloadJob.Id,
+                ReferenceYear = downloadJob.ReferenceYear,
+                Status = downloadJob.Status,
+                FileUrl = downloadJob.FileUrl,
+                CreatedBy = downloadJob.CreatedBy,
+                CreatedAt = downloadJob.CreatedAt,
+                CompletedAt = downloadJob.CompletedAt,
+                Remarks = downloadJob.Remarks,
+                LastUpdatedBy = downloadJob.LastUpdatedBy
             };
         }
     }
