@@ -20,6 +20,7 @@ using Application.Building.GetAnnualSnapshotById.Request;
 using Application.Building.GetAnnualSnapshotById.Response;
 using Application.Building.GetAllAnnualSnapshots;
 using Application.Building.GetAnnualSnapshotById;
+using System.IO;
 
 namespace WebApi.Controllers
 {
@@ -36,6 +37,7 @@ namespace WebApi.Controllers
         private readonly ICreateAnnualSnapshot _createAnnualSnapshotService;
         private readonly IGetAllAnnualSnapshots _getAllAnnualSnapshotsService;
         private readonly IGetAnnualSnapshotById _getAnnualSnapshotByIdService;
+        private readonly IWebHostEnvironment _env;
         public BuildingsController(ITestBuildings testBuildingsService,
             IAuthTokenService authTokenService,
             IGetBldJobStatus getJobStatusService,
@@ -43,7 +45,8 @@ namespace WebApi.Controllers
             IGetDwellingQualityStatsQuery getDwellingQualityStatsQuery,
             ICreateAnnualSnapshot createAnnualSnapshotService,
             IGetAllAnnualSnapshots getAllAnnualSnapshotsService,
-            IGetAnnualSnapshotById getAnnualSnapshotByIdService
+            IGetAnnualSnapshotById getAnnualSnapshotByIdService,
+            IWebHostEnvironment env
             )
         {
             _testBuildingsService = testBuildingsService;
@@ -54,6 +57,7 @@ namespace WebApi.Controllers
             _createAnnualSnapshotService = createAnnualSnapshotService;
             _getAllAnnualSnapshotsService = getAllAnnualSnapshotsService;
             _getAnnualSnapshotByIdService = getAnnualSnapshotByIdService;
+            _env = env;
         }
         [HttpPost]
         [Route("run-test-job/all")]
@@ -121,5 +125,31 @@ namespace WebApi.Controllers
         {
             return await _getAnnualSnapshotByIdService.Execute(new GetAnnualSnapshotByIdRequest() { Id = id });
         }
+
+        [HttpGet("annual-snapshot/download/{*path}")]
+        public IActionResult Download(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return BadRequest("Path is required.");
+
+            path = Uri.UnescapeDataString(path).TrimStart('/');
+
+            if (path.Contains(".."))
+                return BadRequest("Invalid path.");
+
+            // Root bazuar në ContentRoot (aty ku është Program.cs)
+            var root = _env.ContentRootPath;
+
+            var fullPath = Path.Combine(root, path.Replace("/", Path.DirectorySeparatorChar.ToString()));
+
+            if (!System.IO.File.Exists(fullPath))
+                return NotFound("File not found.");
+
+            var fileName = Path.GetFileName(fullPath);
+            var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+            return File(stream, "application/octet-stream", fileName);
+        }
+
     }
 }
