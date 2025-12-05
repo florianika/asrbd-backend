@@ -37,6 +37,7 @@ namespace WebApi.Common
                     InvalidTokenException => (int)HttpStatusCode.Unauthorized,
                     EnumExeption => (int)HttpStatusCode.BadRequest,
                     ForbidenException => (int)HttpStatusCode.Forbidden,
+                    NotFoundException => (int)HttpStatusCode.NotFound,
                     PreconditionFailedException =>(int)HttpStatusCode.PreconditionFailed,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };

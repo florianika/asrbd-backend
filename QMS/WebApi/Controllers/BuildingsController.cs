@@ -21,6 +21,7 @@ using Application.Building.GetAnnualSnapshotById.Response;
 using Application.Building.GetAllAnnualSnapshots;
 using Application.Building.GetAnnualSnapshotById;
 using System.IO;
+using Application.Exceptions;
 
 namespace WebApi.Controllers
 {
@@ -126,21 +127,19 @@ namespace WebApi.Controllers
             return await _getAnnualSnapshotByIdService.Execute(new GetAnnualSnapshotByIdRequest() { Id = id });
         }
 
-        [HttpGet("annual-snapshot/download/{referenceYear}")]
-        public IActionResult Download(string referenceYear)
+        [HttpPost("annual-snapshot/download/{referenceYear}")]
+        public FileResult Download(string referenceYear)
         {
-            if (string.IsNullOrWhiteSpace(referenceYear))
-                return BadRequest("Reference year is required.");
-
             var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "exports", $"annual-snapshot_{referenceYear}.zip");
 
             if (!System.IO.File.Exists(fullPath))
-                return NotFound("File not found.");
+                throw new NotFoundException("File not found.");
 
             var fileName = Path.GetFileName(fullPath);
-            var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            var zipFile = System.IO.File.ReadAllBytes(fullPath);
+            
 
-            return File(stream, "application/octet-stream", fileName);
+            return File(zipFile, "application/zip", fileName);
         }
 
     }
