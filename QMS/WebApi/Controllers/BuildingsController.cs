@@ -126,21 +126,13 @@ namespace WebApi.Controllers
             return await _getAnnualSnapshotByIdService.Execute(new GetAnnualSnapshotByIdRequest() { Id = id });
         }
 
-        [HttpGet("annual-snapshot/download/{*path}")]
-        public IActionResult Download(string path)
+        [HttpGet("annual-snapshot/download/{referenceYear}")]
+        public IActionResult Download(string referenceYear)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                return BadRequest("Path is required.");
+            if (string.IsNullOrWhiteSpace(referenceYear))
+                return BadRequest("Reference year is required.");
 
-            path = Uri.UnescapeDataString(path).TrimStart('/');
-
-            if (path.Contains(".."))
-                return BadRequest("Invalid path.");
-
-            // Root bazuar në ContentRoot (aty ku është Program.cs)
-            var root = _env.ContentRootPath;
-
-            var fullPath = Path.Combine(root, path.Replace("/", Path.DirectorySeparatorChar.ToString()));
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "exports", $"annual-snapshot_{referenceYear}.zip");
 
             if (!System.IO.File.Exists(fullPath))
                 return NotFound("File not found.");

@@ -34,7 +34,7 @@ namespace Application.FieldWork.CanBeClosed
                         {
                             FieldWorkId = fieldWork.FieldWorkId,
                             CanBeClosed = false,
-                            Reasons = "Supervisor aproval incomplete",
+                            Reasons = "Supervisor approval incomplete",
                             LastChecked = DateTime.Now
                         };
                     }

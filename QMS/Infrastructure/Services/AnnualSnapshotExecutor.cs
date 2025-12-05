@@ -99,7 +99,7 @@ namespace Infrastructure.Services
 
                 job.Status = DownloadStatus.COMPLETED;
                 job.CompletedAt = DateTime.UtcNow;
-                job.FileUrl = $"/exports/{zipFileName}";
+                job.FileUrl = $"/qms/buildings/annual-snapshot/download/{job.ReferenceYear}";
                 await _downloadJobRepository.UpdateDownloadJob(job);
 
             }
