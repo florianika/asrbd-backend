@@ -21,12 +21,12 @@ namespace Application.Building.TestBuildings
         {
             try
             {
-                //kontrollo nese ka job running
+                //chech if there are running job
                 var runningJobs = await _buildingRepository.GetRunningJobs();
 
                 if (runningJobs.Any())
                 {
-                    // ka job-e që po ekzekutohen
+                    // There is a job already running
                     throw new PreconditionFailedException("There is a job already running");
                 }
 
@@ -49,12 +49,12 @@ namespace Application.Building.TestBuildings
                     var runAt = request.StartAt.Value;
                     delay = runAt - DateTime.Now;
                     if (delay < TimeSpan.Zero)
-                        delay = TimeSpan.Zero; // nëse ora ka kaluar, ekzekutoje menjëherë
+                        delay = TimeSpan.Zero; // if is in the past, run immediately
                 }
 
                 if (delay == TimeSpan.Zero)
                 {
-                    // ekzekutim i menjëhershëm
+                    // run immediately
                     BackgroundJob.Enqueue<IJobExecutor>(
                         executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings));
                 }

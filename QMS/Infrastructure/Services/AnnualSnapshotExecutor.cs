@@ -44,7 +44,7 @@ namespace Infrastructure.Services
             await _downloadJobRepository.UpdateDownloadJob(job);
 
             var connectionString = _configuration.GetConnectionString("QMSConnectionString");
-            //duhet connection string sepse do perdore SqlDataReader per arsye se ka shume rrjeshta dhe nuk duhet te mbajme te gjithe ne memorie
+            //The connection string is used, becasue we will use SqlDataReader for reason that there are many rows and we should not keep all in memory
             if (string.IsNullOrWhiteSpace(connectionString))
             {
                 _logger.LogError("Connection string 'QMSConnectionString' is not configured.");
@@ -125,20 +125,20 @@ namespace Infrastructure.Services
         /// </summary>
         private string GetExportRoot()
         {
-            // 1) nga konfigurimi
+            // 1) from configuration
             var configured = _configuration["Export:RootPath"];
             if (!string.IsNullOrWhiteSpace(configured))
             {
                 return configured;
             }
 
-            // 2) nese ka wwwroot
+            // 2) if there is wwwroot
             if (!string.IsNullOrEmpty(_env.WebRootPath))
             {
                 return Path.Combine(_env.WebRootPath, "exports");
             }
 
-            // 3) fallback → rrënja e aplikacionit
+            // 3) fallback → app root
             return Path.Combine(_env.ContentRootPath, "exports");
         }
 
@@ -202,10 +202,10 @@ namespace Infrastructure.Services
 
             var s = val.ToString() ?? string.Empty;
 
-            // Heq newline për të mos prishur CSV-në
+            // remove new lines
             s = s.Replace("\r", " ").Replace("\n", " ");
 
-            // Zëvendëso ; me , nëse po përdor ; si ndarës kolonash
+            // replace semicolon with comma
             s = s.Replace(";", ",");
 
             return s;

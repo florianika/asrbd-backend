@@ -11,7 +11,7 @@ namespace Infrastructure.Configurations
             builder.HasKey(j => j.Id);
             builder.Property(j => j.ReferenceYear).IsRequired();
             builder.Property(j => j.CreatedBy).IsRequired();
-            builder.HasIndex(j => j.ReferenceYear).IsUnique(); //vetem nje rekord per vit
+            builder.HasIndex(j => j.ReferenceYear).IsUnique(); //only one record per year
             builder.Property(j => j.Status)
                 .IsRequired()
                 .HasMaxLength(50)

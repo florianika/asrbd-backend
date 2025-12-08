@@ -23,14 +23,14 @@ namespace Application.Building.CreateAnnualSnapshot
             var existingJob = await _downloadJobRepository.GetDownloadJobByYear(request.ReferenceYear);
             if (existingJob != null)
             {
-                // 1.a — nese ekziston dhe është RUNNING → error
+                // 1.a — it exists and is running → error
                 if (existingJob.Status == DownloadStatus.RUNNING)
                 {
                     throw new PreconditionFailedException(
                         $"Export for {request.ReferenceYear} is already running.");
                 }
 
-                // 1.b — nese ekziston dhe nuk është RUNNING → fshi dhe krijo të riun
+                // 1.b — if exists and is not running → create it
                 existingJob.Status = DownloadStatus.PENDING;
                 existingJob.LastUpdatedBy = request.CreatedBy;
                 existingJob.FileUrl = null;
@@ -49,7 +49,7 @@ namespace Application.Building.CreateAnnualSnapshot
                 };
             }
 
-            // 3. Nese nuk ekziston → krijo job te ri
+            // 3. if does not exists, create a new one
             var newJob = new DownloadJob
             {
                 ReferenceYear = request.ReferenceYear,
