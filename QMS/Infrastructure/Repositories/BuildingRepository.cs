@@ -31,21 +31,22 @@ namespace Infrastructure.Repositories
             return job.Id;
         }
 
-        public async Task ExecuteTestBuildingSP(int jobId, bool isAllBuildings)
+        public async Task ExecuteTestBuildingSP(int jobId, bool isAllBuildings, bool runUpdates)
         {
             try
             {
                 var parameters = new List<SqlParameter>
                 {
                     new SqlParameter("@JobId", jobId),
-                    new SqlParameter("@IsAllBuildings", isAllBuildings)
+                    new SqlParameter("@IsAllBuildings", isAllBuildings),
+                    new SqlParameter("@RunUpdates", runUpdates)
                 };
 
                 using var scope = _serviceScopeFactory.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<DataContext>();
                 dbContext.Database.SetCommandTimeout(50000);
                 await dbContext.Database.ExecuteSqlRawAsync(
-                    @"EXEC dbo.TestBuildings @JobId, @IsAllBuildings", parameters.ToArray());
+                    @"EXEC dbo.TestBuildings @JobId, @IsAllBuildings, @RunUpdates", parameters.ToArray());
             }
             catch (SqlException sqlEx)
             {

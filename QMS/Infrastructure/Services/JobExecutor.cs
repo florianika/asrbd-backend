@@ -60,11 +60,11 @@ namespace Infrastructure.Services
         }
         [DisableConcurrentExecution(timeoutInSeconds: 3600)]
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)]
-        public async Task ExecuteTestBuildingsAsync(int jobId, bool isAllBuildings)
+        public async Task ExecuteTestBuildingsAsync(int jobId, bool isAllBuildings, bool runUpdates)
         {
             try
             {
-                await _buildingRepository.ExecuteTestBuildingSP(jobId, isAllBuildings);
+                await _buildingRepository.ExecuteTestBuildingSP(jobId, isAllBuildings,runUpdates);
 
                 //var job = await _buildingRepository.GetJobById(jobId);
                 //job.Status = Domain.Enum.JobStatus.COMPLETED;

@@ -1,6 +1,7 @@
 ﻿using Application.FieldWork.SendFieldWorkEmail;
 using Application.Queries.GetBuildingQualityStats;
 using Application.Queries.GetBuildingSummaryStats;
+using Application.Queries.GetBuildingWithQuePendingLogs;
 using Application.Queries.GetDwellingQualityStats;
 using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.Queries.GetStatisticsFromBuilding;
@@ -63,6 +64,7 @@ namespace Infrastructure.Context
             modelBuilder.ApplyConfiguration(new StatisticsConfiguration());
             modelBuilder.ApplyConfiguration(new JobsConfigurations());
             modelBuilder.ApplyConfiguration(new DownloadJobConfiguration());
+            modelBuilder.Entity<BuildingIdDTO>().HasNoKey().ToView(null);
         }
     }
 }

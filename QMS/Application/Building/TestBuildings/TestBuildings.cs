@@ -51,22 +51,23 @@ namespace Application.Building.TestBuildings
                     if (delay < TimeSpan.Zero)
                         delay = TimeSpan.Zero; // if is in the past, run immediately
                 }
-
+                var hangfireJobId = string.Empty;
                 if (delay == TimeSpan.Zero)
                 {
                     // run immediately
-                    BackgroundJob.Enqueue<IJobExecutor>(
-                        executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings));
+                    hangfireJobId = BackgroundJob.Enqueue<IJobExecutor>(
+                        executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings, request.RunUpdates));
                 }
                 else
                 {
                     // ekzekutim i skeduluar
-                    BackgroundJob.Schedule<IJobExecutor>(
-                        executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings),
+                    hangfireJobId = BackgroundJob.Schedule<IJobExecutor>(
+                        executor => executor.ExecuteTestBuildingsAsync(jobId, request.isAllBuildings, request.RunUpdates),
                         delay);
                 }
                 return new TestBuildingsSuccessResponse
                 {
+                    HangfireJobId = hangfireJobId,
                     JobId = jobId
                 };
             }

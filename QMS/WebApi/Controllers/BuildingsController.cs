@@ -22,6 +22,9 @@ using Application.Building.GetAllAnnualSnapshots;
 using Application.Building.GetAnnualSnapshotById;
 using System.IO;
 using Application.Exceptions;
+using Application.Queries.GetBuildingWithQuePendingLogs.Response;
+using Application.Queries.GetBuildingWithQuePendingLogs.Request;
+using Application.Queries.GetBuildingWithQuePendingLogs;
 
 namespace WebApi.Controllers
 {
@@ -39,6 +42,7 @@ namespace WebApi.Controllers
         private readonly IGetAllAnnualSnapshots _getAllAnnualSnapshotsService;
         private readonly IGetAnnualSnapshotById _getAnnualSnapshotByIdService;
         private readonly IWebHostEnvironment _env;
+        private readonly IGetBuildingWithQuePendingLogs _getBuildingWithQuePendingLogsService;
         public BuildingsController(ITestBuildings testBuildingsService,
             IAuthTokenService authTokenService,
             IGetBldJobStatus getJobStatusService,
@@ -47,7 +51,8 @@ namespace WebApi.Controllers
             ICreateAnnualSnapshot createAnnualSnapshotService,
             IGetAllAnnualSnapshots getAllAnnualSnapshotsService,
             IGetAnnualSnapshotById getAnnualSnapshotByIdService,
-            IWebHostEnvironment env
+            IWebHostEnvironment env,
+            IGetBuildingWithQuePendingLogs getBuildingWithQuePendingLogsService
             )
         {
             _testBuildingsService = testBuildingsService;
@@ -59,6 +64,7 @@ namespace WebApi.Controllers
             _getAllAnnualSnapshotsService = getAllAnnualSnapshotsService;
             _getAnnualSnapshotByIdService = getAnnualSnapshotByIdService;
             _env = env;
+            _getBuildingWithQuePendingLogsService = getBuildingWithQuePendingLogsService;
         }
         [HttpPost]
         [Route("run-test-job/all")]
@@ -69,18 +75,20 @@ namespace WebApi.Controllers
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.isAllBuildings = true; // all buildings
             request.StartAt = dto?.StartAt;
+            request.RunUpdates = dto.RunUpdates;
             return await _testBuildingsService.Execute(request);
         }
 
         [HttpPost]
         [Route("run-test-job/untested")]
-        public async Task<TestBuildingsResponse> TestUntestedBld([FromBody] TestBuildingRequestDTO dto)
+        public async Task<TestBuildingsResponse> TestUntestedBld([FromBody] TestBuildingRequestDTO dto) //ketu do shtoj runUpdates
         {
             TestBuildingsRequest request = new TestBuildingsRequest();
             var token = ExtractBearerToken();
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.isAllBuildings = false; // untested buildings
             request.StartAt = dto?.StartAt;
+            request.RunUpdates = dto.RunUpdates;
             return await _testBuildingsService.Execute(request);
         }
         [HttpGet]
@@ -141,6 +149,14 @@ namespace WebApi.Controllers
 
             return File(zipFile, "application/zip", fileName);
         }
+
+        [HttpGet]
+        [Route("que/pending/municipality/{municipalityCode}")]
+        public async Task<GetBuildingWithQuePendingLogsResponse> GetBuildingWithQuePendingLogsResponse(string municipalityCode)
+        {
+            return await _getBuildingWithQuePendingLogsService.Execute(new GetBuildingWithQuePendingLogsRequest() {  MunicipalityCode = municipalityCode });
+        }
+
 
     }
 }
