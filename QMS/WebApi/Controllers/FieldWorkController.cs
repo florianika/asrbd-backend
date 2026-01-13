@@ -58,10 +58,13 @@ using Application.Queries.GetBuildingSummaryStats;
 using Application.Queries.GetBuildingSummaryStats.Response;
 using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.Queries.GetFieldworkProgressByMunicipality.Response;
+using Application.Queries.HasBldReviewExecuted;
+using Application.Queries.HasBldReviewExecuted.Response;
 using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Runtime.CompilerServices;
 using WebApi.DTOs;
 
@@ -96,19 +99,20 @@ namespace WebApi.Controllers
         private readonly IGetBuildingSummaryStatsQuery _getBuildingSummaryStatsQuery;
         private readonly IConfirmFieldworkClosure _confirmFieldworkClosureService;
         private readonly IGetFieldworkProgressByMunicipalityQuery _getFieldworkProgressByMunicipalityQuery;
+        private readonly IHasBldReviewExecutedQuery _hasBldReviewExecutedQuery;
 
         public FieldWorkController(GetAllFieldWork getAllFieldWorkService, CreateFieldWork createFieldWorkService,
             GetFieldWork getFieldWorkService,
             UpdateFieldWork updateFieldWorkService,
-            GetActiveFieldWork getActiveFieldWorkService, 
-            OpenFieldWork openFieldWorkService, 
+            GetActiveFieldWork getActiveFieldWorkService,
+            OpenFieldWork openFieldWorkService,
             IExecuteJob executeJobService,
             IGetJobStatus getJobStatusService,
             IGetJobResults getJobResultsService,
             IGetRuleByFieldWork getRuleByFieldWork,
             IGetRuleByFieldWorkAndEntity getRuleByFieldWorkAndEntity,
-            IGetFieldWorkRule getFieldWorkRule, 
-            IRemoveFieldWorkRule removeFieldWorkRule, 
+            IGetFieldWorkRule getFieldWorkRule,
+            IRemoveFieldWorkRule removeFieldWorkRule,
             IAddFieldWorkRule addFieldWorkRuleService,
             IUpdateBldReviewStatus updateBldReviewStatus,
             ISendFieldWorkEmail sendFieldWorkEmail,
@@ -118,7 +122,9 @@ namespace WebApi.Controllers
             ITestUntestedBld testUntestedBldService,
             ICanBeClosed canBeClosedService, IGetBuildingSummaryStatsQuery getBuildingSummaryStatsQuery,
             IConfirmFieldworkClosure confirmFieldworkClosureService,
-            IGetFieldworkProgressByMunicipalityQuery getFieldworkProgressByMunicipalityQuery)
+            IGetFieldworkProgressByMunicipalityQuery getFieldworkProgressByMunicipalityQuery,
+            IHasBldReviewExecutedQuery hasBldReviewExecutedQuery
+            )
         {
             _getAllFieldWorkService = getAllFieldWorkService;
             _createFieldWorkService = createFieldWorkService;
@@ -144,6 +150,7 @@ namespace WebApi.Controllers
             _getBuildingSummaryStatsQuery = getBuildingSummaryStatsQuery;
             _confirmFieldworkClosureService = confirmFieldworkClosureService;
             _getFieldworkProgressByMunicipalityQuery = getFieldworkProgressByMunicipalityQuery;
+            _hasBldReviewExecutedQuery = hasBldReviewExecutedQuery;
         }
 
         [HttpGet]
@@ -204,14 +211,14 @@ namespace WebApi.Controllers
         [HttpDelete("{id:int}/rules/{ruleId:long}")]
         public async Task<RemoveFieldWorkRuleResponse> RemoveFieldWorkRule(int id, long ruleId)
         {
-            return await _removeFieldWorkRule.Execute(new RemoveFieldWorkRuleRequest() { Id = id, RuleId=ruleId });
+            return await _removeFieldWorkRule.Execute(new RemoveFieldWorkRuleRequest() { Id = id, RuleId = ruleId });
         }
 
         [HttpGet]
         [Route("{id:int}/rule/{ruleId:long}")]
         public async Task<GetFieldWorkRuleResponse> GetFieldWorkRule(int id, long ruleId)
         {
-            return await _getFieldWorkRuleService.Execute(new GetFieldWorkRuleRequest() { Id = id, RuleId=ruleId });
+            return await _getFieldWorkRuleService.Execute(new GetFieldWorkRuleRequest() { Id = id, RuleId = ruleId });
         }
 
         [HttpGet]
@@ -225,7 +232,7 @@ namespace WebApi.Controllers
         [Route("{id:int}/rules/entity/{entityType}")]
         public async Task<GetRuleByFieldWorkAndEntityResponse> GetRuleByFieldWorkAndEntity(int id, EntityType entityType)
         {
-            return await _getRuleByFieldWorkAndEntityService.Execute(new GetRuleByFieldWorkAndEntityRequest() { Id = id, EntityType = entityType});
+            return await _getRuleByFieldWorkAndEntityService.Execute(new GetRuleByFieldWorkAndEntityRequest() { Id = id, EntityType = entityType });
         }
 
         [HttpPost]
@@ -251,7 +258,7 @@ namespace WebApi.Controllers
             return await _getJobResultsService.Execute(new GetJobResultsRequest() { Id = id });
         }
 
-        
+
         [HttpPost]
         [Route("{id:int}/open")]
         public async Task<UpdateBldReviewStatusResponse> UpdateReviewStatus(int id)
@@ -353,6 +360,13 @@ namespace WebApi.Controllers
         public async Task<GetFieldworkProgressByMunicipalityResponse> GetFieldworkProgressByMunicipality(int id)
         {
             return await _getFieldworkProgressByMunicipalityQuery.Execute(id);
+        }
+        [HttpGet]
+        [Route("has-bld-reviewexecuted")]
+        public async Task<HasBldReviewExecutedResponse> HasBldReviewExecuted()
+        {
+            return await _hasBldReviewExecutedQuery.Execute();
+
         }
 
     }

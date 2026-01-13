@@ -40,10 +40,10 @@ namespace Application.FieldWork.ConfirmFieldworkClosure
                 if (hasExecuted)
                     throw new AppException("Closure not allowed: buildings with review status 3 (Review executed) exist.");
 
-                // Precheck - check if most of the buildings are tested and reviewed
-                var isMostReviewed = await _fieldWorkRepository.AreMostBuildingsReviewed();
-                if (!isMostReviewed)
-                    throw new AppException("Most buildings are not reviewed yet, cannot proceed.");
+                //// Precheck - check if most of the buildings are tested and reviewed
+                //var isMostReviewed = await _fieldWorkRepository.AreMostBuildingsReviewed();
+                //if (!isMostReviewed)
+                //    throw new AppException("Most buildings are not reviewed yet, cannot proceed.");
 
                 //Broadcast closure
                 await _webSocketBroadcaster.BroadcastStatusAsync(false, null, null);

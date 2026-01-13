@@ -85,6 +85,9 @@ using Application.Building.GetAllAnnualSnapshots;
 using Application.Building.GetAnnualSnapshotById;
 using Application.Queries.GetBuildingWithQuePendingLogs;
 using Infrastructure.Queries.GetBuildingWithQuePendingLogs;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus.Response;
+using Application.Queries.HasBldReviewExecuted;
+using Infrastructure.Queries.HasBldReviewExecuted;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -199,6 +202,7 @@ builder.Services.AddScoped<IConfirmFieldworkClosure, ConfirmFieldworkClosure>();
 builder.Services.AddScoped<IGetFieldworkProgressByMunicipalityQuery, GetFieldworkProgressByMunicipalityQuery>();
 
 builder.Services.AddScoped<ITestBuildings, TestBuildings>();
+builder.Services.AddScoped<IHasBldReviewExecutedQuery, HasBldReviewExecutedQuery>();
 
 builder.Services.AddScoped<IGetBldJobStatus, GetBldJobStatus>();
 builder.Services.AddScoped<GetRunningJobs>();

@@ -39,6 +39,9 @@ namespace Infrastructure.Services
             var key = smtpSection["EncryptionKey"];
             var iv = smtpSection["EncryptionIV"];
 
+         
+
+            Console.WriteLine(encryptedPassword);
             var password = Decrypt(encryptedPassword, key, iv);
 
             var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
