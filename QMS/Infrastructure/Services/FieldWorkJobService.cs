@@ -4,6 +4,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Security.Cryptography;
 using Application.Queries.GetFieldworkProgressByMunicipality;
+using System.Text;
 
 namespace Infrastructure.Services
 {
@@ -39,9 +40,6 @@ namespace Infrastructure.Services
             var key = smtpSection["EncryptionKey"];
             var iv = smtpSection["EncryptionIV"];
 
-         
-
-            Console.WriteLine(encryptedPassword);
             var password = Decrypt(encryptedPassword, key, iv);
 
             var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
@@ -181,5 +179,6 @@ namespace Infrastructure.Services
             return ""; // nëse mungon blloku, kthe bosh
         }
 
+       
     }
 }
