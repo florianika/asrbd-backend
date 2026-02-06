@@ -24,7 +24,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    [Authorize(Roles ="ADMIN")]
+    [Authorize(Roles ="ADMIN, SUPERVISOR")]
     [Route("api/admin/users")]
     [ApiController]
     public class UserAdministrationController : ControllerBase
