@@ -29,7 +29,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             authRepositoryMock.Setup(repo => repo.GetAllUsers(Guid.Empty)).ReturnsAsync(users);
 
             // Act
-            var response = await getAllUsersService.Execute(Guid.Empty);
+            var response = await getAllUsersService.Execute(Guid.Empty, "SUPERVISOR");
 
             // Assert
             authRepositoryMock.Verify(repo => repo.GetAllUsers(Guid.Empty), Times.Once);

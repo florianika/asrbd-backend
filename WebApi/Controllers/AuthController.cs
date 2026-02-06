@@ -176,7 +176,7 @@ namespace WebApi.Controllers
         [Route("users")]
         public async Task<GetAllUsersResponse> GetAllUsers()
         {
-            return await _getAllUsersService.Execute(Guid.Empty);
+            return await _getAllUsersService.Execute(Guid.Empty, "SUPERVISOR");
         }
 
         //[AllowAnonymous]

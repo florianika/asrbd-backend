@@ -110,8 +110,15 @@ namespace Infrastructure.Repositories
 
         public async Task<List<User>> GetAllNonAdminUsers(Guid requestUserId)
         {
+            var nonAdminRoles = new List<AccountRole>
+            {
+                AccountRole.CLIENT,
+                AccountRole.ENUMERATOR,
+                AccountRole.PUBLISHER,
+                AccountRole.USER,
+            };
             return await _context.Users
-                .Where(u => u.Id != requestUserId && u.AccountRole != AccountRole.ADMIN)
+                .Where(u => u.Id != requestUserId && nonAdminRoles.Contains(u.AccountRole))
                 .Include(u => u.Claims)
                 .ToListAsync();
         }

@@ -15,12 +15,13 @@ namespace Application.User.GetAllUsers
             _authRepository = authRepository;
             _logger = logger;
         }
-        public async Task<GetAllUsersResponse> Execute(Guid requestUserId, bool includeAdminUsers = false)
+        public async Task<GetAllUsersResponse> Execute(Guid requestUserId, string role)
         {
             try
             {
                 List<Domain.User> users;
-                if (includeAdminUsers)
+                Enum.TryParse(role, true, out AccountRole accountRole);
+                if (accountRole == AccountRole.ADMIN)
                 {
                     users = await _authRepository.GetAllUsers(requestUserId);
                 }

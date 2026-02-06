@@ -70,9 +70,8 @@ namespace WebApi.Controllers
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
             var role = await _authTokenService.GetUserRoleFromToken(token);
-            var includeAminUsers = Enum.TryParse(role, out AccountRole accountRole) && 
-                                   accountRole == AccountRole.ADMIN;
-            return await _getAllUsersService.Execute(requestUserId, includeAminUsers);
+            
+            return await _getAllUsersService.Execute(requestUserId, role);
         }
         [HttpGet]
         [Route("{id:guid}")]
