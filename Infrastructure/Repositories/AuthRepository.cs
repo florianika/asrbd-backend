@@ -159,14 +159,19 @@ namespace Infrastructure.Repositories
             return await _context.Users.AnyAsync(u => u.Id == userId);
         }
 
-        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, AccountRole accountRole)
+        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, AccountRole requestAccountRole)
         {
             var userToUpdate = await _context.Users
                                    .FirstOrDefaultAsync(u => u.Id == userId)
                             ?? throw new NotFoundException($"User with ID {userId} not found");
-            if ((int)userToUpdate.AccountRole < (int)accountRole ) //supervisors can't terminate admins
+            if ((int)userToUpdate.AccountRole < (int)requestAccountRole ) //supervisors can't terminate admins
             {
                 throw new ForbidenException("Not enough rights to activate or terminate user");
+            }
+
+            if (userToUpdate.AccountRole == requestAccountRole)
+            {
+                throw new ForbidenException("Supervisor can't activate or terminate supervisors");
             }
             userToUpdate.AccountStatus = accountStatus;
             await _context.SaveChangesAsync();
