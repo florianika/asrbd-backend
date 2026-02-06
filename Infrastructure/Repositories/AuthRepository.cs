@@ -133,14 +133,21 @@ namespace Infrastructure.Repositories
             await _context.SaveChangesAsync();  
         }
 
-        public async Task SetUserMunicipality(Guid userId, string municipalityCode)
+        public async Task SetUserMunicipality(Guid userId, string municipalityCode, string requestUserRole)
         {
+            if (!Enum.TryParse<AccountRole>(requestUserRole, true, out var requesterRole))
+            {
+                throw new ForbidenException("Invalid request user role");
+            }
             var userToUpdate= await _context.Users
                                   .Include(user => user.Claims)
                                   .SingleOrDefaultAsync(u => u.Id == userId) 
                               ?? throw new NotFoundException($"User with {userId} not found");
-            
-            
+
+            if ((int)requesterRole > (int)userToUpdate.AccountRole)
+            {
+                throw new ForbidenException("Cannot update a user with higher privileges");
+            }
             var municipalityClaim = userToUpdate.Claims.SingleOrDefault(c => c.Type == Municipality);
             if (municipalityClaim != null)
             {

@@ -1,4 +1,5 @@
 ﻿using Application.User.GetAllUsers;
+using Application.User.SetUserMunicipality;
 using Domain;
 using Domain.Enum;
 
@@ -23,7 +24,7 @@ namespace Application.Ports
         Task<Domain.User> FindUserById(Guid userId);
         Task UnlockAccount(Domain.User user);
         Task<Domain.User> FindUserByEmail(string email);
-        Task SetUserMunicipality(Guid requestUserId, string requestMunicipalityCode);
+        Task SetUserMunicipality(Guid requestUserId, string requestMunicipalityCode, string requestUserRole);
         Task SavePasswordResetToken(PasswordResetToken token);
         Task<PasswordResetToken?> GetPasswordResetTokenByHash(string tokenHash);
         Task InvalidatePasswordResetToken(long tokenId, Guid consumedBy);
