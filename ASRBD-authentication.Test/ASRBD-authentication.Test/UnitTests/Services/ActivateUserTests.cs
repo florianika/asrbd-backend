@@ -22,7 +22,9 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var activateUser = new ActivateUser(loggerMock.Object, authRepositoryMock.Object);
             var request = new ActivateUserRequest
             {
-                UserId = Guid.NewGuid()
+                UserId = Guid.NewGuid(),
+                RequestUserId = Guid.NewGuid(),          
+                RequestUserRole = "ADMIN"                
             };
 
             // Act
@@ -30,7 +32,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
 
             // Assert
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE), Times.Once);
+            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE, request.RequestUserRole), Times.Once);
         }
 
         [Fact]
@@ -44,14 +46,16 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var activateUser = new ActivateUser(loggerMock.Object, authRepositoryMock.Object);
             var request = new ActivateUserRequest
             {
-                UserId = Guid.NewGuid()
+                UserId = Guid.NewGuid(),
+                RequestUserId = Guid.NewGuid(),
+                RequestUserRole = "ADMIN"
             };
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => activateUser.Execute(request));
             Assert.Equal("User not found", exception.Message);
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(It.IsAny<Guid>(), It.IsAny<AccountStatus>()), Times.Never);
+            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(It.IsAny<Guid>(), It.IsAny<AccountStatus>(), It.IsAny<string>()), Times.Never);
         }
     }
 

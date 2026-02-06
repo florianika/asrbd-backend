@@ -3,6 +3,7 @@ using Application.Exceptions;
 using Application.Ports;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
+using Application.User.TerminateUser.Request;
 using Application.User.TerminateUser.Response;
 using Domain.Enum;
 using Microsoft.Extensions.Logging;
@@ -28,8 +29,9 @@ namespace Application.User.ActivateUser
         public async Task<ActivateUserResponse> Execute(ActivateUserRequest request)
         {
             try
-            {                
-                await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE);
+            {
+                ValidateUserActivation(request);
+                await ActivateUserAsync(request.UserId.ToString(), request.RequestUserRole);
                 return new ActivateUserSuccessResponse
                 {
                     Message = "User activated."
@@ -40,6 +42,37 @@ namespace Application.User.ActivateUser
                 _logger.LogError(ex, ex.Message);
                 throw;
             }
+        }
+        private void ValidateUserActivation(ActivateUserRequest request)
+        {
+            try
+            {
+                if (request.UserId == request.RequestUserId)
+                    throw new ForbidenException("Cannot activate yourself.");
+
+                Enum.TryParse(request.RequestUserRole, out AccountRole accountRole);
+                if (accountRole is not (AccountRole.ADMIN or AccountRole.SUPERVISOR))
+                    throw new ForbidenException("Cannot activate user.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+        }
+
+        private async Task ActivateUserAsync(string userId, string requestUserRole)
+        {
+            try
+            {
+                await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.ACTIVE, requestUserRole);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw;
+            }
+
         }
     }
 }
