@@ -34,6 +34,10 @@ namespace Application.User.TerminateUser
         {
             try
             {
+                if (request.RequestUserRole == null)
+                {
+                    throw new ArgumentNullException(nameof(request.RequestUserRole));
+                }
                 if (request.UserId == request.RequestUserId)
                     throw new ForbidenException("Cannot terminate yourself.");
 
@@ -52,7 +56,9 @@ namespace Application.User.TerminateUser
         {
             try
             {
-                await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED, requestUserRole);
+                
+                Enum.TryParse(requestUserRole, out AccountRole accountRole);
+                await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED, accountRole);
             }
             catch (Exception ex) 
             {

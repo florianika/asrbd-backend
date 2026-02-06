@@ -28,8 +28,9 @@ namespace Application.User.ActivateUser
         public async Task<ActivateUserResponse> Execute(ActivateUserRequest request)
         {
             try
-            {                
-                await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE);
+            {    
+                Enum.TryParse(request.RequestUserRole, out AccountRole accountRole);
+                await _authRepository.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE, accountRole);
                 return new ActivateUserSuccessResponse
                 {
                     Message = "User activated."

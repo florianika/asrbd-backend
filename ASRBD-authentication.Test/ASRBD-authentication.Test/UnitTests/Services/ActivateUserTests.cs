@@ -30,7 +30,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
 
             // Assert
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE), Times.Once);
+            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(request.UserId, AccountStatus.ACTIVE, AccountRole.SUPERVISOR), Times.Once);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => activateUser.Execute(request));
             Assert.Equal("User not found", exception.Message);
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(It.IsAny<Guid>(), It.IsAny<AccountStatus>()), Times.Never);
+            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(It.IsAny<Guid>(), It.IsAny<AccountStatus>(), AccountRole.SUPERVISOR), Times.Never);
         }
     }
 
