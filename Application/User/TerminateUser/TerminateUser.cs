@@ -21,19 +21,38 @@ namespace Application.User.TerminateUser
         }
         
         public async Task<TerminateUserResponse> Execute(TerminateUserRequest request)
-        {            
-            await TerminateUserAsync(request.UserId.ToString());
+        {
+            ValidateUserTermination(request);
+            await TerminateUserAsync(request.UserId.ToString(), request.RequestUserRole);
             return new TerminateUserSuccessResponse
             {
                 Message = "User terminated."
             };
         }
 
-        private async Task TerminateUserAsync(string userId)
+        private void ValidateUserTermination(TerminateUserRequest request)
         {
             try
             {
-                await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED);
+                if (request.UserId == request.RequestUserId)
+                    throw new ForbidenException("Cannot terminate yourself.");
+
+                Enum.TryParse(request.RequestUserRole, out AccountRole accountRole);
+                if (accountRole is not (AccountRole.ADMIN or AccountRole.SUPERVISOR))
+                    throw new ForbidenException("Cannot terminate user.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw; 
+            }
+        }
+
+        private async Task TerminateUserAsync(string userId, string requestUserRole)
+        {
+            try
+            {
+                await _authRepository.UpdateAccountUser(new Guid(userId), AccountStatus.TERMINATED, requestUserRole);
             }
             catch (Exception ex) 
             {

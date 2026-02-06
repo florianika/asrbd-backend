@@ -159,11 +159,15 @@ namespace Infrastructure.Repositories
             return await _context.Users.AnyAsync(u => u.Id == userId);
         }
 
-        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus)
+        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, string requestUserRole)
         {
             var userToUpdate = await _context.Users
                                    .FirstOrDefaultAsync(u => u.Id == userId)
                             ?? throw new NotFoundException($"User with ID {userId} not found");
+            if ((int)userToUpdate.AccountRole <= (int)requestUserRole )
+            {
+                throw new ForbidenException("Cannot update user role");
+            }
             userToUpdate.AccountStatus = accountStatus;
             await _context.SaveChangesAsync();
            

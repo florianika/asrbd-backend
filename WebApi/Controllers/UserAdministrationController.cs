@@ -106,8 +106,9 @@ namespace WebApi.Controllers
         {
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
-            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { RequestUserId = requestUserId, 
-                UserId = id, AccountRole = role});
+            var requestUserRole = await _authTokenService.GetUserRoleFromToken(token);
+            return await _updateUserRoleService.Execute(new UpdateUserRoleRequest() { RequestUserRole = requestUserRole, 
+                RequestUserId = requestUserId, UserId = id, AccountRole = role});
         }
         
         [HttpPatch]
@@ -116,8 +117,9 @@ namespace WebApi.Controllers
         {
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
-            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() { RequestUserId = requestUserId, 
-                UserId = id, MunicipalityCode = municipality});
+            var requestUserRole = await _authTokenService.GetUserRoleFromToken(token);
+            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() {RequestUserRole = requestUserRole,
+                RequestUserId = requestUserId, UserId = id, MunicipalityCode = municipality});
         }
 
         [HttpPatch]
@@ -126,8 +128,9 @@ namespace WebApi.Controllers
         {
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
-            return await _terminateUserService.Execute(new TerminateUserRequest() { RequestUserId = requestUserId, 
-                UserId = id });
+            var requestUserRole = await _authTokenService.GetUserRoleFromToken(token);
+            return await _terminateUserService.Execute(new TerminateUserRequest() {RequestUserRole = requestUserRole,
+                RequestUserId = requestUserId, UserId = id });
         }
 
         [HttpPatch]
@@ -136,8 +139,9 @@ namespace WebApi.Controllers
         {
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
-            return await _activateUserService.Execute(new ActivateUserRequest() { RequestUserId = requestUserId, 
-                UserId = id });
+            var requestUserRole = await _authTokenService.GetUserRoleFromToken(token);
+            return await _activateUserService.Execute(new ActivateUserRequest() { RequestUserRole = requestUserRole,
+                RequestUserId = requestUserId, UserId = id });
         }
     }
 }
