@@ -1,6 +1,9 @@
 ﻿using Application.User.ActivateUser;
 using Application.User.ActivateUser.Request;
 using Application.User.ActivateUser.Response;
+using Application.User.CreateUser;
+using Application.User.CreateUser.Request;
+using Application.User.CreateUser.Response;
 using Application.User.GetAllUsers;
 using Application.User.GetAllUsers.Response;
 using Application.User.GetUser;
@@ -36,6 +39,7 @@ namespace WebApi.Controllers
         private readonly ActivateUser _activateUserService;
         private readonly GetUserByEmail _getUserByEmailService;
         private readonly SetUserMunicipality _setUserMunicipalityService;
+        private readonly CreateUser _createUserService;
 
         public UserAdministrationController(GetAllUsers getAllUsersService,
             GetUser getUserService,
@@ -43,7 +47,8 @@ namespace WebApi.Controllers
             TerminateUser terminateUserService,
             ActivateUser activateUserService,
             GetUserByEmail getUserByEmailService,
-            SetUserMunicipality setUserMunicipalityService)
+            SetUserMunicipality setUserMunicipalityService,
+            CreateUser createUserService)
         {
             _getAllUsersService = getAllUsersService;
             _getUserService = getUserService;
@@ -52,6 +57,7 @@ namespace WebApi.Controllers
             _activateUserService = activateUserService;
             _getUserByEmailService = getUserByEmailService;
             _setUserMunicipalityService = setUserMunicipalityService;
+            _createUserService = createUserService;
         }
 
         [HttpGet]
@@ -64,6 +70,12 @@ namespace WebApi.Controllers
         public async Task<GetUserResponse> GetUser(Guid id)
         {    
             return await _getUserService.Execute(new GetUserRequest { UserId = id });
+        }
+        [HttpPost]
+        [Route("add")]
+        public async Task<CreateUserResponse> CreateUser(CreateUserRequest request)
+        {
+            return await _createUserService.Execute(request);
         }
 
         [HttpGet]
