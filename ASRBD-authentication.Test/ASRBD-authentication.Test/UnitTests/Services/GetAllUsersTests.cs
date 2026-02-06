@@ -1,14 +1,10 @@
 ﻿using Application.Ports;
 using Application.User.GetAllUsers.Response;
 using Application.User.GetAllUsers;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+
 
 namespace ASRBD_authentication.Test.UnitTests.Services
 {
@@ -30,13 +26,13 @@ namespace ASRBD_authentication.Test.UnitTests.Services
                     // Add more user instances as needed
                 };
 
-            authRepositoryMock.Setup(repo => repo.GetAllUsers()).ReturnsAsync(users);
+            authRepositoryMock.Setup(repo => repo.GetAllUsers(Guid.Empty)).ReturnsAsync(users);
 
             // Act
-            var response = await getAllUsersService.Execute();
+            var response = await getAllUsersService.Execute(Guid.Empty);
 
             // Assert
-            authRepositoryMock.Verify(repo => repo.GetAllUsers(), Times.Once);
+            authRepositoryMock.Verify(repo => repo.GetAllUsers(Guid.Empty), Times.Once);
             Assert.IsType<GetAllUsersSuccessResponse>(response);
             Assert.NotNull(response);
 

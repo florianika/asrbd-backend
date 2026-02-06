@@ -1,6 +1,7 @@
 ﻿using Application.Common.Translators;
 using Application.Ports;
 using Application.User.GetAllUsers.Response;
+using Domain.Enum;
 using Microsoft.Extensions.Logging;
 
 namespace Application.User.GetAllUsers
@@ -14,13 +15,19 @@ namespace Application.User.GetAllUsers
             _authRepository = authRepository;
             _logger = logger;
         }
-        //FIXME refactor this, suggestion add a translator statisc class that has methods to translate from enum to DTO
-        //Separate exception handler
-        public async Task<GetAllUsersResponse> Execute()
+        public async Task<GetAllUsersResponse> Execute(Guid requestUserId, bool includeAdminUsers = false)
         {
             try
             {
-                var users = await _authRepository.GetAllUsers();
+                List<Domain.User> users;
+                if (includeAdminUsers)
+                {
+                    users = await _authRepository.GetAllUsers(requestUserId);
+                }
+                else
+                {
+                    users = await _authRepository.GetAllNonAdminUsers(requestUserId);
+                }
                 var usersDTO = Translator.ToDTOList(users);
 
                 return new GetAllUsersSuccessResponse
@@ -34,5 +41,6 @@ namespace Application.User.GetAllUsers
                 throw;
             }
         }
+        
     }
 }

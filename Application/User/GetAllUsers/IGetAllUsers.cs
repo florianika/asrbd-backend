@@ -1,8 +1,12 @@
 ﻿
 
+using Application.User.GetAllUsers.Response;
+using Domain.Enum;
+
 namespace Application.User.GetAllUsers
 {
-    public class IGetAllUsers
+    public interface IGetAllUsers
     {
+        Task<GetAllUsersResponse> Execute(Guid userId, bool includeAdminUsers);
     }
 }

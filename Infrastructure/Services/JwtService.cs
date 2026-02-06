@@ -144,5 +144,21 @@ namespace Infrastructure.Services
                 ClockSkew = TimeSpan.FromMinutes(0)
             };
         }
+        
+        public Task<string?> GetUserRoleFromToken(string token)
+        {
+            try
+            {
+                var jwtHandler = new JwtSecurityTokenHandler();
+                var roleClaim = jwtHandler.ReadJwtToken(token).Claims
+                    .FirstOrDefault(c => c.Type.Equals("role", StringComparison.InvariantCultureIgnoreCase));
+
+                return Task.FromResult(roleClaim?.Value);
+            }
+            catch
+            {
+                return Task.FromResult<string?>(null);
+            }
+        }
     }
 }

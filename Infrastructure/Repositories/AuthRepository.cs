@@ -99,12 +99,24 @@ namespace Infrastructure.Repositories
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
         }
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsers(Guid requestUserId)
         {
+            
             return await _context.Users
-                .Include(u=>u.Claims)
+                .Where(u => u.Id != requestUserId)
+                .Include(u => u.Claims)
                 .ToListAsync();
         }
+
+        public async Task<List<User>> GetAllNonAdminUsers(Guid requestUserId)
+        {
+            return await _context.Users
+                .Where(u => u.Id != requestUserId && u.AccountRole != AccountRole.ADMIN)
+                .Include(u => u.Claims)
+                .ToListAsync();
+        }
+        
+        
         public async Task UpdateUserRole(Guid userId, AccountRole accountRole)
         {
             var userToUpdate = await _context.Users

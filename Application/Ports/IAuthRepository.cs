@@ -15,7 +15,8 @@ namespace Application.Ports
         Task UpdateRefreshToken (Guid userId, RefreshToken refreshToken);
         Task LockAccount(Domain.User user);
         //Task UnLockAccount(Domain.User.User user);
-        Task<List<Domain.User>> GetAllUsers();
+        Task<List<Domain.User>> GetAllUsers(Guid requestUserId);
+        Task<List<Domain.User>> GetAllNonAdminUsers(Guid requestUserId);
         Task<bool> CheckIfUserExists(Guid userId);
         Task UpdateUserRole(Guid userId, AccountRole accountRole);
         Task UpdateAccountUser(Guid userId, AccountStatus accountStatus);
