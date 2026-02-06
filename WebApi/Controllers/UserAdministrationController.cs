@@ -87,7 +87,9 @@ namespace WebApi.Controllers
         {
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
+            var role = await _authTokenService.GetUserRoleFromToken(token);
             request.RequestUserId = requestUserId;
+            request.RequestUserRole = role;
             return await _createUserService.Execute(request);
         }
 

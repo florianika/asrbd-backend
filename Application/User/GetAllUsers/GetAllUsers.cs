@@ -15,7 +15,7 @@ namespace Application.User.GetAllUsers
             _authRepository = authRepository;
             _logger = logger;
         }
-        public async Task<GetAllUsersResponse> Execute(Guid requestUserId, string role)
+        public async Task<GetAllUsersResponse> Execute(Guid requestUserId, string? role)
         {
             try
             {
@@ -29,11 +29,11 @@ namespace Application.User.GetAllUsers
                 {
                     users = await _authRepository.GetAllNonAdminUsers(requestUserId);
                 }
-                var usersDTO = Translator.ToDTOList(users);
+                var usersDto = Translator.ToDTOList(users);
 
                 return new GetAllUsersSuccessResponse
                 {
-                    UsersDTO = usersDTO
+                    UsersDTO = usersDto
                 };
             }
             catch (Exception ex)
