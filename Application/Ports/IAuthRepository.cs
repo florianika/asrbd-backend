@@ -19,7 +19,7 @@ namespace Application.Ports
         Task<List<Domain.User>> GetAllUsers(Guid requestUserId);
         Task<List<Domain.User>> GetAllNonAdminUsers(Guid requestUserId);
         Task<bool> CheckIfUserExists(Guid userId);
-        Task UpdateUserRole(Guid userId, AccountRole accountRole);
+        Task UpdateUserRole(Guid userId, AccountRole accountRole, string requestUserRole);
         Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, string requestUserRole);
         Task<Domain.User> FindUserById(Guid userId);
         Task UnlockAccount(Domain.User user);

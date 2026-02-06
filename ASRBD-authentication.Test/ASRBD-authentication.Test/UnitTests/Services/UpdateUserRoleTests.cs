@@ -24,7 +24,8 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var request = new UpdateUserRoleRequest
             {
                 UserId = userId,
-                AccountRole = AccountRole.USER
+                AccountRole = AccountRole.USER,
+                RequestUserRole = "ADMIN"
             };
 
             // Act
@@ -32,7 +33,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
 
             // Assert
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateUserRole(request.UserId, request.AccountRole), Times.Once);
+            authRepositoryMock.Verify(repo => repo.UpdateUserRole(request.UserId, request.AccountRole,request.RequestUserRole), Times.Once);
         }
         [Fact]
         public async Task Execute_UserNotFound_ThrowsException()
@@ -46,14 +47,16 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var request = new UpdateUserRoleRequest
             {
                 UserId = Guid.NewGuid(),
-                AccountRole = AccountRole.USER
+                AccountRole = AccountRole.USER,
+                RequestUserRole = "ADMIN"
+
             };
 
             // Act & Assert
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => updateUserRole.Execute(request));
             Assert.Equal("User not found", exception.Message);
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateUserRole(It.IsAny<Guid>(), It.IsAny<AccountRole>()), Times.Never);
+            authRepositoryMock.Verify(repo => repo.UpdateUserRole(It.IsAny<Guid>(), It.IsAny<AccountRole>(), It.IsAny<string>()), Times.Never);
         }       
     }
 }

@@ -124,11 +124,19 @@ namespace Infrastructure.Repositories
         }
         
         
-        public async Task UpdateUserRole(Guid userId, AccountRole accountRole)
+        public async Task UpdateUserRole(Guid userId, AccountRole accountRole, string requestUserRole)
         {
+            if (!Enum.TryParse<AccountRole>(requestUserRole, true, out var requesterRole))
+            {
+                throw new ForbidenException("Invalid request user role");
+            }
             var userToUpdate = await _context.Users
                                    .FirstOrDefaultAsync(u => u.Id == userId) 
                                ?? throw new NotFoundException($"User with ID {userId} not found");
+            if ((int)requesterRole > (int)userToUpdate.AccountRole)
+            {
+                throw new ForbidenException("Cannot update a user with higher privileges");
+            }
             userToUpdate.AccountRole = accountRole;
             await _context.SaveChangesAsync();  
         }
