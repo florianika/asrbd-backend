@@ -103,7 +103,6 @@ namespace Infrastructure.Repositories
         {
             
             return await _context.Users
-                .Where(u => u.Id != requestUserId)
                 .Include(u => u.Claims)
                 .ToListAsync();
         }
