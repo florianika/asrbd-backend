@@ -54,9 +54,7 @@ namespace WebApi.Controllers
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IForgetPassword _forgetPasswordService;
         private readonly IResetPassword _resetPasswordService;  
-        public AuthController(CreateUser createUserService, 
-            Login loginService,
-
+        public AuthController(
             RefreshToken refreshTokenService,
             SignOut signOutService,
             GetUser getUserService,
