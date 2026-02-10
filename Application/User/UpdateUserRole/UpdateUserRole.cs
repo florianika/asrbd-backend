@@ -23,7 +23,8 @@ namespace Application.User.UpdateUserRole
             ValidateUserUpdateRole(request);
             try
             {
-                await _authRepository.UpdateUserRole(request.UserId, request.AccountRole, request.RequestUserRole);
+                if (request.RequestUserRole != null)
+                    await _authRepository.UpdateUserRole(request.UserId, request.AccountRole, request.RequestUserRole);
                 return new UpdateUserRoleSuccessResponse
                 {
                     Message = "User role updated."

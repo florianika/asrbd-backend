@@ -1,5 +1,4 @@
-﻿
-using Application.Exceptions;
+﻿using Application.Exceptions;
 using Application.Ports;
 using Domain;
 using Infrastructure.Context;
@@ -54,16 +53,16 @@ namespace Infrastructure.Repositories
 
         public async Task<FieldWork> GetActiveFieldWork()
         {
-            return await _context.FieldWorks.FirstOrDefaultAsync(x => x.FieldWorkStatus != Domain.Enum.FieldWorkStatus.CLOSED)
+            return await _context.FieldWorks.FirstOrDefaultAsync(x => x.FieldWorkStatus != FieldWorkStatus.CLOSED)
                 ?? throw new NotFoundException("FieldWork not found");
         }
 
         public async Task<FieldWork> GetCurrentOpenFieldwork()
         {
             return await _context.FieldWorks
-            .Where(f => f.FieldWorkStatus == Domain.Enum.FieldWorkStatus.OPEN)
-            .OrderByDescending(f => f.StartDate)
-            .FirstOrDefaultAsync();
+                .Where(f => f.FieldWorkStatus == Domain.Enum.FieldWorkStatus.OPEN)
+                .OrderByDescending(f => f.StartDate)
+                .FirstOrDefaultAsync() ?? throw new InvalidOperationException();
         }
         public async Task<bool> HasActiveFieldWork()
         {
@@ -229,7 +228,7 @@ namespace Infrastructure.Repositories
                 command.CommandText = "HasBldReviewExecuted";
                 command.CommandType = CommandType.StoredProcedure;
 
-                if (command.Connection.State != ConnectionState.Open)
+                if (command.Connection != null && command.Connection.State != ConnectionState.Open)
                     await command.Connection.OpenAsync();
 
                 var result = await command.ExecuteScalarAsync();
@@ -254,7 +253,7 @@ namespace Infrastructure.Repositories
                 command.CommandText = "AreMostBuildingsReviewed";
                 command.CommandType = CommandType.StoredProcedure;
 
-                if (command.Connection.State != ConnectionState.Open)
+                if (command.Connection != null && command.Connection.State != ConnectionState.Open)
                     await command.Connection.OpenAsync();
 
                 var result = await command.ExecuteScalarAsync();

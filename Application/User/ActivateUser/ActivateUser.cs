@@ -31,7 +31,8 @@ namespace Application.User.ActivateUser
             try
             {
                 ValidateUserActivation(request);
-                await ActivateUserAsync(request.UserId.ToString(), request.RequestUserRole);
+                if (request.RequestUserRole != null)
+                    await ActivateUserAsync(request.UserId.ToString(), request.RequestUserRole);
                 return new ActivateUserSuccessResponse
                 {
                     Message = "User activated."

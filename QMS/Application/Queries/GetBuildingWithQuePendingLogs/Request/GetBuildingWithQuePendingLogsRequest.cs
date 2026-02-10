@@ -2,6 +2,6 @@
 {
     public class GetBuildingWithQuePendingLogsRequest
     {
-        public string MunicipalityCode { get; set; }
+        public required string MunicipalityCode { get; set; }
     }
 }

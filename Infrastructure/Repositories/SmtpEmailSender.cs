@@ -21,9 +21,19 @@ namespace Infrastructure.Repositories
             var key = Convert.FromBase64String(smtp["EncryptionKey"]!);
             var iv = Convert.FromBase64String(smtp["EncryptionIV"]!);
 
-            var testencryptedPassword = Encrypt("uxeg pnum ljlv xknd", smtp["EncryptionKey"], smtp["EncryptionIV"]);
+            var testEncryptedPassword = Encrypt("uxeg pnum ljlv xknd", smtp["EncryptionKey"] ?? 
+                                                                       throw new InvalidOperationException(), 
+                smtp["EncryptionIV"] ?? throw new InvalidOperationException());
 
-            Console.WriteLine(testencryptedPassword);
+            Console.WriteLine(testEncryptedPassword);
+
+            using var client = new SmtpClient(host!, port);
+            client.Credentials = new NetworkCredential(username, Decrypt(encPass!));
+            client.EnableSsl = true;
+            using var msg = new MailMessage(username!, to, subject, htmlBody);
+            msg.IsBodyHtml = true;
+            await client.SendMailAsync(msg);
+            return;
 
             string Decrypt(string encryptedBase64)
             {
@@ -32,23 +42,15 @@ namespace Infrastructure.Repositories
                 aes.Key = key; aes.IV = iv; aes.Mode = CipherMode.CBC; aes.Padding = PaddingMode.PKCS7;
                 using var dec = aes.CreateDecryptor();
                 var plain = dec.TransformFinalBlock(data, 0, data.Length);
-                return System.Text.Encoding.UTF8.GetString(plain);
+                return Encoding.UTF8.GetString(plain);
             }
-
-            using var client = new SmtpClient(host!, port)
-            {
-                Credentials = new NetworkCredential(username, Decrypt(encPass!)),
-                EnableSsl = true
-            };
-            using var msg = new MailMessage(username!, to, subject, htmlBody) { IsBodyHtml = true };
-            await client.SendMailAsync(msg);
         }
 
-        private string Encrypt(string plainText, string base64Key, string base64IV)
+        private static string Encrypt(string plainText, string base64Key, string base64IV)
         {
-            byte[] key = Convert.FromBase64String(base64Key);
-            byte[] iv = Convert.FromBase64String(base64IV);
-            byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
+            var key = Convert.FromBase64String(base64Key);
+            var iv = Convert.FromBase64String(base64IV);
+            var plainBytes = Encoding.UTF8.GetBytes(plainText);
 
             using var aes = Aes.Create();
             aes.Key = key;

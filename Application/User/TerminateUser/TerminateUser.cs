@@ -23,7 +23,8 @@ namespace Application.User.TerminateUser
         public async Task<TerminateUserResponse> Execute(TerminateUserRequest request)
         {
             ValidateUserTermination(request);
-            await TerminateUserAsync(request.UserId.ToString(), request.RequestUserRole);
+            if (request.RequestUserRole != null)
+                await TerminateUserAsync(request.UserId.ToString(), request.RequestUserRole);
             return new TerminateUserSuccessResponse
             {
                 Message = "User terminated."

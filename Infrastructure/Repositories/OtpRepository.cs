@@ -88,9 +88,9 @@ namespace Infrastructure.Repositories
         {
             var max = (int)Math.Pow(10, digits);
             int value;
+            Span<byte> b = stackalloc byte[4];
             do
             {
-                Span<byte> b = stackalloc byte[4];
                 RandomNumberGenerator.Fill(b);
                 value = Math.Abs(BitConverter.ToInt32(b)) % max;
             } while (value < max / 10); // ensure length

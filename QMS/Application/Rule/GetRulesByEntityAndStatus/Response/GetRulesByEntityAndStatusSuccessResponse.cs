@@ -2,6 +2,6 @@
 {
     public class GetRulesByEntityAndStatusSuccessResponse : GetRulesByEntityAndStatusResponse
     {
-        public IEnumerable<RuleDTO> RulesDTO { get; set; }
+        public required IEnumerable<RuleDTO> RulesDTO { get; set; }
     }
 }

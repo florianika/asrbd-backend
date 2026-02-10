@@ -34,42 +34,51 @@ namespace Infrastructure.Services
         {
             var smtpSection = _configuration.GetSection("Smtp");
             var host = smtpSection["Host"];
-            var port = int.Parse(smtpSection["Port"]);
+            var port = int.Parse(smtpSection["Port"] ?? throw new InvalidOperationException());
             var username = smtpSection["Username"];
             var encryptedPassword = smtpSection["EncryptedPassword"];
             var key = smtpSection["EncryptionKey"];
             var iv = smtpSection["EncryptionIV"];
 
-            var password = Decrypt(encryptedPassword, key, iv);
-
-            var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
-            var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.OpenEmailTemplateId);
-            var users = await _fieldWorkRepository.GetActiveUsers();
-
-            foreach (var user in users)
+            if (encryptedPassword != null)
             {
-                var body = template.Body
-                    .Replace("{Name}", user.Name)
-                    .Replace("{Surname}", user.LastName)
-                    .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"))
-                    .Replace("{Description}", fieldwork.Description ?? "");
+                if (key != null)
+                {
+                    if (iv != null)
+                    {
+                        var password = Decrypt(encryptedPassword, key, iv);
 
-                SendEmail(user.Email, template.Subject, body, host, port, username, password);
+                        var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
+                        var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.OpenEmailTemplateId);
+                        var users = await _fieldWorkRepository.GetActiveUsers();
+
+                        foreach (var user in users)
+                        {
+                            var body = template.Body
+                                .Replace("{Name}", user.Name)
+                                .Replace("{Surname}", user.LastName)
+                                .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"))
+                                .Replace("{Description}", fieldwork.Description ?? "");
+
+                            if (host == null) continue;
+                            if (username != null)
+                                SendEmail(user.Email, template.Subject, body, host, port, username, password);
+                        }
+                    }
+                }
             }
         }
 
         private static void SendEmail(string to, string subject, string body, string host, int port, string username, string password)
         {
-            using var smtp = new SmtpClient(host, port)
-            {
-                Credentials = new NetworkCredential(username, password),
-                EnableSsl = true
-            };
+            using var smtp = new SmtpClient(host, port);
+            smtp.Credentials = new NetworkCredential(username, password);
+            smtp.EnableSsl = true;
             var message = new MailMessage(username, to, subject, body) { IsBodyHtml = true };
             smtp.Send(message);
         }
 
-        private string Decrypt(string encryptedBase64, string base64Key, string base64IV)
+        private static string Decrypt(string encryptedBase64, string base64Key, string base64IV)
         {
             var encryptedBytes = Convert.FromBase64String(encryptedBase64);
             var key = Convert.FromBase64String(base64Key);
@@ -89,11 +98,11 @@ namespace Infrastructure.Services
         }
 
         // Job close 1: Transform BldReview
-        public async Task<bool> ConfirmFieldworkClosureJob(int fieldWorkId, Guid updatedUser, string Remarks)
+        public async Task<bool> ConfirmFieldworkClosureJob(int fieldWorkId, Guid updatedUser, string remarks)
         {
             //update remarks in fieldwork
             var fieldWork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
-            fieldWork.Remarks = Remarks;
+            fieldWork.Remarks = remarks;
             await _fieldWorkRepository.UpdateFieldWork(fieldWork);
             //call the SP to transfrom BldReview status
             return await _fieldWorkRepository.TransformBldReviewForClosing(fieldWorkId, updatedUser);
@@ -105,51 +114,62 @@ namespace Infrastructure.Services
             
             var smtpSection = _configuration.GetSection("Smtp");
             var host = smtpSection["Host"];
-            var port = int.Parse(smtpSection["Port"]);
+            var port = int.Parse(smtpSection["Port"] ?? throw new InvalidOperationException());
             var username = smtpSection["Username"];
             var encryptedPassword = smtpSection["EncryptedPassword"];
             var key = smtpSection["EncryptionKey"];
             var iv = smtpSection["EncryptionIV"];
-            var password = Decrypt(encryptedPassword, key, iv);
-
-            var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
-            var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.CloseEmailTemplateId);
-            var users = await _fieldWorkRepository.GetActiveUsers();
-            var progress = _getFieldworkProgressByMunicipalityQuery.Execute(fieldWorkId);
-            var progressList = progress.Result.progressDTO;
-            var progressByCode = progressList
-                .GroupBy(p => p.MunicipalityCode)
-                .ToDictionary(g => g.Key, g => g.First()); // nëse ka dublikime, merr të parin
-
-            foreach (var user in users)
+            if (encryptedPassword != null)
             {
-                // Gjej progresin për bashkinë e user-it
-                FieldworkProgressByMunicipalityDTO? p = null;
-                if (TryNormalizeMunicipalityCode(user.MunicipalityCode, out var code)
-                    && progressByCode.TryGetValue(code, out var found))
+                if (key != null)
                 {
-                    p = found;
+                    if (iv != null)
+                    {
+                        var password = Decrypt(encryptedPassword, key, iv);
+
+                        var fieldwork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
+                        var template = await _emailTemplateRepository.GetEmailTemplate(fieldwork.CloseEmailTemplateId);
+                        var users = await _fieldWorkRepository.GetActiveUsers();
+                        var progress = _getFieldworkProgressByMunicipalityQuery.Execute(fieldWorkId);
+                        var progressList = progress.Result.progressDTO;
+                        var progressByCode = progressList
+                            .GroupBy(p => p.MunicipalityCode)
+                            .ToDictionary(g => g.Key, g => g.First()); // nëse ka dublikime, merr të parin
+
+                        foreach (var user in users)
+                        {
+                            // Gjej progresin për bashkinë e user-it
+                            FieldworkProgressByMunicipalityDTO? p = null;
+                            if (TryNormalizeMunicipalityCode(user.MunicipalityCode, out var code)
+                                && progressByCode.TryGetValue(code, out var found))
+                            {
+                                p = found;
+                            }
+
+                            // Nëse nuk gjendet progres për bashkinë e user-it, supozo 0% (ose mund të log-osh dhe të vazhdosh)
+                            var progressPercent = p?.ProgressPercent ?? 0m;
+                            var municipalityDisplay = p?.MunicipalityName ?? user.MunicipalityCode ?? string.Empty;
+
+                            // Vendos suksesin sipas rregullit
+                            var isCompleted = progressPercent >= 100m;
+
+                            var body = BuildClosureBody(template.Body, isCompleted)
+                                .Replace("{Name}", user.Name)
+                                .Replace("{Surname}", user.LastName)
+                                .Replace("{FieldworkName}", fieldwork.FieldWorkName.ToString())
+                                .Replace("{Municipality}", municipalityDisplay)
+                                .Replace("{ClosureDate}", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+
+                            if (host == null) continue;
+                            if (username != null)
+                                SendEmail(user.Email, template.Subject, body, host, port, username, password);
+                        }
+                    }
                 }
-
-                // Nëse nuk gjendet progres për bashkinë e user-it, supozo 0% (ose mund të log-osh dhe të vazhdosh)
-                var progressPercent = p?.ProgressPercent ?? 0m;
-                var municipalityDisplay = p?.MunicipalityName ?? user.MunicipalityCode ?? string.Empty;
-
-                // Vendos suksesin sipas rregullit
-                var isCompleted = progressPercent >= 100m;
-
-                var body = BuildClosureBody(template.Body, isCompleted)
-                    .Replace("{Name}", user.Name)
-                    .Replace("{Surname}", user.LastName)
-                    .Replace("{FieldworkName}", fieldwork.FieldWorkName.ToString())
-                    .Replace("{Municipality}", municipalityDisplay)
-                    .Replace("{ClosureDate}", DateTime.UtcNow.ToString("yyyy-MM-dd"));
-
-                SendEmail(user.Email, template.Subject, body, host, port, username, password);
             }
         }
 
-        static bool TryNormalizeMunicipalityCode(string? code, out int normalized)
+        private static bool TryNormalizeMunicipalityCode(string? code, out int normalized)
         {
             normalized = 0;
             if (string.IsNullOrWhiteSpace(code)) return false;
@@ -161,11 +181,11 @@ namespace Infrastructure.Services
 
         private static string BuildClosureBody(string templateBody, bool success)
         {
-            // Struktura:
+            // Structure:
             // {Success}...{/Success}
             // {Failed}...{/Failed}
-            string successBlock = ExtractBlock(templateBody, "Success");
-            string failedBlock = ExtractBlock(templateBody, "Failed");
+            var successBlock = ExtractBlock(templateBody, "Success");
+            var failedBlock = ExtractBlock(templateBody, "Failed");
             return success ? successBlock : failedBlock;
         }
         private static string ExtractBlock(string text, string key)

@@ -75,7 +75,7 @@ namespace WebApi.Controllers
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.isAllBuildings = true; // all buildings
             request.StartAt = dto?.StartAt;
-            request.RunUpdates = dto.RunUpdates;
+            if (dto != null) request.RunUpdates = dto.RunUpdates;
             return await _testBuildingsService.Execute(request);
         }
 
@@ -88,7 +88,7 @@ namespace WebApi.Controllers
             request.CreatedUser = await _authTokenService.GetUserIdFromToken(token);
             request.isAllBuildings = false; // untested buildings
             request.StartAt = dto?.StartAt;
-            request.RunUpdates = dto.RunUpdates;
+            if (dto != null) request.RunUpdates = dto.RunUpdates;
             return await _testBuildingsService.Execute(request);
         }
         [HttpGet]

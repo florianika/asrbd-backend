@@ -27,7 +27,9 @@ public class SetUserMunicipality : ISetUserMunicipality
         ValidateSettingUserMunicipality(request);
         try
         {
-            await _authRepository.SetUserMunicipality(request.UserId, request.MunicipalityCode, request.RequestUserRole);
+            if (request.RequestUserRole != null)
+                await _authRepository.SetUserMunicipality(request.UserId, request.MunicipalityCode,
+                    request.RequestUserRole);
             return new SetUserMunicipalitySuccessResponse
             {
                 Message = "User municipality set."
