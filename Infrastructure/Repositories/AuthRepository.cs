@@ -1,14 +1,11 @@
 ﻿using Application.Common.Interfaces;
 using Application.Exceptions;
 using Application.Ports;
-using Application.User;
 using Domain;
 using Domain.Enum;
 using Infrastructure.Context;
-using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Security.Claims;
 
 namespace Infrastructure.Repositories
 {

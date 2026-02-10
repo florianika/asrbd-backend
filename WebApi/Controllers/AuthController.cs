@@ -122,6 +122,7 @@ namespace WebApi.Controllers
             _forgetPasswordService = forgetPasswordService;
             _resetPasswordService = resetPasswordService;
         }
+        [Obsolete]
         [AllowAnonymous]
         [HttpPost]
         [Route("signup")]
@@ -130,6 +131,7 @@ namespace WebApi.Controllers
             return await _createUserService.Execute(request);
         }
 
+        [Obsolete]
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
@@ -172,6 +174,7 @@ namespace WebApi.Controllers
         }
 
         //[AllowAnonymous]
+        [Obsolete]
         [HttpGet]
         [Route("users")]
         public async Task<GetAllUsersResponse> GetAllUsers()
@@ -180,6 +183,7 @@ namespace WebApi.Controllers
         }
 
         //[AllowAnonymous]
+        [Obsolete]
         [HttpPatch]
         [Route("users/{id:guid}/set/{role}")]
         public async Task<UpdateUserRoleResponse> UpdateUserRole(Guid id, string role)
@@ -191,6 +195,7 @@ namespace WebApi.Controllers
             throw new EnumExeption("Invalid Role");
         }
         
+        [Obsolete]
         [HttpPatch]
         [Route("users/{id:guid}/set/municipality/{municipalityCode}")]
         public async Task<SetUserMunicipalityResponse> SetUserMunicipality(Guid id, string municipalityCode)
@@ -210,6 +215,7 @@ namespace WebApi.Controllers
         }
 
         //[AllowAnonymous]
+        [Obsolete]
         [HttpPatch]
         [Route("users/{id:guid}/terminate")]
         public async Task<TerminateUserResponse> TerminateUser(Guid id)
@@ -218,6 +224,7 @@ namespace WebApi.Controllers
         }
 
         //[AllowAnonymous]
+        [Obsolete]
         [HttpPatch]
         [Route("users/{id:guid}/activate")]
         public async Task<ActivateUserResponse> ActivateUser(Guid id)
