@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using System.Text.Json;
+using Domain.Enum;
 using Claim = System.Security.Claims.Claim;
 
 namespace Infrastructure.Services
@@ -145,19 +145,19 @@ namespace Infrastructure.Services
             };
         }
         
-        public Task<string?> GetUserRoleFromToken(string token)
+        public Task<AccountRole> GetUserRoleFromToken(string token)
         {
             try
             {
                 var jwtHandler = new JwtSecurityTokenHandler();
                 var roleClaim = jwtHandler.ReadJwtToken(token).Claims
                     .FirstOrDefault(c => c.Type.Equals("role", StringComparison.InvariantCultureIgnoreCase));
-
-                return Task.FromResult(roleClaim?.Value);
+                Enum.TryParse(roleClaim?.Value,true, out AccountRole role);
+                return Task.FromResult(role);
             }
-            catch
+            catch (Exception)
             {
-                return Task.FromResult<string?>(null);
+                throw new ForbidenException("Role claim could not be found in token ");
             }
         }
     }

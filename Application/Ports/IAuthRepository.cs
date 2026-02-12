@@ -19,12 +19,12 @@ namespace Application.Ports
         Task<List<Domain.User>> GetAllUsers(Guid requestUserId);
         Task<List<Domain.User>> GetAllNonAdminUsers(Guid requestUserId);
         Task<bool> CheckIfUserExists(Guid userId);
-        Task UpdateUserRole(Guid userId, AccountRole accountRole, string requestUserRole);
-        Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, string requestUserRole);
+        Task UpdateUserRole(Guid userId, AccountRole accountRole, AccountRole requestUserRole);
+        Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, AccountRole requestUserRole);
         Task<Domain.User> FindUserById(Guid userId);
         Task UnlockAccount(Domain.User user);
         Task<Domain.User> FindUserByEmail(string email);
-        Task SetUserMunicipality(Guid requestUserId, string requestMunicipalityCode, string requestUserRole);
+        Task SetUserMunicipality(Guid requestUserId, string requestMunicipalityCode, AccountRole requestUserRole);
         Task SavePasswordResetToken(PasswordResetToken token);
         Task<PasswordResetToken?> GetPasswordResetTokenByHash(string tokenHash);
         Task InvalidatePasswordResetToken(long tokenId, Guid consumedBy);

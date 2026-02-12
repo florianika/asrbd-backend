@@ -7,6 +7,6 @@ namespace Application.User.GetAllUsers
 {
     public interface IGetAllUsers
     {
-        Task<GetAllUsersResponse> Execute(Guid userId, string? role);
+        Task<GetAllUsersResponse> Execute(Guid userId, AccountRole role);
     }
 }

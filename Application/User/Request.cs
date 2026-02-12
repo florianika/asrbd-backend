@@ -1,8 +1,10 @@
-﻿namespace Application.User
+﻿using Domain.Enum;
+
+namespace Application.User
 {
     public abstract class Request
     {
         public Guid RequestUserId { get; set; } = Guid.Empty;
-        public string? RequestUserRole { get; set; } = null;
+        public AccountRole RequestUserRole { get; set; } = AccountRole.USER;
     }
 }

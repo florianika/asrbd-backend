@@ -120,35 +120,29 @@ namespace Infrastructure.Repositories
         }
         
         
-        public async Task UpdateUserRole(Guid userId, AccountRole accountRole, string requestUserRole)
+        public async Task UpdateUserRole(Guid userId, AccountRole accountRole, AccountRole requestUserRole)
         {
-            if (!Enum.TryParse<AccountRole>(requestUserRole, true, out var requesterRole))
-            {
-                throw new ForbidenException("Invalid request user role");
-            }
-            var userToUpdate = await _context.Users
+            var userToUpdate = await _context.Users.Include(user => user.RefreshToken)
                                    .FirstOrDefaultAsync(u => u.Id == userId) 
                                ?? throw new NotFoundException($"User with ID {userId} not found");
-            if ((int)requesterRole > (int)userToUpdate.AccountRole)
+            if ((int)requestUserRole > (int)userToUpdate.AccountRole)
             {
                 throw new ForbidenException("Cannot update a user with higher privileges");
             }
             userToUpdate.AccountRole = accountRole;
+            userToUpdate.RefreshToken.Active = false; //invalidate the user refresh token to force relogin
             await _context.SaveChangesAsync();  
         }
 
-        public async Task SetUserMunicipality(Guid userId, string municipalityCode, string requestUserRole)
+        public async Task SetUserMunicipality(Guid userId, string municipalityCode, AccountRole requestUserRole)
         {
-            if (!Enum.TryParse<AccountRole>(requestUserRole, true, out var requesterRole))
-            {
-                throw new ForbidenException("Invalid request user role");
-            }
             var userToUpdate= await _context.Users
                                   .Include(user => user.Claims)
+                                  .Include(user => user.RefreshToken)
                                   .SingleOrDefaultAsync(u => u.Id == userId) 
                               ?? throw new NotFoundException($"User with {userId} not found");
 
-            if ((int)requesterRole > (int)userToUpdate.AccountRole)
+            if ((int)requestUserRole > (int)userToUpdate.AccountRole)
             {
                 throw new ForbidenException("Cannot update a user with higher privileges");
             }
@@ -162,6 +156,8 @@ namespace Infrastructure.Repositories
                 userToUpdate.Claims.Add(new Domain.Claim(){Type = Municipality, Value = municipalityCode});
             }
             
+            userToUpdate.RefreshToken.Active = false; //invalidate the user refresh token to force relogin
+            
             await _context.SaveChangesAsync();
         }
         
@@ -170,20 +166,18 @@ namespace Infrastructure.Repositories
             return await _context.Users.AnyAsync(u => u.Id == userId);
         }
 
-        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, string requestUserRole)
+        public async Task UpdateAccountUser(Guid userId, AccountStatus accountStatus, AccountRole requestUserRole)
         {
-            if (!Enum.TryParse<AccountRole>(requestUserRole, true, out var requesterRole))
-            {
-                throw new ForbidenException("Invalid request user role");
-            }
-            var userToUpdate = await _context.Users
+            var userToUpdate = await _context.Users.Include(user => user.RefreshToken)
                                    .FirstOrDefaultAsync(u => u.Id == userId)
-                            ?? throw new NotFoundException($"User with ID {userId} not found");
-            if ((int)requesterRole > (int)userToUpdate.AccountRole)
+                               ?? throw new NotFoundException($"User with ID {userId} not found");
+            if ((int)requestUserRole > (int)userToUpdate.AccountRole)
             {
                 throw new ForbidenException("Cannot update a user with higher privileges");
             }
             userToUpdate.AccountStatus = accountStatus;
+            userToUpdate.RefreshToken.Active = false;
+            
             await _context.SaveChangesAsync();
            
         }

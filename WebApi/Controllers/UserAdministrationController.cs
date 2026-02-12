@@ -118,7 +118,7 @@ namespace WebApi.Controllers
             var token = ExtractBearerToken();
             var requestUserId = await _authTokenService.GetUserIdFromToken(token);
             var requestUserRole = await _authTokenService.GetUserRoleFromToken(token);
-            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() {RequestUserRole = requestUserRole,
+            return await _setUserMunicipalityService.Execute(new SetUserMunicipalityRequest() {RequestUserRole = requestUserRole, 
                 RequestUserId = requestUserId, UserId = id, MunicipalityCode = municipality});
         }
 

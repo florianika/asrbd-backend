@@ -24,7 +24,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             {
                 UserId = Guid.NewGuid(),
                 RequestUserId = Guid.NewGuid(),
-                RequestUserRole = "ADMIN"
+                RequestUserRole = AccountRole.ADMIN       
             };
 
             // Act
@@ -53,7 +53,7 @@ namespace ASRBD_authentication.Test.UnitTests.Services
             var exception = await Assert.ThrowsAsync<NotFoundException>(() => terminateUser.Execute(request));
             Assert.Equal("User not found", exception.Message);
             authRepositoryMock.Verify(repo => repo.CheckIfUserExists(request.UserId), Times.Once);
-            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(It.IsAny<Guid>(), It.IsAny<AccountStatus>(), It.IsAny<string>()), Times.Never);
+            authRepositoryMock.Verify(repo => repo.UpdateAccountUser(It.IsAny<Guid>(), It.IsAny<AccountStatus>(), It.IsAny<AccountRole>()), Times.Never);
         }
     }
 

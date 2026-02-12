@@ -1,4 +1,6 @@
 ﻿
+using Domain.Enum;
+
 namespace Application.Ports
 {
     public interface IAuthTokenService
@@ -9,6 +11,6 @@ namespace Application.Ports
         Task<Guid> GetUserIdFromToken(string token);
         Task<int> GetRefreshTokenLifetimeInMinutes();
         Task<bool> IsTokenValid(string accessToken, bool validateLifeTime);
-        Task<string?> GetUserRoleFromToken(string token);
+        Task<AccountRole> GetUserRoleFromToken(string token);
     }
 }
