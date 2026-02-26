@@ -1,5 +1,4 @@
-﻿
-namespace Application.Rule
+﻿namespace Application.Rule
 {
     public abstract class Response
     {

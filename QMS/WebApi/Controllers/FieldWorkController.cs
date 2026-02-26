@@ -60,12 +60,9 @@ using Application.Queries.GetFieldworkProgressByMunicipality;
 using Application.Queries.GetFieldworkProgressByMunicipality.Response;
 using Application.Queries.HasBldReviewExecuted;
 using Application.Queries.HasBldReviewExecuted.Response;
-using Domain;
 using Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Runtime.CompilerServices;
 using WebApi.DTOs;
 
 namespace WebApi.Controllers

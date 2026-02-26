@@ -20,7 +20,6 @@ using Application.Building.GetAnnualSnapshotById.Request;
 using Application.Building.GetAnnualSnapshotById.Response;
 using Application.Building.GetAllAnnualSnapshots;
 using Application.Building.GetAnnualSnapshotById;
-using System.IO;
 using Application.Exceptions;
 using Application.Queries.GetBuildingWithQuePendingLogs.Response;
 using Application.Queries.GetBuildingWithQuePendingLogs.Request;

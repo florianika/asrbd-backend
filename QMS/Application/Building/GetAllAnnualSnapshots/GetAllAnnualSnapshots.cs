@@ -1,5 +1,4 @@
-﻿
-using Application.Building.GetAllAnnualSnapshots.Response;
+﻿using Application.Building.GetAllAnnualSnapshots.Response;
 using Application.Common.Translators;
 using Application.Ports;
 
