@@ -88,6 +88,7 @@ using Infrastructure.Queries.GetBuildingWithQuePendingLogs;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus.Response;
 using Application.Queries.HasBldReviewExecuted;
 using Infrastructure.Queries.HasBldReviewExecuted;
+using Hangfire.Dashboard;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -301,7 +302,7 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
-    Authorization = new[] { new BasicDashboardAuthorizationFilter() }
+    IsReadOnlyFunc = (DashboardContext context) => true
 });
 
 app.UseEndpoints(endpoints =>
