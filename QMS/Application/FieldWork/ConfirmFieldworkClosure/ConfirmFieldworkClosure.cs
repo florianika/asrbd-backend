@@ -49,8 +49,7 @@ namespace Application.FieldWork.ConfirmFieldworkClosure
                 await _webSocketBroadcaster.BroadcastStatusAsync(false, null, null);
 
                 // call hangfire to transform BldReview and send emails
-                if (request.Remarks != null)
-                    _jobDispatcher.ScheduleClosureAndEmail(request.FieldWorkId, request.UpdatedUser, request.Remarks);
+                _jobDispatcher.ScheduleClosureAndEmail(request.FieldWorkId, request.UpdatedUser, request.Remarks);
                 return new ConfirmFieldworkClosureSuccessResponse
                 {
                     Message = "Job for closing fieldwork. Emails will be sent after closure completes."

@@ -98,14 +98,18 @@ namespace Infrastructure.Services
         }
 
         // Job close 1: Transform BldReview
-        public async Task<bool> ConfirmFieldworkClosureJob(int fieldWorkId, Guid updatedUser, string remarks)
+        public async Task<bool> ConfirmFieldworkClosureJob(int fieldWorkId, Guid updatedUser, string? remarks)
         {
-            //update remarks in fieldwork
-            var fieldWork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
-            fieldWork.Remarks = remarks;
-            await _fieldWorkRepository.UpdateFieldWork(fieldWork);
+            if (remarks != null)
+            { 
+                //update remarks in fieldwork
+                var fieldWork = await _fieldWorkRepository.GetFieldWork(fieldWorkId);
+                fieldWork.Remarks = remarks;
+                await _fieldWorkRepository.UpdateFieldWork(fieldWork);
+            }
             //call the SP to transfrom BldReview status
             return await _fieldWorkRepository.TransformBldReviewForClosing(fieldWorkId, updatedUser);
+            
         }
 
         // Job close 2: Send emails for closing fieldwork

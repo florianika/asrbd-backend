@@ -13,7 +13,7 @@ namespace Infrastructure.Services
                 svc.SendOpenEmailsJob(fieldWorkId));
         }
 
-        public void ScheduleClosureAndEmail(int fieldWorkId, Guid updatedUser, string remarks)
+        public void ScheduleClosureAndEmail(int fieldWorkId, Guid updatedUser, string? remarks)
         {
             var jobId = BackgroundJob.Enqueue<FieldWorkJobService>(svc =>
                svc.ConfirmFieldworkClosureJob(fieldWorkId, updatedUser, remarks));
