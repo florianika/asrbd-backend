@@ -89,8 +89,12 @@ using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus.Res
 using Application.Queries.HasBldReviewExecuted;
 using Infrastructure.Queries.HasBldReviewExecuted;
 using Hangfire.Dashboard;
+using Infrastructure.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Console.WriteLine("ENV=" + builder.Environment.EnvironmentName);
+Console.WriteLine("Smtp:Host=" + builder.Configuration["Smtp:Host"]);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("QMSConnectionString");
@@ -102,6 +106,9 @@ builder.Services.Configure<JwtSettings>(jwtSettingsConfiguration);
 var jwtSettings = jwtSettingsConfiguration.Get<JwtSettings>();
 var jwtSecret = jwtSettings?.AccessTokenSettings?.SecretKey ?? throw new Exception("JWT secret key missing");
 
+builder.Services.Configure<SmtpOptions>(
+    builder.Configuration.GetSection(SmtpOptions.SectionName));
+
 var tokenValidationParameters = new TokenValidationParameters
 {
     ValidateIssuerSigningKey = true,
@@ -112,9 +119,12 @@ var tokenValidationParameters = new TokenValidationParameters
     ClockSkew = TimeSpan.Zero
 };
 
-builder.Services.AddHangfire(x =>
-    x.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnectionString")));
-
+builder.Services.AddHangfire((sp, cfg) =>
+{
+    cfg.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangFireConnectionString"));
+    cfg.UseActivator(new Hangfire.AspNetCore.AspNetCoreJobActivator(
+        sp.GetRequiredService<IServiceScopeFactory>()));
+});
 builder.Services.AddHangfireServer();
 
 
@@ -201,6 +211,7 @@ builder.Services.AddScoped<UpdateFieldworkStatus>();
 builder.Services.AddScoped<IGetBuildingSummaryStatsQuery, GetBuildingSummaryStatsQuery>();
 builder.Services.AddScoped<IConfirmFieldworkClosure, ConfirmFieldworkClosure>();
 builder.Services.AddScoped<IGetFieldworkProgressByMunicipalityQuery, GetFieldworkProgressByMunicipalityQuery>();
+builder.Services.AddScoped<FieldWorkJobService>();
 
 builder.Services.AddScoped<ITestBuildings, TestBuildings>();
 builder.Services.AddScoped<IHasBldReviewExecutedQuery, HasBldReviewExecutedQuery>();

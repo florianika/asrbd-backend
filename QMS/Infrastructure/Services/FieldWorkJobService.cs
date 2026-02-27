@@ -5,6 +5,9 @@ using System.Net;
 using System.Security.Cryptography;
 using Application.Queries.GetFieldworkProgressByMunicipality;
 using System.Text;
+using Infrastructure.Configurations;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 namespace Infrastructure.Services
 {
@@ -14,15 +17,19 @@ namespace Infrastructure.Services
         private readonly IEmailTemplateRepository _emailTemplateRepository;
         private readonly IConfiguration _configuration;
         private readonly IGetFieldworkProgressByMunicipalityQuery _getFieldworkProgressByMunicipalityQuery;
+        private readonly SmtpOptions _smtp;
+
         public FieldWorkJobService(IFieldWorkRepository fieldWorkRepository,
         IEmailTemplateRepository emailTemplateRepository,
         IConfiguration configuration,
-        IGetFieldworkProgressByMunicipalityQuery getFieldworkProgressByMunicipalityQuery) 
+        IGetFieldworkProgressByMunicipalityQuery getFieldworkProgressByMunicipalityQuery,
+        IOptions<SmtpOptions> smtpOptions) 
         {
             _fieldWorkRepository = fieldWorkRepository;
             _emailTemplateRepository = emailTemplateRepository;
             _configuration = configuration;
             _getFieldworkProgressByMunicipalityQuery = getFieldworkProgressByMunicipalityQuery;
+            _smtp = smtpOptions.Value;
         }
         // Job open 1: Update status
         public async Task<bool> UpdateBldReviewStatusJob(int fieldWorkId, Guid updatedUser)
@@ -32,19 +39,18 @@ namespace Infrastructure.Services
         // Job open 2: send emails for open fieldwork
         public async Task SendOpenEmailsJob(int fieldWorkId)
         {
-            var smtpSection = _configuration.GetSection("Smtp");
-            var host = smtpSection["Host"];
-            var port = int.Parse(smtpSection["Port"] ?? throw new InvalidOperationException());
-            var username = smtpSection["Username"];
-            var encryptedPassword = smtpSection["EncryptedPassword"];
-            var key = smtpSection["EncryptionKey"];
-            var iv = smtpSection["EncryptionIV"];
+            var host = _smtp.Host;
+            var port = int.Parse(_smtp.Port, CultureInfo.InvariantCulture);
+            var username = _smtp.Username;
+            var encryptedPassword = _smtp.EncryptedPassword;
+            var key = _smtp.EncryptionKey;
+            var iv = _smtp.EncryptionIV;
 
-            if (encryptedPassword != null)
+            if (encryptedPassword != "")
             {
-                if (key != null)
+                if (key != "")
                 {
-                    if (iv != null)
+                    if (iv != "")
                     {
                         var password = Decrypt(encryptedPassword, key, iv);
 
@@ -60,8 +66,8 @@ namespace Infrastructure.Services
                                 .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"))
                                 .Replace("{Description}", fieldwork.Description ?? "");
 
-                            if (host == null) continue;
-                            if (username != null)
+                            if (host == "") continue;
+                            if (username != "")
                                 SendEmail(user.Email, template.Subject, body, host, port, username, password);
                         }
                     }
@@ -114,15 +120,13 @@ namespace Infrastructure.Services
 
         // Job close 2: Send emails for closing fieldwork
         public async Task SendCloseEmailsJob(int fieldWorkId)
-        {
-            
-            var smtpSection = _configuration.GetSection("Smtp");
-            var host = smtpSection["Host"];
-            var port = int.Parse(smtpSection["Port"] ?? throw new InvalidOperationException());
-            var username = smtpSection["Username"];
-            var encryptedPassword = smtpSection["EncryptedPassword"];
-            var key = smtpSection["EncryptionKey"];
-            var iv = smtpSection["EncryptionIV"];
+        {            
+            var host = _smtp.Host;
+            var port = int.Parse(_smtp.Port, CultureInfo.InvariantCulture);
+            var username = _smtp.Username;
+            var encryptedPassword = _smtp.EncryptedPassword;
+            var key = _smtp.EncryptionKey;
+            var iv = _smtp.EncryptionIV;
             if (encryptedPassword != null)
             {
                 if (key != null)
