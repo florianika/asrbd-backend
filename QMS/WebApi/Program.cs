@@ -71,6 +71,7 @@ using Application.Rule.UpdateRule;
 using FluentValidation;
 using Hangfire;
 using Infrastructure.BackgroundJobs.Hangfire;
+using Infrastructure.Configurations;
 using Infrastructure.Context;
 using Infrastructure.Queries.GetBuildingQualityStats;
 using Infrastructure.Queries.GetBuildingSummaryStats;
