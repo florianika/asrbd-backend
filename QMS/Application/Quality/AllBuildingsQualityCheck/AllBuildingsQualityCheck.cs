@@ -1,13 +1,8 @@
-﻿
-using Application.Exceptions;
-using Application.FieldWork.ExecuteJob.Response;
-using Application.Ports;
+﻿using Application.Exceptions;
 using Application.Quality.AllBuildingsQualityCheck.Request;
 using Application.Quality.AllBuildingsQualityCheck.Response;
-using Application.Quality.RulesExecutor;
 using Hangfire;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 
 namespace Application.Quality.AllBuildingsQualityCheck
 {

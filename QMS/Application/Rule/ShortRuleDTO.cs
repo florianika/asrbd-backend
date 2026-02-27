@@ -1,5 +1,4 @@
-﻿
-using Domain.Enum;
+﻿using Domain.Enum;
 
 namespace Application.Rule
 {

@@ -1,16 +1,83 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Text.Json.Serialization;
+using Application.Building.CreateAnnualSnapshot;
+using Application.Building.GetAllAnnualSnapshots;
+using Application.Building.GetAnnualSnapshotById;
+using Application.Building.GetBldJobStatus;
+using Application.Building.GetRunningJobs;
+using Application.Building.TestBuildings;
+using Application.Common.Validator;
+using Application.EmailTemplate.CreateEmailTemplate;
+using Application.EmailTemplate.GetAllEmailTemplate;
+using Application.EmailTemplate.GetAllEmailTemplates;
+using Application.EmailTemplate.GetEmailTemplate;
+using Application.EmailTemplate.UpdateEmailTemplate;
+using Application.FieldWork;
+using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
+using Application.FieldWork.CanBeClosed;
+using Application.FieldWork.ConfirmFieldworkClosure;
+using Application.FieldWork.CreateFieldWork;
+using Application.FieldWork.ExecuteJob;
+using Application.FieldWork.GetActiveFieldWork;
+using Application.FieldWork.GetAllFieldWork;
+using Application.FieldWork.GetFieldWork;
+using Application.FieldWork.GetJobResults;
+using Application.FieldWork.GetJobStatus;
+using Application.FieldWork.OpenFieldWork;
+using Application.FieldWork.SendFieldWorkEmail;
+using Application.FieldWork.TestUntestedBld;
+using Application.FieldWork.UpdateBldReviewStatus;
+using Application.FieldWork.UpdateFieldWork;
+using Application.FieldWorkRule.AddFieldWorkRule;
+using Application.FieldWorkRule.GetFieldWorkRule;
+using Application.FieldWorkRule.GetRuleByFieldWork;
+using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
+using Application.FieldWorkRule.RemoveFieldWorkRule;
+using Application.Note.CreateNote;
+using Application.Note.DeleteNote;
+using Application.Note.GetBuildingNotes;
+using Application.Note.GetNote;
+using Application.Note.UpdateNote;
 using Application.Ports;
 using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingId;
+using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus;
 using Application.ProcessOutputLog.GetProcessOutputLogsByDwellingId;
 using Application.ProcessOutputLog.GetProcessOutputLogsByEntranceId;
+using Application.ProcessOutputLog.PendOutputLog;
+using Application.ProcessOutputLog.ResolveProcessOutputLog;
+using Application.Quality.AllBuildingsAutomaticRules;
+using Application.Quality.AllBuildingsQualityCheck;
+using Application.Quality.AutomaticRules;
+using Application.Quality.BuildingQualityCheck;
+using Application.Quality.RulesExecutor;
+using Application.Quality.SetBldToUntested;
+using Application.Queries.GetBuildingQualityStats;
+using Application.Queries.GetBuildingSummaryStats;
+using Application.Queries.GetBuildingWithQuePendingLogs;
+using Application.Queries.GetDwellingQualityStats;
+using Application.Queries.GetFieldworkProgressByMunicipality;
+using Application.Queries.HasBldReviewExecuted;
 using Application.Rule.ChangeRuleStatus;
 using Application.Rule.CreateRule;
+using Application.Rule.GetActiveRules;
 using Application.Rule.GetAllRules;
 using Application.Rule.GetRule;
 using Application.Rule.GetRulesByEntity;
+using Application.Rule.GetRulesByEntityAndStatus;
 using Application.Rule.GetRulesByQualityAction;
 using Application.Rule.GetRulesByVariableAndEntity;
 using Application.Rule.UpdateRule;
+using FluentValidation;
+using Hangfire;
+using Infrastructure.BackgroundJobs.Hangfire;
 using Infrastructure.Context;
+using Infrastructure.Queries.GetBuildingQualityStats;
+using Infrastructure.Queries.GetBuildingSummaryStats;
+using Infrastructure.Queries.GetBuildingWithQuePendingLogs;
+using Infrastructure.Queries.GetDwellingQualityStats;
+using Infrastructure.Queries.GetFieldworkProgressByMunicipality;
+using Infrastructure.Queries.HasBldReviewExecuted;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,83 +85,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System.Text;
-using System.Text.Json.Serialization;
-using Application.ProcessOutputLog.ResolveProcessOutputLog;
-using Application.Quality.BuildingQualityCheck;
-using Application.Quality.RulesExecutor;
 using WebApi.Common;
-using Application.Quality.AutomaticRules;
-using Application.ProcessOutputLog.PendOutputLog;
-using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus;
-using Application.FieldWork.GetAllFieldWork;
-using Application.FieldWork.CreateFieldWork;
-using Application.FieldWork.UpdateFieldWork;
-using Application.FieldWork.GetActiveFieldWork;
-using Application.EmailTemplate.GetAllEmailTemplates;
-using Application.EmailTemplate.UpdateEmailTemplate;
-using Application.EmailTemplate.CreateEmailTemplate;
-using Application.EmailTemplate.GetEmailTemplate;
-using Application.FieldWork.GetFieldWork;
-using Application.EmailTemplate.GetAllEmailTemplate;
-using Application.Note.CreateNote;
-using Application.Note.GetBuildingNotes;
-using Application.Note.GetNote;
-using Application.Note.UpdateNote;
-using Application.Note.DeleteNote;
-using Application.FieldWorkRule.AddFieldWorkRule;
-using Application.FieldWorkRule.RemoveFieldWorkRule;
-using Application.FieldWorkRule.GetFieldWorkRule;
-using Application.FieldWorkRule.GetRuleByFieldWork;
-using Application.FieldWork.OpenFieldWork;
-using Application.Common.Validator;
-using FluentValidation;
-using Application.FieldWork.UpdateBldReviewStatus;
-using Hangfire;
-using Hangfire.SqlServer;
-using Infrastructure.BackgroundJobs.Hangfire;
-using Application.FieldWork.SendFieldWorkEmail;
-using Hangfire.MemoryStorage;
-using Application.FieldWorkRule.GetRuleByFieldWorkAndEntity;
-using Application.Rule.GetActiveRules;
-using Application.FieldWork.ExecuteJob;
-using Application.FieldWork.GetJobStatus;
-using Application.FieldWork.GetJobResults;
-using Application.FieldWork.AssociateEmailTemplateWithFieldWork;
-using Application.Rule.GetRulesByEntityAndStatus;
-using Application.Quality.AllBuildingsQualityCheck;
-using Application.Quality.AllBuildingsAutomaticRules;
-using Application.FieldWork;
-using Application.FieldWork.TestUntestedBld;
-using Application.FieldWork.CanBeClosed;
-using Application.Queries.GetBuildingSummaryStats;
-using Infrastructure.Queries.GetBuildingSummaryStats;
-using Infrastructure.Queries.GetFieldworkProgressByMunicipality;
-using Application.Queries.GetFieldworkProgressByMunicipality;
-using Application.FieldWork.ConfirmFieldworkClosure;
-using Application.Quality.SetBldToUntested;
-using Application.Building.TestBuildings;
-using Application.Building.GetRunningJobs;
-using Application.Building.GetBldJobStatus;
-using Application.Queries.GetDwellingQualityStats;
-using Application.Queries.GetBuildingQualityStats;
-using Infrastructure.Queries.GetBuildingQualityStats;
-using Infrastructure.Queries.GetDwellingQualityStats;
-using Application.Building.CreateAnnualSnapshot;
-using Application.Building.GetAllAnnualSnapshots;
-using Application.Building.GetAnnualSnapshotById;
-using Application.Queries.GetBuildingWithQuePendingLogs;
-using Infrastructure.Queries.GetBuildingWithQuePendingLogs;
-using Application.ProcessOutputLog.GetProcessOutputLogsByBuildingIdAndStatus.Response;
-using Application.Queries.HasBldReviewExecuted;
-using Infrastructure.Queries.HasBldReviewExecuted;
-using Hangfire.Dashboard;
-using Infrastructure.Configurations;
+using WebSocketManager = Infrastructure.Services.WebSocketManager;
 
 var builder = WebApplication.CreateBuilder(args);
-
-Console.WriteLine("ENV=" + builder.Environment.EnvironmentName);
-Console.WriteLine("Smtp:Host=" + builder.Configuration["Smtp:Host"]);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("QMSConnectionString");
@@ -132,7 +126,7 @@ builder.Services.AddControllers()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 //duhet singletone sepse e perdorim ne WebSocketManager 1 instance per gjithe aplikacionin
-builder.Services.AddSingleton<IWebSocketBroadcaster, Infrastructure.Services.WebSocketManager>();
+builder.Services.AddSingleton<IWebSocketBroadcaster, WebSocketManager>();
 
 builder.Services.AddCors(options =>
 {
@@ -276,7 +270,7 @@ app.Use(async (context, next) =>
     {
         var token = authHeader.ToString().Replace("Bearer ", "");
 
-        var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+        var tokenHandler = new JwtSecurityTokenHandler();
 
         var validationParameters = tokenValidationParameters;
         try
@@ -313,7 +307,8 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHangfireDashboard("/hangfire", new DashboardOptions
 {
-    IsReadOnlyFunc = (DashboardContext context) => true
+    Authorization = [new BasicDashboardAuthorizationFilter()],
+    IsReadOnlyFunc = context => true
 });
 
 app.UseEndpoints(endpoints =>

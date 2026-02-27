@@ -1,5 +1,4 @@
-﻿using Application.Exceptions;
-using Application.Note.CreateNote;
+﻿using Application.Note.CreateNote;
 using Application.Note.CreateNote.Request;
 using Application.Note.CreateNote.Response;
 using Application.Note.DeleteNote;
