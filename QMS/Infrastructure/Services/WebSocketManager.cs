@@ -11,7 +11,7 @@ namespace Infrastructure.Services
     public class WebSocketManager : IWebSocketBroadcaster
     {
         private readonly IServiceScopeFactory _scopeFactory;
-        private static readonly ConcurrentBag<WebSocket> _clients = new();
+        private static readonly ConcurrentDictionary<string, WebSocket> _clients = new();
         public WebSocketManager(IServiceScopeFactory scopeFactory)
         {
             _scopeFactory = scopeFactory;
@@ -25,48 +25,65 @@ namespace Infrastructure.Services
                 return ;
             }
 
-            _clients.Add(socket);
-            using var scope = _scopeFactory.CreateScope();
-            var repository = scope.ServiceProvider.GetRequiredService<IFieldWorkRepository>();
-            var fieldwork = await repository.GetCurrentOpenFieldwork();
-            string message;
+            var clientId = Guid.NewGuid().ToString();
+            _clients.TryAdd(clientId, socket);
 
-            if (fieldwork == null)
+            try
             {
-                message = JsonSerializer.Serialize(new
-                {
-                    isFieldworkTime = false,
-                    startTime = (DateTime?)null,
-                    fieldworkId = (int?)null
-                });
-            }
-            else
-            {
-                message = JsonSerializer.Serialize(new
-                {
-                    isFieldworkTime = true,
-                    startTime = fieldwork.StartDate,
-                    fieldworkId = fieldwork.FieldWorkId
-                });
-            }
-            // Send initial message to the client
-            await socket.SendAsync(
-                new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)),
-                WebSocketMessageType.Text,
-                true,
-                CancellationToken.None
-            );
+                using var scope = _scopeFactory.CreateScope();
+                var repository = scope.ServiceProvider.GetRequiredService<IFieldWorkRepository>();
+                var fieldwork = await repository.GetCurrentOpenFieldwork();
+                string message;
 
-            Console.WriteLine($"Sent initial message to WebSocket: {message}");
-            var buffer = new byte[1024];
-            while (socket.State == WebSocketState.Open)
-            {
-                var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                if (result.MessageType == WebSocketMessageType.Close)
+                if (fieldwork == null)
                 {
-                    await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed", CancellationToken.None);
-                    break;
+                    message = JsonSerializer.Serialize(new
+                    {
+                        isFieldworkTime = false,
+                        startTime = (DateTime?)null,
+                        fieldworkId = (int?)null
+                    });
                 }
+                else
+                {
+                    message = JsonSerializer.Serialize(new
+                    {
+                        isFieldworkTime = true,
+                        startTime = fieldwork.StartDate,
+                        fieldworkId = fieldwork.FieldWorkId
+                    });
+                }
+                // Send initial message to the client
+                await socket.SendAsync(
+                    new ArraySegment<byte>(Encoding.UTF8.GetBytes(message)),
+                    WebSocketMessageType.Text,
+                    true,
+                    CancellationToken.None
+                );
+
+                Console.WriteLine($"Sent initial message to WebSocket: {message}");
+                var buffer = new byte[1024];
+                while (socket.State == WebSocketState.Open)
+                {
+                    var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    if (result.MessageType == WebSocketMessageType.Close)
+                    {
+                        await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed", CancellationToken.None);
+                        break;
+                    }
+                }
+            }
+            catch (WebSocketException)
+            {
+                
+            }
+            catch (ObjectDisposedException)
+            {
+                
+            }
+            finally
+            {
+                RemoveClient(clientId);
             }
         }
 
@@ -80,15 +97,59 @@ namespace Infrastructure.Services
             });
 
             var bytes = Encoding.UTF8.GetBytes(message);
+            var segment = new ArraySegment<byte>(bytes);
 
-            foreach (var client in _clients.Where(c => c.State == WebSocketState.Open))
+            foreach (var kvp in _clients.ToList())
             {
-                await client.SendAsync(
-                    new ArraySegment<byte>(bytes),
-                    WebSocketMessageType.Text,
-                    true,
-                    CancellationToken.None
-                );
+                var clientId = kvp.Key;
+                var client = kvp.Value;
+                if (client == null || client.State != WebSocketState.Open)
+                {
+                    RemoveClient(clientId);
+                    continue;
+                }
+
+                try
+                {
+                    await client.SendAsync(segment, WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                catch (WebSocketException)
+                {
+                    RemoveClient(clientId);
+                }
+                catch (ObjectDisposedException)
+                {
+                    RemoveClient(clientId);
+                }
+            }
+
+        }
+
+        private void RemoveClient(string clientId)
+        {
+            if (_clients.TryRemove(clientId, out var client))
+            {
+                try
+                {
+                    if (client.State == WebSocketState.Open || client.State == WebSocketState.CloseReceived)
+                    {
+                        client.CloseAsync(
+                            WebSocketCloseStatus.NormalClosure,
+                            "Connection removed",
+                            CancellationToken.None).GetAwaiter().GetResult();
+                    }
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    client.Dispose();
+                }
+                catch
+                {
+                }
             }
         }
     }
