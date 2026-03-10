@@ -61,10 +61,10 @@ namespace Infrastructure.Services
                         foreach (var user in users)
                         {
                             var body = template.Body
-                                .Replace("{Name}", user.Name)
-                                .Replace("{Surname}", user.LastName)
-                                .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"))
-                                .Replace("{Description}", fieldwork.Description ?? "");
+                                .Replace("{Name}", user.Name, StringComparison.OrdinalIgnoreCase)
+                                .Replace("{Surname}", user.LastName, StringComparison.OrdinalIgnoreCase)
+                                .Replace("{StartDate}", fieldwork.StartDate.ToString("yyyy-MM-dd"), StringComparison.OrdinalIgnoreCase)
+                                .Replace("{Description}", fieldwork.Description ?? "", StringComparison.OrdinalIgnoreCase);
 
                             if (host == "") continue;
                             if (username != "")
@@ -162,11 +162,11 @@ namespace Infrastructure.Services
                             var isCompleted = progressPercent >= 90m;
 
                             var body = BuildClosureBody(template.Body, isCompleted)
-                                .Replace("{Name}", user.Name)
-                                .Replace("{Surname}", user.LastName)
-                                .Replace("{FieldworkName}", fieldwork.FieldWorkName.ToString())
-                                .Replace("{Municipality}", municipalityDisplay)
-                                .Replace("{ClosureDate}", DateTime.UtcNow.ToString("yyyy-MM-dd"));
+                                .Replace("{Name}", user.Name, StringComparison.OrdinalIgnoreCase)
+                                .Replace("{Surname}", user.LastName, StringComparison.OrdinalIgnoreCase)
+                                .Replace("{FieldworkName}", fieldwork.FieldWorkName.ToString(), StringComparison.OrdinalIgnoreCase)
+                                .Replace("{Municipality}", municipalityDisplay, StringComparison.OrdinalIgnoreCase)
+                                .Replace("{ClosureDate}", DateTime.UtcNow.ToString("yyyy-MM-dd"), StringComparison.OrdinalIgnoreCase);
 
                             if (host == null) continue;
                             if (username != null)
