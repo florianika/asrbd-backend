@@ -159,7 +159,7 @@ namespace Infrastructure.Services
                             var municipalityDisplay = p?.MunicipalityName ?? user.MunicipalityCode ?? string.Empty;
 
                             // Vendos suksesin sipas rregullit
-                            var isCompleted = progressPercent >= 100m;
+                            var isCompleted = progressPercent >= 90m;
 
                             var body = BuildClosureBody(template.Body, isCompleted)
                                 .Replace("{Name}", user.Name)
