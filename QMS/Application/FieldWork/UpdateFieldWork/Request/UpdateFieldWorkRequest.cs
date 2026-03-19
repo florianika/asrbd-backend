@@ -11,6 +11,6 @@ namespace Application.FieldWork.UpdateFieldWork.Request
         public int OpenEmailTemplateId { get; set; }
         public int CloseEmailTemplateId { get; set; }
         public string? Remarks { get; set; }
-        public Guid UpdatedUser { get; set; }
+        public Guid? UpdatedUser { get; set; }
     }
 }
